@@ -67,8 +67,6 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../QI/QI.html" />
-    
     
     <link rel="prev" href="../data_compression.html" />
     
@@ -758,19 +756,6 @@
             
         </li>
     
-        <li class="chapter " data-level="1.18.3" data-path="../../physics_solvers/quantum/quantum.html">
-            
-                <a href="../../physics_solvers/quantum/quantum.html">
-            
-                    
-                    Quantum Systems
-            
-                </a>
-            
-
-            
-        </li>
-    
 
             </ul>
             
@@ -805,19 +790,6 @@
     
 
             </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="1.20" data-path="../../QI/QI.html">
-            
-                <a href="../../QI/QI.html">
-            
-                    
-                    Quantum Information
-            
-                </a>
-            
-
             
         </li>
     
@@ -1227,6 +1199,273 @@ two_pass_huffman(<span class="hljs-string">&quot;bibbity bobbity&quot;</span>)
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, decoded);
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
+<pre><code class="lang-c">// Made by Guston and edited by Gathros
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdbool.h&gt;
+
+struct tree {
+    struct tree* left;
+    struct tree* right;
+
+    int count;
+    char value;
+};
+
+struct bitstring_builder {
+    char str[257];
+    int next_index;
+};
+
+struct codebook {
+    char* codes[256];
+};
+
+struct heap {
+    struct tree** data;
+    int length;
+    int capacity;
+};
+
+bool is_leaf(const struct tree* t) {
+    return !t-&gt;left &amp;&amp; !t-&gt;right;
+}
+
+void swap(struct tree** lhs, struct tree** rhs) {
+    struct tree* tmp = *lhs;
+    *lhs = *rhs;
+    *rhs = tmp;
+}
+
+/* The two concat functions are horribly inefficient */
+void concat(char** dst, const char* src) {
+    int dst_len = strlen(*dst);
+    int src_len = strlen(src);
+    *dst = realloc(*dst, src_len + dst_len + 1);
+    strcat(*dst, src);
+}
+
+void concat_char(char** dst, char c) {
+    int len = strlen(*dst);
+    *dst = realloc(*dst, len + 2);
+    (*dst)[len] = c;
+    (*dst)[len + 1] = &apos;\0&apos;;
+}
+
+char* duplicate(const char* src) {
+    int length = strlen(src);
+    char* dst = malloc(length + 1);
+    memcpy(dst, src, length + 1);
+    return dst;
+}
+
+void heap_push(struct heap* heap, struct tree* value) {
+    if (heap-&gt;capacity == heap-&gt;length) {
+        heap-&gt;capacity = heap-&gt;capacity == 0 ? 4 : heap-&gt;capacity * 2;
+        heap-&gt;data = realloc(heap-&gt;data, heap-&gt;capacity * sizeof(struct tree*));
+    }
+    heap-&gt;data[heap-&gt;length++] = value;
+
+    int index = heap-&gt;length - 1;
+    while (index) {
+        int parent_index = (index - 1) / 2;
+        if (heap-&gt;data[parent_index]-&gt;count &lt;= heap-&gt;data[index]-&gt;count) {
+            break;
+        }
+
+        swap(&amp;heap-&gt;data[parent_index], &amp;heap-&gt;data[index]);
+        index = parent_index;
+    }
+}
+
+struct tree* heap_pop(struct heap* heap) {
+    if (!heap-&gt;length) {
+        return NULL;
+    }
+
+    struct tree* result = heap-&gt;data[0];
+    swap(&amp;heap-&gt;data[0], &amp;heap-&gt;data[--heap-&gt;length]);
+
+    int index = 0;
+    for (;;) {
+        int target = index;
+        int left = 2 * index + 1;
+        int right = left + 1;
+
+        if (left &lt; heap-&gt;length &amp;&amp;
+                heap-&gt;data[left]-&gt;count &lt; heap-&gt;data[target]-&gt;count) {
+            target = left;
+        }
+
+        if (right &lt; heap-&gt;length &amp;&amp;
+                heap-&gt;data[right]-&gt;count &lt; heap-&gt;data[target]-&gt;count) {
+            target = right;
+        }
+
+        if (target == index) {
+            break;
+        }
+
+        swap(&amp;heap-&gt;data[index], &amp;heap-&gt;data[target]);
+        index = target;
+    }
+
+    return result;
+}
+
+void heap_free(struct heap* heap) {
+    free(heap-&gt;data);
+}
+
+struct tree* generate_tree(const char* str) {
+    int counts[256] = { 0 };
+
+    for (; *str != &apos;\0&apos;; ++str) {
+        counts[(unsigned char)*str] += 1;
+    }
+
+    struct heap heap = { 0 };
+    for (int i = 0; i &lt; sizeof(counts) / sizeof(int); ++i) {
+        if (counts[i]) {
+            struct tree* tree = calloc(1, sizeof(struct tree));
+            tree-&gt;value = (char)i;
+            tree-&gt;count = counts[i];
+            heap_push(&amp;heap, tree);
+        }
+    }
+
+    while (heap.length &gt; 1) {
+        struct tree* left = heap_pop(&amp;heap);
+        struct tree* right = heap_pop(&amp;heap);
+        struct tree* branch = calloc(1, sizeof(struct tree));
+        branch-&gt;count = left-&gt;count + right-&gt;count;
+        branch-&gt;left = left;
+        branch-&gt;right = right;
+        heap_push(&amp;heap, branch);
+    }
+
+    struct tree* root = heap_pop(&amp;heap);
+    heap_free(&amp;heap);
+    return root;
+}
+
+void tree_free(struct tree* tree) {
+    if (!tree) return;
+    tree_free(tree-&gt;left);
+    tree_free(tree-&gt;right);
+    free(tree);
+}
+
+void codebook_recurse(const struct tree* tree,
+                        struct bitstring_builder* builder,
+                        struct codebook* codebook) {
+    if (!tree) {
+        return;
+    }
+
+    if (is_leaf(tree)) {
+        builder-&gt;str[builder-&gt;next_index] = &apos;\0&apos;;
+        codebook-&gt;codes[(unsigned char)tree-&gt;value] = duplicate(builder-&gt;str);
+        return;
+    }
+
+    builder-&gt;str[builder-&gt;next_index++] = &apos;0&apos;;
+    codebook_recurse(tree-&gt;left, builder, codebook);
+    builder-&gt;next_index -= 1;
+
+    builder-&gt;str[builder-&gt;next_index++] = &apos;1&apos;;
+    codebook_recurse(tree-&gt;right, builder, codebook);
+    builder-&gt;next_index -= 1;
+}
+
+struct codebook generate_codebook(const struct tree* tree) {
+    struct codebook codebook = { .codes = { 0 } };
+    struct bitstring_builder builder = { .str = { 0 }, .next_index = 0 };
+    codebook_recurse(tree, &amp;builder, &amp;codebook);
+    return codebook;
+}
+
+void codebook_free(struct codebook* codebook) {
+    int size = sizeof(codebook-&gt;codes) / sizeof(codebook-&gt;codes[0]);
+    for (int i = 0; i &lt; size; ++i) {
+        free(codebook-&gt;codes[i]);
+    }
+}
+
+const char* get_code(const struct codebook* codebook, char c) {
+    return codebook-&gt;codes[(unsigned char)c];
+}
+
+char* encode(const char* input, struct tree** huffman_tree,
+                struct codebook* codebook) {
+    *huffman_tree = generate_tree(input);
+    *codebook = generate_codebook(*huffman_tree);
+
+    char* result = duplicate(get_code(codebook, *input));
+    int result_length = strlen(result);
+    int result_capacity = result_length;
+
+    input += 1;
+
+    for (; *input; ++input) {
+        concat(&amp;result, get_code(codebook, *input));
+    }
+
+    return result;
+}
+
+const char* decode_recurse(const char* input, const struct tree* tree,
+                            char** result) {
+    if (!tree) {
+        return input;
+    }
+
+    if (is_leaf(tree)) {
+        concat_char(result, tree-&gt;value);
+        return input;
+    }
+
+    if (*input == &apos;0&apos;) {
+        return decode_recurse(input + 1, tree-&gt;left, result);
+    } else {
+        return decode_recurse(input + 1, tree-&gt;right, result);
+    }
+}
+
+char* decode(const char* input, const struct tree* tree) {
+    char* result = calloc(1, 1);
+    do {
+        input = decode_recurse(input, tree, &amp;result);
+    } while (*input);
+    return result;
+}
+
+int main() {
+    struct tree* tree;
+    struct codebook codebook;
+
+    char* encoded = encode(&quot;Hello, World&quot;, &amp;tree, &amp;codebook);
+    char* decoded = decode(encoded, tree);
+
+    printf(&quot;Codebook:\n&quot;);
+    for (int i = 0; i &lt; 256; ++i) {
+        if (codebook.codes[i]) {
+            printf(&quot;%c %s\n&quot;, (char)i, codebook.codes[i]);
+        }
+    }
+
+    printf(&quot;%s\n&quot;, encoded);
+    printf(&quot;%s\n&quot;, decoded);
+
+    tree_free(tree);
+    codebook_free(&amp;codebook);
+    free(encoded);
+    free(decoded);
+    return 0;
+}
+</code></pre>
 </div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><h3 id="haskell">Haskell</h3>
 <pre><code class="lang-haskell"><span class="hljs-keyword">import</span> <span class="hljs-keyword">qualified</span> Data.Map <span class="hljs-keyword">as</span> M
 <span class="hljs-keyword">import</span>           Data.List (<span class="hljs-title">insert</span>, <span class="hljs-title">sort</span>)
@@ -1352,13 +1591,13 @@ class codebook {
   std::shared_ptr&lt;data const&gt; underlying_;
 
 public:
-  template &lt;class Iter&gt;
+  template &lt;typename Iter&gt;
   codebook(Iter const first, Iter const last);
 
-  template &lt;class Iter&gt;
+  template &lt;typename Iter&gt;
   std::vector&lt;bool&gt; encode(Iter first, Iter last) const;
 
-  template &lt;class Iter&gt;
+  template &lt;typename Iter&gt;
   std::string decode(Iter first, Iter last) const;
 };
 
@@ -1385,7 +1624,7 @@ inline std::vector&lt;bool&gt; with_new_bit(std::vector&lt;bool&gt; bits, bool b
   return bits;
 }
 
-template &lt;class Iter&gt;
+template &lt;typename Iter&gt;
 codebook::codebook(Iter const first, Iter const last) {
   struct helper {
     static node_ptr make_decoder(Iter const first, Iter const last) {
@@ -1469,7 +1708,7 @@ codebook::codebook(Iter const first, Iter const last) {
       data{std::move(decoder), std::move(encoder)});
 }
 
-template &lt;class Iter&gt;
+template &lt;typename Iter&gt;
 std::vector&lt;bool&gt; codebook::encode(Iter const first, Iter const last) const {
   std::vector&lt;bool&gt; ret;
 
@@ -1491,7 +1730,7 @@ std::vector&lt;bool&gt; codebook::encode(Iter const first, Iter const last) cons
   return ret;
 }
 
-template &lt;class Iter&gt;
+template &lt;typename Iter&gt;
 std::string codebook::decode(Iter const first, Iter const last) const {
   std::string ret;
 
@@ -1602,7 +1841,7 @@ Signifying nothing.)&quot;;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.19.1","depth":2,"next":{"title":"Quantum Information","level":"1.20","depth":1,"path":"chapters/QI/QI.md","ref":"chapters/QI/QI.md","articles":[]},"previous":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-04-25T21:51:24.890Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-27T21:36:44.567Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.19.1","depth":2,"previous":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"livereload":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-04-27T22:37:06.155Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-27T22:37:36.256Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -1617,6 +1856,10 @@ Signifying nothing.)&quot;;
     
         
         <script src="../../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
         
     
         
