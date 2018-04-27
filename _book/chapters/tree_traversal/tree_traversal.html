@@ -1,0 +1,2455 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Tree Traversal · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../euclidean_algorithm/euclidean.html" />
+    
+    
+    <link rel="prev" href="../sorting_searching/bogo/bogo_sort.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    README
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../TODO.html">
+            
+                <a href="../../TODO.html">
+            
+                    
+                    TODO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction.html">
+            
+                <a href="../introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../getting_started.html">
+            
+                <a href="../getting_started.html">
+            
+                    
+                    A Personal Note
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../how_to_contribute.html">
+            
+                <a href="../how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../principles_of_code/principles_of_code.html">
+            
+                <a href="../principles_of_code/principles_of_code.html">
+            
+                    
+                    Principles of Code
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                <a href="../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                    
+                    Choosing A Language
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                <a href="../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                    
+                    Compiled Languages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1.1" data-path="../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                <a href="../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                    
+                    Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.1.2" data-path="../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                <a href="../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                    
+                    FORTRAN
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../principles_of_code/building_blocks/building_blocks.html">
+            
+                <a href="../principles_of_code/building_blocks/building_blocks.html">
+            
+                    
+                    Building Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../principles_of_code/building_blocks/variables.html">
+            
+                <a href="../principles_of_code/building_blocks/variables.html">
+            
+                    
+                    Variables and Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../principles_of_code/building_blocks/conditions.html">
+            
+                <a href="../principles_of_code/building_blocks/conditions.html">
+            
+                    
+                    Conditions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../principles_of_code/building_blocks/loops.html">
+            
+                <a href="../principles_of_code/building_blocks/loops.html">
+            
+                    
+                    Loops
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.4" data-path="../principles_of_code/building_blocks/functions.html">
+            
+                <a href="../principles_of_code/building_blocks/functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.5" data-path="../principles_of_code/building_blocks/classes.html">
+            
+                <a href="../principles_of_code/building_blocks/classes.html">
+            
+                    
+                    Classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.6" data-path="../principles_of_code/building_blocks/stacks.html">
+            
+                <a href="../principles_of_code/building_blocks/stacks.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.7" data-path="../principles_of_code/building_blocks/bitlogic.html">
+            
+                <a href="../principles_of_code/building_blocks/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../principles_of_code/version_control.html">
+            
+                <a href="../principles_of_code/version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../principles_of_code/notation/notation.html">
+            
+                <a href="../principles_of_code/notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../taylor/taylor_series.html">
+            
+                <a href="../taylor/taylor_series.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../sorting_searching/sorting_searching.html">
+            
+                <a href="../sorting_searching/sorting_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../sorting_searching/bubble/bubble_sort.html">
+            
+                <a href="../sorting_searching/bubble/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../sorting_searching/bogo/bogo_sort.html">
+            
+                <a href="../sorting_searching/bogo/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.10" data-path="tree_traversal.html">
+            
+                <a href="tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../euclidean_algorithm/euclidean.html">
+            
+                <a href="../euclidean_algorithm/euclidean.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../multiplication/multiplication.html">
+            
+                <a href="../multiplication/multiplication.html">
+            
+                    
+                    Multiplication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../matrix_methods/matrix_methods.html">
+            
+                <a href="../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../matrix_methods/thomas/thomas.html">
+            
+                <a href="../matrix_methods/thomas/thomas.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../computational_geometry/computational_geometry.html">
+            
+                <a href="../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                <a href="../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1.1" data-path="../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                <a href="../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.2" data-path="../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                <a href="../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.3" data-path="../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                <a href="../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                    
+                    Chan's Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../FFT/cooley_tukey.html">
+            
+                <a href="../FFT/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../decision_problems/decision_problems.html">
+            
+                <a href="../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../decision_problems/stable_marriage/stable_marriage.html">
+            
+                <a href="../decision_problems/stable_marriage/stable_marriage.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../differential_equations/differential_equations.html">
+            
+                <a href="../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../differential_equations/euler/euler.html">
+            
+                <a href="../differential_equations/euler/euler.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="../differential_equations/euler/backward_euler.html">
+            
+                <a href="../differential_equations/euler/backward_euler.html">
+            
+                    
+                    Backward Euler Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.3" data-path="../differential_equations/runge_kutta/runge_kutta.html">
+            
+                <a href="../differential_equations/runge_kutta/runge_kutta.html">
+            
+                    
+                    Runge Kutta
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../physics_solvers/physics_solvers.html">
+            
+                <a href="../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.1" data-path="../physics_solvers/verlet/verlet.html">
+            
+                <a href="../physics_solvers/verlet/verlet.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../physics_solvers/barnes_hut.html">
+            
+                <a href="../physics_solvers/barnes_hut.html">
+            
+                    
+                    Barnes-Hut
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.3" data-path="../physics_solvers/quantum/quantum.html">
+            
+                <a href="../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../data_compression/data_compression.html">
+            
+                <a href="../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../data_compression/huffman/huffman.html">
+            
+                <a href="../data_compression/huffman/huffman.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../QI/QI.html">
+            
+                <a href="../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Tree Traversal</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; "> 
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+<h1 id="tree-traversal">Tree Traversal</h1>
+<p>Trees are naturally recursive data structures, and because of this, we cannot access their elements like we might access the elements of a vector or array. Instead, we need to use more interesting methods to work through each element. This is often called <em>Tree Traversal</em>, and there are many different ways to do this. For now, we will restrict the discussion to two common and related methods of tree traversal: <em>Depth-First</em> and <em>Breadth-First Search</em>. Note that trees vary greatly in shape and size depending on how they are used; however, they are composed primarily of nodes that house other, children nodes, like so:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia">struct Node
+    children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
+    ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> node {
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;node&gt; children;
+  <span class="hljs-keyword">int</span> id;
+};
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+{
+    <span class="hljs-keyword">public</span> List&lt;Node&gt; Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Node&gt;();
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> node {
+    <span class="hljs-keyword">struct</span> node *children;
+    <span class="hljs-keyword">int</span> children_num;
+    <span class="hljs-keyword">int</span> ID;
+} node;
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+struct Node
+    children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
+    ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        self.data = <span class="hljs-keyword">None</span>
+        self.children = []
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">node</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">&quot;Create the node structure&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value, left, right)</span>:</span>
+        self.value = value
+        self.left = left
+        self.right = right
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+struct Node
+    children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
+    ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span></span> {
+    children: <span class="hljs-built_in">Vec</span>&lt;Node&gt;,
+    value: <span class="hljs-keyword">u64</span>,
+}
+</code></pre>
+</div></div></div>
+
+<p>Because of this, the most straightforward way to traverse the tree might be recursive. This naturally leads us to the Depth-First Search (DFS) method:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive(child)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
+  <span class="hljs-comment">// Here we are doing something...</span>
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : n.children) {
+    dfs_recursive(child);
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+</span>{
+    <span class="hljs-comment">// Here we are doing something...</span>
+    Console.WriteLine(node.Id);
+
+    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+    {
+        DFSRecursive(c);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS_recursive</span><span class="hljs-params">(node n)</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.ID);
+    <span class="hljs-keyword">if</span> (!n.children) {
+        <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n.children_num; ++i) {
+        DFS_recursive(n.children[i]);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_recursive</span>(<span class="hljs-params">n</span>)</span>{
+    <span class="hljs-built_in">console</span>.log(n.ID);
+    <span class="hljs-keyword">if</span>(n.children.length == <span class="hljs-number">0</span>){
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n.children.length; ++i){
+            DFS_recursive(n.children[i]);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_tree</span><span class="hljs-params">(node, num_row, num_child)</span>:</span>
+    node.data = num_row
+
+    <span class="hljs-keyword">if</span> num_row &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num_child):
+            child = create_tree(Node(), num_row<span class="hljs-number">-1</span>, num_child)
+            node.children.append(child)
+
+    <span class="hljs-keyword">return</span> node
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive(child)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive(child)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">dfs_recursive</span></span>(n: &amp;Node) {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, n.value);
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> &amp;n.children {
+        dfs_recursive(child);
+    }
+}
+</code></pre>
+</div></div></div>
+
+<p>At least to me, this makes a lot of sense. We fight recursion with recursion! First, we first output the node we are on and then we call <code>DFS_recursive(...)</code> on each of its children nodes. This method of tree traversal does what its name implies: it goes to the depths of the tree first before going through the rest of the branches. In this case, the ordering looks like:</p>
+<p align="center">
+    <img src="res/DFS_pre.png" width="500" height="500">
+</p>
+
+<p>Note that the in the code above, we are missing a crucial step: <em>checking to see if the node we are using actually exists!</em> Because we are using a vector to store all the nodes, we will be careful not to run into a case where we call <code>DFS_recursive(...)</code> on a node that has yet to be initialized; however, depending on the language we are using, we might need to be careful of this to avoid recursion errors! </p>
+<p>Now, in this case the first element searched through is still the root of the tree. This type of tree traversal is known as <em>pre-order</em> DFS. We perform an action (output the ID) <em>before</em> searching through the children. If we shift the function around and place the data output at the end of the function, we can modify the order in which we search through the tree to be <em>post-order</em> and look something like this:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS_recursive_postorder</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : n.children) {
+    dfs_recursive_postorder(child);
+  }
+
+  <span class="hljs-comment">// Here we are doing something...</span>
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
+</span>{
+    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+    {
+        DFSRecursivePostorder(c);
+    }
+
+    <span class="hljs-comment">// Here we are doing something...</span>
+    Console.WriteLine(node.Id);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div></div></div>
+
+<p align="center">
+    <img src="res/DFS_post.png" width="500" height="500">
+</p>
+
+<p>In this case, the first node visited is at the bottom of the tree and moves up the tree branch by branch. In addition to these two types, binary trees have an <em>in-order</em> traversal scheme that looks something like this:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive_inorder_bnode</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
+  <span class="hljs-keyword">if</span> (not n.children.empty()) {
+    <span class="hljs-keyword">if</span> (n.children.size() != <span class="hljs-number">2</span>) {
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;Not binary tree!\n&quot;</span>;
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">abort</span>();
+    }
+    dfs_recursive_inorder_bnode(n.children[<span class="hljs-number">0</span>]);
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+    dfs_recursive_inorder_bnode(n.children[<span class="hljs-number">1</span>]);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-comment">// This assumes only 2 children</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
+</span>{
+    <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">2</span>)
+    {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
+    }
+
+    <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">0</span>)
+    {
+        DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">0</span>]);
+        Console.WriteLine(node.Id);
+        DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">1</span>]);
+    }
+    <span class="hljs-keyword">else</span>
+    {
+        Console.WriteLine(node.Id);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div></div></div>
+
+<p align="center">
+    <img src="res/DFS_in.png" width="500" height="500">
+</p>
+
+
+<p>The order here seems to be some mix of the other 2 methods and works through the binary tree from left to right.</p>
+<p>Now, at this point, it might seem that the only way to search through a recursive data structure is with recusion, but this is not necessarily the case! Rather surprisingly, we can perform a DFS non-recursively by using a stack, which are data structures that hold multiple elements, but only allow you to interact with the very last element you put in. The idea here is simple:</p>
+<ol>
+<li>Put the root node in the stack</li>
+<li>Take it out and put in its children</li>
+<li>Pop the top of the stack and put its children in</li>
+<li>Repeat 3 until the stack is empty</li>
+</ol>
+<p>In code, it looks like this:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
+    s = Stack(Node)
+    push!(s, n)
+
+    <span class="hljs-keyword">while</span>(length(s) &gt; <span class="hljs-number">0</span>)
+        println(top(s).ID)
+        temp = pop!(s)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            push!(s, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">stack</span>&lt;node&gt; s;
+  s.push(n);
+
+  <span class="hljs-keyword">while</span> (s.size() &gt; <span class="hljs-number">0</span>) {
+    node temp = s.top();
+    s.pop();
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; s.top().id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : temp.children) {
+      s.push(child);
+    }
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSStack</span>(<span class="hljs-params"></span>)
+</span>{
+    <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Node&gt;();
+    stack.Push(root);
+    Node temp;
+
+    <span class="hljs-keyword">while</span> (stack.Count != <span class="hljs-number">0</span>)
+    {
+        Console.WriteLine(stack.Peek().Id);
+        temp = stack.Pop();
+
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+        {
+            stack.Push(c);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(node_points *np, node n)</span> </span>{
+    node_list *temp = (node_list*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(node_list));
+    temp-&gt;n = n;
+    temp-&gt;last_list = temp-&gt;next_list = <span class="hljs-literal">NULL</span>;
+
+    <span class="hljs-keyword">if</span> (!np-&gt;end_point) {
+        np-&gt;start_point = temp;
+    } <span class="hljs-keyword">else</span> {
+        np-&gt;end_point-&gt;next_list = temp;
+        temp-&gt;last_list = np-&gt;end_point;
+    }
+
+    np-&gt;end_point = temp;
+}
+</code></pre>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stack_pop</span><span class="hljs-params">(node_points *np)</span> </span>{
+    node_list *temp;
+    temp = np-&gt;end_point;
+
+    <span class="hljs-keyword">if</span> (temp) {
+        np-&gt;end_point = temp-&gt;last_list;
+        <span class="hljs-keyword">if</span> (!np-&gt;end_point) {
+            np-&gt;start_point = <span class="hljs-literal">NULL</span>;
+        }
+
+        <span class="hljs-built_in">free</span>(temp);
+    }
+}
+</code></pre>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS_stack</span><span class="hljs-params">(node n)</span> </span>{
+    node_points <span class="hljs-built_in">stack</span>;
+    <span class="hljs-built_in">memset</span>(&amp;<span class="hljs-built_in">stack</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(node_points));
+    push(&amp;<span class="hljs-built_in">stack</span>, n);
+    node temp;
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">stack</span>.start_point != <span class="hljs-literal">NULL</span>) {
+        temp = <span class="hljs-built_in">stack</span>.end_point-&gt;n;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, temp.ID);
+        stack_pop(&amp;<span class="hljs-built_in">stack</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; temp.children_num; ++i) {
+            <span class="hljs-keyword">if</span> (!temp.children) {
+                <span class="hljs-keyword">break</span>;
+            }
+
+            push(&amp;<span class="hljs-built_in">stack</span>, temp.children[i]);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_stack</span>(<span class="hljs-params">n</span>)</span>{
+    <span class="hljs-keyword">var</span> s = [];
+    s.push(n);
+    <span class="hljs-keyword">var</span> temp;
+
+    <span class="hljs-keyword">while</span>(s.length &gt; <span class="hljs-number">0</span>){
+        temp = s.pop();
+        <span class="hljs-built_in">console</span>.log(temp.ID);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
+                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
+                <span class="hljs-keyword">break</span>;
+            }
+                s.push(temp.children[i]);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS_stack</span><span class="hljs-params">(node)</span>:</span>
+    stack = []
+    stack.append(node)
+
+    temp = <span class="hljs-keyword">None</span>
+
+    <span class="hljs-keyword">while</span> len(stack) &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">print</span> stack[<span class="hljs-number">-1</span>].data
+        temp = stack.pop()
+
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
+            stack.append(child)
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">depth_first_search</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-string">&quot;Traverses through a tree depth-first by putting nodes on a stack&quot;</span>
+    stack = deque()
+    result_list = []
+    stack.append(root)
+    <span class="hljs-keyword">while</span> len(stack) != <span class="hljs-number">0</span>:
+        <span class="hljs-comment"># Take off the node at the top of the stack, add it to the list</span>
+        temp_node = stack.pop()
+        result_list.append(temp_node.value)
+        <span class="hljs-comment"># Add the children of that node to the top of the stack</span>
+        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            stack.append(temp_node.right)
+        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            stack.append(temp_node.left)
+    <span class="hljs-keyword">return</span> result_list
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
+    s = Stack(Node)
+    push!(s, n)
+
+    <span class="hljs-keyword">while</span>(length(s) &gt; <span class="hljs-number">0</span>)
+        println(top(s).ID)
+        temp = pop!(s)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            push!(s, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">dfs_stack</span></span>(n: &amp;Node) {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stack = <span class="hljs-built_in">vec!</span>[n];
+
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(current) = stack.pop() {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, current.value);
+        stack.extend(&amp;current.children);
+    }
+}
+</code></pre>
+</div></div></div>
+
+<p>All this said, there are a few details about DFS that might not be idea, depending on the situation. For example, if we use DFS on an incredibly long tree, we will spend a lot of time going further and further down a single branch without searching the rest of the data structure. In addition, it is not the natural way humans would order a tree if asked to number all the nodes from top to bottom. I would argue a more natural traversal order would look something like this:</p>
+<p align="center">
+    <img src="res/BFS_simple.png" width="500" height="500">
+</p>
+
+<p>And this is exactly what Breadth-First Search (BFS) does! On top of that, it can be implemented in the same way as the <code>DFS_stack(...)</code> function above, simply by swapping the <code>stack</code> for a <code>queue</code>, which is similar to a stack, exept that it only allows you to interact with the very first element instead of the last. In code, this looks something like:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> BFS_queue(n<span class="hljs-type">::</span>Node)
+    q = Queue(Node)
+    enqueue!(q, n)
+
+    <span class="hljs-keyword">while</span>(length(q) &gt; <span class="hljs-number">0</span>)
+        println(front(q).ID)
+        temp = dequeue!(q)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            enqueue!(q, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs_queue</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">queue</span>&lt;node&gt; q;
+  q.push(n);
+
+  <span class="hljs-keyword">while</span> (q.size() &gt; <span class="hljs-number">0</span>) {
+    node temp = q.front();
+    q.pop();
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; q.front().id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : temp.children) {
+      q.push(child);
+    }
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BFSQueue</span>(<span class="hljs-params"></span>)
+</span>{
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue&lt;Node&gt;();
+    queue.Enqueue(root);
+    Node temp;
+
+    <span class="hljs-keyword">while</span> (queue.Count != <span class="hljs-number">0</span>)
+    {
+        Console.WriteLine(queue.Peek().Id);
+        temp = queue.Dequeue();
+
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+        {
+            queue.Enqueue(c);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BFS_queue</span><span class="hljs-params">(node n)</span> </span>{
+    node_points <span class="hljs-built_in">queue</span>;
+    <span class="hljs-built_in">memset</span>(&amp;<span class="hljs-built_in">queue</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(node_points));
+    push(&amp;<span class="hljs-built_in">queue</span>, n);
+    node temp;
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">queue</span>.start_point != <span class="hljs-literal">NULL</span>) {
+        temp = <span class="hljs-built_in">queue</span>.start_point-&gt;n;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, temp.ID);
+        queue_pop(&amp;<span class="hljs-built_in">queue</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; temp.children_num; ++i) {
+            <span class="hljs-keyword">if</span> (!temp.children) {
+                <span class="hljs-keyword">break</span>;
+            }
+
+            push(&amp;<span class="hljs-built_in">queue</span>, temp.children[i]);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">BFS_queue</span>(<span class="hljs-params">n</span>)</span>{
+    <span class="hljs-keyword">var</span> q = [];
+    q.push(n);
+    <span class="hljs-keyword">var</span> temp;
+
+    <span class="hljs-keyword">while</span>(q.length &gt; <span class="hljs-number">0</span>){
+        temp = q.shift();
+        <span class="hljs-built_in">console</span>.log(temp.ID);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
+                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
+                <span class="hljs-keyword">break</span>;
+            }
+                q.push(temp.children[i]);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">BFS_queue</span><span class="hljs-params">(node)</span>:</span>
+    queue = []
+    queue.append(node)
+
+    temp = <span class="hljs-keyword">None</span>
+
+    <span class="hljs-keyword">while</span> len(queue) &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">print</span> queue[<span class="hljs-number">0</span>].data
+        temp = queue.pop(<span class="hljs-number">0</span>)
+
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
+            queue.append(child)
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">breadth_first_search</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-string">&quot;Traverses through a tree breadth-first by putting nodes into a queue&quot;</span>
+    queue = deque()
+    result_list = []
+    queue.append(root)
+    <span class="hljs-keyword">while</span> len(queue) != <span class="hljs-number">0</span>:
+        <span class="hljs-comment"># Take off the node at the top of the queue, add it to the list</span>
+        temp_node = queue.pop()
+        result_list.append(temp_node.value)
+        <span class="hljs-comment"># Add the children of that node to the bottom of the queue</span>
+        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            queue.appendleft(temp_node.left)
+        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            queue.appendleft(temp_node.right)
+    <span class="hljs-keyword">return</span> result_list
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> BFS_queue(n<span class="hljs-type">::</span>Node)
+    q = Queue(Node)
+    enqueue!(q, n)
+
+    <span class="hljs-keyword">while</span>(length(q) &gt; <span class="hljs-number">0</span>)
+        println(front(q).ID)
+        temp = dequeue!(q)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            enqueue!(q, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bfs_queue</span></span>(n: &amp;Node){
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> queue = VecDeque::new();
+    queue.push_back(n);
+
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(current) = queue.pop_front() {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, current.value);
+        queue.extend(&amp;current.children);
+    }
+}
+</code></pre>
+</div></div></div>
+
+<h1 id="example-code">Example Code</h1>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<pre><code class="lang-julia"><span class="hljs-keyword">using</span> DataStructures
+
+struct Node
+    children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
+    ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive(child)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
+    s = Stack(Node)
+    push!(s, n)
+
+    <span class="hljs-keyword">while</span>(length(s) &gt; <span class="hljs-number">0</span>)
+        println(top(s).ID)
+        temp = pop!(s)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            push!(s, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> BFS_queue(n<span class="hljs-type">::</span>Node)
+    q = Queue(Node)
+    enqueue!(q, n)
+
+    <span class="hljs-keyword">while</span>(length(q) &gt; <span class="hljs-number">0</span>)
+        println(front(q).ID)
+        temp = dequeue!(q)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            enqueue!(q, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># function to create a simple, balanced tree</span>
+<span class="hljs-keyword">function</span> create_tree(num_row<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, num_child<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
+    ret = Node(num_row)
+    <span class="hljs-keyword">if</span> (num_row == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> ret
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:num_child
+        child = create_tree(num_row - <span class="hljs-number">1</span>, num_child)
+        push!(ret.children, child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> ret
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> main()
+
+    println(<span class="hljs-string">&quot;Creating Tree&quot;</span>)
+    root = create_tree(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+
+    println(<span class="hljs-string">&quot;Using recursive DFS:&quot;</span>)
+    DFS_recursive(root);
+
+    println(<span class="hljs-string">&quot;Using stack-based DFS:&quot;</span>)
+    DFS_stack(root);
+
+    println(<span class="hljs-string">&quot;Using queue-based BFS:&quot;</span>)
+    BFS_queue(root);
+
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><h3 id="c">C++</h3>
+<pre><code class="lang-cpp"><span class="hljs-comment">// initially contributed by James Schloss (Leios)</span>
+<span class="hljs-comment">// restyled by Nicole Mazzuca (ubsan)</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstddef&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iterator&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;queue&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stack&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;utility&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>;
+
+<span class="hljs-keyword">struct</span> node {
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;node&gt; children;
+  <span class="hljs-keyword">int</span> value;
+};
+
+<span class="hljs-comment">// Simple recursive scheme for DFS</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(node <span class="hljs-keyword">const</span>&amp; n)</span> </span>{
+  <span class="hljs-comment">// Here we are doing something...</span>
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.value &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : n.children) {
+    dfs_recursive(child);
+  }
+}
+
+<span class="hljs-comment">// Simple non-recursive scheme for DFS</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(node <span class="hljs-keyword">const</span>&amp; n)</span> </span>{
+  <span class="hljs-comment">// this stack holds pointers into n&apos;s `children` vector,</span>
+  <span class="hljs-comment">// or its children&apos;s `children` vector.</span>
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">stack</span>&lt;node <span class="hljs-keyword">const</span>*&gt; <span class="hljs-built_in">stack</span>;
+  <span class="hljs-built_in">stack</span>.push(&amp;n);
+
+  <span class="hljs-keyword">while</span> (<span class="hljs-built_in">stack</span>.size() &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; temp = *<span class="hljs-built_in">stack</span>.top();
+    <span class="hljs-built_in">stack</span>.pop();
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; temp.value &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : temp.children) {
+      <span class="hljs-built_in">stack</span>.push(&amp;child);
+    }
+  }
+}
+
+<span class="hljs-comment">// simple non-recursive scheme for BFS</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs_queue</span><span class="hljs-params">(node <span class="hljs-keyword">const</span>&amp; n)</span> </span>{
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">queue</span>&lt;node <span class="hljs-keyword">const</span>*&gt; <span class="hljs-built_in">queue</span>;
+  <span class="hljs-built_in">queue</span>.push(&amp;n);
+
+  <span class="hljs-keyword">while</span> (<span class="hljs-built_in">queue</span>.size() &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; temp = *<span class="hljs-built_in">queue</span>.front();
+    <span class="hljs-built_in">queue</span>.pop();
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; temp.value &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : temp.children) {
+      <span class="hljs-built_in">queue</span>.push(&amp;child);
+    }
+  }
+}
+
+<span class="hljs-function">node <span class="hljs-title">create_tree</span><span class="hljs-params">(size_t num_row, size_t num_child)</span> </span>{
+  <span class="hljs-keyword">if</span> (num_row == <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">return</span> node{<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;node&gt;(), <span class="hljs-number">0</span>};
+  }
+
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;node&gt; vec;
+  <span class="hljs-built_in">std</span>::generate_n(<span class="hljs-built_in">std</span>::back_inserter(vec), num_child, [&amp;] {
+    <span class="hljs-keyword">return</span> create_node(num_row - <span class="hljs-number">1</span>, num_child);
+  });
+
+  <span class="hljs-keyword">return</span> node{<span class="hljs-built_in">std</span>::move(vec), num_row};
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-comment">// Creating Tree in main</span>
+  <span class="hljs-keyword">auto</span> root = create_node(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+  dfs_recursive(root);
+  dfs_stack(root);
+  bfs_queue(root);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><h3 id="c">C#</h3>
+<p>Tree.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
+<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">TreeTraversal</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Tree</span>
+    {
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+        {
+            <span class="hljs-keyword">public</span> List&lt;Node&gt; Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Node&gt;();
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+        }
+
+        <span class="hljs-keyword">private</span> Node root;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Tree</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> depthCount, <span class="hljs-keyword">int</span> childrenCount</span>)
+        </span>{
+            CreateTree(depthCount, childrenCount);
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CreateTree</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> depthCount, <span class="hljs-keyword">int</span> childrenCount</span>)
+        </span>{
+            root = <span class="hljs-keyword">new</span> Node
+            {
+                Id = <span class="hljs-number">1</span>
+            };
+            CreateAllChildren(root, depthCount, childrenCount);
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StartDFSRecursive</span>(<span class="hljs-params"></span>)
+        </span>{
+            DFSRecursive(root);
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSStack</span>(<span class="hljs-params"></span>)
+        </span>{
+            <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Node&gt;();
+            stack.Push(root);
+            Node temp;
+
+            <span class="hljs-keyword">while</span> (stack.Count != <span class="hljs-number">0</span>)
+            {
+                Console.WriteLine(stack.Peek().Id);
+                temp = stack.Pop();
+
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+                {
+                    stack.Push(c);
+                }
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BFSQueue</span>(<span class="hljs-params"></span>)
+        </span>{
+            <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue&lt;Node&gt;();
+            queue.Enqueue(root);
+            Node temp;
+
+            <span class="hljs-keyword">while</span> (queue.Count != <span class="hljs-number">0</span>)
+            {
+                Console.WriteLine(queue.Peek().Id);
+                temp = queue.Dequeue();
+
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+                {
+                    queue.Enqueue(c);
+                }
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CreateAllChildren</span>(<span class="hljs-params">Node node, <span class="hljs-keyword">int</span> rowCount, <span class="hljs-keyword">int</span> childrenCount</span>)
+        </span>{
+            <span class="hljs-keyword">if</span> (rowCount &lt;= <span class="hljs-number">1</span>)
+                <span class="hljs-keyword">return</span>;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childrenCount; i++)
+            {
+                node.Children.Add(<span class="hljs-keyword">new</span> Node
+                {
+                    Id = node.Id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>
+                });
+                CreateAllChildren(node.Children[i], rowCount - <span class="hljs-number">1</span>, childrenCount);
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+        </span>{
+            Console.WriteLine(node.Id);
+
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+            {
+                DFSRecursive(c);
+            }
+        }
+    }
+}
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
+<span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">TreeTraversal</span>
+{
+    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+            Console.WriteLine(<span class="hljs-string">&quot;TreeTraversal&quot;</span>);
+            <span class="hljs-keyword">var</span> tree = <span class="hljs-keyword">new</span> Tree(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+            Console.WriteLine(<span class="hljs-string">&quot;StartDFSRecursive:&quot;</span>);
+            tree.StartDFSRecursive();
+            Console.WriteLine(<span class="hljs-string">&quot;DFSStack:&quot;</span>);
+            tree.DFSStack();
+            Console.WriteLine(<span class="hljs-string">&quot;DFSQueue:&quot;</span>);
+            tree.BFSQueue();
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
+<pre><code class="lang-cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct node {
+    struct node *children;
+    int children_num;
+    int ID;
+} node;
+
+typedef struct node_list {
+    node n;
+    struct node_list *last_list, *next_list;
+} node_list;
+
+typedef struct node_points {
+    node_list *start_point, *end_point;
+} node_points;
+
+void push(node_points *np, node n) {
+    node_list *temp = (node_list*)malloc(sizeof(node_list));
+    temp-&gt;n = n;
+    temp-&gt;last_list = temp-&gt;next_list = NULL;
+
+    if (!np-&gt;end_point) {
+        np-&gt;start_point = temp;
+    } else {
+        np-&gt;end_point-&gt;next_list = temp;
+        temp-&gt;last_list = np-&gt;end_point;
+    }
+
+    np-&gt;end_point = temp;
+}
+
+void stack_pop(node_points *np) {
+    node_list *temp;
+    temp = np-&gt;end_point;
+
+    if (temp) {
+        np-&gt;end_point = temp-&gt;last_list;
+        if (!np-&gt;end_point) {
+            np-&gt;start_point = NULL;
+        }
+
+        free(temp);
+    }
+}
+
+void queue_pop(node_points *np) {
+    node_list *temp;
+    temp = np-&gt;start_point;
+    if (temp) {
+        np-&gt;start_point = temp-&gt;next_list;
+        if (!np-&gt;start_point) {
+            np-&gt;end_point = NULL;
+        }
+
+        free(temp);
+    }
+}
+
+void create_tree(node *n, int num_row, int num_child) {
+    n-&gt;ID = num_row;
+    if (num_row == 0) {
+        return;
+    }
+
+    n-&gt;children = (node *)malloc(num_child * sizeof(*n-&gt;children));
+    n-&gt;children_num = num_child;
+    for (int i = 0; i &lt; num_child; ++i) {
+        node child;
+        create_tree(&amp;child, num_row - 1, num_child);
+        *(n-&gt;children + i) = child;
+    }
+}
+
+void DFS_recursive(node n) {
+    printf(&quot;%d\n&quot;, n.ID);
+    if (!n.children) {
+        return;
+    }
+
+    for (int i = 0; i &lt; n.children_num; ++i) {
+        DFS_recursive(n.children[i]);
+    }
+}
+
+void DFS_stack(node n) {
+    node_points stack;
+    memset(&amp;stack, 0, sizeof(node_points));
+    push(&amp;stack, n);
+    node temp;
+
+    while (stack.start_point != NULL) {
+        temp = stack.end_point-&gt;n;
+        printf(&quot;%d\n&quot;, temp.ID);
+        stack_pop(&amp;stack);
+        for (int i = 0; i &lt; temp.children_num; ++i) {
+            if (!temp.children) {
+                break;
+            }
+
+            push(&amp;stack, temp.children[i]);
+        }
+    }
+}
+
+void BFS_queue(node n) {
+    node_points queue;
+    memset(&amp;queue, 0, sizeof(node_points));
+    push(&amp;queue, n);
+    node temp;
+
+    while (queue.start_point != NULL) {
+        temp = queue.start_point-&gt;n;
+        printf(&quot;%d\n&quot;, temp.ID);
+        queue_pop(&amp;queue);
+        for (int i = 0; i &lt; temp.children_num; ++i) {
+            if (!temp.children) {
+                break;
+            }
+
+            push(&amp;queue, temp.children[i]);
+        }
+    }
+}
+
+void destroy_tree(node *n) {
+    if (n-&gt;ID == 0) {
+        return;
+    }
+
+    for (int i = 0; i &lt; n-&gt;children_num; ++i) {
+        destroy_tree(n-&gt;children + i);
+    }
+
+    free(n-&gt;children);
+}
+
+int main() {
+    node root;
+    create_tree(&amp;root, 3, 3);
+    DFS_recursive(root);
+    //DFS_stack(root);
+    //BFS_queue(root);
+    destroy_tree(&amp;root);
+
+    return 0;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><h3 id="javascript">JavaScript</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create_tree</span>(<span class="hljs-params">n, num_row, num_child</span>)</span>{
+    n.ID = num_row;
+    n.children = [];
+        <span class="hljs-keyword">if</span>(num_row == <span class="hljs-number">0</span>){
+                <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; num_child; ++i){
+                <span class="hljs-keyword">var</span> child = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();
+                create_tree(child, num_row - <span class="hljs-number">1</span>, num_child);
+                n.children.push(child);
+        }
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_recursive</span>(<span class="hljs-params">n</span>)</span>{
+    <span class="hljs-built_in">console</span>.log(n.ID);
+    <span class="hljs-keyword">if</span>(n.children.length == <span class="hljs-number">0</span>){
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n.children.length; ++i){
+            DFS_recursive(n.children[i]);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_stack</span>(<span class="hljs-params">n</span>)</span>{
+    <span class="hljs-keyword">var</span> s = [];
+    s.push(n);
+    <span class="hljs-keyword">var</span> temp;
+
+    <span class="hljs-keyword">while</span>(s.length &gt; <span class="hljs-number">0</span>){
+        temp = s.pop();
+        <span class="hljs-built_in">console</span>.log(temp.ID);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
+                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
+                <span class="hljs-keyword">break</span>;
+            }
+                s.push(temp.children[i]);
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">BFS_queue</span>(<span class="hljs-params">n</span>)</span>{
+    <span class="hljs-keyword">var</span> q = [];
+    q.push(n);
+    <span class="hljs-keyword">var</span> temp;
+
+    <span class="hljs-keyword">while</span>(q.length &gt; <span class="hljs-number">0</span>){
+        temp = q.shift();
+        <span class="hljs-built_in">console</span>.log(temp.ID);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
+                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
+                <span class="hljs-keyword">break</span>;
+            }
+                q.push(temp.children[i]);
+        }
+    }
+}
+
+<span class="hljs-keyword">var</span> root = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();
+create_tree(root, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+<span class="hljs-comment">//DFS_recursive(root);</span>
+<span class="hljs-comment">//DFS_stack(root);</span>
+BFS_queue(root);
+</code></pre>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><h3 id="python-2">Python 2</h3>
+<pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        self.data = <span class="hljs-keyword">None</span>
+        self.children = []
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_tree</span><span class="hljs-params">(node, num_row, num_child)</span>:</span>
+    node.data = num_row
+
+    <span class="hljs-keyword">if</span> num_row &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num_child):
+            child = create_tree(Node(), num_row<span class="hljs-number">-1</span>, num_child)
+            node.children.append(child)
+
+    <span class="hljs-keyword">return</span> node
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS_recursive</span><span class="hljs-params">(node)</span>:</span>
+    <span class="hljs-keyword">if</span> len(node.children) &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">print</span> node.data
+
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> node.children:
+            DFS_recursive(child)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS_stack</span><span class="hljs-params">(node)</span>:</span>
+    stack = []
+    stack.append(node)
+
+    temp = <span class="hljs-keyword">None</span>
+
+    <span class="hljs-keyword">while</span> len(stack) &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">print</span> stack[<span class="hljs-number">-1</span>].data
+        temp = stack.pop()
+
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
+            stack.append(child)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">BFS_queue</span><span class="hljs-params">(node)</span>:</span>
+    queue = []
+    queue.append(node)
+
+    temp = <span class="hljs-keyword">None</span>
+
+    <span class="hljs-keyword">while</span> len(queue) &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">print</span> queue[<span class="hljs-number">0</span>].data
+        temp = queue.pop(<span class="hljs-number">0</span>)
+
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
+            queue.append(child)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    tree = create_tree(Node(), <span class="hljs-number">3</span>, <span class="hljs-number">3</span>)
+
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Recursive:&quot;</span>
+    DFS_recursive(tree)
+
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Stack:&quot;</span>
+    DFS_stack(tree)
+
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Queue:&quot;</span>
+    BFS_queue(tree)
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><h3 id="python-3">Python 3</h3>
+<pre><code class="lang-python"><span class="hljs-comment"># Depth-First and Breadth-First Traversal</span>
+<span class="hljs-comment"># Submitted by Matthew Giallourakis </span>
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">node</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">&quot;Create the node structure&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value, left, right)</span>:</span>
+        self.value = value
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_tree</span><span class="hljs-params">(root,nums)</span>:</span>
+    <span class="hljs-string">&quot;Makes a binary search tree from a list of numbers&quot;</span>
+    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums:
+        temp_node = root
+        new_node = node(value=num, left=<span class="hljs-keyword">None</span>, right=<span class="hljs-keyword">None</span>)
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
+            <span class="hljs-keyword">if</span> num &lt; temp_node.value:
+                <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span>:
+                    temp_node.left = new_node
+                    <span class="hljs-keyword">break</span>
+                <span class="hljs-keyword">else</span>:
+                    temp_node = temp_node.left
+            <span class="hljs-keyword">elif</span> num &gt; temp_node.value:
+                <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span>:
+                    temp_node.right = new_node
+                    <span class="hljs-keyword">break</span>
+                <span class="hljs-keyword">else</span>:
+                    temp_node = temp_node.right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">depth_first_search</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-string">&quot;Traverses through a tree depth-first by putting nodes on a stack&quot;</span>
+    stack = deque()
+    result_list = []
+    stack.append(root)
+    <span class="hljs-keyword">while</span> len(stack) != <span class="hljs-number">0</span>:
+        <span class="hljs-comment"># Take off the node at the top of the stack, add it to the list</span>
+        temp_node = stack.pop()
+        result_list.append(temp_node.value)
+        <span class="hljs-comment"># Add the children of that node to the top of the stack</span>
+        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            stack.append(temp_node.right)
+        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            stack.append(temp_node.left)
+    <span class="hljs-keyword">return</span> result_list
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">breadth_first_search</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-string">&quot;Traverses through a tree breadth-first by putting nodes into a queue&quot;</span>
+    queue = deque()
+    result_list = []
+    queue.append(root)
+    <span class="hljs-keyword">while</span> len(queue) != <span class="hljs-number">0</span>:
+        <span class="hljs-comment"># Take off the node at the top of the queue, add it to the list</span>
+        temp_node = queue.pop()
+        result_list.append(temp_node.value)
+        <span class="hljs-comment"># Add the children of that node to the bottom of the queue</span>
+        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            queue.appendleft(temp_node.left)
+        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+            queue.appendleft(temp_node.right)
+    <span class="hljs-keyword">return</span> result_list
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    nums = [<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">6</span>,<span class="hljs-number">9</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>]
+    root = node(value=nums.pop(<span class="hljs-number">0</span>),left=<span class="hljs-keyword">None</span>,right=<span class="hljs-keyword">None</span>)
+    make_tree(root,nums)
+    <span class="hljs-comment">#     Tree Structure</span>
+    <span class="hljs-comment">#           5</span>
+    <span class="hljs-comment">#       2       8</span>
+    <span class="hljs-comment">#     1   3   6   9</span>
+    <span class="hljs-comment">#              </span>
+
+    print(<span class="hljs-string">&quot;Depth First:&quot;</span>,depth_first_search(root))
+    <span class="hljs-comment"># prints [5, 2, 1, 3, 8, 6, 9]</span>
+
+    print(<span class="hljs-string">&quot;Breadth First:&quot;</span>,breadth_first_search(root))
+    <span class="hljs-comment"># prints [5, 2, 8, 1, 3, 6, 9]</span>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><h3 id="scratch">Scratch</h3>
+<p><img src="code/scratch/scratch_tree.png" alt="scratch tree"></p>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><h3 id="rust">Rust</h3>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::collections::VecDeque;
+
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span></span> {
+    children: <span class="hljs-built_in">Vec</span>&lt;Node&gt;,
+    value: <span class="hljs-keyword">u64</span>,
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">dfs_recursive</span></span>(n: &amp;Node) {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, n.value);
+
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> &amp;n.children {
+        dfs_recursive(child);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">dfs_stack</span></span>(n: &amp;Node) {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stack = <span class="hljs-built_in">vec!</span>[n];
+
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(current) = stack.pop() {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, current.value);
+        stack.extend(&amp;current.children);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bfs_queue</span></span>(n: &amp;Node){
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> queue = VecDeque::new();
+    queue.push_back(n);
+
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(current) = queue.pop_front() {
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, current.value);
+        queue.extend(&amp;current.children);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">create_tree</span></span>(num_row: <span class="hljs-keyword">u64</span>, num_child: <span class="hljs-keyword">u64</span>) -&gt; Node {
+    <span class="hljs-keyword">if</span> num_row == <span class="hljs-number">0</span> {
+        <span class="hljs-keyword">return</span> Node { children: <span class="hljs-built_in">vec!</span>[], value: <span class="hljs-number">0</span> };
+    }
+
+    <span class="hljs-keyword">let</span> children = (<span class="hljs-number">0</span>..num_child)
+        .map(|_| create_tree(num_row - <span class="hljs-number">1</span>, num_child))
+        .collect();
+
+    Node { children, value: num_row }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> root = create_tree(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Recursive DFS:&quot;</span>);
+    dfs_recursive(&amp;root);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Stack DFS:&quot;</span>);
+    dfs_stack(&amp;root);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Queue BFS:&quot;</span>);
+    bfs_queue(&amp;root);
+}
+</code></pre>
+</div></div></div>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-04-19T20:29:50.976Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-27T21:36:44.567Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

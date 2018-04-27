@@ -1,0 +1,1139 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Convolutions · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../taylor/taylor_series.html" />
+    
+    
+    <link rel="prev" href="../principles_of_code/notation/notation.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    README
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../TODO.html">
+            
+                <a href="../../TODO.html">
+            
+                    
+                    TODO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction.html">
+            
+                <a href="../introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../getting_started.html">
+            
+                <a href="../getting_started.html">
+            
+                    
+                    A Personal Note
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../how_to_contribute.html">
+            
+                <a href="../how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../principles_of_code/principles_of_code.html">
+            
+                <a href="../principles_of_code/principles_of_code.html">
+            
+                    
+                    Principles of Code
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                <a href="../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                    
+                    Choosing A Language
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                <a href="../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                    
+                    Compiled Languages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1.1" data-path="../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                <a href="../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                    
+                    Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.1.2" data-path="../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                <a href="../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                    
+                    FORTRAN
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../principles_of_code/building_blocks/building_blocks.html">
+            
+                <a href="../principles_of_code/building_blocks/building_blocks.html">
+            
+                    
+                    Building Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../principles_of_code/building_blocks/variables.html">
+            
+                <a href="../principles_of_code/building_blocks/variables.html">
+            
+                    
+                    Variables and Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../principles_of_code/building_blocks/conditions.html">
+            
+                <a href="../principles_of_code/building_blocks/conditions.html">
+            
+                    
+                    Conditions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../principles_of_code/building_blocks/loops.html">
+            
+                <a href="../principles_of_code/building_blocks/loops.html">
+            
+                    
+                    Loops
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.4" data-path="../principles_of_code/building_blocks/functions.html">
+            
+                <a href="../principles_of_code/building_blocks/functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.5" data-path="../principles_of_code/building_blocks/classes.html">
+            
+                <a href="../principles_of_code/building_blocks/classes.html">
+            
+                    
+                    Classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.6" data-path="../principles_of_code/building_blocks/stacks.html">
+            
+                <a href="../principles_of_code/building_blocks/stacks.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.7" data-path="../principles_of_code/building_blocks/bitlogic.html">
+            
+                <a href="../principles_of_code/building_blocks/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../principles_of_code/version_control.html">
+            
+                <a href="../principles_of_code/version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../principles_of_code/notation/notation.html">
+            
+                <a href="../principles_of_code/notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7" data-path="convolutions.html">
+            
+                <a href="convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../taylor/taylor_series.html">
+            
+                <a href="../taylor/taylor_series.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../sorting_searching/sorting_searching.html">
+            
+                <a href="../sorting_searching/sorting_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../sorting_searching/bubble/bubble_sort.html">
+            
+                <a href="../sorting_searching/bubble/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../sorting_searching/bogo/bogo_sort.html">
+            
+                <a href="../sorting_searching/bogo/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../euclidean_algorithm/euclidean.html">
+            
+                <a href="../euclidean_algorithm/euclidean.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../multiplication/multiplication.html">
+            
+                <a href="../multiplication/multiplication.html">
+            
+                    
+                    Multiplication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../matrix_methods/matrix_methods.html">
+            
+                <a href="../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../matrix_methods/thomas/thomas.html">
+            
+                <a href="../matrix_methods/thomas/thomas.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../computational_geometry/computational_geometry.html">
+            
+                <a href="../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                <a href="../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1.1" data-path="../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                <a href="../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.2" data-path="../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                <a href="../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.3" data-path="../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                <a href="../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                    
+                    Chan's Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../FFT/cooley_tukey.html">
+            
+                <a href="../FFT/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../decision_problems/decision_problems.html">
+            
+                <a href="../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../decision_problems/stable_marriage/stable_marriage.html">
+            
+                <a href="../decision_problems/stable_marriage/stable_marriage.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../differential_equations/differential_equations.html">
+            
+                <a href="../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../differential_equations/euler/euler.html">
+            
+                <a href="../differential_equations/euler/euler.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="../differential_equations/euler/backward_euler.html">
+            
+                <a href="../differential_equations/euler/backward_euler.html">
+            
+                    
+                    Backward Euler Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.3" data-path="../differential_equations/runge_kutta/runge_kutta.html">
+            
+                <a href="../differential_equations/runge_kutta/runge_kutta.html">
+            
+                    
+                    Runge Kutta
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../physics_solvers/physics_solvers.html">
+            
+                <a href="../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.1" data-path="../physics_solvers/verlet/verlet.html">
+            
+                <a href="../physics_solvers/verlet/verlet.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../physics_solvers/barnes_hut.html">
+            
+                <a href="../physics_solvers/barnes_hut.html">
+            
+                    
+                    Barnes-Hut
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.3" data-path="../physics_solvers/quantum/quantum.html">
+            
+                <a href="../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../data_compression/data_compression.html">
+            
+                <a href="../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../data_compression/huffman/huffman.html">
+            
+                <a href="../data_compression/huffman/huffman.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../QI/QI.html">
+            
+                <a href="../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Convolutions</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+<h1 id="convolutions">Convolutions</h1>
+<p>Alright, I am going to come right out and say it: convolutions can be confusing.
+Not only are they hard to really describe, but if you do not see them in practice, it&apos;s hard to understand why you would ever want to use them.
+I&apos;m going to do what I can to describe them in an intuitive way; however, I may need to come back to this in the future.
+Let me know if there is anything here that is unclear, and I&apos;ll do what I can to clear it up.</p>
+<p>If you take two functions <script type="math/tex; ">f(x)</script> and <script type="math/tex; ">g(x)</script>, there are a number of ways you can combine them.
+All basic operations can do this (addition, subtraction, multiplication, and division), but there are also special operations that only work with functions and do not work on standard variables or numbers.
+For example, <script type="math/tex; ">f \circ g</script> is a <em>composition</em> of the two functions, where you plug <script type="math/tex; ">g(x)</script> into <script type="math/tex; ">f(x)</script>.
+A convolution is another function-related operation, and is often notated with a star (<script type="math/tex; ">*</script>) operator, where</p>
+<p><script type="math/tex; ">f(x)*g(x)=c(x)</script></p>
+<p>provides a third function <script type="math/tex; ">c(x)</script> that blends <script type="math/tex; ">f(x)</script> and <script type="math/tex; ">g(x)</script>.</p>
+<p>As a rather important side-note: there is an incredibly similar operator known as a <em>correlation</em> which will be discussed in the near future.
+For now, let&apos;s focus on convolutions, which are defined as:</p>
+<p><script type="math/tex; ">(f*g)(x) = \int_{-\infty}^{\infty}f(\xi)g(x-\xi)d\xi = \int_{-\infty}^{\infty}f(x-\xi)g(\xi)d\xi</script></p>
+<p>Note that in this case, <script type="math/tex; ">x</script> is not necessarily a spatial element.
+Often times, it is time or something else entirely!
+The easiest way to think about this is that the function <script type="math/tex; ">g(x)</script> is being shifted across all of space by the variable <script type="math/tex; ">\xi</script>.
+At every point <script type="math/tex; ">x</script>, we multiply <script type="math/tex; ">f(x)</script> and <script type="math/tex; ">g(x)</script> and integrate the multiplied output to find the convolution for that spatial step, <script type="math/tex; ">(f*g)(x)</script>.
+Note that in code, this is often discretized to look like:</p>
+<p><script type="math/tex; ">(f*g)[n] = \sum_{m = -\infty}^{\infty}f[m]g[n-m] = \sum_{m = -\infty}^{\infty}f[n-m]g[m]</script></p>
+<p>Where <code>f[n]</code> and <code>g[n]</code> are arrays of some form.
+This means we basically just need to keep one array steady, flip the second array around, and move it through the first array one step at a time, performing a simple element-wise multiplication each step.</p>
+<!---This can be seen in the following animation:--->
+<!---ADD ANIMATION--->
+<p>In code, this looks something like:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
+    n = length(signal1) + length(signal2)
+    out = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}(n)
+    sum = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">0</span>:n
+        <span class="hljs-keyword">for</span> j = <span class="hljs-number">0</span>:i
+            <span class="hljs-keyword">if</span>(j &lt; length(signal1))
+                sum += signal1[j] * signal2[i-j]
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+        out[i] = sum
+        sum = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> out
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">tails</span>)
+
+<span class="hljs-title">convolution</span> :: (<span class="hljs-type">Num</span> a) =&gt; [a] -&gt; [a] -&gt; [a]
+<span class="hljs-title">convolution</span> x = map (sum . zipWith (*) (reverse x)) . spread
+  <span class="hljs-keyword">where</span> spread = init . tails . (replicate (length x - <span class="hljs-number">1</span>) <span class="hljs-number">0</span> ++)
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out,
+            size_t n1, size_t n2)</span> </span>{
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> sum = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; (n1 &lt; n2? n2 : n1); ++i) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; i; ++j) {
+            <span class="hljs-keyword">if</span> (j &lt; n1) {
+                sum += signal1[j] * signal2[i-j];
+            }
+        }
+        out[i] = sum;
+        sum = <span class="hljs-number">0</span>;
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(
+    S1 <span class="hljs-keyword">const</span> s1,
+    S1 <span class="hljs-keyword">const</span> s1_last,
+    S2 <span class="hljs-keyword">const</span> s2,
+    S2 <span class="hljs-keyword">const</span> s2_last,
+    Out <span class="hljs-keyword">const</span> out)</span> </span>{
+  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size1 = s1_last - s1;
+  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size2 = s2_last - s2;
+  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size = size1 + size2;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">ptrdiff_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+    c64 sum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">ptrdiff_t</span> j = <span class="hljs-number">0</span>; j &lt; i; ++j) {
+      <span class="hljs-keyword">if</span> (j &lt; size1) {
+        sum += s1[j] * s2[i - j];
+      }
+    }
+    out[i] = sum;
+  }
+}
+</code></pre>
+</div></div></div>
+
+<p>Note that in this case, the output array will be the size of <code>f[n]</code> and <code>g[n]</code> put together.
+Sometimes, though, we have an large size for <code>f[n]</code> and a small size for <code>g[n]</code>.
+In this case <code>g[n]</code> is often called a <em>filter</em>, and often times when we are using a filter on an array (that might represent an image or some form of data), we want the output array to be the same size as the input.
+In this case, rather than outputting a larger array, we often do something special at the borders of the array.
+Depending on the situation, this may be necessary.
+Note that there are different methods to deal with the edges in this case, so it&apos;s best to do whatever seems right when the situation arises.</p>
+<h3 id="convolutional-theorem">Convolutional Theorem</h3>
+<p>Now, let me tell you about a bit of black computational magic:</p>
+<p><strong>Convolutions can be performed with Fourier Transforms!</strong></p>
+<p>That is crazy!
+It&apos;s also incredibly hard to explain, so let me do my best.
+As described in the chapter on <a href="chapters/computational_mathematics/FFT/cooley_tukey.md">Fourier Transforms</a>, Fourier Tranforms allow programmers to move from real space to frequency space.
+When we transform a wave into frequency space, we see a single peak in frequency space related to the frequency of that wave.
+No matter what function we send into a Fourier Transform, the frequency-space image can be interpreted as a seires of different waves with a specified frequency.</p>
+<p>So here&apos;s the idea: if we take two functions <script type="math/tex; ">f(x)</script> and <script type="math/tex; ">g(x)</script> and move them to frequency space to be <script type="math/tex; ">\hat f(\xi)</script> and <script type="math/tex; ">\hat g(\xi)</script>, we can then multiply those two functions and transform them back into a third function to blend teh signals together.
+In this way, we will have a third function that relates the frequency-space images of the two input functions.
+<em>This is precisely a convolution!</em></p>
+<p>Don&apos;t believe me?
+Well, this is because of something known as the <em>convolutional theorem</em> which looks something like this:</p>
+<p><script type="math/tex; ">\mathcal{F}(f*g) = \mathcal{F}(f) \cdot \mathcal{F}(g)</script></p>
+<p>Where <script type="math/tex; ">\mathcal{F}</script> denotes the Fourier Transform.
+Now, by using a Fast Fourier Transform (fft) in code, this can take a standard convolution on two arrays of length <script type="math/tex; ">n</script>, which is an <script type="math/tex; ">\mathcal{O}(n^2)</script> process, to <script type="math/tex; ">\mathcal{O}(n\log(n))</script>.
+This means that the convolutional theorem is fundamental to creating fast convolutional methods for large inputs, assuming that both input signals are of the similar sizes.
+That said, it is debatable whether the convolutional theorem will be faster when the filter size is small.
+Also: depending on the language used, we might need to read in a separate library for FFT&apos;s.</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><p>That said, Julia has an in-built fft routine, so the code for this method not be simpler:</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv_fft(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
+    <span class="hljs-keyword">return</span> ifft(fft(signal1).*fft(signal2))
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Where the <code>.*</code> operator is an element-wise multiplication.</p>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><p>The FFT-based convolution in Haskell is complicated, so here is some simple julia code:</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv_fft(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
+    <span class="hljs-keyword">return</span> ifft(fft(signal1).*fft(signal2))
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Where the <code>.*</code> operator is an element-wise multiplication.</p>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2,
+                <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out, size_t n)</span> </span>{
+    fft(signal1, n);
+    fft(signal2, n);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
+        out[i] = signal1[i] * signal2[i];
+    }
+
+    ifft(out, n);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(S1 <span class="hljs-keyword">const</span> s1, S1 <span class="hljs-keyword">const</span> s1_last, S2 <span class="hljs-keyword">const</span> s2, Out <span class="hljs-keyword">const</span> out)</span> </span>{
+  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size = s1_last - s1;
+
+  fft(s1, s1_last);
+  fft(s2, s2 + size);
+
+  <span class="hljs-keyword">auto</span> s1_it = s1;
+  <span class="hljs-keyword">auto</span> s2_it = s2;
+  <span class="hljs-keyword">auto</span> out_it = out;
+  <span class="hljs-keyword">for</span> (; s1_it != s1_last; ++s1_it, ++s2_it, ++out_it) {
+    *out_it = *s1_it * *s2_it;
+  }
+
+  inverse_fft(out, out_it);
+}
+</code></pre>
+</div></div></div>
+
+<p>This method also has the added advantage that it will <em>always output an array of the size of your signal</em>; however, if your signals are not of equal size, we need to pad the smaller signal with zeros.
+Also note that the Fourier Transform is a periodic or cyclical operation, so there are no real edges in this method, instead the arrays &quot;wrap around&quot; to the other side.
+For this reason, this convolution is often called a <em>cyclic convolution</em> instead of a <em>linear convolution</em> like above.
+Note that cyclical convolutions can definitely still be done without Fourier Transforms and we can do linear convolutions with Fourier Transforms, but it makes the code slightly more complicated than described above.</p>
+<!---
+If you are still having trouble wrapping your head around what the convolutional theorem actually means, maybe this graphic will help:
+
+ADD IMAGE
+
+Remember that each element of the frequency-space array is a different waveform in real-space, so when you multiply two frequency-space arrays, you are selectively amplifying similar waveforms.
+--->
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Convolutions","level":"1.7","depth":1,"next":{"title":"Taylor Series","level":"1.8","depth":1,"path":"chapters/taylor/taylor_series.md","ref":"chapters/taylor/taylor_series.md","articles":[]},"previous":{"title":"Complexity Notation","level":"1.6.4","depth":2,"path":"chapters/principles_of_code/notation/notation.md","ref":"chapters/principles_of_code/notation/notation.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/convolutions/convolutions.md","mtime":"2018-04-19T20:29:50.975Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-27T21:36:44.567Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

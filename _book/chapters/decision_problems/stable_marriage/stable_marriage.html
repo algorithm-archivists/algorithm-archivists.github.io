@@ -1,0 +1,1637 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Stable Marriage Problem · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../differential_equations/differential_equations.html" />
+    
+    
+    <link rel="prev" href="../decision_problems.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    README
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../../TODO.html">
+            
+                <a href="../../../TODO.html">
+            
+                    
+                    TODO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../introduction.html">
+            
+                <a href="../../introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../getting_started.html">
+            
+                <a href="../../getting_started.html">
+            
+                    
+                    A Personal Note
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../how_to_contribute.html">
+            
+                <a href="../../how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../principles_of_code/principles_of_code.html">
+            
+                <a href="../../principles_of_code/principles_of_code.html">
+            
+                    
+                    Principles of Code
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                    
+                    Choosing A Language
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                    
+                    Compiled Languages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1.1" data-path="../../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                    
+                    Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.1.2" data-path="../../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                    
+                    FORTRAN
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../principles_of_code/building_blocks/building_blocks.html">
+            
+                <a href="../../principles_of_code/building_blocks/building_blocks.html">
+            
+                    
+                    Building Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../../principles_of_code/building_blocks/variables.html">
+            
+                <a href="../../principles_of_code/building_blocks/variables.html">
+            
+                    
+                    Variables and Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../../principles_of_code/building_blocks/conditions.html">
+            
+                <a href="../../principles_of_code/building_blocks/conditions.html">
+            
+                    
+                    Conditions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../../principles_of_code/building_blocks/loops.html">
+            
+                <a href="../../principles_of_code/building_blocks/loops.html">
+            
+                    
+                    Loops
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.4" data-path="../../principles_of_code/building_blocks/functions.html">
+            
+                <a href="../../principles_of_code/building_blocks/functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.5" data-path="../../principles_of_code/building_blocks/classes.html">
+            
+                <a href="../../principles_of_code/building_blocks/classes.html">
+            
+                    
+                    Classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.6" data-path="../../principles_of_code/building_blocks/stacks.html">
+            
+                <a href="../../principles_of_code/building_blocks/stacks.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.7" data-path="../../principles_of_code/building_blocks/bitlogic.html">
+            
+                <a href="../../principles_of_code/building_blocks/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../../principles_of_code/version_control.html">
+            
+                <a href="../../principles_of_code/version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../principles_of_code/notation/notation.html">
+            
+                <a href="../../principles_of_code/notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../../convolutions/convolutions.html">
+            
+                <a href="../../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../taylor/taylor_series.html">
+            
+                <a href="../../taylor/taylor_series.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../sorting_searching/sorting_searching.html">
+            
+                <a href="../../sorting_searching/sorting_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../../sorting_searching/bubble/bubble_sort.html">
+            
+                <a href="../../sorting_searching/bubble/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../../sorting_searching/bogo/bogo_sort.html">
+            
+                <a href="../../sorting_searching/bogo/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../../tree_traversal/tree_traversal.html">
+            
+                <a href="../../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../../euclidean_algorithm/euclidean.html">
+            
+                <a href="../../euclidean_algorithm/euclidean.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../../multiplication/multiplication.html">
+            
+                <a href="../../multiplication/multiplication.html">
+            
+                    
+                    Multiplication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../../matrix_methods/matrix_methods.html">
+            
+                <a href="../../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../../matrix_methods/thomas/thomas.html">
+            
+                <a href="../../matrix_methods/thomas/thomas.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../../computational_geometry/computational_geometry.html">
+            
+                <a href="../../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1.1" data-path="../../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.2" data-path="../../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.3" data-path="../../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                    
+                    Chan's Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../../FFT/cooley_tukey.html">
+            
+                <a href="../../FFT/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../decision_problems.html">
+            
+                <a href="../decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.16.1" data-path="stable_marriage.html">
+            
+                <a href="stable_marriage.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../../differential_equations/differential_equations.html">
+            
+                <a href="../../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../../differential_equations/euler/euler.html">
+            
+                <a href="../../differential_equations/euler/euler.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="../../differential_equations/euler/backward_euler.html">
+            
+                <a href="../../differential_equations/euler/backward_euler.html">
+            
+                    
+                    Backward Euler Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.3" data-path="../../differential_equations/runge_kutta/runge_kutta.html">
+            
+                <a href="../../differential_equations/runge_kutta/runge_kutta.html">
+            
+                    
+                    Runge Kutta
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../../physics_solvers/physics_solvers.html">
+            
+                <a href="../../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.1" data-path="../../physics_solvers/verlet/verlet.html">
+            
+                <a href="../../physics_solvers/verlet/verlet.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../../physics_solvers/barnes_hut.html">
+            
+                <a href="../../physics_solvers/barnes_hut.html">
+            
+                    
+                    Barnes-Hut
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.3" data-path="../../physics_solvers/quantum/quantum.html">
+            
+                <a href="../../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../../data_compression/data_compression.html">
+            
+                <a href="../../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../../data_compression/huffman/huffman.html">
+            
+                <a href="../../data_compression/huffman/huffman.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../../QI/QI.html">
+            
+                <a href="../../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >Stable Marriage Problem</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+<h1 id="the-stable-marriage-problem">The Stable Marriage Problem</h1>
+<p>Imagine you have two groups, each of size <script type="math/tex; ">n</script>.
+Each individual within a group has an internal ranking associated with all members of the opposing group.
+The <em>Stable Matching Problem</em> attempts to unite both groups into stable pairs.
+In this case, a set of pairs is considered stable if there are no pairs that like each other more than their current partners.
+This doesn&apos;t mean that everyone gets their top choices, but if an individual prefers someone else who also prefers them back, the set of pairs is not stable.</p>
+<p>Now, this is often told as a story.
+One group is male, the other is female, and everyone gets married, hence the name the <em>Stable Marriage Problem</em>.
+This problem is solved by the Gale-Shapley algorithm, which can be simply described as follows:</p>
+<ol>
+<li>All the men propose to their top choice of women.</li>
+<li>The women become tentatively engaged to their top choice of the men who have proposed to them.</li>
+<li>All rejected men propose to their next choice, and the women again select whichever man they prefer, possibly rejecting the one they were already engaged to.</li>
+</ol>
+<p>This process continues until all individuals are paired, which means that this algorithm guarantees stable matching and also has a <script type="math/tex; ">\mathcal{O}(n^2)</script> runtime.
+To be clear, even though this algorithm seems conceptually simple, it is rather tricky to implement correctly. 
+I do not at all claim that the code provided here is efficient and we will definitely be coming back to this problem in the future when we have more tools under our belt.
+I am incredibly interested to see what you guys do and how you implement the algorithm.</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<pre><code class="lang-julia"><span class="hljs-comment"># Submitted by Gustorn</span>
+
+<span class="hljs-keyword">const</span> mnames = [<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>, <span class="hljs-string">&quot;D&quot;</span>]
+<span class="hljs-keyword">const</span> wnames = [<span class="hljs-string">&quot;E&quot;</span>, <span class="hljs-string">&quot;F&quot;</span>, <span class="hljs-string">&quot;G&quot;</span>, <span class="hljs-string">&quot;H&quot;</span>]
+
+<span class="hljs-keyword">const</span> Preferences = <span class="hljs-built_in">Dict</span>{<span class="hljs-built_in">String</span>,<span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">String</span>}}
+<span class="hljs-keyword">const</span> Pairs = <span class="hljs-built_in">Dict</span>{<span class="hljs-built_in">String</span>,<span class="hljs-built_in">String</span>}
+
+<span class="hljs-comment"># Returns a name =&gt; preference list dictionary, in decreasing order of preference</span>
+<span class="hljs-keyword">function</span> genpreferences(mannames<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">String</span>}, womannames<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">String</span>})
+    men   = <span class="hljs-built_in">Dict</span>(map(m -&gt; (m, shuffle(womannames)), mannames))
+    women = <span class="hljs-built_in">Dict</span>(map(w -&gt; (w, shuffle(mannames)), womannames))
+    <span class="hljs-keyword">return</span> men, women
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Returns if `person` prefers the `first` candidate over the `second` one. </span>
+<span class="hljs-comment"># This translates to `first` appearing *sooner* in the preference list</span>
+prefers(prefs, person, first, second) =
+    findfirst(m -&gt; m == first, prefs[person]) &lt;
+    findfirst(m -&gt; m == second, prefs[person])
+
+isfree(person, pairs) = !haskey(pairs, person)
+
+<span class="hljs-keyword">function</span> galeshapely(men<span class="hljs-type">::</span>Preferences, women<span class="hljs-type">::</span>Preferences)
+    mentowomen = <span class="hljs-built_in">Dict</span>{<span class="hljs-built_in">String</span>,<span class="hljs-built_in">String</span>}()
+    womentomen = <span class="hljs-built_in">Dict</span>{<span class="hljs-built_in">String</span>,<span class="hljs-built_in">String</span>}()
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+        bachelors = [m <span class="hljs-keyword">for</span> m <span class="hljs-keyword">in</span> keys(men) <span class="hljs-keyword">if</span> isfree(m, mentowomen)]
+        <span class="hljs-keyword">if</span> length(bachelors) == <span class="hljs-number">0</span>
+            <span class="hljs-keyword">return</span> mentowomen, womentomen
+        <span class="hljs-keyword">end</span>
+
+        <span class="hljs-keyword">for</span> bachelor <span class="hljs-keyword">in</span> bachelors
+            <span class="hljs-keyword">for</span> candidate <span class="hljs-keyword">in</span> men[bachelor]
+                <span class="hljs-keyword">if</span> isfree(candidate, womentomen)
+                    mentowomen[bachelor] = candidate
+                    womentomen[candidate] = bachelor
+                    <span class="hljs-keyword">break</span>
+                <span class="hljs-keyword">elseif</span> prefers(women, candidate, bachelor, womentomen[candidate])
+                    delete!(mentowomen, womentomen[candidate])
+                    mentowomen[bachelor] = candidate
+                    womentomen[candidate] = bachelor
+                    <span class="hljs-keyword">break</span>
+                <span class="hljs-keyword">end</span>
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> isstable(men<span class="hljs-type">::</span>Preferences, women<span class="hljs-type">::</span>Preferences, mentowomen<span class="hljs-type">::</span>Pairs, womentoman<span class="hljs-type">::</span>Pairs)
+    <span class="hljs-keyword">for</span> (husband, wife) <span class="hljs-keyword">in</span> mentowomen
+        <span class="hljs-keyword">for</span> candidate <span class="hljs-keyword">in</span> men[husband]
+            <span class="hljs-keyword">if</span> candidate != wife &amp;&amp;
+               prefers(men, husband, candidate, wife) &amp;&amp;
+               prefers(women, candidate, husband, womentoman[candidate])
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> main()
+    men, women = genpreferences(mnames, wnames)
+    mentowomen, womentomen = galeshapely(men, women)
+    println(mentowomen)
+    println(isstable(men, women, mentowomen, womentomen) ? <span class="hljs-string">&quot;Stable&quot;</span> : <span class="hljs-string">&quot;Unstable&quot;</span>)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
+<pre><code class="lang-python"><span class="hljs-comment"># Submitted by Marius Becker</span>
+
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> shuffle
+<span class="hljs-keyword">from</span> copy <span class="hljs-keyword">import</span> copy
+<span class="hljs-keyword">from</span> string <span class="hljs-keyword">import</span> ascii_uppercase
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-comment"># Set this to however many men and women you want</span>
+    <span class="hljs-keyword">if</span> len(sys.argv) &gt; <span class="hljs-number">1</span>:
+        num_pairs = int(sys.argv[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>:
+        num_pairs = <span class="hljs-number">5</span>
+
+    <span class="hljs-comment"># There are only 26 possible names</span>
+    <span class="hljs-keyword">if</span> num_pairs &gt; <span class="hljs-number">13</span>:
+        print(<span class="hljs-string">&apos;You can\&apos; have more than 13 pairs.&apos;</span>)
+        <span class="hljs-keyword">return</span>
+
+    <span class="hljs-comment"># Create all Person objects</span>
+    men = [ Person(name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> ascii_uppercase[<span class="hljs-number">0</span>:num_pairs] ]
+    women = [ Person(name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> ascii_uppercase[num_pairs:num_pairs*<span class="hljs-number">2</span>] ]
+
+    <span class="hljs-comment"># Set everyone&apos;s preferences</span>
+    <span class="hljs-keyword">for</span> man <span class="hljs-keyword">in</span> men:
+        man.preference = copy(women)
+        shuffle(man.preference)
+
+    <span class="hljs-keyword">for</span> woman <span class="hljs-keyword">in</span> women:
+        woman.preference = copy(men)
+        shuffle(woman.preference)
+
+    <span class="hljs-comment"># Run the algorithm</span>
+    resolve(men, women)
+
+    <span class="hljs-comment"># Print preferences and the result</span>
+    <span class="hljs-keyword">for</span> man <span class="hljs-keyword">in</span> men:
+        print(<span class="hljs-string">&apos;{}: {}&apos;</span>.format(man.name, <span class="hljs-string">&apos;, &apos;</span>.join([ p.name <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> man.preference ])))
+
+    <span class="hljs-keyword">for</span> woman <span class="hljs-keyword">in</span> women:
+        print(<span class="hljs-string">&apos;{}: {}&apos;</span>.format(woman.name, <span class="hljs-string">&apos;, &apos;</span>.join([ p.name <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> woman.preference ])))
+
+    print(<span class="hljs-string">&apos;&apos;</span>)
+
+    <span class="hljs-keyword">for</span> man <span class="hljs-keyword">in</span> men:
+        print(<span class="hljs-string">&apos;{} + {}&apos;</span>.format(man.name, man.partner.name))
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">resolve</span><span class="hljs-params">(men, women)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Finds pairs with stable marriages&quot;&quot;&quot;</span>
+    cont = <span class="hljs-keyword">True</span>
+    <span class="hljs-keyword">while</span> cont:
+        <span class="hljs-comment"># Let every man without a partner propose to a woman</span>
+        <span class="hljs-keyword">for</span> man <span class="hljs-keyword">in</span> men:
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> man.has_partner():
+                man.propose_to_next()
+
+        <span class="hljs-comment"># Let the women pick their favorites</span>
+        <span class="hljs-keyword">for</span> woman <span class="hljs-keyword">in</span> women:
+            woman.pick_preferred()
+
+        <span class="hljs-comment"># Continue only when someone is still left without a partner</span>
+        cont = <span class="hljs-keyword">False</span>
+        <span class="hljs-keyword">for</span> man <span class="hljs-keyword">in</span> men:
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> man.has_partner():
+                cont = <span class="hljs-keyword">True</span>
+                <span class="hljs-keyword">break</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>:</span>
+    name = <span class="hljs-keyword">None</span>
+    preference = <span class="hljs-keyword">None</span>
+    pref_index = <span class="hljs-number">0</span>
+    candidates = <span class="hljs-keyword">None</span>
+    partner = <span class="hljs-keyword">None</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, name)</span>:</span>
+        self.name = name
+        self.preference = []
+        self.candidates = []
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_next_choice</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">&quot;&quot;&quot;Return the next person in the own preference list&quot;&quot;&quot;</span>
+        <span class="hljs-keyword">if</span> self.pref_index &gt;= len(self.preference):
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">None</span>
+
+        <span class="hljs-keyword">return</span> self.preference[self.pref_index]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">propose_to_next</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">&quot;&quot;&quot;Propose to the next person in the own preference list&quot;&quot;&quot;</span>
+        person = self.get_next_choice()
+        person.candidates.append(self)
+        self.pref_index += <span class="hljs-number">1</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pick_preferred</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">&quot;&quot;&quot;Pick a new partner or stay with the old one if they are preferred&quot;&quot;&quot;</span>
+        <span class="hljs-comment"># Iterate own preferences in order</span>
+        <span class="hljs-keyword">for</span> person <span class="hljs-keyword">in</span> self.preference:
+            <span class="hljs-comment"># Pick the first person that&apos;s either a new candidate or the</span>
+            <span class="hljs-comment"># current partner</span>
+            <span class="hljs-keyword">if</span> person == self.partner:
+                <span class="hljs-keyword">break</span>
+            <span class="hljs-keyword">elif</span> person <span class="hljs-keyword">in</span> self.candidates:
+                self.set_partner(person)
+                <span class="hljs-keyword">break</span>
+
+        <span class="hljs-comment"># Rejected candidates don&apos;t get a second chance. :(</span>
+        self.candidates.clear()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_partner</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">&quot;&quot;&quot;Return the current partner&quot;&quot;&quot;</span>
+        <span class="hljs-keyword">return</span> self.partner
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">set_partner</span><span class="hljs-params">(self, person)</span>:</span>
+        <span class="hljs-string">&quot;&quot;&quot;Set a person as the new partner and run set_partner() on that person
+           as well&quot;&quot;&quot;</span>
+        <span class="hljs-comment"># Do nothing if nothing would change</span>
+        <span class="hljs-keyword">if</span> person != self.partner:
+            <span class="hljs-comment"># Remove self from current partner</span>
+            <span class="hljs-keyword">if</span> self.partner <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+                self.partner.partner = <span class="hljs-keyword">None</span>
+
+            <span class="hljs-comment"># Set own and the other person&apos;s partner</span>
+            self.partner = person
+            <span class="hljs-keyword">if</span> self.partner <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+                self.partner.partner = self
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">has_partner</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">&quot;&quot;&quot;Determine whether this person currently has a partner or not&quot;&quot;&quot;</span>
+        <span class="hljs-keyword">return</span> self.partner != <span class="hljs-keyword">None</span>
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><h3 id="haskell">Haskell</h3>
+<pre><code class="lang-haskell"><span class="hljs-keyword">import</span>           Data.Map <span class="hljs-keyword">as</span> M (<span class="hljs-type">Map</span>, (!))
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">qualified</span> Data.Map <span class="hljs-keyword">as</span> M
+<span class="hljs-keyword">import</span>           Data.List (<span class="hljs-title">elemIndex</span>)
+<span class="hljs-keyword">import</span>           Control.Monad.State
+
+<span class="hljs-title">stableMatching</span> :: (<span class="hljs-type">Ord</span> a, <span class="hljs-type">Ord</span> b) =&gt; [(a, [b])] -&gt; [(b, [a])] -&gt; [(a, b)]
+<span class="hljs-title">stableMatching</span> men women = evalState (propose (<span class="hljs-type">M</span>.fromList women) men) <span class="hljs-type">M</span>.empty
+
+<span class="hljs-title">propose</span> :: (<span class="hljs-type">Ord</span> a, <span class="hljs-type">Ord</span> b) =&gt; <span class="hljs-type">Map</span> b [a] -&gt;
+                            [(a, [b])] -&gt;
+                            <span class="hljs-type">State</span> (<span class="hljs-type">Map</span> b (a, [b])) [(a, b)]
+<span class="hljs-title">propose</span> _ [] = get &gt;&gt;=  return . map (\(w, (m,_)) -&gt; (m, w)) . <span class="hljs-type">M</span>.assocs
+<span class="hljs-title">propose</span> women ((man, pref):bachelors) = <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">let</span> theOne = head pref
+  couples &lt;- get
+  <span class="hljs-keyword">case</span> <span class="hljs-type">M</span>.lookup theOne couples <span class="hljs-keyword">of</span>
+    <span class="hljs-type">Nothing</span> -&gt; <span class="hljs-keyword">do</span>
+      modify $ <span class="hljs-type">M</span>.insert theOne (man, (tail pref))
+      propose women bachelors
+    <span class="hljs-type">Just</span> (boyfriend, planB) -&gt; <span class="hljs-keyword">do</span>
+      <span class="hljs-keyword">let</span> rank x = elemIndex x (women!theOne)
+      <span class="hljs-keyword">if</span> rank boyfriend &lt; rank man
+        <span class="hljs-keyword">then</span> propose women $ (man, tail pref): bachelors
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">do</span>
+          modify $ <span class="hljs-type">M</span>.insert theOne (man, (tail pref)) . <span class="hljs-type">M</span>.delete theOne
+          propose women $ (boyfriend, planB): bachelors
+
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">let</span> aPref = [(&apos;<span class="hljs-type">A&apos;</span>,<span class="hljs-string">&quot;YXZ&quot;</span>), (&apos;<span class="hljs-type">B&apos;</span>,<span class="hljs-string">&quot;ZYX&quot;</span>),(&apos;<span class="hljs-type">C&apos;</span>, <span class="hljs-string">&quot;XZY&quot;</span>)]
+      bPref = [(&apos;<span class="hljs-type">X&apos;</span>,<span class="hljs-string">&quot;BAC&quot;</span>), (&apos;<span class="hljs-type">Y&apos;</span>,<span class="hljs-string">&quot;CBA&quot;</span>),(&apos;<span class="hljs-type">Z&apos;</span>, <span class="hljs-string">&quot;ACB&quot;</span>)]
+  print $ stableMatching aPref bPref
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdbool.h&gt;</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> person {
+    <span class="hljs-keyword">size_t</span> id;
+    <span class="hljs-keyword">size_t</span> prtnr;
+    <span class="hljs-keyword">size_t</span> *prefs;
+    <span class="hljs-keyword">size_t</span> pref_ind;
+} person;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(size_t *x, size_t n)</span> </span>{
+    <span class="hljs-keyword">if</span> (n &gt; <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; ++i) {
+            <span class="hljs-keyword">size_t</span> j = i + rand() / (RAND_MAX / (n - i) + <span class="hljs-number">1</span>);
+            <span class="hljs-keyword">size_t</span> t = x[j];
+            x[j] = x[i];
+            x[i] = t;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">prefers</span><span class="hljs-params">(size_t *prefs, size_t prtnr_id, size_t prop_id, size_t pref_size)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; pref_size; ++i) {
+        <span class="hljs-keyword">if</span> (prefs[i] == prtnr_id) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(prefs[i] == prop_id) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">create_ppl</span><span class="hljs-params">(person *grp, size_t grp_size)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+        person prn;
+        prn.id = i;
+        prn.prtnr = grp_size + <span class="hljs-number">1</span>;
+        prn.pref_ind = <span class="hljs-number">0</span>;
+        prn.prefs = (<span class="hljs-keyword">size_t</span> *) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">size_t</span>) * grp_size);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; grp_size; ++j) {
+            prn.prefs[j] = j;
+        }
+
+        shuffle(prn.prefs, grp_size);
+        grp[i] = prn;
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stable_matching</span><span class="hljs-params">(person *men, person *women, size_t grp_size)</span> </span>{
+    <span class="hljs-keyword">bool</span> cont = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">while</span> (cont) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+            <span class="hljs-keyword">if</span> (men[i].prtnr == (grp_size + <span class="hljs-number">1</span>)) {
+                <span class="hljs-keyword">size_t</span> wmn_id = men[i].prefs[men[i].pref_ind];
+
+                <span class="hljs-keyword">if</span> (women[wmn_id].prtnr == (grp_size + <span class="hljs-number">1</span>)) {
+                    men[i].prtnr = wmn_id;
+                    women[wmn_id].prtnr = i;
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(prefers(women[wmn_id].prefs, women[wmn_id].prtnr, i,
+                                    grp_size)) {
+                    men[women[wmn_id].prtnr].prtnr = grp_size + <span class="hljs-number">1</span>;
+                    women[wmn_id].prtnr = i;
+                    men[i].prtnr = wmn_id;
+                }
+
+                men[i].pref_ind++;
+            }
+        }
+
+        cont = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+            <span class="hljs-keyword">if</span> (men[i].prtnr == (grp_size + <span class="hljs-number">1</span>)) {
+                cont = <span class="hljs-literal">true</span>;
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">kill</span><span class="hljs-params">(person *grp, size_t grp_size)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+        <span class="hljs-built_in">free</span>(grp[i].prefs);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> grp_size = <span class="hljs-number">5</span>;
+    person men[grp_size], women[grp_size];
+
+    create_ppl(men, grp_size);
+    create_ppl(women, grp_size);
+
+    stable_matching(men, women, grp_size);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;preferences of man %zu \n&quot;</span>, i);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; grp_size; ++j) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu \n&quot;</span>, men[i].prefs[j]);
+        }
+    }
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;preferences of woman %zu \n&quot;</span>, i);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; grp_size; ++j) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu \n&quot;</span>, women[i].prefs[j]);
+        }
+    }
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;partners of man %zu is woman %zu\n&quot;</span>, i, men[i].prtnr);
+    }
+
+    kill(men, grp_size);
+    kill(women, grp_size);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><h3 id="c">C++</h3>
+<pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;iterator&gt;
+#include &lt;numeric&gt;
+#include &lt;random&gt;
+#include &lt;vector&gt;
+
+// this header is so that we can use `not` and `and` on MSVC
+#include &lt;ciso646&gt;
+
+#include &lt;cstddef&gt;
+
+using std::size_t;
+
+/*
+  we use these to generate random numbers in this program.
+  this makes the program simpler,
+  by not having to pass around random number generators.
+*/
+static thread_local std::random_device global_random_device;
+static thread_local std::mt19937 global_rng(global_random_device());
+
+struct person {
+  /*
+    this is a poor person&apos;s std::optional,
+    but since we&apos;re attempting to be compileable on C++14,
+    we won&apos;t worry too much about it.
+  */
+  bool finished;
+  size_t preference;
+
+  std::vector&lt;size_t&gt; preference_list;
+};
+
+/*
+  this function generates a list of people with size `number_of_partners`.
+
+  each person&apos;s `preference_list` will be a randomly sorted list of
+  the numbers in the range [0, number_of_partners),
+  with no duplicates.
+*/
+std::vector&lt;person&gt; make_person_list(size_t number_of_partners) {
+  auto random_pref_list = [&amp;] {
+    std::vector&lt;size_t&gt; ret(number_of_partners);
+    std::iota(begin(ret), end(ret), size_t(0));
+    std::shuffle(begin(ret), end(ret), global_rng);
+
+    return ret;
+  };
+
+  std::vector&lt;person&gt; ret;
+  std::generate_n(std::back_inserter(ret), number_of_partners, [&amp;] {
+    return person{false, 0, random_pref_list()};
+  });
+
+  return ret;
+}
+
+template &lt;typename LeadIter, typename FollowIter&gt;
+void stable_match(LeadIter leads, LeadIter leads_end, FollowIter follows) {
+  // for each index in the leads&apos; preference list, we&apos;ll go through this
+  size_t const number_of_partners = leads_end - leads;
+  for (size_t proposal_index = 0; proposal_index &lt; number_of_partners;
+       ++proposal_index) {
+    /*
+      each follow will get their own vector of proposals to them
+      for each entry in the leads&apos; proposal list
+
+      if this weren&apos;t example code, this would likely go outside the loop
+      to cut down on allocations
+    */
+    std::vector&lt;std::vector&lt;size_t&gt;&gt; proposals(number_of_partners);
+
+    // for each lead, we&apos;ll make a proposal to their favorite follow
+    for (size_t i = 0; i &lt; number_of_partners; ++i) {
+      if (not leads[i].finished) {
+        auto pref = leads[i].preference_list[proposal_index];
+        proposals[pref].push_back(i);
+      }
+    }
+
+    // for each follow, we&apos;ll look at their preference list
+    for (size_t i = 0; i &lt; number_of_partners; ++i) {
+      for (size_t pref : follows[i].preference_list) {
+        for (size_t proposal : proposals[i]) {
+          // and, if they were given a proposal, then they&apos;ll choose their
+          // favorite here
+          if (pref == proposal and not follows[i].finished) {
+            follows[i].preference = pref;
+            follows[i].finished = true;
+
+            leads[pref].preference = i;
+            leads[pref].finished = true;
+          }
+        }
+      }
+    }
+  }
+}
+
+int main() {
+  // these are the number of partners in each group
+  size_t const number_of_partners = 5;
+
+  // in this case, the leads shall propose to the follows
+  auto leads = make_person_list(number_of_partners);
+  auto follows = make_person_list(number_of_partners);
+
+  stable_match(begin(leads), end(leads), begin(follows));
+
+  // the happy marriages are announced to the console here :)
+  for (size_t i = 0; i &lt; number_of_partners; ++i) {
+    std::cout &lt;&lt; &quot;the partnership of lead &quot; &lt;&lt; i &lt;&lt; &quot; and follow &quot;
+              &lt;&lt; leads[i].preference &lt;&lt; &quot; shall commence forthwith!\n&quot;;
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><h3 id="c">C#</h3>
+<p>GaleShapleyAlgorithm.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
+using System.Collections.Generic;
+
+namespace StableMarriageProblem
+{
+    public static class GaleShapleyAlgorithm&lt;TFollow, TLead&gt;
+        where TFollow : Person&lt;TFollow, TLead&gt;
+        where TLead : Person&lt;TLead, TFollow&gt;
+    {
+        public static void RunGaleShapleyAlgorithm(List&lt;TFollow&gt; follows, List&lt;TLead&gt; leads)
+        {
+            // All follows are lonely.
+            var lonelyFollows = new List&lt;TFollow&gt;(follows);
+
+            // Carry on until there are no lonely follows anymore.
+            while (lonelyFollows.Count &gt; 0)
+            {
+                // Let every lonely follow propose to their current top choice.
+                foreach (var lonelyFollow in lonelyFollows)
+                {
+                    lonelyFollow.ProposeToNext();
+                }
+
+                // Look which follows have a partner now and which don&apos;t.
+                var newLonelyFollows = new List&lt;TFollow&gt;();
+                foreach (var follow in follows)
+                {
+                    if (follow.Partner == null)
+                        newLonelyFollows.Add(follow);
+                }
+                lonelyFollows = newLonelyFollows;
+            }
+        }
+    }
+}
+</code></pre>
+<p>Person.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
+using System.Collections.Generic;
+
+namespace StableMarriageProblem
+{
+    public class Person&lt;TSelf, TPref&gt;
+        where TSelf : Person&lt;TSelf, TPref&gt;
+        where TPref : Person&lt;TPref, TSelf&gt;
+    {
+        public string Name { get; set; }
+        public TPref Partner { get; set; }
+        public IList&lt;TPref&gt; Choices { get; set; }
+        // CurrentTopChoice equals the Choice in Choices that is the TopChoice,
+        // if already tried women are not counted.
+        public int CurrentTopChoiceIndex { get; set; } = 0;
+
+        public Person(string name) =&gt; Name = name;
+
+        public void ProposeToNext()
+        {
+            var interest = GetNextTopChoice();
+
+            // If the interest has no partner or prefers this person,
+            // change interest&apos;s partner to this person.
+            if (interest.Partner == null || 
+                interest.Choices.IndexOf(this as TSelf) &lt; interest.Choices.IndexOf(interest.Partner))
+            {
+                // Should the interest already have a partner, set the partner
+                // of the interest&apos;s partner to null.
+                if (interest.Partner != null)
+                    interest.Partner.Partner = null;
+                interest.Partner = this as TSelf;
+                Partner = interest;
+            }
+        }
+
+        private TPref GetNextTopChoice() =&gt; Choices[CurrentTopChoiceIndex++];
+    }
+}
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
+using System;
+using System.Collections.Generic;
+
+namespace StableMarriageProblem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(&quot;GaleShapleyAlgorithm&quot;);
+            // Using men and women as an example.
+            var men = new List&lt;Man&gt;()
+            {
+                new Man(&quot;A&quot;),
+                new Man(&quot;B&quot;),
+                new Man(&quot;C&quot;),
+                new Man(&quot;D&quot;),
+                new Man(&quot;E&quot;)
+            };
+            var women = new List&lt;Woman&gt;()
+            {
+                new Woman(&quot;F&quot;),
+                new Woman(&quot;G&quot;),
+                new Woman(&quot;H&quot;),
+                new Woman(&quot;I&quot;),
+                new Woman(&quot;J&quot;),
+            };
+
+            var random = new Random();
+
+            foreach (var man in men)
+            {
+                man.Choices = new List&lt;Woman&gt;(women).Shuffle(random);
+                Console.WriteLine(man.Name + &quot;:&quot;);
+                foreach (var choice in man.Choices)
+                    Console.Write(choice.Name);
+                Console.WriteLine();
+            }
+            foreach (var woman in women)
+            {
+                woman.Choices = new List&lt;Man&gt;(men).Shuffle(random);
+                Console.WriteLine(woman.Name + &quot;:&quot;);
+                foreach (var choice in woman.Choices)
+                    Console.Write(choice.Name);
+                Console.WriteLine();
+            }
+
+            GaleShapleyAlgorithm&lt;Woman, Man&gt;.RunGaleShapleyAlgorithm(women, men);
+
+            foreach (var woman in women)
+            {
+                Console.WriteLine(woman.Name + &quot; : &quot; + woman?.Partner.Name);
+            }
+        }
+    }
+
+    public class Man : Person&lt;Man, Woman&gt;
+    {
+        public Man(string name) : base(name) { }
+    }
+
+    public class Woman : Person&lt;Woman, Man&gt;
+    {
+        public Woman(string name) : base(name) { }
+    }
+}
+</code></pre>
+<p>ListExtensions.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">StableMarriageProblem</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ListExtensions</span>
+    {
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> IList&lt;T&gt; Shuffle&lt;T&gt;(<span class="hljs-keyword">this</span> IList&lt;T&gt; list, Random rng)
+        {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; list.Count; i++)
+            {
+                <span class="hljs-keyword">var</span> j = rng.Next(i, list.Count);
+                <span class="hljs-keyword">var</span> tmp = list[i];
+                list[i] = list[j];
+                list[j] = tmp;
+            }
+            <span class="hljs-keyword">return</span> list;
+        }
+    }
+}
+</code></pre>
+</div></div></div>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.16.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.17","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.17.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.17.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.17.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.16","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.16.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","mtime":"2018-04-18T20:59:52.498Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-27T21:36:44.567Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

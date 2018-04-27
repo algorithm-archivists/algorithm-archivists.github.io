@@ -1,0 +1,1130 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Complexity Notation · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../convolutions/convolutions.html" />
+    
+    
+    <link rel="prev" href="../version_control.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    README
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../../TODO.html">
+            
+                <a href="../../../TODO.html">
+            
+                    
+                    TODO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../introduction.html">
+            
+                <a href="../../introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../getting_started.html">
+            
+                <a href="../../getting_started.html">
+            
+                    
+                    A Personal Note
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../how_to_contribute.html">
+            
+                <a href="../../how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../principles_of_code.html">
+            
+                <a href="../principles_of_code.html">
+            
+                    
+                    Principles of Code
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../choosing_a_language/choosing_a_language.html">
+            
+                <a href="../choosing_a_language/choosing_a_language.html">
+            
+                    
+                    Choosing A Language
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../choosing_a_language/compiled/compiled.html">
+            
+                <a href="../choosing_a_language/compiled/compiled.html">
+            
+                    
+                    Compiled Languages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1.1" data-path="../choosing_a_language/compiled/makefiles.html">
+            
+                <a href="../choosing_a_language/compiled/makefiles.html">
+            
+                    
+                    Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.1.2" data-path="../choosing_a_language/compiled/FORTRAN.html">
+            
+                <a href="../choosing_a_language/compiled/FORTRAN.html">
+            
+                    
+                    FORTRAN
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../building_blocks/building_blocks.html">
+            
+                <a href="../building_blocks/building_blocks.html">
+            
+                    
+                    Building Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../building_blocks/variables.html">
+            
+                <a href="../building_blocks/variables.html">
+            
+                    
+                    Variables and Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../building_blocks/conditions.html">
+            
+                <a href="../building_blocks/conditions.html">
+            
+                    
+                    Conditions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../building_blocks/loops.html">
+            
+                <a href="../building_blocks/loops.html">
+            
+                    
+                    Loops
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.4" data-path="../building_blocks/functions.html">
+            
+                <a href="../building_blocks/functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.5" data-path="../building_blocks/classes.html">
+            
+                <a href="../building_blocks/classes.html">
+            
+                    
+                    Classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.6" data-path="../building_blocks/stacks.html">
+            
+                <a href="../building_blocks/stacks.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.7" data-path="../building_blocks/bitlogic.html">
+            
+                <a href="../building_blocks/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../version_control.html">
+            
+                <a href="../version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6.4" data-path="notation.html">
+            
+                <a href="notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../../convolutions/convolutions.html">
+            
+                <a href="../../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../taylor/taylor_series.html">
+            
+                <a href="../../taylor/taylor_series.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../sorting_searching/sorting_searching.html">
+            
+                <a href="../../sorting_searching/sorting_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../../sorting_searching/bubble/bubble_sort.html">
+            
+                <a href="../../sorting_searching/bubble/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../../sorting_searching/bogo/bogo_sort.html">
+            
+                <a href="../../sorting_searching/bogo/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../../tree_traversal/tree_traversal.html">
+            
+                <a href="../../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../../euclidean_algorithm/euclidean.html">
+            
+                <a href="../../euclidean_algorithm/euclidean.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../../multiplication/multiplication.html">
+            
+                <a href="../../multiplication/multiplication.html">
+            
+                    
+                    Multiplication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../../matrix_methods/matrix_methods.html">
+            
+                <a href="../../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../../matrix_methods/gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../../matrix_methods/thomas/thomas.html">
+            
+                <a href="../../matrix_methods/thomas/thomas.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../../computational_geometry/computational_geometry.html">
+            
+                <a href="../../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1.1" data-path="../../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.2" data-path="../../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.3" data-path="../../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                <a href="../../computational_geometry/gift_wrapping/chan/chans.html">
+            
+                    
+                    Chan's Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../../FFT/cooley_tukey.html">
+            
+                <a href="../../FFT/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../../decision_problems/decision_problems.html">
+            
+                <a href="../../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../../decision_problems/stable_marriage/stable_marriage.html">
+            
+                <a href="../../decision_problems/stable_marriage/stable_marriage.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../../differential_equations/differential_equations.html">
+            
+                <a href="../../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../../differential_equations/euler/euler.html">
+            
+                <a href="../../differential_equations/euler/euler.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="../../differential_equations/euler/backward_euler.html">
+            
+                <a href="../../differential_equations/euler/backward_euler.html">
+            
+                    
+                    Backward Euler Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.3" data-path="../../differential_equations/runge_kutta/runge_kutta.html">
+            
+                <a href="../../differential_equations/runge_kutta/runge_kutta.html">
+            
+                    
+                    Runge Kutta
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../../physics_solvers/physics_solvers.html">
+            
+                <a href="../../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.1" data-path="../../physics_solvers/verlet/verlet.html">
+            
+                <a href="../../physics_solvers/verlet/verlet.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../../physics_solvers/barnes_hut.html">
+            
+                <a href="../../physics_solvers/barnes_hut.html">
+            
+                    
+                    Barnes-Hut
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.3" data-path="../../physics_solvers/quantum/quantum.html">
+            
+                <a href="../../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../../data_compression/data_compression.html">
+            
+                <a href="../../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../../data_compression/huffman/huffman.html">
+            
+                <a href="../../data_compression/huffman/huffman.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../../QI/QI.html">
+            
+                <a href="../../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >Complexity Notation</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; "> 
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+<h3 id="complexity-notation">Complexity Notation</h3>
+<p>Algorithms are designed to solve problems. 
+Over time, new algorithms are created to solve problems that old algorithms have already solved. 
+In some cases, the new algorithms are not intrinsically <em>better</em> than the older ones. 
+In other cases, these new algorithms breathe life into areas of research and engineering that could not exist without them. 
+The question is: what makes an algorithm &quot;better&quot; than another one?</p>
+<p>Obviously, there is no good answer to this question. 
+If you write an algorithm to solve a problem, whatever you come up with will probably work just fine for small problems.
+That said, if you need to use the algorithm for a larger system, you might find yourself waiting for longer and longer on your code to run.
+In these cases, it&apos;s obvious that <em>if you are working on a large system, you need an algorithm that scales well with a large size</em>.
+Ideally, an algorithm that works well for a large system will also work with a smaller one; however, this is not always the case.</p>
+<p>In order to determine the best algorithm for your system, it&apos;s often best to consult a tool computer scientists use to describe how algorithms scale with system size: <em>complexity theory</em>.
+Here&apos;s the idea: algorithms operate on data.
+Complexity theory uses different notations to describe how many operations an algorithm will need.
+In this way, computational complexity measures runtime in terms of the number of operations an algorithm takes to complete its task.
+To be clear, the notations used are not at all exact, but they roughly describe the run-time of code and can be used to estimate how long an algorithm should take to run.
+In addition, there are many different notations depending on who you ask, but for now we&apos;ll focus on the big 3: <script type="math/tex; ">O</script>, <script type="math/tex; ">\Omega</script>, and <script type="math/tex; ">\Theta</script>.
+Big <script type="math/tex; ">O</script> assumes the worst, which is the often the most useful description of an algorithm.
+On the other hand, <script type="math/tex; ">\Omega</script> assumes the best and <script type="math/tex; ">\Theta</script> is used when the best and worst cases are the same.</p>
+<p>Of the three Big <script type="math/tex; ">O</script> is used the most, and is used in conversation to mean that the algorithm will take &quot;on the order of&quot; <script type="math/tex; ">n</script> operations.
+Unfortunately, at this point, these notations might be a little vague. 
+In fact, it was incredibly vague for me for a long time, and it wasn&apos;t until I saw the notations in action that it all started to make sense, so that&apos;s what this section is about: providing concrete examples to better understand computational complexity notation.</p>
+<h3 id="constant-time">Constant Time</h3>
+<p>Let&apos;s write some code that reads in an array of length <code>n</code> and runs with constant time:</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> constant(a<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>})
+    println(a[<span class="hljs-number">1</span>])
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Obviously, no matter how large <code>a</code> is, this function will not take any longer to run. 
+Because of this, we say it has a constant runtime and notate it with <script type="math/tex; ">O(1) = \Omega(1) = \Theta(1)</script>.
+Basically, we are saying that this function will run with 1 operation total (a single print). 
+The best-case runtime will be 1 operation, the worst-case runtime will be 1 operation, and because they are both the same, we can use <script type="math/tex; ">\Theta</script> to notate that.
+Now imagine the following function:</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> constant(a<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>})
+    <span class="hljs-keyword">if</span> (length(a) &gt;= <span class="hljs-number">3</span>)
+        println(a[<span class="hljs-number">1</span>])
+        println(a[<span class="hljs-number">2</span>])
+        println(a[<span class="hljs-number">3</span>])
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>This function has 3 print statements, so it has 3 operations total. 
+Because of this, it&apos;s tempting to say that the runtime would be <script type="math/tex; ">O(3) = \Omega(3) = \Theta(3)</script>, and you would not be wrong; however, complexity notations often make a big assumption: <strong>we don&apos;t care about constants!</strong>
+What does this mean? Well, it means that we get rid of all constants that are not 1!
+In this case, that means we set <script type="math/tex; ">O(3) = O(1)</script>.</p>
+<p>Now, I know what you are thinking, <em>That&apos;s stupid! It&apos;s clear that the second function will take 3 times as long to run, shouldn&apos;t we notate that?</em>
+You&apos;re not wrong; however, complexity notation is mostly interested in how algorithms scale with larger and larger inputs. 
+Because we are talking about constant run-time, there is no scaling with larger inputs. No matter what array you read in to the above functions, they will always take a constant number of operations to finish.
+Whether that constant time is 1 operation or 3 operations doesn&apos;t really matter because different machines will have different runtimes anyway. </p>
+<p>Now, here&apos;s the thing: as we move on to more complicated examples, we will continue to ignore constants and extra terms to make the notation easier to understand.
+Just because this is common practice does not mean it&apos;s the <em>best</em> practice. 
+I have run into several situation where knowing the constants has saved me hours of run-time, so keep in mind that all of these notations are somewhat vague and dependent on a number of auxiliary factors.
+Still, that doesn&apos;t mean the notation is completely useless. For now, let&apos;s keep moving forward with some more complicated (and useful) examples!</p>
+<h3 id="linear-time">Linear Time</h3>
+<p>Now we are moving into interesting territory! 
+Let&apos;s consider the following function:</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> linear(a<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>})
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">0</span>:length(a)
+        println(a[i])
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Here, it&apos;s clear that if we increase <code>a</code> by one element, we will need to do another operation.
+That is, with an array of size <script type="math/tex; ">n</script>, we will need to do <script type="math/tex; ">n</script> operations, which means that our complexity is <script type="math/tex; ">O(n) = \Omega(n) = \Theta(n)</script>.
+As before, adding more operations into the <code>for</code> loop will change the constant in front of <script type="math/tex; ">n</script> in our complexity notation, but we&apos;ll continue to ignore those constants.
+For example:</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> linear(a<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>})
+    println(<span class="hljs-string">&quot;The first element in our array is: &quot;</span>, a[<span class="hljs-number">1</span>])
+
+    println(<span class="hljs-string">&quot;The sum of all pairs of elements in our array are...&quot;</span>)
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:length(a)/<span class="hljs-number">2</span>
+        println(<span class="hljs-string">&quot;a is: &quot;</span>, a[<span class="hljs-number">2</span>*i])
+        println(<span class="hljs-string">&quot;b is: &quot;</span>, a[<span class="hljs-number">2</span>*i+<span class="hljs-number">1</span>])
+        println(<span class="hljs-string">&quot;The sum of a and b is: &quot;</span>, a[<span class="hljs-number">2</span>*i] + a[<span class="hljs-number">2</span>*i+<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">end</span>
+
+    println(<span class="hljs-string">&quot;The last element in our array is: &quot;</span>, a[<span class="hljs-keyword">end</span>])
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Technically has a complexity of <script type="math/tex; ">\Theta(\frac{3n}{2} + 2)</script>, but we&apos;ll just call it <script type="math/tex; ">\Theta(n)</script>.
+Regardless of the notation, if you see something that is <script type="math/tex; ">O(n)</script>, you know that <em>at worst</em> it will run at the speed of a <code>for</code> loop, which is pretty good!</p>
+<h3 id="polynomial-time">Polynomial Time</h3>
+<p>A promise of <script type="math/tex; ">O(n)</script> is not bad in terms of run-time; however, it is unlikely that you will run into too many straightforward algorithms that are <script type="math/tex; ">O(n)</script>. 
+For example, let&apos;s say you have a square, 2D image and want to iterate through all of its points.
+Well, to do this, we might write code that looks something like:</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># Here, size is the length of a single side of the image</span>
+<span class="hljs-keyword">function</span> access_image(img<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>}, size<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:size
+        <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:size
+            index = j + i*size
+            println(img[index])
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>This is a simple case where a nested <code>for</code> loop is perfectly acceptable, and it&apos;s obvious geometrically that we need to access <script type="math/tex; ">\mathrm{size}\times\mathrm{size}</script> number of elements (because we are working with a square).
+This means that this example has <script type="math/tex; ">\Theta(n^2)</script> complexity. This is not great. 
+If you have to access 3D space, this might require <script type="math/tex; ">\Theta(n^3)</script>, which is even worse! Don&apos;t even get me started on 4D!
+Intuitively, if you see anything that has a polynomial runtime, it&apos;s easy to think of it as a bunch of nested <code>for</code> loops.
+That said, there have been several cases throughout the history of algorithms where polynomial runtimes have inhibited certain algorithms from being used entirely, simply because it takes too long to run!</p>
+<p>For this reason, if you can avoid writing nested <code>for</code> loops, you certainly should! 
+However, there are several cases where this cannot be avoided, so don&apos;t spend too much time worrying about it unless runtime becomes an issue!</p>
+<h3 id="exponential-and-logarithmic-time">Exponential and Logarithmic Time</h3>
+<p>These are two more cases that come up all the time and often require a common theme: <em>recursion</em>.
+Generally speaking, logarithmic algorithms are some of the fastest algorithms out there, while exponential algorithms are some of the slowest.
+Unfortunately, this means that recursion can be either the most useful tool in existence for realizing certain algorithms or the most harmful one, depending on your problem.</p>
+<p>Here is a simple example of a function with exponential runtime:</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># Here, n is the number of iterations</span>
+<span class="hljs-keyword">function</span> exponential(value<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, n<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
+    println(value)
+    value += <span class="hljs-number">1</span>
+    exponential(value, n-<span class="hljs-number">1</span>)
+    exponential(value, n-<span class="hljs-number">1</span>)
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Here, we read in the maximum number <code>n</code> we are iterating through and recursively call the <code>exponential</code> function, decrementing the number of iterations left each time. 
+Because we are calling the <code>exponential</code> function twice, this has a complexity of <script type="math/tex; ">\Theta(2^n)</script>, which is not great, but if it&apos;s the only way to get a job done, it&apos;s the only way to get a job done.</p>
+<p>Logarithmic algorithms can be thought of as the opposite of exponential ones.
+Instead of taking a value and computing more and more values each time, a good example of a logarithmic algorithm is one that takes an array and recursively divides it up, like so:</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># Here, cutoff is an arbitrary variable to know when to stop recursing</span>
+<span class="hljs-keyword">function</span> logarithmic(a<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>}, cutoff<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
+    <span class="hljs-keyword">if</span> (length(a) &gt; cutoff)
+        logarithmic(a[<span class="hljs-number">1</span>:length(a)/<span class="hljs-number">2</span>], cutoff)
+        logarithmic(a[length(a)/<span class="hljs-number">2</span>+<span class="hljs-number">1</span>:<span class="hljs-keyword">end</span>], cutoff)
+    <span class="hljs-keyword">end</span>
+    println(length(a))
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>To be honest, it is not obvious that the provided <code>logarithmic</code> function should operate in <script type="math/tex; ">\Theta(\log(n))</script> time, where <script type="math/tex; ">n</script> is the size of <code>a</code>.
+That said, I encourage you to think about an array of size 8. 
+First, we split it in half, creating 2 arrays of 4 elements each. 
+If we split these new arrays, we have 4 arrays of 2, and if we split these by two we have 8 arrays of 1 element each. 
+This is as far as we can go, and we ended up dividing the array 3 times to get to this point.
+<script type="math/tex; ">3 = \log_2(8)</script>, so this function runs with a logarithmic number of operations.</p>
+<h3 id="putting-it-all-together">Putting it all together</h3>
+<p>We&apos;ve outlined the most common complexity cases of different algorithms here, but at this point things might still be unclear.
+Which is better: <script type="math/tex; ">O(n^2)</script> or <script type="math/tex; ">O(log(n))</script>?
+Well, let&apos;s plot all the different cases out, and the answer should become obvious. </p>
+<p><img src="cplot.png" alt="Complexity plot"></p>
+<p>Here, we see each of the complexity cases as <script type="math/tex; ">n</script> increases. 
+Clearly, linear time is not bad when compared to polynomial or exponential time; however, if you can manage something in logarithmic or constant time, do it!</p>
+<p>Now, there is a lot more to say about computational complexity and we&apos;ll definitely cover it at some point, but I can only move so fast!
+In particular, I would love to have a discussion on the <script type="math/tex; ">P=NP</script> issue that has been rustling the jimmies of a few computer scientists for a while, but we&apos;ll get to that in due time.</p>
+<h3 id="final-warning">Final Warning</h3>
+<p>This is a book about algorithms. 
+It would be nearly impossible to talk about most algorithms without touching on complexity theory and explaining why certain algorithms are faster than others.
+That said, just because an algorithm runs in <script type="math/tex; ">O(\log n)</script> does not mean it will always be faster than one that runs in <script type="math/tex; ">O(n^2)</script>. 
+Because complexity notation often ignores constants, there could be a crazy constant that we are missing that actually makes a huge difference in runtime.
+In addition, in order to use an algorithm that seems faster based on complexity notation, you may need to use a library that massively increases runtime due to a plethora of other reasons.</p>
+<p>Basically, take complexity notation with a grain of salt. 
+It is a useful descriptor of how fast algorithms should run in an ideal world; however, ideal worlds do not exist. 
+When it comes to programming, there may be hundreds of other factors that need to be considered before implementing anything. 
+That said, complexity notation should not be ignored. 
+If you can easily implement an algorithm that is notationally faster with no repercussions, go for it!
+Just be sure you do not waste time trying to optimize code you haven&apos;t written yet.</p>
+<p>In general, my advice would be the following:
+write code first and optimize what you can on the first run-through without going too far out of your way. 
+If the runtime is awful, go back and see about implementing algorithms that are faster based on complexity notation.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Complexity Notation","level":"1.6.4","depth":2,"next":{"title":"Convolutions","level":"1.7","depth":1,"path":"chapters/convolutions/convolutions.md","ref":"chapters/convolutions/convolutions.md","articles":[]},"previous":{"title":"Version Control","level":"1.6.3","depth":2,"path":"chapters/principles_of_code/version_control.md","ref":"chapters/principles_of_code/version_control.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/principles_of_code/notation/notation.md","mtime":"2017-10-18T00:11:09.679Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-27T21:36:44.567Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+
