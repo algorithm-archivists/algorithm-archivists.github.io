@@ -67,6 +67,8 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="../../QI/QI.html" />
+    
     
     <link rel="prev" href="../data_compression.html" />
     
@@ -756,6 +758,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.18.3" data-path="../../physics_solvers/quantum/quantum.html">
+            
+                <a href="../../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -790,6 +805,19 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../../QI/QI.html">
+            
+                <a href="../../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
             
         </li>
     
@@ -1186,7 +1214,7 @@ two_pass_huffman(<span class="hljs-string">&quot;bibbity bobbity&quot;</span>)
 }
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
-    <span class="hljs-keyword">let</span> input = <span class="hljs-string">&quot;hello, world&quot;</span>;
+    <span class="hljs-keyword">let</span> input = <span class="hljs-string">&quot;bibbity bobbity&quot;</span>;
 
     <span class="hljs-keyword">let</span> tree = HuffmanTree::from(input);
     <span class="hljs-keyword">let</span> codebook = tree.make_codebook();
@@ -1200,7 +1228,7 @@ two_pass_huffman(<span class="hljs-string">&quot;bibbity bobbity&quot;</span>)
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
-<pre><code class="lang-c">// Made by Guston and edited by Gathros
+<pre><code class="lang-cpp">// Made by Guston and edited by Gathros
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -1446,7 +1474,7 @@ int main() {
     struct tree* tree;
     struct codebook codebook;
 
-    char* encoded = encode(&quot;Hello, World&quot;, &amp;tree, &amp;codebook);
+    char* encoded = encode(&quot;bibbity bobbity&quot;, &amp;tree, &amp;codebook);
     char* decoded = decode(encoded, tree);
 
     printf(&quot;Codebook:\n&quot;);
@@ -1781,19 +1809,7 @@ std::string codebook::decode(Iter const first, Iter const last) const {
 } // namespace huffman
 
 int main() {
-  std::string to_be_encoded =
-      R&quot;(She should have died hereafter.
-There would have been a time for such a word.
-Tomorrow, and tomorrow, and tomorrow,
-Creeps in this petty pace from day to day
-To the last syllable of recorded time,
-And all our yesterdays have lighted fools
-The way to dusty death. Out, out, brief candle!
-Life&apos;s but a walking shadow, a poor player
-That struts and frets his hour upon the stage
-And then is heard no more. It is a tale
-Told by an idiot, full of sound and fury,
-Signifying nothing.)&quot;;
+  std::string to_be_encoded = R&quot;(bibbity bobbity)&quot;;
 
   auto encoded = huffman::encoded_string(to_be_encoded);
 
@@ -1806,6 +1822,113 @@ Signifying nothing.)&quot;;
             &lt;&lt; to_be_encoded.size() * 8 &lt;&lt; &quot; bits, the encoded has size &quot;
             &lt;&lt; encoded.string.size() &lt;&lt; &quot;.\n&quot;;
 }
+</code></pre>
+</div><div class="api-method-sample" data-lang="clj" data-name="Clojure"><h3 id="clojure">Clojure</h3>
+<pre><code class="lang-clojure"><span class="hljs-comment">;; earthfail</span>
+(<span class="hljs-name"><span class="hljs-builtin-name">ns</span></span> experiments.core)
+
+<span class="hljs-comment">;; get a vector with chars and frequencies</span>
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> tree-string [st]
+  <span class="hljs-string">&quot;take a string st and return the huffmantree with the frequency of
+   each character included&quot;</span>
+  <span class="hljs-comment">;; vector of [character frequency] pair</span>
+  <span class="hljs-comment">;; for every char in string, added it to hash-map</span>
+  <span class="hljs-comment">;; with value one if it doesn&apos;t exist or increment its value</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> cf-vec (<span class="hljs-name"><span class="hljs-builtin-name">vec</span></span>               
+               (<span class="hljs-name"><span class="hljs-builtin-name">reduce</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">fn</span></span> [m c]
+                         (<span class="hljs-name"><span class="hljs-builtin-name">assoc</span></span> m c (<span class="hljs-name"><span class="hljs-builtin-name">inc</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">get</span></span> m c <span class="hljs-number">0</span>))))
+                       {}
+                       st)))
+  <span class="hljs-comment">;; make a sorted list with nodes with bigger frequencies first</span>
+  <span class="hljs-comment">;; take the last two which will help in dividing the tree</span>
+  <span class="hljs-comment">;; the first and last elements before and after</span>
+  <span class="hljs-comment">;; the smallest two in the tree shouldn&apos;t change</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">loop</span></span> [tree (<span class="hljs-name"><span class="hljs-builtin-name">sort-by</span></span> last &gt; cf-vec)]
+    (<span class="hljs-name"><span class="hljs-builtin-name">if</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">&lt;</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">count</span></span> tree) <span class="hljs-number">2</span>)
+      (<span class="hljs-name"><span class="hljs-builtin-name">first</span></span> tree) <span class="hljs-comment">; only of tree is one node or nil</span>
+      (<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [sorted-tree (<span class="hljs-name"><span class="hljs-builtin-name">sort-by</span></span> last &gt; tree)
+            mid (<span class="hljs-name"><span class="hljs-builtin-name">take-last</span></span> <span class="hljs-number">2</span> sorted-tree)
+            set-mid (<span class="hljs-name">set</span> mid)
+            func (<span class="hljs-name"><span class="hljs-builtin-name">complement</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">partial</span></span> contains? set-mid))
+            firsty (<span class="hljs-name"><span class="hljs-builtin-name">take-while</span></span> func tree)
+            [middle lasty] (<span class="hljs-name"><span class="hljs-builtin-name">split-at</span></span> <span class="hljs-number">2</span>
+                                     (<span class="hljs-name"><span class="hljs-builtin-name">drop-while</span></span> func tree))]
+        (<span class="hljs-name"><span class="hljs-builtin-name">recur</span></span>
+         (<span class="hljs-name"><span class="hljs-builtin-name">concat</span></span>
+          firsty
+          <span class="hljs-comment">;; make a list with the two element in one list and</span>
+          <span class="hljs-comment">;; the sum of their frequencies e.g</span>
+          <span class="hljs-comment">;; &apos;(((node1 f1) (node2 f2)) f1+f2)</span>
+          (<span class="hljs-name"><span class="hljs-builtin-name">list</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">list</span></span> middle (<span class="hljs-name"><span class="hljs-builtin-name">reduce</span></span> #(<span class="hljs-name"><span class="hljs-builtin-name">+</span></span> %<span class="hljs-number">1</span> (<span class="hljs-name"><span class="hljs-builtin-name">last</span></span> %<span class="hljs-number">2</span>)) <span class="hljs-number">0</span> middle)))
+          lasty))))))
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> remove-freq [tree]
+  <span class="hljs-string">&quot;remove the frequencies in the huffmantree tree&quot;</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">cond</span></span>
+    (<span class="hljs-name"><span class="hljs-builtin-name">char?</span></span> tree) tree                 <span class="hljs-comment">; check if this is a branch</span>
+    <span class="hljs-comment">;; if the tree is a node and frequency then ignore frequency</span>
+    (<span class="hljs-name"><span class="hljs-builtin-name">integer?</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">second</span></span> tree)) (<span class="hljs-name">remove-freq</span> (<span class="hljs-name"><span class="hljs-builtin-name">first</span></span> tree)) <span class="hljs-comment">;remove the frequency</span>
+    <span class="hljs-comment">;; if the tree consists of two nodes then apply to both and combine</span>
+    <span class="hljs-symbol">:else</span> (<span class="hljs-name"><span class="hljs-builtin-name">list</span></span> (<span class="hljs-name">remove-freq</span> (<span class="hljs-name"><span class="hljs-builtin-name">first</span></span> tree))
+                (<span class="hljs-name">remove-freq</span> (<span class="hljs-name"><span class="hljs-builtin-name">second</span></span> tree)))))
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> hash-tree [tree]
+  <span class="hljs-string">&quot;make a hashmap with code for each letter as key and the letter as
+  value&quot;</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">cond</span></span>
+    (<span class="hljs-name"><span class="hljs-builtin-name">char?</span></span> tree) {<span class="hljs-string">&quot;&quot;</span> tree}
+    <span class="hljs-symbol">:else</span>
+    (<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [left-map (<span class="hljs-name">hash-tree</span> (<span class="hljs-name"><span class="hljs-builtin-name">first</span></span> tree)) 
+          right-map (<span class="hljs-name">hash-tree</span> (<span class="hljs-name"><span class="hljs-builtin-name">second</span></span> tree))
+          func #(<span class="hljs-name"><span class="hljs-builtin-name">apply</span></span> hash-map         <span class="hljs-comment">; apply hash-map because</span>
+                                        <span class="hljs-comment">; interleave return a seq</span>
+                       (<span class="hljs-name">interleave</span>
+                        (<span class="hljs-name"><span class="hljs-builtin-name">map</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">partial</span></span> str %<span class="hljs-number">2</span>) (<span class="hljs-name"><span class="hljs-builtin-name">keys</span></span> %<span class="hljs-number">1</span>)) <span class="hljs-comment">;add 0 or 1</span>
+                                        <span class="hljs-comment">;to the start</span>
+                                        <span class="hljs-comment">;of the keys</span>
+                        (<span class="hljs-name"><span class="hljs-builtin-name">vals</span></span> %<span class="hljs-number">1</span>)))]
+      <span class="hljs-comment">;; add &quot;0&quot; to the keys of left nodes and &quot;1&quot; to the right nodes</span>
+      (<span class="hljs-name"><span class="hljs-builtin-name">merge</span></span> (<span class="hljs-name">func</span> left-map <span class="hljs-string">&quot;0&quot;</span>) (<span class="hljs-name">func</span> right-map <span class="hljs-string">&quot;1&quot;</span>)))))
+
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> coder [s hash-coder]
+  <span class="hljs-string">&quot;take a string s and return a coded string&quot;</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">apply</span></span> str (<span class="hljs-name"><span class="hljs-builtin-name">map</span></span> hash-coder s)))
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> decoder [s hash-decoder]
+  <span class="hljs-string">&quot;takes a string s and a hash-map hash-decoder and decode s&quot;</span>
+  <span class="hljs-comment">;; code keyword in hashmap is for storing codes untill they are</span>
+  <span class="hljs-comment">;; complete and can be decoded with the decoder</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">get</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">reduce</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">fn</span></span> [m code]             <span class="hljs-comment">; reduce return {:message</span>
+                                        <span class="hljs-comment">; message,:code _}</span>
+                 (<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [new-code (<span class="hljs-name"><span class="hljs-builtin-name">str</span></span> (<span class="hljs-name">m</span> <span class="hljs-symbol">:code</span>) code)]
+                   (<span class="hljs-name"><span class="hljs-builtin-name">if-let</span></span>  [letter (<span class="hljs-name"><span class="hljs-builtin-name">get</span></span> hash-decoder new-code)]
+                     <span class="hljs-comment">;; if there is a letter then add it to :message</span>
+                     <span class="hljs-comment">;; and revert :code to empty</span>
+                     (<span class="hljs-name"><span class="hljs-builtin-name">assoc</span></span> (<span class="hljs-name">update</span> m <span class="hljs-symbol">:message</span> #(<span class="hljs-name"><span class="hljs-builtin-name">str</span></span> % letter)) 
+                            <span class="hljs-symbol">:code</span> <span class="hljs-string">&quot;&quot;</span>)
+                     <span class="hljs-comment">;; if there is not a letter then just add the</span>
+                     <span class="hljs-comment">;; code letter to the :code</span>
+                     (<span class="hljs-name">update</span> m <span class="hljs-symbol">:code</span> #(<span class="hljs-name"><span class="hljs-builtin-name">str</span></span> % code)))))
+               {<span class="hljs-symbol">:message</span> <span class="hljs-string">&quot;&quot;</span>,<span class="hljs-symbol">:code</span> <span class="hljs-string">&quot;&quot;</span>} 
+               s)
+       <span class="hljs-symbol">:message</span>))           <span class="hljs-comment">;extract :message  value</span>
+<span class="hljs-comment">;; ----------------EXAMPLE----------------</span>
+(<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> st <span class="hljs-string">&quot;(bibbity bobbity)&quot;</span>)
+
+(<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> hash-decoder (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;&gt;</span></span>
+                   st
+                   tree-string
+                   remove-freq
+                   hash-tree))
+(<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> hash-coder (<span class="hljs-name">clojure.set/map-invert</span> hash-decoder))
+(<span class="hljs-name">println</span> <span class="hljs-string">&quot;coding...&quot;</span>)
+(<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> code (<span class="hljs-name">coder</span> st hash-coder))
+(<span class="hljs-name">clojure.pprint/pprint</span> code)
+
+(<span class="hljs-name">println</span> <span class="hljs-string">&quot;\ndecoding...&quot;</span>)
+(<span class="hljs-name">clojure.pprint/pprint</span> (<span class="hljs-name">decoder</span> code hash-decoder))
 </code></pre>
 </div></div></div>
 
@@ -1841,7 +1964,7 @@ Signifying nothing.)&quot;;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.19.1","depth":2,"previous":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"livereload":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-04-27T22:37:06.155Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-28T10:25:16.035Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.19.1","depth":2,"next":{"title":"Quantum Information","level":"1.20","depth":1,"path":"chapters/QI/QI.md","ref":"chapters/QI/QI.md","articles":[]},"previous":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-04-28T22:12:39.861Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-28T22:15:54.484Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -1860,10 +1983,6 @@ Signifying nothing.)&quot;;
     
         
         <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
-        
-    
-        
-        <script src="../../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
         
     
         

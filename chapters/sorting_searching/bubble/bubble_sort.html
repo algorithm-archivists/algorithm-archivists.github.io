@@ -758,6 +758,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.18.3" data-path="../../physics_solvers/quantum/quantum.html">
+            
+                <a href="../../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -792,6 +805,19 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../../QI/QI.html">
+            
+                <a href="../../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
             
         </li>
     
@@ -939,6 +965,78 @@ This means that we need to go through the vector <script type="math/tex; ">\math
           | otherwise = y : bubble (x:r)
         bubble x = x
 </code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstddef&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iterator&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;random&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::begin;
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::end;
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Rng&gt;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">float</span>&gt; generate_input(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> size, Rng&amp; rng) {
+  <span class="hljs-keyword">auto</span> dist = <span class="hljs-built_in">std</span>::uniform_real_distribution&lt;&gt;(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+
+  <span class="hljs-keyword">auto</span> ret = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">float</span>&gt;();
+  <span class="hljs-built_in">std</span>::generate_n(<span class="hljs-built_in">std</span>::back_inserter(ret), size,
+    [&amp;rng, &amp;dist] { <span class="hljs-keyword">return</span> dist(rng); });
+
+  <span class="hljs-keyword">return</span> ret;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_range</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::ostream&amp; os, Iter <span class="hljs-keyword">const</span> first, Iter <span class="hljs-keyword">const</span> last)</span> </span>{
+  os &lt;&lt; <span class="hljs-string">&apos;{&apos;</span>;
+
+  <span class="hljs-keyword">if</span> (first != last) {
+    os &lt;&lt; *first;
+    <span class="hljs-built_in">std</span>::for_each(first + <span class="hljs-number">1</span>, last, [&amp;os] (<span class="hljs-keyword">double</span> d) { os &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; d; });
+  }
+
+  os &lt;&lt; <span class="hljs-string">&quot;}\n&quot;</span>;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(Iter <span class="hljs-keyword">const</span> first, Iter <span class="hljs-keyword">const</span> last)</span> </span>{
+  <span class="hljs-keyword">if</span> (first == last) {
+    <span class="hljs-comment">// the empty range is vacuously sorted</span>
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">for</span> (;;) {
+    <span class="hljs-keyword">bool</span> is_sorted = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> it = first; it + <span class="hljs-number">1</span> != last; ++it) {
+      <span class="hljs-comment">// these are unsorted! gotta swap &apos;em</span>
+      <span class="hljs-keyword">if</span> (*(it + <span class="hljs-number">1</span>) &lt; *it) {
+        <span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::swap;
+        swap(*it, *(it + <span class="hljs-number">1</span>));
+        is_sorted = <span class="hljs-literal">false</span>;
+      }
+    }
+
+    <span class="hljs-keyword">if</span> (is_sorted) {
+      <span class="hljs-keyword">break</span>;
+    }
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-built_in">std</span>::random_device random_device;
+  <span class="hljs-keyword">auto</span> rng = <span class="hljs-built_in">std</span>::mt19937(random_device());
+
+  <span class="hljs-keyword">auto</span> input = generate_input(<span class="hljs-number">10</span>, rng);
+
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;before sorting:\n&quot;</span>;
+  print_range(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>, begin(input), end(input));
+
+  bubble_sort(begin(input), end(input));
+
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;\nafter sorting:\n&quot;</span>;
+  print_range(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>, begin(input), end(input));
+}
+</code></pre>
 </div></div></div>
 
 <p>... And that&apos;s it for the simplest bubble sort method.
@@ -978,7 +1076,7 @@ Trust me, there are plenty of more complicated algorithms that do precisely the 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.9.1","depth":2,"next":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.9","depth":1,"path":"chapters/sorting_searching/sorting_searching.md","ref":"chapters/sorting_searching/sorting_searching.md","articles":[{"title":"Bubble Sort","level":"1.9.1","depth":2,"path":"chapters/sorting_searching/bubble/bubble_sort.md","ref":"chapters/sorting_searching/bubble/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"livereload":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/sorting_searching/bubble/bubble_sort.md","mtime":"2018-04-27T22:37:06.155Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-28T10:25:16.035Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.9.1","depth":2,"next":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.9","depth":1,"path":"chapters/sorting_searching/sorting_searching.md","ref":"chapters/sorting_searching/sorting_searching.md","articles":[{"title":"Bubble Sort","level":"1.9.1","depth":2,"path":"chapters/sorting_searching/bubble/bubble_sort.md","ref":"chapters/sorting_searching/bubble/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/sorting_searching/bubble/bubble_sort.md","mtime":"2018-04-28T22:05:50.301Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-28T22:15:54.484Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -997,10 +1095,6 @@ Trust me, there are plenty of more complicated algorithms that do precisely the 
     
         
         <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
-        
-    
-        
-        <script src="../../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
         
     
         

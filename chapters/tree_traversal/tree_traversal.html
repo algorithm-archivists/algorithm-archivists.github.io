@@ -758,6 +758,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.18.3" data-path="../physics_solvers/quantum/quantum.html">
+            
+                <a href="../physics_solvers/quantum/quantum.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -792,6 +805,19 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../QI/QI.html">
+            
+                <a href="../QI/QI.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
             
         </li>
     
@@ -872,7 +898,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </code></pre>
 </div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> node {
   <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;node&gt; children;
-  <span class="hljs-keyword">int</span> id;
+  <span class="hljs-keyword">int</span> value;
 };
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
@@ -931,10 +957,10 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-comment">// Simple recursive scheme for DFS</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(node <span class="hljs-keyword">const</span>&amp; n)</span> </span>{
   <span class="hljs-comment">// Here we are doing something...</span>
-  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
-
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.value &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : n.children) {
     dfs_recursive(child);
   }
@@ -1029,14 +1055,16 @@ struct Node
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS_recursive_postorder</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : n.children) {
-    dfs_recursive_postorder(child);
-  }
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
-  <span class="hljs-comment">// Here we are doing something...</span>
-  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
-}
+    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
+        DFS_recursive_postorder(child)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Here we are doing something...</span>
+    println(n.ID)
+<span class="hljs-keyword">end</span>
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
 </span>{
@@ -1139,19 +1167,23 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive_inorder_bnode</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
-  <span class="hljs-keyword">if</span> (not n.children.empty()) {
-    <span class="hljs-keyword">if</span> (n.children.size() != <span class="hljs-number">2</span>) {
-      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;Not binary tree!\n&quot;</span>;
-      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">abort</span>();
-    }
-    dfs_recursive_inorder_bnode(n.children[<span class="hljs-number">0</span>]);
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
-    dfs_recursive_inorder_bnode(n.children[<span class="hljs-number">1</span>]);
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n.id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
-  }
-}
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
+<span class="hljs-comment"># This assumes only 2 children</span>
+<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
+        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
+        println(n.ID)
+        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">else</span>
+        println(n.ID)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-comment">// This assumes only 2 children</span>
 <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
@@ -1310,17 +1342,20 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
-  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">stack</span>&lt;node&gt; s;
-  s.push(n);
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-comment">// Simple non-recursive scheme for DFS</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(node <span class="hljs-keyword">const</span>&amp; n)</span> </span>{
+  <span class="hljs-comment">// this stack holds pointers into n&apos;s `children` vector,</span>
+  <span class="hljs-comment">// or its children&apos;s `children` vector.</span>
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">stack</span>&lt;node <span class="hljs-keyword">const</span>*&gt; <span class="hljs-built_in">stack</span>;
+  <span class="hljs-built_in">stack</span>.push(&amp;n);
 
-  <span class="hljs-keyword">while</span> (s.size() &gt; <span class="hljs-number">0</span>) {
-    node temp = s.top();
-    s.pop();
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; s.top().id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+  <span class="hljs-keyword">while</span> (<span class="hljs-built_in">stack</span>.size() &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; temp = *<span class="hljs-built_in">stack</span>.top();
+    <span class="hljs-built_in">stack</span>.pop();
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; temp.value &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : temp.children) {
-      s.push(child);
+      <span class="hljs-built_in">stack</span>.push(&amp;child);
     }
   }
 }
@@ -1482,17 +1517,18 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs_queue</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node&amp; n)</span> </span>{
-  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">queue</span>&lt;node&gt; q;
-  q.push(n);
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-comment">// simple non-recursive scheme for BFS</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs_queue</span><span class="hljs-params">(node <span class="hljs-keyword">const</span>&amp; n)</span> </span>{
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">queue</span>&lt;node <span class="hljs-keyword">const</span>*&gt; <span class="hljs-built_in">queue</span>;
+  <span class="hljs-built_in">queue</span>.push(&amp;n);
 
-  <span class="hljs-keyword">while</span> (q.size() &gt; <span class="hljs-number">0</span>) {
-    node temp = q.front();
-    q.pop();
+  <span class="hljs-keyword">while</span> (<span class="hljs-built_in">queue</span>.size() &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; temp = *<span class="hljs-built_in">queue</span>.front();
+    <span class="hljs-built_in">queue</span>.pop();
 
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; q.front().id &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; temp.value &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span>&amp; child : temp.children) {
-      q.push(child);
+      <span class="hljs-built_in">queue</span>.push(&amp;child);
     }
   }
 }
@@ -2378,7 +2414,7 @@ main()
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"livereload":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-04-19T20:29:50.976Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-28T10:25:16.035Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-04-28T22:08:43.269Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-28T22:15:54.484Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2397,10 +2433,6 @@ main()
     
         
         <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
-        
-    
-        
-        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
         
     
         
