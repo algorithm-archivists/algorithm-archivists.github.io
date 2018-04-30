@@ -19,9 +19,8 @@ At it's heart, the split-op method is nothing more than a pseudo-spectral differ
 In fact, there is a large class of spectral and pseudo-spectral methods used to solve a number of different physical systems, and we'll definitely be covering those in the future.
 
 For now, let's answer the obvious question, "How on Earth can FFT's be used to solve quantum systems?"
-Well, looking at the equation above and using a bit of analyical differential equation knowledge, we can assume the solution will look something like this:
+Well, that's precisely what this chapter is for!
 
-$$
 \Psi(\mathbf{r},t) = e^{}
 $$
 
