@@ -769,6 +769,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.3.1" data-path="../../../physics_solvers/quantum/split-op/split-op.html">
+            
+                <a href="../../../physics_solvers/quantum/split-op/split-op.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
 
@@ -866,29 +885,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p><script>
-MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-</script>
-<script type="math/tex; "> 
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
-<h1 id="jarvis-march">Jarvis March</h1>
+                                <h1 id="jarvis-march">Jarvis March</h1>
 <p>The first two-dimensional convex hull algorithm was originally developed by R. A. Jarvis in 1973 <a href="#cite-1">[1]</a>.
 Though other convex hull algorithms exist, this algorithm is often called <em>the</em> gift-wrapping algorithm.</p>
 <p>The idea behind this algorithm is simple.
@@ -907,50 +904,20 @@ Since this algorithm, there have been many other algorithms that have advanced t
 <p><table class="references"><tr><td><span class="citation-number" id="cite-1">1</span></td><td>Jarvis, Ray A, On the identification of the convex hull of a finite set of points in the plane, <i>Elsevier</i>, 1973.</td></tr></table></p>
 <h3 id="example-code">Example Code</h3>
 <div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
-<pre><code class="lang-julia">struct Point
+<pre><code class="lang-julia">struct Pos
     x<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
     y<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
 <span class="hljs-keyword">end</span>
 
-<span class="hljs-keyword">function</span> dist(point1<span class="hljs-type">::</span>Point, point2<span class="hljs-type">::</span>Point)
-    <span class="hljs-keyword">return</span> sqrt((point1.x - point2.x)^<span class="hljs-number">2</span> + (point1.y - point2.y)^<span class="hljs-number">2</span>)
+<span class="hljs-keyword">function</span> jarvis_cross(point1<span class="hljs-type">::</span>Pos, point2<span class="hljs-type">::</span>Pos, point3<span class="hljs-type">::</span>Pos)
+    vec1 = Pos(point2.x - point1.x, point2.y - point1.y)
+    vec2 = Pos(point3.x - point2.x, point3.y - point2.y)
+    ret_cross = vec1.x*vec2.y - vec1.y*vec2.x
+    <span class="hljs-keyword">return</span> ret_cross*ret_cross
 <span class="hljs-keyword">end</span>
 
-<span class="hljs-keyword">function</span> jarvis_angle(point1<span class="hljs-type">::</span>Point, point2<span class="hljs-type">::</span>Point, point3<span class="hljs-type">::</span>Point)
-<span class="hljs-comment">#=
-    # Find distances between all points
-    a = dist(point3, point2)
-    b = dist(point3, point1)
-    c = dist(point1, point2)
-
-    println(point1)
-    println(point2)
-    println(point3)
-    println(a)
-    println(b)
-    println(c)
-    println(-(c*c - a*a - b*b)/(2*a*b))
-    println()
-    ret_angle = acos((b*b - a*a - c*c)/(2*a*c))
-    println(ret_angle)
-    println()
-
-    if(sign(point1.x - point2.x) != sign(point1.x - point3.x))
-        ret_angle += 0.5*pi
-    end
-
-    if (isnan(ret_angle))
-        exit(1)
-    end
-
-    return ret_angle
-=#</span>
-    <span class="hljs-keyword">return</span> (point1.x - point2.x)*(point3.x-point2.x) + 
-           (point1.y - point2.y)*(point3.x-point2.y) 
-<span class="hljs-keyword">end</span>
-
-<span class="hljs-keyword">function</span> jarvis_march(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Point})
-    hull = <span class="hljs-built_in">Vector</span>{Point}()
+<span class="hljs-keyword">function</span> jarvis_march(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Pos})
+    hull = <span class="hljs-built_in">Vector</span>{Pos}()
 
     <span class="hljs-comment"># sorting array based on leftmost point</span>
     sort!(points, by = item -&gt; item.x)
@@ -959,51 +926,37 @@ Since this algorithm, there have been many other algorithms that have advanced t
     i = <span class="hljs-number">1</span>
     curr_point = points[<span class="hljs-number">2</span>]
 
-    threshold = <span class="hljs-number">1e-5</span>
-
-    <span class="hljs-comment"># Find angle between points</span>
-    curr_product = <span class="hljs-number">0.0</span>
+    <span class="hljs-comment"># Find cross product between points</span>
+    curr_product = jarvis_cross(Pos(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), hull[<span class="hljs-number">1</span>], curr_point)
     <span class="hljs-comment">#while (curr_point != hull[1])</span>
     <span class="hljs-keyword">while</span> (length(hull) &lt; <span class="hljs-number">4</span>)
-        println(hull)
         <span class="hljs-keyword">for</span> point <span class="hljs-keyword">in</span> points
-            product = <span class="hljs-number">0.0</span>
+                product = <span class="hljs-number">0.0</span>
             <span class="hljs-keyword">if</span> (i == <span class="hljs-number">1</span>)
                 <span class="hljs-keyword">if</span> (hull[i] != point)
-                    product = hull[i].x*(point.x - hull[i].x)+
-                              hull[i].y*(point.y - hull[i].y)
-
-                    println(product)
-                <span class="hljs-keyword">end</span> 
+                    product = jarvis_cross(Pos(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), hull[i], point)
+                <span class="hljs-keyword">end</span>
             <span class="hljs-keyword">else</span>
                 <span class="hljs-keyword">if</span> (hull[i] != point &amp;&amp; hull[i-<span class="hljs-number">1</span>] != point)
-                    product = (hull[i].x - hull[i-<span class="hljs-number">1</span>].x)*(point.x - hull[i].x)+
-                              (hull[i].y - hull[i-<span class="hljs-number">1</span>].y)*(point.y - hull[i].y)
+                    product = jarvis_cross(hull[i-<span class="hljs-number">1</span>], hull[i], point)
                 <span class="hljs-keyword">end</span>
             <span class="hljs-keyword">end</span>
-
-            println(hull[i])
-            println(point)
-            println(product)
-            println(curr_product)
-            println()
-            <span class="hljs-keyword">if</span> (product &lt; curr_product || curr_product == <span class="hljs-number">0</span>)
-                println(product, &apos;\t&apos;, curr_product)
+            <span class="hljs-keyword">if</span> (product &gt; curr_product)
                 curr_point = point
                 curr_product = product
             <span class="hljs-keyword">end</span>
         <span class="hljs-keyword">end</span>
         push!(hull, curr_point)
-        i += <span class="hljs-number">1</span>
         curr_product = <span class="hljs-number">0</span>
+        i += <span class="hljs-number">1</span>
     <span class="hljs-keyword">end</span>
-
 
     <span class="hljs-keyword">return</span> hull
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-keyword">function</span> main()
-    points = [Point(<span class="hljs-number">2</span>,<span class="hljs-number">1.9</span>), Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), Point(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>), Point(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>)]
+
+    points = [Pos(<span class="hljs-number">2</span>,<span class="hljs-number">1.5</span>), Pos(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), Pos(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>), Pos(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>)]
     hull = jarvis_march(points)
     println(hull)
 <span class="hljs-keyword">end</span>
@@ -1112,6 +1065,28 @@ main()
 </code></pre>
 </div></div></div>
 
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; "> 
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
 
                                 
                                 </section>
@@ -1145,7 +1120,7 @@ main()
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Jarvis March","level":"1.14.1.1","depth":3,"next":{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},"previous":{"title":"Gift Wrapping","level":"1.14.1","depth":2,"path":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","ref":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.14.1.1","depth":3,"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","ref":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},{"title":"Chan's Algorithm","level":"1.14.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","mtime":"2018-04-28T21:59:52.828Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-29T20:55:24.483Z"},"basePath":"../../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Jarvis March","level":"1.14.1.1","depth":3,"next":{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},"previous":{"title":"Gift Wrapping","level":"1.14.1","depth":2,"path":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","ref":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.14.1.1","depth":3,"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","ref":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},{"title":"Chan's Algorithm","level":"1.14.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","mtime":"2018-04-30T05:42:18.046Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-30T08:54:41.045Z"},"basePath":"../../../..","book":{"language":""}});
         });
     </script>
 </div>

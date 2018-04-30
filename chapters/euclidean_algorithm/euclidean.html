@@ -769,6 +769,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.3.1" data-path="../physics_solvers/quantum/split-op/split-op.html">
+            
+                <a href="../physics_solvers/quantum/split-op/split-op.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
 
@@ -866,32 +885,11 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p><script>
-MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-</script>
-<script type="math/tex; "> 
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
-<h1 id="euclidean-algorithm">Euclidean Algorithm</h1>
+                                <h1 id="euclidean-algorithm">Euclidean Algorithm</h1>
 <p>Computer science is (almost by definition) a science about computers -- a device first conceptualized in the 1800&apos;s. Computers have become so revolutionary, that it is difficult to think of our lives today without them. That said, <em>algorithms</em> are much older and have existed in the world for millenia. Incredibly, a few of the algorithms created before the Common Era (AD) are still in use today. One such algorithm was first described in Euclid&apos;s <em>Elements</em> (~ 300 BC) and has come to be known as the <em>Euclidean Algorithm</em>. </p>
 <p>The algorithm is a simple way to find the <em>greatest common divisor</em> (GCD) of two numbers, which is useful for a number of different applications (like reducing fractions). The first method (envisioned by Euclid) uses simple subtraction:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">    a = <span class="hljs-built_in">abs</span>(a);
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">euclid_sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    a = <span class="hljs-built_in">abs</span>(a);
     b = <span class="hljs-built_in">abs</span>(b);
 
     <span class="hljs-keyword">while</span> (a != b) {
@@ -904,9 +902,6 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 
     <span class="hljs-keyword">return</span> a;
 }
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">int</span> check1 = euclid_mod(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>);
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidSub</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
 </span>{
@@ -942,77 +937,84 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
   }
 
   <span class="hljs-keyword">return</span> a;
-</code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_sub(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-keyword">while</span> (a != b){
-        <span class="hljs-keyword">if</span> (a &gt; b){
-            a = a - b
-        }
-        <span class="hljs-keyword">else</span>
-            b = b - a
-        }
-    }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_sub(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">euclid_sub</span>(<span class="hljs-params">a, b</span>)</span>{
+    a = <span class="hljs-built_in">Math</span>.abs(a);
+    b = <span class="hljs-built_in">Math</span>.abs(b);
+
     <span class="hljs-keyword">while</span> (a != b){
         <span class="hljs-keyword">if</span> (a &gt; b){
-            a = a - b
+            a = a - b;
         }
-        <span class="hljs-keyword">else</span>
-            b = b - a
+        <span class="hljs-keyword">else</span>{
+            b = b - a;
         }
     }
+
+    <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_sub(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-keyword">while</span> (a != b){
-        <span class="hljs-keyword">if</span> (a &gt; b){
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_sub</span><span class="hljs-params">(a, b)</span>:</span>
+
+    a = abs(a)
+    b = abs(b)
+
+    <span class="hljs-keyword">while</span> a != b:
+        <span class="hljs-keyword">if</span> a &gt; b:
             a = a - b
-        }
-        <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">else</span>:
             b = b - a
+
+    <span class="hljs-keyword">return</span> a
+</code></pre>
+</div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">euclidSub</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
+<span class="hljs-title">euclidSub</span> a b = inner (abs a) (abs b) <span class="hljs-keyword">where</span>
+  inner a b =
+    <span class="hljs-keyword">if</span> a == b <span class="hljs-keyword">then</span>
+      a
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> a &lt; b <span class="hljs-keyword">then</span>
+      euclidSub a (b - a)
+    <span class="hljs-keyword">else</span>
+      euclidSub (a - b) b
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">euclid_sub</span></span>(<span class="hljs-keyword">mut</span> a: <span class="hljs-keyword">i64</span>, <span class="hljs-keyword">mut</span> b: <span class="hljs-keyword">i64</span>) -&gt; <span class="hljs-keyword">i64</span> {
+    a = a.abs();
+    b = b.abs();
+    <span class="hljs-keyword">while</span> a != b {
+        <span class="hljs-keyword">if</span> a &lt; b {
+            b -= a;
+        } <span class="hljs-keyword">else</span> {
+            a -= b;
         }
     }
+
+    a
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_sub(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-keyword">while</span> (a != b){
-        <span class="hljs-keyword">if</span> (a &gt; b){
-            a = a - b
-        }
-        <span class="hljs-keyword">else</span>
-            b = b - a
-        }
-    }
-}
+</div><div class="api-method-sample" data-lang="ml" data-name="OCaml"><pre><code class="lang-ocaml"><span class="hljs-keyword">let</span> euclid_sub a b =
+  <span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> inner a b =
+    <span class="hljs-keyword">if</span> a = b <span class="hljs-keyword">then</span>
+      a
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> a &lt; b <span class="hljs-keyword">then</span>
+      inner a (b - a)
+    <span class="hljs-keyword">else</span>
+      inner (a - b) b
+  <span class="hljs-keyword">in</span> (inner (abs a) (abs b))
 </code></pre>
-</div><div class="api-method-sample" data-lang="ml" data-name="OCaml"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_sub(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-keyword">while</span> (a != b){
-        <span class="hljs-keyword">if</span> (a &gt; b){
-            a = a - b
-        }
-        <span class="hljs-keyword">else</span>
-            b = b - a
-        }
-    }
-}
-</code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_sub(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-keyword">while</span> (a != b){
-        <span class="hljs-keyword">if</span> (a &gt; b){
-            a = a - b
-        }
-        <span class="hljs-keyword">else</span>
-            b = b - a
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidSub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    a = Math.abs(a);
+    b = Math.abs(b);
+
+    <span class="hljs-keyword">while</span> (a != b) {
+        <span class="hljs-keyword">if</span> (a &gt; b) {
+            a -=b;
+        } <span class="hljs-keyword">else</span> {
+            b -=a;
         }
     }
+
+    <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
 </div></div></div>
@@ -1066,64 +1068,75 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
   <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_mod(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-built_in">Int</span> temp
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">euclid_mod</span>(<span class="hljs-params">a, b</span>)</span>{
+    a = <span class="hljs-built_in">Math</span>.abs(a);
+    b = <span class="hljs-built_in">Math</span>.abs(b);
+
+    <span class="hljs-keyword">var</span> temp;
     <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        temp = b
-        b = a%b
-        a = temp
+        temp = b;
+        b = a%b;
+        a = temp;
     }
+
+    <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_mod(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-built_in">Int</span> temp
-    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_mod</span><span class="hljs-params">(a, b)</span>:</span>
+
+    a = abs(a)
+    b = abs(b)
+    temp = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">while</span> b &gt; <span class="hljs-number">0</span>:
         temp = b
-        b = a%b
+        b = a % b
         a = temp
+
+    <span class="hljs-keyword">return</span> a
+</code></pre>
+</div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">euclidMod</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
+<span class="hljs-title">euclidMod</span> a b = inner (abs a) (abs b) <span class="hljs-keyword">where</span>
+  inner a <span class="hljs-number">0</span> = a
+  inner a b = inner b (a `mod` b)
+
+<span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">let</span> chk1 = euclidMod (<span class="hljs-number">64</span> * <span class="hljs-number">67</span>) (<span class="hljs-number">64</span> * <span class="hljs-number">81</span>)
+      chk2 = euclidSub (<span class="hljs-number">128</span> * <span class="hljs-number">12</span>) (<span class="hljs-number">128</span> * <span class="hljs-number">77</span>)
+  putStrLn (show chk1)
+  putStrLn (show chk2)
+  return ()
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">euclid_rem</span></span>(<span class="hljs-keyword">mut</span> a: <span class="hljs-keyword">i64</span>, <span class="hljs-keyword">mut</span> b: <span class="hljs-keyword">i64</span>) -&gt; <span class="hljs-keyword">i64</span> {
+    a = a.abs();
+    b = b.abs();
+    <span class="hljs-keyword">while</span> b != <span class="hljs-number">0</span> {
+        <span class="hljs-keyword">let</span> tmp = b;
+        b = a % b;
+        a = tmp;
     }
+
+    a
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_mod(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-built_in">Int</span> temp
-    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        temp = b
-        b = a%b
-        a = temp
-    }
-}
+</div><div class="api-method-sample" data-lang="ml" data-name="OCaml"><pre><code class="lang-ocaml"><span class="hljs-keyword">let</span> euclid_mod a b =
+  <span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> inner a = <span class="hljs-keyword">function</span>
+  | <span class="hljs-number">0</span> -&gt; a
+  | b -&gt; inner b (a <span class="hljs-keyword">mod</span> b)
+  <span class="hljs-keyword">in</span> (inner (abs a) (abs b))
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_mod(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-built_in">Int</span> temp
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidMod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    a = Math.abs(a);
+    b = Math.abs(b);
+
     <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        temp = b
-        b = a%b
-        a = temp
+        <span class="hljs-keyword">int</span> temp = b;
+        b = a % b;
+        a = temp;
     }
-}
-</code></pre>
-</div><div class="api-method-sample" data-lang="ml" data-name="OCaml"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_mod(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-built_in">Int</span> temp
-    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        temp = b
-        b = a%b
-        a = temp
-    }
-}
-</code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s pseudocode</span>
-<span class="hljs-keyword">function</span> euclid_mod(<span class="hljs-built_in">Int</span> a, <span class="hljs-built_in">Int</span> b){
-    <span class="hljs-built_in">Int</span> temp
-    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        temp = b
-        b = a%b
-        a = temp
-    }
+
+    <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
 </div></div></div>
@@ -1495,6 +1508,30 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </code></pre>
 </div></div></div>
 
+
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; "> 
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
                                 
                                 </section>
                             
@@ -1527,7 +1564,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"next":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.10","depth":1,"path":"chapters/tree_traversal/tree_traversal.md","ref":"chapters/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/euclidean_algorithm/euclidean.md","mtime":"2018-04-28T21:44:00.253Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-29T20:55:24.483Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"next":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.10","depth":1,"path":"chapters/tree_traversal/tree_traversal.md","ref":"chapters/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/euclidean_algorithm/euclidean.md","mtime":"2018-04-30T05:42:18.047Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-30T08:54:41.045Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

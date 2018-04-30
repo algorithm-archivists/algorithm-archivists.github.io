@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Chan's Algorithm · GitBook</title>
+        <title>Split-Operator Method · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -67,10 +67,10 @@
     <link rel="shortcut icon" href="../../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../../FFT/cooley_tukey.html" />
+    <link rel="next" href="../../../data_compression/data_compression.html" />
     
     
-    <link rel="prev" href="../graham_scan/graham_scan.html" />
+    <link rel="prev" href="../quantum.html" />
     
 
     </head>
@@ -538,9 +538,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.14" data-path="../../computational_geometry.html">
+        <li class="chapter " data-level="1.14" data-path="../../../computational_geometry/computational_geometry.html">
             
-                <a href="../../computational_geometry.html">
+                <a href="../../../computational_geometry/computational_geometry.html">
             
                     
                     Computational Geometry
@@ -552,9 +552,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.14.1" data-path="../gift_wrapping.html">
+        <li class="chapter " data-level="1.14.1" data-path="../../../computational_geometry/gift_wrapping/gift_wrapping.html">
             
-                <a href="../gift_wrapping.html">
+                <a href="../../../computational_geometry/gift_wrapping/gift_wrapping.html">
             
                     
                     Gift Wrapping
@@ -566,9 +566,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.14.1.1" data-path="../jarvis_march/jarvis_march.html">
+        <li class="chapter " data-level="1.14.1.1" data-path="../../../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
             
-                <a href="../jarvis_march/jarvis_march.html">
+                <a href="../../../computational_geometry/gift_wrapping/jarvis_march/jarvis_march.html">
             
                     
                     Jarvis March
@@ -579,9 +579,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.14.1.2" data-path="../graham_scan/graham_scan.html">
+        <li class="chapter " data-level="1.14.1.2" data-path="../../../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
             
-                <a href="../graham_scan/graham_scan.html">
+                <a href="../../../computational_geometry/gift_wrapping/graham_scan/graham_scan.html">
             
                     
                     Graham Scan
@@ -592,9 +592,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.14.1.3" data-path="chans.html">
+        <li class="chapter " data-level="1.14.1.3" data-path="../../../computational_geometry/gift_wrapping/chan/chans.html">
             
-                <a href="chans.html">
+                <a href="../../../computational_geometry/gift_wrapping/chan/chans.html">
             
                     
                     Chan's Algorithm
@@ -718,9 +718,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.18" data-path="../../../physics_solvers/physics_solvers.html">
+        <li class="chapter " data-level="1.18" data-path="../../physics_solvers.html">
             
-                <a href="../../../physics_solvers/physics_solvers.html">
+                <a href="../../physics_solvers.html">
             
                     
                     Physics Solvers
@@ -732,9 +732,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.18.1" data-path="../../../physics_solvers/verlet/verlet.html">
+        <li class="chapter " data-level="1.18.1" data-path="../../verlet/verlet.html">
             
-                <a href="../../../physics_solvers/verlet/verlet.html">
+                <a href="../../verlet/verlet.html">
             
                     
                     Verlet Integration
@@ -745,9 +745,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.18.2" data-path="../../../physics_solvers/barnes_hut.html">
+        <li class="chapter " data-level="1.18.2" data-path="../../barnes_hut.html">
             
-                <a href="../../../physics_solvers/barnes_hut.html">
+                <a href="../../barnes_hut.html">
             
                     
                     Barnes-Hut
@@ -758,9 +758,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.18.3" data-path="../../../physics_solvers/quantum/quantum.html">
+        <li class="chapter " data-level="1.18.3" data-path="../quantum.html">
             
-                <a href="../../../physics_solvers/quantum/quantum.html">
+                <a href="../quantum.html">
             
                     
                     Quantum Systems
@@ -772,9 +772,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.18.3.1" data-path="../../../physics_solvers/quantum/split-op/split-op.html">
+        <li class="chapter active" data-level="1.18.3.1" data-path="split-op.html">
             
-                <a href="../../../physics_solvers/quantum/split-op/split-op.html">
+                <a href="split-op.html">
             
                     
                     Split-Operator Method
@@ -870,7 +870,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../../../.." >Chan's Algorithm</a>
+        <a href="../../../.." >Split-Operator Method</a>
     </h1>
 </div>
 
@@ -885,7 +885,26 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p><script>
+                                <h1 id="the-split-operator-method">The Split-Operator Method</h1>
+<p>The Split-Operator Method (also called the Split-Step Method), was actually the primary method I used to solve the Schrodinger equation during my PhD.
+It is one of the simplest and fastest methods for this purpose and is widely used throughout modern quantum research in the area -- in particular when dealing with the Non-linear Schrodinger Equation:</p>
+<p><script type="math/tex; mode=display">
+i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \left[-\frac{\hbar^2}{2m}\nabla^2 + g|\Psi(\mathbf{r},t)|^2 \right] \Psi(\mathbf{r},t),
+</script></p>
+<p>which follows from the notation provided in the <a href="../quantum.html">quantum systems</a> chapter: <script type="math/tex; ">\Psi(\mathbf{r},t)</script> is a quantum wave-function with spatial (<script type="math/tex; ">\mathbf{r}</script>) and time (<script type="math/tex; ">t</script>) dependence and <script type="math/tex; ">\nabla^2</script> is a laplacian; however, in this case, we also add an interaction tern <script type="math/tex; ">g</script> next to a nonlinear <script type="math/tex; ">|\Psi(\mathbf{r},t)|^2</script> term.
+By adding in the <script type="math/tex; ">V(\mathbf{r})</script> term, we get an equation used to study superfluid Bose--Einstein Condensate (BEC) systems:</p>
+<p><script type="math/tex; mode=display">
+i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \left[-\frac{\hbar^2}{2m}\nabla^2 + V(\mathbf{r}) + g|\Psi(\mathbf{r},t)|^2 \right] \Psi(\mathbf{r},t).
+</script></p>
+<p>This is the system I studied for most of my PhD (granted, we played a few tricks with parallelization and such, so it was <em>slightly</em> more complicated).</p>
+<p>At it&apos;s heart, the split-op method is nothing more than a pseudo-spectral differential equation solver... That is to say, it solves the Schrodinger equation with <a href="../../../FFT/cooley_tukey.html">FFT&apos;s</a>.
+In fact, there is a large class of spectral and pseudo-spectral methods used to solve a number of different physical systems, and we&apos;ll definitely be covering those in the future.</p>
+<p>For now, let&apos;s answer the obvious question, &quot;How on Earth can FFT&apos;s be used to solve quantum systems?&quot;
+Well, looking at the equation above and using a bit of analyical differential equation knowledge, we can assume the solution will look something like this:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t) = e^{}
+</script></p>
+<p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
 <script type="math/tex; "> 
@@ -907,8 +926,6 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 \newcommand{\bfomega}{\boldsymbol{\omega}}
 \newcommand{\bftau}{\boldsymbol{\tau}}
 </script></p>
-<h1 id="chans-algorithm">Chan&apos;s Algorithm</h1>
-<p>COMING SOON!</p>
 
                                 
                                 </section>
@@ -942,7 +959,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Chan's Algorithm","level":"1.14.1.3","depth":3,"next":{"title":"FFT","level":"1.15","depth":1,"path":"chapters/FFT/cooley_tukey.md","ref":"chapters/FFT/cooley_tukey.md","articles":[]},"previous":{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","mtime":"2018-03-29T21:28:04.038Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-30T08:54:41.045Z"},"basePath":"../../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.18.3.1","depth":3,"next":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.18.3","depth":2,"path":"chapters/physics_solvers/quantum/quantum.md","ref":"chapters/physics_solvers/quantum/quantum.md","articles":[{"title":"Split-Operator Method","level":"1.18.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/physics_solvers/quantum/split-op/split-op.md","mtime":"2018-04-30T08:52:15.610Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-30T08:54:41.045Z"},"basePath":"../../../..","book":{"language":""}});
         });
     </script>
 </div>

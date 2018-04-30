@@ -769,6 +769,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.3.1" data-path="../../physics_solvers/quantum/split-op/split-op.html">
+            
+                <a href="../../physics_solvers/quantum/split-op/split-op.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
 
@@ -866,29 +885,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p><script>
-MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-</script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
-<h1 id="the-forward-euler-method">The Forward Euler Method</h1>
+                                <h1 id="the-forward-euler-method">The Forward Euler Method</h1>
 <p>The Euler methods are some of the simplest methods to solve ordinary differential equations numerically.
 They introduce a new set of methods called the <a href="../runge_kutta/runge_kutta.html">Runge Kutta</a> methods, which will be discussed in the near future!</p>
 <p>As a physicist, I tend to understand things through methods that I have learned before.
@@ -1004,7 +1001,7 @@ So, this time, let&apos;s remove ourselves from any physics and instead solve th
 main()
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
-<pre><code class="lang-c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">solve_euler</span><span class="hljs-params">(<span class="hljs-keyword">double</span> timestep, <span class="hljs-keyword">double</span> *result, size_t n)</span> </span>{
@@ -1464,6 +1461,29 @@ gradient dt =
 </code></pre>
 </div></div></div>
 
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
                                 
                                 </section>
                             
@@ -1496,7 +1516,7 @@ gradient dt =
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.17.1","depth":2,"next":{"title":"Backward Euler Methods","level":"1.17.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},"previous":{"title":"Differential Equation Solvers","level":"1.17","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.17.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.17.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.17.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/differential_equations/euler/euler.md","mtime":"2018-04-18T21:15:35.971Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-29T20:55:24.483Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.17.1","depth":2,"next":{"title":"Backward Euler Methods","level":"1.17.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},"previous":{"title":"Differential Equation Solvers","level":"1.17","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.17.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.17.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.17.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/differential_equations/euler/euler.md","mtime":"2018-04-30T05:42:18.047Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-30T08:54:41.045Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
