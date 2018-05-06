@@ -895,15 +895,110 @@ Whichever point has the largest interior angle is chosen as the next point in th
 From there, we use the two known points to again calculate the angle between all other points in the simulation.
 We then choose the point with the largest interior angle and move the simulation forward.
 We keep repeating this process until we have returned to our original point.
-The set of points chosen in this simulation will be the convex hull. 
-Here is what this might look like in code:</p>
+The set of points chosen in this simulation will be the convex hull. </p>
 <p>As we might expect, this algorithm is not incredibly efficient and has a runtime of <script type="math/tex; ">\mathcal{O}(nh)</script>, where <script type="math/tex; ">n</script> is the number of points and <script type="math/tex; ">h</script> is the size of the hull.
 As a note, the Jarvis March can be generalized to higher dimensions.
 Since this algorithm, there have been many other algorithms that have advanced the field of two-dimensional gift-wrapping forward, including the Graham Scan and Chan&apos;s Algorithm, which will be discussed in due time.</p>
 <h3 id="bibliography">Bibliography</h3>
 <p><table class="references"><tr><td><span class="citation-number" id="cite-1">1</span></td><td>Jarvis, Ray A, On the identification of the convex hull of a finite set of points in the plane, <i>Elsevier</i>, 1973.</td></tr></table></p>
 <h3 id="example-code">Example Code</h3>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="cs" data-name="C#"><h3 id="c">C#</h3>
+<p>JarvisMarch.cs</p>
+<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
+<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> System.Linq;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">JarvisMarch</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> Vector
+    {
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">int</span> x;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">int</span> y;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Vector</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> xValue, <span class="hljs-keyword">int</span> yValue</span>)
+        </span>{
+            <span class="hljs-keyword">this</span>.x = xValue;
+            <span class="hljs-keyword">this</span>.y = yValue;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">Equals</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> obj</span>) </span>=&gt; obj <span class="hljs-keyword">is</span> Vector v &amp;&amp; <span class="hljs-keyword">this</span>.x == v.x &amp;&amp; <span class="hljs-keyword">this</span>.y == v.y;
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">int</span> <span class="hljs-title">GetHashCode</span>(<span class="hljs-params"></span>) </span>=&gt; (<span class="hljs-number">17</span> * <span class="hljs-number">23</span> + <span class="hljs-keyword">this</span>.x) * <span class="hljs-number">23</span> + <span class="hljs-keyword">this</span>.y;
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>==(Vector a, Vector b) =&gt; a.Equals(b);
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>!=(Vector a, Vector b) =&gt; !(a == b);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">JarvisMarch</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Vector&gt; <span class="hljs-title">Run</span>(<span class="hljs-params">List&lt;Vector&gt; points</span>)
+        </span>{
+            <span class="hljs-keyword">var</span> convexHull = <span class="hljs-keyword">new</span> List&lt;Vector&gt;();
+
+            <span class="hljs-comment">// Set the intial pointOnHull to the point of the list, where the x-position is the lowest.</span>
+            <span class="hljs-keyword">var</span> pointOnHull = points.Aggregate((leftmost, current) =&gt; leftmost.x &lt; current.x ? leftmost : current);
+
+            <span class="hljs-comment">// Continue searching for the next pointOnHull until the next pointOnHull is equal to the first point of the convex hull.</span>
+            <span class="hljs-keyword">do</span>
+            {
+                convexHull.Add(pointOnHull);
+
+                <span class="hljs-comment">// Search for the next pointOnHull by looking which of the points is the next most outer point.</span>
+                pointOnHull = points.Aggregate((potentialNextPointOnHull, current) =&gt;
+                {
+                    <span class="hljs-comment">// Returns true, if potentialNextPointOnHull is equal to the current pointOnHull or if the current point is left of the line defined by pointOnHull and potentialNextPointOnHull.</span>
+                    <span class="hljs-keyword">if</span> (potentialNextPointOnHull == pointOnHull || IsLeftOf(pointOnHull, potentialNextPointOnHull, current))
+                        <span class="hljs-keyword">return</span> current;
+                    <span class="hljs-keyword">return</span> potentialNextPointOnHull;
+                });
+
+                <span class="hljs-comment">// Check if the gift wrap is completed.</span>
+            } <span class="hljs-keyword">while</span> (pointOnHull != convexHull[<span class="hljs-number">0</span>]);
+
+            <span class="hljs-keyword">return</span> convexHull;
+        }
+
+        <span class="hljs-comment">// Returns true, if p is left of the line defined by a and b.</span>
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">IsLeftOf</span>(<span class="hljs-params">Vector a, Vector b, Vector p</span>) </span>=&gt; (b.x - a.x) * (p.y - a.y) &gt; (p.x - a.x) * (b.y - a.y);
+    }
+}
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-comment">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
+<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">JarvisMarch</span>
+{
+    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+            System.Console.WriteLine(<span class="hljs-string">&quot;JarvisMarch&quot;</span>);
+            <span class="hljs-comment">// Example list of points.</span>
+            <span class="hljs-comment">// The points are represented by vectors here, but that doesn&apos;t really matter.</span>
+            <span class="hljs-keyword">var</span> points = <span class="hljs-keyword">new</span> List&lt;Vector&gt;()
+            {
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">4</span>, <span class="hljs-number">0</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>),
+                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>),
+            };
+            <span class="hljs-keyword">var</span> jarvisMarch = <span class="hljs-keyword">new</span> JarvisMarch();
+            <span class="hljs-keyword">var</span> giftWrap = jarvisMarch.Run(points);
+
+            <span class="hljs-comment">// Print the points of the gift wrap.</span>
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> point <span class="hljs-keyword">in</span> giftWrap)
+                System.Console.WriteLine($<span class="hljs-string">&quot;{point.x}, {point.y}&quot;</span>);
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
 <pre><code class="lang-julia">struct Pos
     x<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
     y<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
@@ -1120,7 +1215,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Jarvis March","level":"1.14.1.1","depth":3,"next":{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},"previous":{"title":"Gift Wrapping","level":"1.14.1","depth":2,"path":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","ref":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.14.1.1","depth":3,"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","ref":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},{"title":"Chan's Algorithm","level":"1.14.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","mtime":"2018-05-06T00:11:06.344Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-06T00:13:21.127Z"},"basePath":"../../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Jarvis March","level":"1.14.1.1","depth":3,"next":{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},"previous":{"title":"Gift Wrapping","level":"1.14.1","depth":2,"path":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","ref":"chapters/computational_geometry/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.14.1.1","depth":3,"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","ref":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.14.1.2","depth":3,"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","ref":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","articles":[]},{"title":"Chan's Algorithm","level":"1.14.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","mtime":"2018-05-06T20:20:00.780Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-06T20:20:29.278Z"},"basePath":"../../../..","book":{"language":""}});
         });
     </script>
 </div>
