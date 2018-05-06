@@ -1927,6 +1927,126 @@ int main() {
 (<span class="hljs-name">println</span> <span class="hljs-string">&quot;\ndecoding...&quot;</span>)
 (<span class="hljs-name">clojure.pprint/pprint</span> (<span class="hljs-name">decoder</span> code hash-decoder))
 </code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
+<pre><code class="lang-python"><span class="hljs-comment"># Huffman Encoding</span>
+<span class="hljs-comment"># Python 2.7+</span>
+<span class="hljs-comment"># Submitted by Matthew Giallourakis </span>
+
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> Counter
+
+<span class="hljs-comment"># constructs the tree</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_huffman_tree</span><span class="hljs-params">(message)</span>:</span>
+
+    <span class="hljs-comment"># get sorted list of character and frequency pairs</span>
+    frequencies = Counter(message)
+    trees = frequencies.most_common()
+
+    <span class="hljs-comment"># while there is more than one tree</span>
+    <span class="hljs-keyword">while</span> len(trees) &gt; <span class="hljs-number">1</span>:
+
+        <span class="hljs-comment"># pop off the two trees of least weight from the trees list</span>
+        tree_left,weight_left = trees.pop()
+        tree_right,weight_right = trees.pop()
+
+        <span class="hljs-comment"># combine the nodes and add back to the nodes list</span>
+        new_tree = [tree_left, tree_right]
+        new_weight = weight_left + weight_right
+
+        <span class="hljs-comment"># find the first tree that has a weight smaller than new_weight and returns its index in the list</span>
+        <span class="hljs-comment"># If no such tree can be found, use len(trees) instead to append</span>
+        index = next((i <span class="hljs-keyword">for</span> i, tree <span class="hljs-keyword">in</span> enumerate(trees) <span class="hljs-keyword">if</span> tree[<span class="hljs-number">1</span>] &lt; new_weight), len(trees))
+
+        <span class="hljs-comment"># insert the new tree there</span>
+        trees.insert(index, (new_tree, new_weight))
+
+    huffman_tree = trees[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">return</span> huffman_tree
+
+<span class="hljs-comment"># constructs the mapping with recursion</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_codebook</span><span class="hljs-params">(tree, code=<span class="hljs-string">&apos;&apos;</span>)</span>:</span>
+
+    codebook = []
+
+    <span class="hljs-comment"># split the tree</span>
+    left_tree, right_tree = tree
+
+    <span class="hljs-comment"># if the left node has children, find the mapping of those children</span>
+    <span class="hljs-comment"># else pair the character with the current code + 0 </span>
+    <span class="hljs-keyword">if</span> type(left_tree) <span class="hljs-keyword">is</span> list:
+        codebook += build_codebook(left_tree, code+<span class="hljs-string">&apos;0&apos;</span>)
+    <span class="hljs-keyword">else</span>:
+        codebook.append((left_tree, code+<span class="hljs-string">&apos;0&apos;</span>))
+
+    <span class="hljs-comment"># if the right node has children, find the mapping of those children</span>
+    <span class="hljs-comment"># else pair the character with the current code + 1 </span>
+    <span class="hljs-keyword">if</span> type(right_tree) <span class="hljs-keyword">is</span> list:
+        codebook += build_codebook(right_tree, code+<span class="hljs-string">&apos;1&apos;</span>)
+    <span class="hljs-keyword">else</span>:
+        codebook.append((right_tree, code+<span class="hljs-string">&apos;1&apos;</span>))
+    <span class="hljs-keyword">return</span> codebook
+
+<span class="hljs-comment"># encodes the message</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">huffman_encode</span><span class="hljs-params">(codebook, message)</span>:</span>
+
+    encoded_message = <span class="hljs-string">&apos;&apos;</span>
+
+    <span class="hljs-comment"># build a char -&gt; code dictionary</span>
+    forward_dict = dict(codebook)
+
+    <span class="hljs-comment"># replace each character with its code</span>
+    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> message:
+        encoded_message += forward_dict[char]
+
+    <span class="hljs-keyword">return</span> encoded_message
+
+<span class="hljs-comment"># decodes a message</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">huffman_decode</span><span class="hljs-params">(codebook, encoded_message)</span>:</span>
+
+    decoded_message = <span class="hljs-string">&apos;&apos;</span>
+    key = <span class="hljs-string">&apos;&apos;</span>
+
+    <span class="hljs-comment"># build a code -&gt; char dictionary</span>
+    inverse_dict = dict([(v, k) <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> codebook])
+
+    <span class="hljs-comment"># for each bit in the encoding</span>
+    <span class="hljs-comment"># if the bit is in the dictionary, replace the bit with the paired character</span>
+    <span class="hljs-comment"># else look at the bit and the following bits together until a match occurs</span>
+    <span class="hljs-comment"># move to the next bit not yet looked at</span>
+    <span class="hljs-keyword">for</span> index, bit <span class="hljs-keyword">in</span> enumerate(encoded_message):
+        key += bit
+        <span class="hljs-keyword">if</span> key <span class="hljs-keyword">in</span> inverse_dict:
+            decoded_message += inverse_dict[key]
+            key = <span class="hljs-string">&apos;&apos;</span>
+
+    <span class="hljs-keyword">return</span> decoded_message
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+
+    <span class="hljs-comment"># test example</span>
+    message = <span class="hljs-string">&apos;bibbity_bobbity&apos;</span>
+    tree = build_huffman_tree(message)
+    codebook = build_codebook(tree)
+    encoded_message = huffman_encode(codebook, message)
+    decoded_message = huffman_decode(codebook, encoded_message)
+
+    print(<span class="hljs-string">&apos;message: &apos;</span> + message)
+    print(<span class="hljs-string">&apos;huffman tree: &apos;</span> + str(tree))
+    print(<span class="hljs-string">&apos;codebook: &apos;</span> + str(codebook))
+    print(<span class="hljs-string">&apos;encoded message: &apos;</span> + encoded_message)
+    print(<span class="hljs-string">&apos;decoded message: &apos;</span> + decoded_message)
+
+    <span class="hljs-comment"># prints the following:</span>
+    <span class="hljs-comment">#</span>
+    <span class="hljs-comment">#  message: bibbity_bobbity</span>
+    <span class="hljs-comment">#  huffman_tree: [&apos;b&apos;, [[[&apos;_&apos;, &apos;o&apos;], &apos;y&apos;], [&apos;t&apos;, &apos;i&apos;]]]</span>
+    <span class="hljs-comment">#  codebook: [(&apos;b&apos;, &apos;0&apos;), (&apos;_&apos;, &apos;1000&apos;), (&apos;o&apos;, &apos;1001&apos;),</span>
+    <span class="hljs-comment">#             (&apos;y&apos;, &apos;101&apos;), (&apos;t&apos;, &apos;110&apos;), (&apos;i&apos;, &apos;111&apos;)]</span>
+    <span class="hljs-comment">#  encoded_message: 01110011111010110000100100111110101</span>
+    <span class="hljs-comment">#  decoded_message: bibbity_bobbity</span>
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    main()
+</code></pre>
 </div></div></div>
 
 
@@ -1985,7 +2105,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.19.1","depth":2,"next":{"title":"Quantum Information","level":"1.20","depth":1,"path":"chapters/QI/QI.md","ref":"chapters/QI/QI.md","articles":[]},"previous":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-04-30T05:42:18.047Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-30T08:57:38.083Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.19.1","depth":2,"next":{"title":"Quantum Information","level":"1.20","depth":1,"path":"chapters/QI/QI.md","ref":"chapters/QI/QI.md","articles":[]},"previous":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-05-06T00:11:06.345Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-06T00:13:21.127Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
