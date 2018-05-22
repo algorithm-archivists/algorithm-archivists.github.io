@@ -898,9 +898,200 @@ i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \left[-\frac{\hbar^2}{2
 </script></p>
 <p>This is the system I studied for most of my PhD (granted, we played a few tricks with parallelization and such, so it was <em>slightly</em> more complicated).</p>
 <p>At it&apos;s heart, the split-op method is nothing more than a pseudo-spectral differential equation solver... That is to say, it solves the Schrodinger equation with <a href="../../../FFT/cooley_tukey.html">FFT&apos;s</a>.
-In fact, there is a large class of spectral and pseudo-spectral methods used to solve a number of different physical systems, and we&apos;ll definitely be covering those in the future.</p>
-<p>For now, let&apos;s answer the obvious question, &quot;How on Earth can FFT&apos;s be used to solve quantum systems?&quot;
-That is precisely the question we will answer here!</p>
+In fact, there is a large class of spectral and pseudo-spectral methods used to solve a number of different physical systems, and we&apos;ll definitely be covering those in the future.
+As mentioned in the <a href="../quantum.html">quantum systems</a> section, we can represent a a quantum wavefunction in momentum space, which is parameterized with the wavevector <script type="math/tex; ">k</script>.
+In the hamiltonian shown above, we can split our system into real-space components, <script type="math/tex; ">\hat{H}_R = \left[V(\mathbf{r}) + g|\Psi(\mathbf{r},t)|^2 \right] \Psi(\mathbf{r},t)</script>, and momentum space components, <script type="math/tex; ">\hat{H}_M = \left[-\frac{\hbar^2}{2m}\nabla^2 \right]\Psi(\mathbf{r},t)</script>.
+If we assume a somewhat general solution to our quantum system:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t + dt) = \left[e^{-\frac{i\hat{H}dt}{\hbar}}\right]\Psi(\mathbf{r},t) = \left[e^{-\frac{i(\hat{H}_R + \hat{H}_M)dt}{\hbar}}\right]\Psi(\mathbf{r},t)
+</script></p>
+<p>and assume we are simulating our system by a series of small tiemsteps (<script type="math/tex; ">dt</script>), we can perform similar splitting by using the Baker-Campbell-Housdorff formula:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t+dt) = \left[e^{-\frac{i\hat{H}_Rdt}{\hbar}}e^{-\frac{i\hat{H}_Mdt}{\hbar}}e^{-\frac{[i\hat{H}_R, i\hat{H}_M]dt^2}{2}}\right]\Psi(\mathbf{r},t)
+</script></p>
+<p>This accrues a small amount of error (<script type="math/tex; ">dt^2</script>) related to the commutation of the real and momentum-space components of the Hamiltonian. That&apos;s not okay.
+In order to change the <script type="math/tex; ">dt^2</script> error to <script type="math/tex; ">dt^3</script>, we can split the system by performing a half-step in real space before doing a full-step in momentum space, through a process called <em>Strang Splitting</em> like so:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t+dt) = \left[e^{-\frac{i\hat{H}_Rdt}{2\hbar}}e^{-\frac{i\hat{H}_Mdt}{\hbar}}e^{-\frac{i\hat{H}_Rdt}{2\hbar}} \right]\Psi(\mathbf{r},t) + \mathcal{O}(dt^3)
+</script></p>
+<p>We can then address each part of this solution in chunks, first in real space, then in momentum space, then in real space again by using <a href="../../../FFT/cooley_tukey.html">Fourier Transforms</a>.
+Which looks something like this:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathcal{r}, t+dt) = \left[\hat{U}_R(\frac{dt}{2})\mathcal{F}\left[\hat{U}_M(dt) \mathcal{F} \left[\hat{U}_R(\frac{dt}{2}) \Psi(\mathbf{r},t) \right] \right] \right] + \mathcal{O}(dt^3)
+</script></p>
+<p>where <script type="math/tex; ">\hat{U}_R = e^{-\frac{i\hat{H}_Rdt}{\hbar}}</script>, <script type="math/tex; ">\hat{U}_M = e^{-\frac{i\hat{H}_Mdt}{\hbar}}</script>, and <script type="math/tex; ">\mathcal{F}</script> and <script type="math/tex; ">\mathcal{F}^{-1}</script> indicate forward and inverse Fourier Transforms.</p>
+<p>As a small concession here, using this method enforces periodic boundary conditions, where the wavefunction will simply slide from one side of your simulation box to the other, but that&apos;s fine for most cases.
+In fact, for many cases (such as large-scale turbulence models) it&apos;s ideal.</p>
+<p>Luckily, the code in this case is pretty straightforward.
+Frist, we need to set all the initial parameters, including the initial grids in real and momentum space:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># struct to hold all parameters for simulation</span>
+struct Param
+    xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dx<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    x<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+    dk<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    k<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+
+    Param() = new(<span class="hljs-number">10.0</span>, <span class="hljs-number">512</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">2</span> * <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-<span class="hljs-number">10.0</span> + <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">20.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">10.0</span>),
+                   <span class="hljs-literal">pi</span> / <span class="hljs-number">10.0</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:<span class="hljs-number">512</span>/<span class="hljs-number">2</span> - <span class="hljs-number">1</span>, -<span class="hljs-number">512</span>/<span class="hljs-number">2</span> : -<span class="hljs-number">1</span>) * <span class="hljs-literal">pi</span>/<span class="hljs-number">10.0</span>))
+    Param(xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(
+              xmax, res, dt, timesteps, 
+              <span class="hljs-number">2</span>*xmax/res, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-xmax+xmax/res:<span class="hljs-number">2</span>*xmax/res:xmax),
+              <span class="hljs-literal">pi</span>/xmax, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:res/<span class="hljs-number">2</span>-<span class="hljs-number">1</span>, -res/<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>)*<span class="hljs-literal">pi</span>/xmax)
+          )
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># struct to hold all operators</span>
+mutable struct Operators
+    V<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    PE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    KE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    wfc<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+</code></pre>
+</div></div></div>
+
+<p>As a note, when we generate our grid in momentum space <code>k</code>, we need to split the grid into two lines, one that is going from <code>0</code> to <code>-kmax</code> and is then discontinuous and goes from <code>kmax</code> to <code>0</code>.
+This is simply because the FFT will naturally assume that the <code>0</code> in our grid is at the left side of the simulation, so we shift k-space to match this expectation.
+Afterwards, we turn them into operators:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function to initialize the wfc and potential</span>
+<span class="hljs-keyword">function</span> init(par<span class="hljs-type">::</span>Param, voffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, wfcoffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    V = <span class="hljs-number">0.5</span> * (par.x - voffset).^<span class="hljs-number">2</span>
+    wfc = <span class="hljs-number">3</span> * exp.(-(par.x - wfcoffset).^<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
+    PE = exp.(-<span class="hljs-number">0.5</span>*<span class="hljs-literal">im</span>*V*par.dt)
+    KE = exp.(-<span class="hljs-number">0.5</span>*<span class="hljs-literal">im</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+
+    opr = Operators(V, PE, KE, wfc)
+</code></pre>
+</div></div></div>
+
+<p>Here, we use a standard harmonic potential for the atoms to sit in and a gaussian distribution for an initial guess for the probability distribution.
+As a note, if we run this simulation in <em>imaginary time</em>, by simply setting <script type="math/tex; ">\tau = it</script> and stepping through <script type="math/tex; ">\tau</script>, we will no longer see an &quot;real-world&quot; example of how the atoms should behave, but will instead see an exponential decay of higher-energy states.
+This means that we can find the ground state of our system by running the simulation in imaginary time, which is an incredibly useful feature!</p>
+<p>And finally go step-by-step through the simulation:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function for the split-operator loop</span>
+<span class="hljs-keyword">function</span> split_op(par<span class="hljs-type">::</span>Param, opr<span class="hljs-type">::</span>Operators)
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:par.timesteps
+        <span class="hljs-comment"># Half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.PE
+
+        <span class="hljs-comment"># fft to phase space</span>
+        opr.wfc = fft(opr.wfc)
+
+        <span class="hljs-comment"># Full step in phase space</span>
+        opr.wfc = opr.wfc .* opr.KE
+
+        <span class="hljs-comment"># ifft back</span>
+        opr.wfc = ifft(opr.wfc)
+
+        <span class="hljs-comment"># final half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.PE
+
+        <span class="hljs-comment"># plotting density and potential</span>
+        density = abs2.(opr.wfc)
+
+        plot([density, real(opr.V)])
+        savefig(<span class="hljs-string">&quot;density&quot;</span> * string(lpad(i, <span class="hljs-number">5</span>, <span class="hljs-number">0</span>)) * <span class="hljs-string">&quot;.png&quot;</span>)
+        println(i)
+    <span class="hljs-keyword">end</span>
+</code></pre>
+</div></div></div>
+
+<p>And that&apos;s it.
+The Split-Operator method is one of the most commonly used quantum simulation algorithms because of how straightforward it is to code and how quickly you can start really digging into the physics of the simulation results!</p>
+<h1 id="example-code">Example Code</h1>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<pre><code class="lang-julia"><span class="hljs-keyword">using</span> Plots
+pyplot()
+
+<span class="hljs-comment"># struct to hold all parameters for simulation</span>
+struct Param
+    xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dx<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    x<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+    dk<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    k<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+
+    Param() = new(<span class="hljs-number">10.0</span>, <span class="hljs-number">512</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">2</span> * <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-<span class="hljs-number">10.0</span> + <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">20.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">10.0</span>),
+                   <span class="hljs-literal">pi</span> / <span class="hljs-number">10.0</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:<span class="hljs-number">512</span>/<span class="hljs-number">2</span> - <span class="hljs-number">1</span>, -<span class="hljs-number">512</span>/<span class="hljs-number">2</span> : -<span class="hljs-number">1</span>) * <span class="hljs-literal">pi</span>/<span class="hljs-number">10.0</span>))
+    Param(xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(
+              xmax, res, dt, timesteps, 
+              <span class="hljs-number">2</span>*xmax/res, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-xmax+xmax/res:<span class="hljs-number">2</span>*xmax/res:xmax),
+              <span class="hljs-literal">pi</span>/xmax, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:res/<span class="hljs-number">2</span>-<span class="hljs-number">1</span>, -res/<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>)*<span class="hljs-literal">pi</span>/xmax)
+          )
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># struct to hold all operators</span>
+mutable struct Operators
+    V<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    PE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    KE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    wfc<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function to initialize the wfc and potential</span>
+<span class="hljs-keyword">function</span> init(par<span class="hljs-type">::</span>Param, voffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, wfcoffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    V = <span class="hljs-number">0.5</span> * (par.x - voffset).^<span class="hljs-number">2</span>
+    wfc = <span class="hljs-number">3</span> * exp.(-(par.x - wfcoffset).^<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
+    PE = exp.(-<span class="hljs-number">0.5</span>*<span class="hljs-literal">im</span>*V*par.dt)
+    KE = exp.(-<span class="hljs-number">0.5</span>*<span class="hljs-literal">im</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+
+    opr = Operators(V, PE, KE, wfc)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function for the split-operator loop</span>
+<span class="hljs-keyword">function</span> split_op(par<span class="hljs-type">::</span>Param, opr<span class="hljs-type">::</span>Operators)
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:par.timesteps
+        <span class="hljs-comment"># Half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.PE
+
+        <span class="hljs-comment"># fft to phase space</span>
+        opr.wfc = fft(opr.wfc)
+
+        <span class="hljs-comment"># Full step in phase space</span>
+        opr.wfc = opr.wfc .* opr.KE
+
+        <span class="hljs-comment"># ifft back</span>
+        opr.wfc = ifft(opr.wfc)
+
+        <span class="hljs-comment"># final half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.PE
+
+        <span class="hljs-comment"># plotting density and potential</span>
+        density = abs2.(opr.wfc)
+
+        plot([density, real(opr.V)])
+        savefig(<span class="hljs-string">&quot;density&quot;</span> * string(lpad(i, <span class="hljs-number">5</span>, <span class="hljs-number">0</span>)) * <span class="hljs-string">&quot;.png&quot;</span>)
+        println(i)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># main function</span>
+<span class="hljs-keyword">function</span> main()
+    par = Param(<span class="hljs-number">10.0</span>, <span class="hljs-number">512</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">1000</span>)
+    opr = init(par, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)
+    split_op(par, opr)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div></div></div>
+
 <p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
@@ -956,7 +1147,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.18.3.1","depth":3,"next":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.18.3","depth":2,"path":"chapters/physics_solvers/quantum/quantum.md","ref":"chapters/physics_solvers/quantum/quantum.md","articles":[{"title":"Split-Operator Method","level":"1.18.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/physics_solvers/quantum/split-op/split-op.md","mtime":"2018-05-06T00:11:06.351Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-06T20:20:29.278Z"},"basePath":"../../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.18.3.1","depth":3,"next":{"title":"Data Compression","level":"1.19","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.19.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.18.3","depth":2,"path":"chapters/physics_solvers/quantum/quantum.md","ref":"chapters/physics_solvers/quantum/quantum.md","articles":[{"title":"Split-Operator Method","level":"1.18.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/physics_solvers/quantum/split-op/split-op.md","mtime":"2018-05-19T20:49:49.667Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-22T21:03:21.413Z"},"basePath":"../../../..","book":{"language":""}});
         });
     </script>
 </div>

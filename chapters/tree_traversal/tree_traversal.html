@@ -904,14 +904,14 @@
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> node {
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> node {
     <span class="hljs-keyword">struct</span> node *children;
-    <span class="hljs-keyword">int</span> children_num;
-    <span class="hljs-keyword">int</span> ID;
-} node;
+    <span class="hljs-keyword">size_t</span> children_size;
+    <span class="hljs-keyword">int</span> id;
+};
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-struct Node
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia">struct Node
     children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
     ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
     Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
@@ -930,8 +930,8 @@ struct Node
         self.left = left
         self.right = right
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-struct Node
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia">struct Node
     children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
     ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
     Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
@@ -974,14 +974,13 @@ struct Node
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS_recursive</span><span class="hljs-params">(node n)</span> </span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.ID);
-    <span class="hljs-keyword">if</span> (!n.children) {
-        <span class="hljs-keyword">return</span>;
-    }
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> node n)</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.id);
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n.children_num; ++i) {
-        DFS_recursive(n.children[i]);
+    <span class="hljs-keyword">if</span> (n.children) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n.children_size; ++i) {
+            dfs_recursive(n.children[i]);
+        }
     }
 }
 </code></pre>
@@ -1005,8 +1004,8 @@ struct Node
 
     <span class="hljs-keyword">return</span> node
 </code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
     <span class="hljs-comment"># Here we are doing something...</span>
     println(n.ID)
 
@@ -1015,8 +1014,8 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
     <span class="hljs-comment"># Here we are doing something...</span>
     println(n.ID)
 
@@ -1052,8 +1051,8 @@ struct Node
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
         DFS_recursive_postorder(child)
@@ -1074,8 +1073,16 @@ struct Node
     Console.WriteLine(node.Id);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive_postorder</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> node n)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n.children_size; ++i) {
+        dfs_recursive_postorder(n.children[i]);
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.id);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
         DFS_recursive_postorder(child)
@@ -1085,8 +1092,8 @@ struct Node
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
         DFS_recursive_postorder(child)
@@ -1096,8 +1103,8 @@ struct Node
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
         DFS_recursive_postorder(child)
@@ -1107,8 +1114,8 @@ struct Node
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
         DFS_recursive_postorder(child)
@@ -1118,19 +1125,8 @@ struct Node
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
-
-    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
-        DFS_recursive_postorder(child)
-    <span class="hljs-keyword">end</span>
-
-    <span class="hljs-comment"># Here we are doing something...</span>
-    println(n.ID)
-<span class="hljs-keyword">end</span>
-</code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
         DFS_recursive_postorder(child)
@@ -1164,8 +1160,8 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
@@ -1202,8 +1198,28 @@ struct Node
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive_inorder_btree</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> node n)</span> </span>{
+    <span class="hljs-keyword">switch</span> (n.children_size) {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+        dfs_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>]);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.id);
+        dfs_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>]);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+        dfs_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>]);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.id);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.id);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;This is not a binary tree.\n&quot;</span>);
+        <span class="hljs-keyword">break</span>;
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
@@ -1220,8 +1236,8 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
+</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
@@ -1238,8 +1254,8 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
+</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
@@ -1256,8 +1272,8 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
@@ -1274,26 +1290,8 @@ struct Node
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
-<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
-
-    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
-        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
-        exit(<span class="hljs-number">1</span>)
-    <span class="hljs-keyword">end</span>
-
-    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
-        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
-        println(n.ID)
-        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
-    <span class="hljs-keyword">else</span>
-        println(n.ID)
-    <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
-</code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-comment"># This assumes only 2 children</span>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
@@ -1375,53 +1373,24 @@ struct Node
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(node_points *np, node n)</span> </span>{
-    node_list *temp = (node_list*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(node_list));
-    temp-&gt;n = n;
-    temp-&gt;last_list = temp-&gt;next_list = <span class="hljs-literal">NULL</span>;
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> node n)</span> </span>{
+    <span class="hljs-keyword">struct</span> <span class="hljs-built_in">stack</span> stk = get_stack(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> node*));
+    stack_push(&amp;stk, &amp;n);
+    <span class="hljs-keyword">struct</span> node *tmp;
 
-    <span class="hljs-keyword">if</span> (!np-&gt;end_point) {
-        np-&gt;start_point = temp;
-    } <span class="hljs-keyword">else</span> {
-        np-&gt;end_point-&gt;next_list = temp;
-        temp-&gt;last_list = np-&gt;end_point;
-    }
-
-    np-&gt;end_point = temp;
-}
-</code></pre>
-<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stack_pop</span><span class="hljs-params">(node_points *np)</span> </span>{
-    node_list *temp;
-    temp = np-&gt;end_point;
-
-    <span class="hljs-keyword">if</span> (temp) {
-        np-&gt;end_point = temp-&gt;last_list;
-        <span class="hljs-keyword">if</span> (!np-&gt;end_point) {
-            np-&gt;start_point = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-keyword">while</span> (!stack_empty(&amp;stk)) {
+        tmp = (<span class="hljs-keyword">struct</span> node*)stack_pop(&amp;stk);
+        <span class="hljs-keyword">if</span> (!tmp) {
+            <span class="hljs-keyword">break</span>;
         }
 
-        <span class="hljs-built_in">free</span>(temp);
-    }
-}
-</code></pre>
-<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS_stack</span><span class="hljs-params">(node n)</span> </span>{
-    node_points <span class="hljs-built_in">stack</span>;
-    <span class="hljs-built_in">memset</span>(&amp;<span class="hljs-built_in">stack</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(node_points));
-    push(&amp;<span class="hljs-built_in">stack</span>, n);
-    node temp;
-
-    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">stack</span>.start_point != <span class="hljs-literal">NULL</span>) {
-        temp = <span class="hljs-built_in">stack</span>.end_point-&gt;n;
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, temp.ID);
-        stack_pop(&amp;<span class="hljs-built_in">stack</span>);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; temp.children_num; ++i) {
-            <span class="hljs-keyword">if</span> (!temp.children) {
-                <span class="hljs-keyword">break</span>;
-            }
-
-            push(&amp;<span class="hljs-built_in">stack</span>, temp.children[i]);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, tmp-&gt;id);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; tmp-&gt;children_size; ++i) {
+            stack_push(&amp;stk, &amp;tmp-&gt;children[i]);
         }
     }
+
+    free_stack(stk);
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_stack</span>(<span class="hljs-params">n</span>)</span>{
@@ -1470,8 +1439,8 @@ struct Node
             stack.append(temp_node.left)
     <span class="hljs-keyword">return</span> result_list
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
     s = Stack(Node)
     push!(s, n)
 
@@ -1548,24 +1517,24 @@ struct Node
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BFS_queue</span><span class="hljs-params">(node n)</span> </span>{
-    node_points <span class="hljs-built_in">queue</span>;
-    <span class="hljs-built_in">memset</span>(&amp;<span class="hljs-built_in">queue</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(node_points));
-    push(&amp;<span class="hljs-built_in">queue</span>, n);
-    node temp;
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs_queue</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> node n)</span> </span>{
+    <span class="hljs-keyword">struct</span> <span class="hljs-built_in">queue</span> q = get_queue(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> node*));
+    enqueue(&amp;q, &amp;n);
+    <span class="hljs-keyword">struct</span> node *tmp;
 
-    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">queue</span>.start_point != <span class="hljs-literal">NULL</span>) {
-        temp = <span class="hljs-built_in">queue</span>.start_point-&gt;n;
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, temp.ID);
-        queue_pop(&amp;<span class="hljs-built_in">queue</span>);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; temp.children_num; ++i) {
-            <span class="hljs-keyword">if</span> (!temp.children) {
-                <span class="hljs-keyword">break</span>;
-            }
+    <span class="hljs-keyword">while</span> (!queue_empty(&amp;q)) {
+        tmp = (<span class="hljs-keyword">struct</span> node*)dequeue(&amp;q);
+        <span class="hljs-keyword">if</span> (!tmp) {
+            <span class="hljs-keyword">break</span>;
+        }
 
-            push(&amp;<span class="hljs-built_in">queue</span>, temp.children[i]);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, tmp-&gt;id);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; tmp-&gt;children_size; ++i) {
+            enqueue(&amp;q, &amp;tmp-&gt;children[i]);
         }
     }
+
+    free_queue(q);
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">BFS_queue</span>(<span class="hljs-params">n</span>)</span>{
@@ -1614,8 +1583,8 @@ struct Node
             queue.appendleft(temp_node.right)
     <span class="hljs-keyword">return</span> result_list
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-comment"># This has not been implemented in your chosen language, so here&apos;s Julia code</span>
-<span class="hljs-keyword">function</span> BFS_queue(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> BFS_queue(n<span class="hljs-type">::</span>Node)
     q = Queue(Node)
     enqueue!(q, n)
 
@@ -1740,7 +1709,6 @@ struct Node
 
     println(<span class="hljs-string">&quot;Using queue-based BFS:&quot;</span>)
     BFS_queue(root);
-
 <span class="hljs-keyword">end</span>
 
 main()
@@ -1952,152 +1920,232 @@ main()
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
-<pre><code class="lang-cpp">#include &lt;stdio.h&gt;
+<p>utility.h</p>
+<pre><code class="lang-cpp">#ifndef UTILITY_H
+#define UTILITY_H
+
+#include &lt;stdbool.h&gt;
+#include &lt;stddef.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
 
-typedef struct node {
+struct stack {
+    void **data;
+    size_t top, capacity, size;
+};
+
+struct queue {
+    void **data;
+    size_t front, back, capacity;
+};
+
+struct stack get_stack(size_t size) {
+    struct stack stk;
+
+    stk.data = malloc(4 * size);
+    stk.capacity = 4;
+    stk.top = 0;
+
+    return stk;
+}
+
+bool stack_empty(struct stack *stk) {
+    return stk-&gt;top == 0;
+}
+
+void stack_push(struct stack *stk, void *element) {
+    if (stk-&gt;top == stk-&gt;capacity) {
+        stk-&gt;capacity *= 2;
+        stk-&gt;data = realloc(stk-&gt;data, stk-&gt;capacity * sizeof(stk-&gt;data[0]));
+    }
+
+    stk-&gt;data[stk-&gt;top++] = element;
+}
+
+void *stack_pop(struct stack *stk) {
+    if (stack_empty(stk)) {
+        return NULL;
+    }
+
+    return stk-&gt;data[--stk-&gt;top];
+}
+
+void free_stack(struct stack stk) {
+    free(stk.data);
+}
+
+struct queue get_queue(size_t size) {
+    struct queue q;
+
+    q.data = calloc(4, size);
+    q.front = 0;
+    q.back = 0;
+    q.capacity = 4;
+
+    return q;
+}
+
+bool queue_empty(struct queue *q) {
+    return q-&gt;front == q-&gt;back;
+}
+
+void queue_resize(struct queue *q) {
+    size_t size = sizeof(q-&gt;data[0]);
+    void **tmp = calloc((q-&gt;capacity * 2), size);
+    memcpy(tmp, q-&gt;data + q-&gt;front, (q-&gt;capacity - q-&gt;front) * size);
+    memcpy(tmp + q-&gt;capacity - q-&gt;front, q-&gt;data, (q-&gt;front - 1) * size);
+
+    q-&gt;data = tmp;
+    q-&gt;back = q-&gt;capacity - 1;
+    q-&gt;front = 0;
+    q-&gt;capacity *= 2;
+}
+
+void enqueue(struct queue *q, void *element) {
+    if (q-&gt;front == (q-&gt;back % q-&gt;capacity) + 1) {
+        queue_resize(q);
+    }
+
+    q-&gt;data[q-&gt;back] = element;
+    q-&gt;back = (q-&gt;back + 1) % q-&gt;capacity;
+}
+
+void *dequeue(struct queue *q) {
+    if (queue_empty(q)) {
+        return NULL;
+    }
+
+    void *ret = q-&gt;data[q-&gt;front];
+    q-&gt;front = (q-&gt;front + 1) % q-&gt;capacity;
+
+    return ret;
+}
+
+void free_queue(struct queue q) {
+    free(q.data);
+}
+
+#endif //UTILITY_H
+</code></pre>
+<p>tree_traversal.c</p>
+<pre><code class="lang-cpp">#include &quot;utility.h&quot;
+
+#include &lt;stddef.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+struct node {
     struct node *children;
-    int children_num;
-    int ID;
-} node;
+    size_t children_size;
+    int id;
+};
 
-typedef struct node_list {
-    node n;
-    struct node_list *last_list, *next_list;
-} node_list;
+struct node create_tree(int rows, size_t num_children) {
+    struct node n = {NULL, 0, rows};
 
-typedef struct node_points {
-    node_list *start_point, *end_point;
-} node_points;
-
-void push(node_points *np, node n) {
-    node_list *temp = (node_list*)malloc(sizeof(node_list));
-    temp-&gt;n = n;
-    temp-&gt;last_list = temp-&gt;next_list = NULL;
-
-    if (!np-&gt;end_point) {
-        np-&gt;start_point = temp;
-    } else {
-        np-&gt;end_point-&gt;next_list = temp;
-        temp-&gt;last_list = np-&gt;end_point;
+    if (rows &gt; 0) {
+        n.children = (struct node*)malloc(num_children * sizeof(struct node));
+        n.children_size = num_children;
+        for (size_t i = 0; i &lt; num_children; ++i) {
+            n.children[i] = create_tree(rows - 1, num_children);
+        }
     }
 
-    np-&gt;end_point = temp;
+    return n;
 }
 
-void stack_pop(node_points *np) {
-    node_list *temp;
-    temp = np-&gt;end_point;
-
-    if (temp) {
-        np-&gt;end_point = temp-&gt;last_list;
-        if (!np-&gt;end_point) {
-            np-&gt;start_point = NULL;
+void destroy_tree(struct node n) {
+    if (n.id &gt; 0) {
+        for (size_t i = 0; i &lt; n.children_size; ++i) {
+            destroy_tree(n.children[i]);
         }
 
-        free(temp);
+        free(n.children);
     }
 }
 
-void queue_pop(node_points *np) {
-    node_list *temp;
-    temp = np-&gt;start_point;
-    if (temp) {
-        np-&gt;start_point = temp-&gt;next_list;
-        if (!np-&gt;start_point) {
-            np-&gt;end_point = NULL;
-        }
+void dfs_recursive(struct node n) {
+    printf(&quot;%d\n&quot;, n.id);
 
-        free(temp);
-    }
-}
-
-void create_tree(node *n, int num_row, int num_child) {
-    n-&gt;ID = num_row;
-    if (num_row == 0) {
-        return;
-    }
-
-    n-&gt;children = (node *)malloc(num_child * sizeof(*n-&gt;children));
-    n-&gt;children_num = num_child;
-    for (int i = 0; i &lt; num_child; ++i) {
-        node child;
-        create_tree(&amp;child, num_row - 1, num_child);
-        *(n-&gt;children + i) = child;
-    }
-}
-
-void DFS_recursive(node n) {
-    printf(&quot;%d\n&quot;, n.ID);
-    if (!n.children) {
-        return;
-    }
-
-    for (int i = 0; i &lt; n.children_num; ++i) {
-        DFS_recursive(n.children[i]);
-    }
-}
-
-void DFS_stack(node n) {
-    node_points stack;
-    memset(&amp;stack, 0, sizeof(node_points));
-    push(&amp;stack, n);
-    node temp;
-
-    while (stack.start_point != NULL) {
-        temp = stack.end_point-&gt;n;
-        printf(&quot;%d\n&quot;, temp.ID);
-        stack_pop(&amp;stack);
-        for (int i = 0; i &lt; temp.children_num; ++i) {
-            if (!temp.children) {
-                break;
-            }
-
-            push(&amp;stack, temp.children[i]);
+    if (n.children) {
+        for (size_t i = 0; i &lt; n.children_size; ++i) {
+            dfs_recursive(n.children[i]);
         }
     }
 }
 
-void BFS_queue(node n) {
-    node_points queue;
-    memset(&amp;queue, 0, sizeof(node_points));
-    push(&amp;queue, n);
-    node temp;
+void dfs_recursive_postorder(struct node n) {
+    for (size_t i = 0; i &lt; n.children_size; ++i) {
+        dfs_recursive_postorder(n.children[i]);
+    }
 
-    while (queue.start_point != NULL) {
-        temp = queue.start_point-&gt;n;
-        printf(&quot;%d\n&quot;, temp.ID);
-        queue_pop(&amp;queue);
-        for (int i = 0; i &lt; temp.children_num; ++i) {
-            if (!temp.children) {
-                break;
-            }
+    printf(&quot;%d\n&quot;, n.id);
+}
 
-            push(&amp;queue, temp.children[i]);
-        }
+void dfs_recursive_inorder_btree(struct node n) {
+    switch (n.children_size) {
+    case 2:
+        dfs_recursive_inorder_btree(n.children[0]);
+        printf(&quot;%d\n&quot;, n.id);
+        dfs_recursive_inorder_btree(n.children[1]);
+        break;
+    case 1:
+        dfs_recursive_inorder_btree(n.children[0]);
+        printf(&quot;%d\n&quot;, n.id);
+        break;
+    case 0:
+        printf(&quot;%d\n&quot;, n.id);
+        break;
+    default:
+        printf(&quot;This is not a binary tree.\n&quot;);
+        break;
     }
 }
 
-void destroy_tree(node *n) {
-    if (n-&gt;ID == 0) {
-        return;
+void dfs_stack(struct node n) {
+    struct stack stk = get_stack(sizeof(struct node*));
+    stack_push(&amp;stk, &amp;n);
+    struct node *tmp;
+
+    while (!stack_empty(&amp;stk)) {
+        tmp = (struct node*)stack_pop(&amp;stk);
+        if (!tmp) {
+            break;
+        }
+
+        printf(&quot;%d\n&quot;, tmp-&gt;id);
+        for (size_t i = 0; i &lt; tmp-&gt;children_size; ++i) {
+            stack_push(&amp;stk, &amp;tmp-&gt;children[i]);
+        }
     }
 
-    for (int i = 0; i &lt; n-&gt;children_num; ++i) {
-        destroy_tree(n-&gt;children + i);
+    free_stack(stk);
+}
+
+void bfs_queue(struct node n) {
+    struct queue q = get_queue(sizeof(struct node*));
+    enqueue(&amp;q, &amp;n);
+    struct node *tmp;
+
+    while (!queue_empty(&amp;q)) {
+        tmp = (struct node*)dequeue(&amp;q);
+        if (!tmp) {
+            break;
+        }
+
+        printf(&quot;%d\n&quot;, tmp-&gt;id);
+        for (size_t i = 0; i &lt; tmp-&gt;children_size; ++i) {
+            enqueue(&amp;q, &amp;tmp-&gt;children[i]);
+        }
     }
 
-    free(n-&gt;children);
+    free_queue(q);
 }
 
 int main() {
-    node root;
-    create_tree(&amp;root, 3, 3);
-    DFS_recursive(root);
-    //DFS_stack(root);
-    //BFS_queue(root);
-    destroy_tree(&amp;root);
+    struct node root = create_tree(3, 3);
+    bfs_queue(root);
+    destroy_tree(root);
 
     return 0;
 }
@@ -2435,7 +2483,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-05-06T00:11:06.373Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-06T20:20:29.278Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-05-22T21:01:56.740Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-22T21:03:21.413Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
