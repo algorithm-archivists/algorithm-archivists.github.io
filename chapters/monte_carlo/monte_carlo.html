@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Multiplication · GitBook</title>
+        <title>Monte Carlo · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -67,10 +67,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../monte_carlo/monte_carlo.html" />
+    <link rel="next" href="../matrix_methods/matrix_methods.html" />
     
     
-    <link rel="prev" href="../euclidean_algorithm/euclidean.html" />
+    <link rel="prev" href="../multiplication/multiplication.html" />
     
 
     </head>
@@ -480,9 +480,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.12" data-path="multiplication.html">
+        <li class="chapter " data-level="1.12" data-path="../multiplication/multiplication.html">
             
-                <a href="multiplication.html">
+                <a href="../multiplication/multiplication.html">
             
                     
                     Multiplication
@@ -493,9 +493,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.13" data-path="../monte_carlo/monte_carlo.html">
+        <li class="chapter active" data-level="1.13" data-path="monte_carlo.html">
             
-                <a href="../monte_carlo/monte_carlo.html">
+                <a href="monte_carlo.html">
             
                     
                     Monte Carlo
@@ -883,7 +883,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Multiplication</a>
+        <a href="../.." >Monte Carlo</a>
     </h1>
 </div>
 
@@ -898,20 +898,100 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="multiplication">Multiplication</h1>
-<p>Multiplying two numbers is a relatively simple process. 
-For the most part, elementary school students learn how to do so quickly before moving on to more complicated mathematical operations.
-Even so, there are plenty of incredibly complicated algorithms out there to perform the operation.</p>
-<p>In some sense, this is what I love about computer science research!
-It takes operations that everyone knows and loves, abstracts them, and transforms them into fast and efficient methods for the computer to implement.
-Sometimes these algorithms are completely baffling. 
-I remember laughing for ten minutes after I heard that fft convolutions could be used to calculate a simple integer multiplicationing the Sch&#xF6;nhage&#x2013;Strassen algorithm.
-I thought, &quot;Why would you ever want to use an fft to do something to trivial? This has to be a joke!&quot;</p>
-<p>Oh boy was I wrong.
-The Sch&#xF6;nhage&#x2013;Strassen algorithm was actually the most efficient method to multiply two numbers until around 2007 when it was dethroned by the F&#xFC;rer&apos;s algorithm.
-Even so, the Sch&#xF6;nhage&#x2013;Strassen is still used in practice by the math libraries of many languages due to its straightforward implementation and a few other factors.</p>
-<p>Here&apos;s the point: through time, computer science researchers have managed to take some of the simplist operations imaginable, overcomplicate them, and make them incredibly impressive.
-Sometimes it&apos;s even worth looking at trivial operations through a new lens. </p>
+                                <h1 id="monte-carlo-integration">Monte Carlo Integration</h1>
+<p>Monte Carlo methods were some of the first methods I ever used for research, and when I learned about them, they seemed like some sort of magic.
+Their premise is simple: random numbers can be used to integrate arbitrary shapes embedded into other objects.
+Nowadays, &quot;monte carlo&quot; has become a bit of a catch-all term for methods that use random numbers to produce real results, but it all started as a straightforward method to integrate objects.
+No matter how you slice it, the idea seems a bit crazy at first.
+After all, random numbers are random.
+How could they possibly be used to find non-random values?</p>
+<p>Well, imagine you have a square.
+The area of the square is simple, <script type="math/tex; ">\text{Area}_{\text{square}} = \text{length} \times \text{width}</script>.
+Since it&apos;s a square, the <script type="math/tex; ">\text{length}</script> and <script type="math/tex; ">\text{width}</script> are the same, so the formula is technically just <script type="math/tex; ">\text{Area}_{\text{square}} = \text{length}^2</script>.
+If we embed a circle into the square with a radius <script type="math/tex; ">r = \text{length}</script> (shown below), then it&apos;s area is <script type="math/tex; ">\text{Area}_{\text{circle}}=\pi r^2</script>.
+For simplicity, we can also say that <script type="math/tex; ">\text{Area}_{\text{square}}=4r^2</script>.</p>
+<p align="center">
+    <img src="res/square_circle.png" width="300">
+</p>
+
+<p>Now, let&apos;s say we want to find the area of the circle without an equation.
+As we said before, it&apos;s embedded in the square, so we should be able to find some ratio of the area of the square to the area of the circle:</p>
+<p><script type="math/tex; mode=display">
+\text{Ratio} = \frac{\text{Area}_{\text{circle}}}{\text{Area}_{\text{square}}}
+</script></p>
+<p>This means,</p>
+<p><script type="math/tex; mode=display">
+\text{Area}_{\text{circle}} = \text{Area}_{\text{square}}\times\text{Ratio} = 4r^2 \times \text{ratio}
+</script></p>
+<p>So, if we can find the <script type="math/tex; ">\text{Ratio}</script> and we know <script type="math/tex; ">r</script>, we should be able to easily find the <script type="math/tex; ">\text{Area}_{\text{circle}}</script>.
+The question is, &quot;How do we easily find the <script type="math/tex; ">\text{Ratio}</script>?&quot;
+Well, one way is with <em>random sampling</em>.
+We basically just pick a bunch of points randomly in the square, and
+each point is tested to see whether it&apos;s in the circle or not:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> in_circle(x_pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, y_pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, radius<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    <span class="hljs-keyword">if</span> (x_pos^<span class="hljs-number">2</span> + y_pos^<span class="hljs-number">2</span> &lt; radius^<span class="hljs-number">2</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div></div></div>
+
+<p>If it&apos;s in the circle, we increase an internal count by one, and in the end,</p>
+<p><script type="math/tex; mode=display">
+\text{Ratio} = \frac{\text{count in circle}}{\text{total number of points used}}
+</script></p>
+<p>If we use a small number of points, this will only give us a rough approximation, but as we start adding more and more points, the approximation becomes much, much better (as shown below)!</p>
+<p align="center">
+    <img src="res/monte_carlo.gif" width="400">
+</p>
+
+<p>The true power of monte carlo comes from the fact that it can be used to integrate literally any object that can be embedded into the square.
+As long as you can write some function to tell whether the provided point is inside the shape you want (like <code>in_circle()</code> in this case), you can use monte carlo integration!
+This is obviously an incredibly powerful tool and has been used time and time again for many different areas of physics and engineering.
+I can gaurantee that we will see similar methods crop up all over the place in the future!</p>
+<h1 id="example-code">Example Code</h1>
+<p>Monte carlo methods are famous for their simplicity.
+It doesn&apos;t take too many lines to get something simple going.
+Here, we are just integrating a circle, like we described above; however, there is a small twist and trick.
+Instead of calculating the area of the circle, we are instead trying to find the value of <script type="math/tex; ">\pi</script>, and
+rather than integrating the entire circle, we are only integrating the upper right quadrant of the circle from <script type="math/tex; ">0 < x,y < 1</script>.
+This saves a bit of computation time, but also requires us to multiply our output by <script type="math/tex; ">4</script>.</p>
+<p>That&apos;s all there is to it!
+Feel free to submit your version via pull request, and thanks for reading!</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<pre><code class="lang-julia"><span class="hljs-comment"># function to determine whether an x, y point is in the unit circle</span>
+<span class="hljs-keyword">function</span> in_circle(x_pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, y_pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, radius<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    <span class="hljs-keyword">if</span> (x_pos^<span class="hljs-number">2</span> + y_pos^<span class="hljs-number">2</span> &lt; radius^<span class="hljs-number">2</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># function to integrate a unit circle to find pi via monte_carlo</span>
+<span class="hljs-keyword">function</span> monte_carlo(n<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, radius<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+
+    pi_count = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:n
+        point_x = rand()
+        point_y = rand()
+
+        <span class="hljs-keyword">if</span> (in_circle(point_x, point_y, radius))
+            pi_count += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+
+    pi_estimate = <span class="hljs-number">4</span>*pi_count/(n*radius^<span class="hljs-number">2</span>)
+    println(<span class="hljs-string">&quot;Percent error is: &quot;</span>, signif(<span class="hljs-number">100</span>*(<span class="hljs-literal">pi</span> - pi_estimate)/<span class="hljs-literal">pi</span>, <span class="hljs-number">3</span>), <span class="hljs-string">&quot; %&quot;</span>)
+<span class="hljs-keyword">end</span>
+
+monte_carlo(<span class="hljs-number">10000000</span>, <span class="hljs-number">0.5</span>)
+</code></pre>
+</div></div></div>
+
+
 <p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
@@ -967,7 +1047,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Multiplication","level":"1.12","depth":1,"next":{"title":"Monte Carlo","level":"1.13","depth":1,"path":"chapters/monte_carlo/monte_carlo.md","ref":"chapters/monte_carlo/monte_carlo.md","articles":[]},"previous":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/multiplication/multiplication.md","mtime":"2018-04-30T05:42:18.047Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Monte Carlo","level":"1.13","depth":1,"next":{"title":"Matrix Methods","level":"1.14","depth":1,"path":"chapters/matrix_methods/matrix_methods.md","ref":"chapters/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","ref":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]}]},"previous":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/monte_carlo/monte_carlo.md","mtime":"2018-05-28T21:22:44.380Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
