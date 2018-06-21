@@ -899,65 +899,65 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="git-and-version-control">Git and Version Control</h2>
-<p>I am a fan of open-source software. It allows users to see inside the code running on their system and mess around with it if they like. 
-Unlike proprietary software, open source software allows any user to learn the entire codebase from the ground up, and that&apos;s an incredibly exciting prospect! 
-More than that, open-source development breeds strong communities of like-minded individuals who work together to solve problems they care about. 
-At least in my case, different open-source communites inspired me to code in my free time. 
-It taught me that programming is more than a simple series of instructions for a computer. 
-More than anything, though, open-source software development taught me about how to work with others and overcome petty squabbles, because if there&apos;s one thing any open-source community is known for, it&apos;s petty squabbling. </p>
-<p>It might be because of my appreciation of large-scale software development that I never questioned the utility of version control. 
-If there are a couple hundred people all contributing source code to the same place, there has to be some way to control all the different codebases each individual has on their own machine. 
-Even if I have no collaborators, version control is a way to make sure my laptop and work machine both have the same code without having to transer a USB stick back and forth. 
-That said, at some point in my life, I became a physics researcher. 
-This meant that I wrote code to solve physics problems with a small team. The problem was that even though I was using version control, the rest of my team was not. </p>
+<p>I am a fan of open-source software. It allows users to see inside the code running on their system and mess around with it if they like.
+Unlike proprietary software, open source software allows any user to learn the entire codebase from the ground up, and that&apos;s an incredibly exciting prospect!
+More than that, open-source development breeds strong communities of like-minded individuals who work together to solve problems they care about.
+At least in my case, different open-source communites inspired me to code in my free time.
+It taught me that programming is more than a simple series of instructions for a computer.
+More than anything, though, open-source software development taught me about how to work with others and overcome petty squabbles, because if there&apos;s one thing any open-source community is known for, it&apos;s petty squabbling.</p>
+<p>It might be because of my appreciation of large-scale software development that I never questioned the utility of version control.
+If there are a couple hundred people all contributing source code to the same place, there has to be some way to control all the different codebases each individual has on their own machine.
+Even if I have no collaborators, version control is a way to make sure my laptop and work machine both have the same code without having to transer a USB stick back and forth.
+That said, at some point in my life, I became a physics researcher.
+This meant that I wrote code to solve physics problems with a small team. The problem was that even though I was using version control, the rest of my team was not.</p>
 <p>This was frustrating.</p>
-<p>I would hear my labmates say things like, &quot;I rewrote my code last night and now nothing works, but I already saved over my previous version, so I&apos;ll just work with what I have.&quot; 
+<p>I would hear my labmates say things like, &quot;I rewrote my code last night and now nothing works, but I already saved over my previous version, so I&apos;ll just work with what I have.&quot;
 Or, &quot;I&apos;m writing a paper with my boss. We are using Dropbox and upload files with slightly different names after we modify them. Right now, we are on paper_78c.&quot;
-The point is: version control exists to control different versions of software (and other documents). 
-If you are writing code, it exists as a way to quickly save what you have before making largescale modifications. 
+The point is: version control exists to control different versions of software (and other documents).
+If you are writing code, it exists as a way to quickly save what you have before making largescale modifications.
 It also allows individuals to collaborate on a larger scale by providing necessary tools to merge work created by different individuals into a single, cohesive story.</p>
 <p>No matter how you look at it, version control is a useful and necessary tool to collaborate with other programmers and is definitely worth discussing in depth.
 Though many version control systems exist, for now we will focus on git, simply because it is incredibly popular and this book is hosted both on github and gitbook.
-We hope to discuss other version control methods and strengthen this tutorial on git in the future; however, this book is meant as an archive of algorithms, not as an introduction to version control or best software practices. 
+We hope to discuss other version control methods and strengthen this tutorial on git in the future; however, this book is meant as an archive of algorithms, not as an introduction to version control or best software practices.
 Though discussions like these are useful, we must be careful not to get too far out-of-scope.
-For now, this tutorial is simply meant as a quick way to kickstart our community into using git and collaborating more effectively with each other (specifically on this book). </p>
+For now, this tutorial is simply meant as a quick way to kickstart our community into using git and collaborating more effectively with each other (specifically on this book).</p>
 <p>I feel like this introduction may have been a little too long. Let me know what you think! Regardless, now it&apos;s time to talk about git!</p>
 <h3 id="gitting-started"><em>Git</em>ting started!</h3>
-<p>I suppose let&apos;s start simply: git manages different versions of code available on different machines and from different locations. 
-When using git, there will be a local copy of a repository of code that may or may not be up-to-date with a copy of the code repository in some remote location. </p>
-<p>Now, there is an easy way, a hard way, and an impossibly complicated way to use git. 
+<p>I suppose let&apos;s start simply: git manages different versions of code available on different machines and from different locations.
+When using git, there will be a local copy of a repository of code that may or may not be up-to-date with a copy of the code repository in some remote location.</p>
+<p>Now, there is an easy way, a hard way, and an impossibly complicated way to use git.
 We&apos;ll be walking through the easy and hard ways.
 We are not trying to impress anyone with git wizardry. We are simply trying to provide the basics with a little undersanding sprinkled in.</p>
-<p>As a side note: we will be assuming that you are using git from the terminal. There is a GUI available from github and it works super well for most cases; however, it&apos;s also self-explanatory in most cases. 
+<p>As a side note: we will be assuming that you are using git from the terminal. There is a GUI available from github and it works super well for most cases; however, it&apos;s also self-explanatory in most cases.
 Put another way: if you can understand the ways of the terminal, the git GUI will be much more straightforward. On the other hand, learning the GUI will not necessarily help you when using the terminal.</p>
 <p>So, first things first. Make sure git is installed on your system and set it up with the following commands</p>
 <pre><code>git config --global user.name name
 git config --global user.email name@email.com
 </code></pre><p>Obviously, use your own name and e-mail... unless your name is actually <em>name</em> and your e-mail is actually <em>name@email.com</em>, in which case the above commands are correct.
 In the rare case that a user named &quot;name&quot; with the e-mail &quot;name@email.com&quot; is reading this, I apologize for spoiling your anonymity.
-For everyone else, remember that git is meant to facilitate collaborative code development, so we need to know who is submitting code so we can communicate more effectively later. 
-That said, it is alright to use a username and e-mail address that does not spoil your identity in the real world, so long as you are reachable by the information provided. </p>
+For everyone else, remember that git is meant to facilitate collaborative code development, so we need to know who is submitting code so we can communicate more effectively later.
+That said, it is alright to use a username and e-mail address that does not spoil your identity in the real world, so long as you are reachable by the information provided.</p>
 <h3 id="finding-some-code">Finding some code</h3>
 <p>Now we need to find a repository of code to work on. If you are starting your own repository or want to work on an internal network, this will not be too big of an issue.
-If you just want to get the feel for how git works, I suggest going to <a href="https://github.com/" target="_blank">github.com</a> and checking out the code developed there. 
+If you just want to get the feel for how git works, I suggest going to <a href="https://github.com/" target="_blank">github.com</a> and checking out the code developed there.
 Note that you will not be able to contribute to any old directory on github, simply because if anyone could contribute any code they wanted to any repository they wanted, the world would become incredibly chaotic.
 Because of this, you may want to create a repository under your own github username or make your own copy of someone elses code on github by clicking the <em>fork</em> button:</p>
 <p><img src="fork.png" alt="How to fork"></p>
-<p>Note that if you have a fork of a particular code repository, you can ask the owner of the original code repository to pull your changes into their version of the code with a <em>pull request</em>, but we are getting ahead of ourselves here. 
-If you cannot think of what repository to work on and want to collaborate on this project in the future, feel free to fork the <a href="https://github.com/leios/algorithm-archive" target="_blank">Algorithm Archive</a> and modify that!</p>
+<p>Note that if you have a fork of a particular code repository, you can ask the owner of the original code repository to pull your changes into their version of the code with a <em>pull request</em>, but we are getting ahead of ourselves here.
+If you cannot think of what repository to work on and want to collaborate on this project in the future, feel free to fork the <a href="https://github.com/algorithm-archivists/algorithm-archive" target="_blank">Algorithm Archive</a> and modify that!</p>
 <p>Regardless, as long as there is a repository under your username on github, we can continue by linking that remote github location to your local git directory. First, we need to find the url of the github repository, as shown here:</p>
 <p><img src="clone.png" alt="How to clone"></p>
 <p>Note that there are 2 provided urls here, one for <em>ssh</em> and another for <em>https</em>. From the user&apos;s perspective, the difference between the two is minimal: ssh requires the user to type only a password when interacting with the remote github repository, while https requires both a username and password.
-Now, you will probably be interacting with github a lot, so ssh will definitely save time and is preferred for many people who use git a lot; however, <a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank">there is some initial set-up</a>. 
+Now, you will probably be interacting with github a lot, so ssh will definitely save time and is preferred for many people who use git a lot; however, <a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank">there is some initial set-up</a>.
 If you want, we can discuss the set-up in more detail later (just let me know!), but for now, we&apos;ll stick with https because it&apos;s more familiar to new users.</p>
 <p>Once you have the url, there are 2 ways to proceed:</p>
 <p><strong>The easy way:</strong></p>
-<pre><code>git clone https://github.com/leios/algorithm-archive
+<pre><code>git clone https://github.com/algorithm-archivists/algorithm-archive
 </code></pre><p><strong>The not-so-easy way:</strong></p>
 <pre><code>mkdir algorithm_archive
 cd algorithm_archive
 git init
-git remote add origin https://github.com/leios/algorithm-archive
+git remote add origin https://github.com/algorithm-archivists/algorithm-archive
 git fetch
 git merge origin/master
 </code></pre><p>Here, <code>git clone</code> does every step of the <em>not-so-easy</em> way in one command, so the two methods are completely identical. Because of this, in most cases, I just use <code>git clone</code>; however, the <em>not-so-easy</em> way is much more explicit and helps us understand what is going on a little better.
@@ -966,7 +966,7 @@ So, here it is, step-by-step:</p>
 <ol>
 <li><code>mkdir algorithm_archive</code>: make a directory. We can call this directory anything, but we&apos;ll call it algorithm_archive for now.</li>
 <li><code>git init</code>: initialize git</li>
-<li><code>git remote add origin https://github.com/leios/algorithm-archive</code>: add a remote location (the github url we found just a second ago). Again, we can call this remote location anything, but <code>git clone</code> always calls it <code>origin</code>, so well stick with that. </li>
+<li><code>git remote add origin https://github.com/algorithm-archivists/algorithm-archive</code>: add a remote location (the github url we found just a second ago). Again, we can call this remote location anything, but <code>git clone</code> always calls it <code>origin</code>, so well stick with that.</li>
 <li><code>git fetch</code>: update the local directory with the information from the remote online repository</li>
 <li><code>git merge origin/master</code>: merge those updates. Right now, the <code>origin/master</code> part of this command might seem like a bit of black octocat magic, but we will cover it in just a bit!</li>
 </ol>
@@ -974,11 +974,11 @@ So, here it is, step-by-step:</p>
 <pre><code>git remote -v
 origin    https://github.com/user/algorithm-archive.git (fetch)
 origin    https://github.com/user/algorithm-archive.git (push)
-</code></pre><p>This provides information on different <code>remotes</code>. We&apos;ll talk about <code>fetch</code> and <code>push</code> a bit later. 
+</code></pre><p>This provides information on different <code>remotes</code>. We&apos;ll talk about <code>fetch</code> and <code>push</code> a bit later.
 Now, you might be asking yourself: If I am only connected to the url I forked earlier, what happens when the owner of the main code repository pushes changes? How will I update my code when this happens?
 Actually, you probably were not asking that question. It&apos;s not an obvious question to ask at all, but it&apos;s a useful question to move this tutorial forward.
 The solution is simple: Add another <code>remote</code> like so:</p>
-<pre><code>git remote add upstream https://github.com/leios/algorithm-archive
+<pre><code>git remote add upstream https://github.com/algorithm-archivists/algorithm-archive
 </code></pre><p>Obviously, you can call the remote anything. I kinda arbitrarily chose to call it <code>upstream</code>. By adding this in, you can easily interact with the same codebase from multiple remote locations.
 That said, we need to talk about how to do that.</p>
 <h3 id="committing-to-git">Committing to git</h3>
@@ -993,42 +993,42 @@ To add the files, simply type:</p>
 <pre><code>git add CONTRIBUTORS.md
 </code></pre><p>Then if we type <code>git status</code> again, it will show that the file <code>CONTRIBUTORS.md</code> is in a <em>staging area</em> awaiting commit.
 This simply means that git is waiting to make sure there are no other changes we want to package up.
-Now we create the <code>commit</code> by typing </p>
+Now we create the <code>commit</code> by typing</p>
 <pre><code>git commit -m &quot;Adding name to contributors file&quot;
-</code></pre><p>Note that if you do not use the <code>-m</code> message flag (just <code>git commit</code>), git will open your default editor (probably vi) to ask for a message. 
+</code></pre><p>Note that if you do not use the <code>-m</code> message flag (just <code>git commit</code>), git will open your default editor (probably vi) to ask for a message.
 <em>Every git commit needs a git message!</em> Make the messages count.
-Be as descriptive as possible! 
+Be as descriptive as possible!
 If you want to see all commits that have ever been made on this repository, simply type</p>
 <pre><code>git log
-</code></pre><p>This will show you the history so far. As a side note, it also shows why good, clean commit messages are essential to managing large, open-source projects. 
-If there are hundreds (or thousands) of commits, and one of the features implemented somewhere down the line has a bug, clean commit messages allow us to find when that feature was implemented and possibly when the bug arose. </p>
+</code></pre><p>This will show you the history so far. As a side note, it also shows why good, clean commit messages are essential to managing large, open-source projects.
+If there are hundreds (or thousands) of commits, and one of the features implemented somewhere down the line has a bug, clean commit messages allow us to find when that feature was implemented and possibly when the bug arose.</p>
 <p>Now let&apos;s say you want to checkout what the code looked like at a particular commit. To do this, we need to look at the generated unique string (SHA-1 checksum) associated with the commit we want and paste the first few (roughly 5) characters into the following command:</p>
 <pre><code>git checkout CHARS
 </code></pre><p>It&apos;s incredibly unlikely that any two commits will share the first <em>n</em> characters, so this is unique enough for git to identify which commit we were referring to and send us back there, but here&apos;s where the notation get&apos;s a little crazy!
-See, when we are sent back in time to the chosen commit (with the above command), we will be in a <em>detached head</em> state. 
+See, when we are sent back in time to the chosen commit (with the above command), we will be in a <em>detached head</em> state.
 This refers to the term we use to describe the very latest commit, <strong>HEAD</strong>.
 If we wanted to checkout the previous commit (for example), we would use <code>git checkout HEAD~1</code>, the second-to-last commit would be <code>HEAD~2</code>, and so on and so-forth.</p>
-<p>When we checkout another commit, we are rolling the head of our commitment snake back to what it was in the past. 
+<p>When we checkout another commit, we are rolling the head of our commitment snake back to what it was in the past.
 In the detached head state, we shouldn&apos;t really do any development. It&apos;s more of a read-only type of thing; however, if we want to develop the code starting at that commit, we could use</p>
 <pre><code>git checkout -b CHARS
 </code></pre><p>But this requires a little explanation!</p>
 <h3 id="checkout-these-branches">Checkout these branches!</h3>
-<p>Now let&apos;s take a step to the side and talk about another fantastic git feature, <em>branches</em>. 
-At this point, we might have code forked under our own username on github. This means that there could be at least 2 functioning versions of the code we are working on: our own fork and the original owner&apos;s fork. 
+<p>Now let&apos;s take a step to the side and talk about another fantastic git feature, <em>branches</em>.
+At this point, we might have code forked under our own username on github. This means that there could be at least 2 functioning versions of the code we are working on: our own fork and the original owner&apos;s fork.
 That said, within each fork, there is the ability to have multiple lines of development, each one on a different <em>branch</em>.</p>
 <p>If you are new to software development, this might not seem too useful; however, imagine you are working on a large, open-source project that thousands of people use.
-At some point, you might want to re-organize a bunch of features in the code. 
+At some point, you might want to re-organize a bunch of features in the code.
 As a developer, you might not be sure whether all the features you are re-organizing will still work properly after re-organizing them, but you know the code needs to be modified!
-The problem is that you have users who may need the features you might accidentally break. 
+The problem is that you have users who may need the features you might accidentally break.
 For this reason, you might want to have a &quot;master&quot; branch -- one that is always working for the users, and a &quot;development&quot; branch -- one that is in the middle of creating new features for users.
-In truth, there are dozens of reasons why developers might want to work on slightly different versions of the code. 
+In truth, there are dozens of reasons why developers might want to work on slightly different versions of the code.
 Rather than spending time outlining all the potential reasons, let&apos;s just dive into how branches are made and maintained.</p>
 <p>To check which branch you are on, simply type:</p>
 <pre><code>git branch
 </code></pre><p>This will show you your currently active branch. If you haven&apos;t switched branches yet, you will probably by on <code>master</code>.
 To switch branches, use</p>
 <pre><code>git checkout branch
-</code></pre><p>And this will change all of the files on your local directory to match the branch you have swapped to. 
+</code></pre><p>And this will change all of the files on your local directory to match the branch you have swapped to.
 Note that if you have local changes that will be overwritten when changing branches, git will note these changes and tell you to do something about them before switching to a new branch.
 If you want to get rid of the changes, you could delete any files that are causing conflicts; however, this is barbaric and should be avoided in civilized society.
 Another solution is to use a feature of git called the <code>stash</code>.
@@ -1037,21 +1037,21 @@ In many ways, this is much easier to do than deleting files manually. All you ne
 </code></pre><p>This will stash all the local changes and bring the directory back to the latest HEAD. If you want to get your changes back, just use</p>
 <pre><code>git stash apply
 </code></pre><p>Now, here&apos;s the problem: because <code>git stash</code> is so convenient, I tend to have the habit of stashing local changes quite often. This means that I have multiple modifications stored, all connected to different commits.
-Quite frankly, it&apos;s a mess. That said, I can list out everything in my stash with </p>
+Quite frankly, it&apos;s a mess. That said, I can list out everything in my stash with</p>
 <pre><code>git stash list
-</code></pre><p>and apply whichever stash I want with </p>
+</code></pre><p>and apply whichever stash I want with</p>
 <pre><code>git apply stash@{i}
-</code></pre><p>Where <code>i</code> is the value of the stash item I want to apply. </p>
+</code></pre><p>Where <code>i</code> is the value of the stash item I want to apply.</p>
 <p>Now, to be clear: I am not encouraging anyone to use <code>git stash</code> to hide away local changes and make branch traversal easier; however, if you are about to delete files, maybe try <code>git stash</code> instead?</p>
-<p>Finally, we need to talk about a super sticky part of git: <em>merging branches</em>. 
-Following from the story above, you might have code in a development branch. 
-When you are happy with the changes in the development branch, you might want to merge those changes back to the master branch. 
+<p>Finally, we need to talk about a super sticky part of git: <em>merging branches</em>.
+Following from the story above, you might have code in a development branch.
+When you are happy with the changes in the development branch, you might want to merge those changes back to the master branch.
 Assuming that no one was developing on the master branch and that the development branch is ahead of the master branch, this can be done with the following:</p>
 <pre><code>git checkout master
 git merge branch
-</code></pre><p>This is the simplest case, but it&apos;s rarely this simple. Often times, there will be development on different branches and when we merge these brances together, there will be conflicts. 
+</code></pre><p>This is the simplest case, but it&apos;s rarely this simple. Often times, there will be development on different branches and when we merge these brances together, there will be conflicts.
 These conflicts are noted in each of the files that need to be modified like so</p>
-<pre><code>I am writing about 
+<pre><code>I am writing about
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 things
 =======
@@ -1066,7 +1066,7 @@ It&apos;s an incredibly difficult aspect of using git and will drive you nuts th
 Also: let me know if there&apos;s any tools you like, and I&apos;ll add them to this guide here.</p>
 <h3 id="interacting-with-github">Interacting with github</h3>
 <p>To this point, we have introduced the concept of <code>remote</code>s and how to set them up, but we have not discussed how to interact with them.
-For the most part, there are only a few commands to keep in mind. the easiest one to explain is </p>
+For the most part, there are only a few commands to keep in mind. the easiest one to explain is</p>
 <pre><code>git push
 </code></pre><p>After we have made a commit (discussed above), we can push it to github like so</p>
 <pre><code>git push remote branch
@@ -1084,32 +1084,32 @@ git merge origin/master
 </code></pre><p>For now, I think that&apos;s all you will need: <code>git pull</code> and <code>git push</code>.
 Now let&apos;s talk about something that will certainly happen in your programming career: mistakes.</p>
 <h3 id="dealing-with-mistakes">Dealing with mistakes</h3>
-<p>I cannot help with programming mistakes (typos and such), but when it comes to version control there are two times in which mistakes can be made: <strong>before a commit</strong> and <strong>after a commit</strong>.
-Each of these have a different solution and have different repercussions depending on how you want to proceed with code development. 
-Note that these solutions can be quite complicated and may easily move beyond the scope of this text. 
+<p>I cannot help with programming mistakes (typos and such), but when it comes to version control there are two times during which mistakes can be made: <strong>before a commit</strong> and <strong>after a commit</strong>.
+Each of these have a different solution and have different repercussions depending on how you want to proceed with code development.
+Note that these solutions can be quite complicated and may easily move beyond the scope of this text.
 Because of this, I will link to appropriate documentation as necessary.</p>
-<p>Firstly, let&apos;s talk about what happens when you make a mistake while your code is in the staging area, awaiting a commit. 
-Here, the solution is simple: </p>
+<p>Firstly, let&apos;s talk about what happens when you make a mistake while your code is in the staging area, awaiting a commit.
+Here, the solution is simple:</p>
 <pre><code>git reset
 </code></pre><p>That&apos;s it. Don&apos;t overcomplicate it. You haven&apos;t committed to the code yet, so just unstage everything back to the <code>HEAD</code>.
 The problem is that this command is quite nuanced and has plenty of other uses. This goes beyong the scope of this text, but you can find more information here: <a href="https://git-scm.com/blog" target="_blank">https://git-scm.com/blog</a>.</p>
-<p>Now, what if your mistake was found after committing? Well, that&apos;s a little more complicated. Your mistake is already in your <code>git log</code>. 
+<p>Now, what if your mistake was found after committing? Well, that&apos;s a little more complicated. Your mistake is already in your <code>git log</code>.
 The easiest way to deal with this is to live with the mistake and make a new commit that fixes it later.
 One way to reverse the commit completely is with</p>
 <pre><code>git revert commit
 </code></pre><p>where <code>commit</code> is whatever commit you want to undo from your <code>git log</code>.
 Assuming you are working with a small team and don&apos;t mind having a somewhat dirty commit history where your mistakes haunt you forever in your <code>git log</code>, this is fine; however, if you want to remove the commit completely, you might need to think about using another command:</p>
 <pre><code>git rebase
-</code></pre><p>the problem is that <code>git rebase</code> is complicated and could potentially destroy your codebase if it&apos;s used inappropriately. 
-Because of this, I often just live with my mistakes; however, in rare cases, having a clean <code>git log</code> is incredibly important. 
+</code></pre><p>the problem is that <code>git rebase</code> is complicated and could potentially destroy your codebase if it&apos;s used inappropriately.
+Because of this, I often just live with my mistakes; however, in rare cases, having a clean <code>git log</code> is incredibly important.
 I am not a git magician (yet), so I will not delve into what is essentially black magic to me. Instead, I&apos;ll link a guide: <a href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing" target="_blank">https://git-scm.com/book/en/v2/Git-Branching-Rebasing</a>.</p>
 <p>I know that this section is a little sparse and there&apos;s a lot I missed.
 If you want to provide more information, feel free to do so and submit it via pull request.</p>
 <h3 id="concepts-we-missed">Concepts we missed</h3>
-<p>Unfortunately, this discussion has a scope. It is not meant to give you a deep, meaningful understanding of git. 
+<p>Unfortunately, this discussion has a scope. It is not meant to give you a deep, meaningful understanding of git.
 Instead, we focused on the basics, with the hope of encouraging our community to start collaborating together.
 The more you use git, the easier it will be to use in the future and the more it will start to make sense.
-That said, due to the nature of this guide, there were a few things we missed, the two most important of which are <strong>rebasing</strong> and <strong>merge conflicts</strong>. </p>
+That said, due to the nature of this guide, there were a few things we missed, the two most important of which are <strong>rebasing</strong> and <strong>merge conflicts</strong>.</p>
 <p>In addition, I need to be honest in saying that I am not the most qualified person to teach anyone how to use git or version control and that there are plenty of good guides out there already, so if you have any guides that you like, please let me know and I can add them to the end of this guide for more information.</p>
 
                                 
@@ -1144,7 +1144,7 @@ That said, due to the nature of this guide, there were a few things we missed, t
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Version Control","level":"1.6.3","depth":2,"next":{"title":"Complexity Notation","level":"1.6.4","depth":2,"path":"chapters/principles_of_code/notation/notation.md","ref":"chapters/principles_of_code/notation/notation.md","articles":[]},"previous":{"title":"Bit Logic","level":"1.6.2.7","depth":3,"path":"chapters/principles_of_code/building_blocks/bitlogic.md","ref":"chapters/principles_of_code/building_blocks/bitlogic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/principles_of_code/version_control.md","mtime":"2018-02-02T21:23:34.961Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Version Control","level":"1.6.3","depth":2,"next":{"title":"Complexity Notation","level":"1.6.4","depth":2,"path":"chapters/principles_of_code/notation/notation.md","ref":"chapters/principles_of_code/notation/notation.md","articles":[]},"previous":{"title":"Bit Logic","level":"1.6.2.7","depth":3,"path":"chapters/principles_of_code/building_blocks/bitlogic.md","ref":"chapters/principles_of_code/building_blocks/bitlogic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/principles_of_code/version_control.md","mtime":"2018-06-21T10:31:21.977Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

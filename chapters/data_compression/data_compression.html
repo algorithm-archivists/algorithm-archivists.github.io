@@ -899,7 +899,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="data-compression">Data Compression</h1>
-<p>I&apos;ll be honest, data compression used to be an incredibly hot topic, but kids these days usually have incredibly powerful devices that do not seem to be memory-limited at all. 
+<p>I&apos;ll be honest, data compression used to be an incredibly hot topic, but kids these days usually have incredibly powerful devices that do not seem to be memory-limited at all.
 Because of this, it seems odd to talk about data compression as a field of intense debate and development.
 It would naively seem that better hardware means that there are less restrictions on programmers and less of a need to search for new and unique ways to compress their data; however, this is far from the case.</p>
 <p>That said, there will always be new devices on the market that require minimizing data storage.
@@ -917,18 +917,18 @@ At some point, you realize you haven&apos;t gone outside and are completely unaw
 As your mother slips food under your door one day, you reach out to her and ask, &quot;What&apos;s it like outside today?&quot;
 Overjoyed at the prospect of her child finally leaving their room, your mother might say, &quot;It&apos;s bright, sunny and warm. A perfect day to go outside and relax!&quot;
 This provides you a lot of information, and to some degree of certainty you can conclude it is summer.</p>
-<p>Of course, after this interaction you do not acknowledge your mother&apos;s existence after her answer and go back to coding. 
+<p>Of course, after this interaction you do not acknowledge your mother&apos;s existence after her answer and go back to coding.
 You have the information you need.
 No reason to overcomplicate things with further human contact.</p>
-<p>See, information is defined in a number of different places for a number of different reasons, so for our purposes, we will define the unit of information to be the <em>bit</em>, a simple binary 1 or 0. 
+<p>See, information is defined in a number of different places for a number of different reasons, so for our purposes, we will define the unit of information to be the <em>bit</em>, a simple binary 1 or 0.
 Taking the example mentioned before (assuming you can take your mother at face-value), you were provided 3 true statements:</p>
 <ol>
 <li>It is bright</li>
 <li>It is sunny</li>
 <li>It is warm</li>
 </ol>
-<p>With this information, you assumed that it was probably summer. 
-Unfortunately, your assumption about it being summer is not information. 
+<p>With this information, you assumed that it was probably summer.
+Unfortunately, your assumption about it being summer is not information.
 It might be a logical conclusion, but it was not provided as a &quot;fact.&quot;
 This is an important distinction between what we might colloquially describe as information and what information theory requires.
 Information theory works with measurements -- binary absolutes.</p>
@@ -954,7 +954,7 @@ In this case, there are plenty of ways you can represent these characters in bit
 </tr>
 </tbody>
 </table>
-<p>So long as you don&apos;t add any new characters to the mix, this is a perfectly valid set of codewords. 
+<p>So long as you don&apos;t add any new characters to the mix, this is a perfectly valid set of codewords.
 If you get the bitstring 0111101, you can easily decode it as <em>abbbbab</em>.</p>
 <p>But what if you wanted to add a third character, <em>c</em>?
 Well, it&apos;s clear that <em>c</em> cannot be either 0 or 1, but because of the way we have defined the set of codewords above, it actually cannot be <em>any combination</em> of 0 or 1 either.
@@ -994,7 +994,7 @@ No word should appear as a prefix to another word.</p>
 </tr>
 </tbody>
 </table>
-<p>We can decode any even bitstring with this set. 
+<p>We can decode any even bitstring with this set.
 0100101010110100 is <em>bacccdba</em>.
 This is great, but now we have another question: given a string of characters, can we construct a set of codewords that <em>minimizes</em> the number of bits in its corresponding bitstring?</p>
 <p><em>This is the heart of data compression!</em></p>
@@ -1077,12 +1077,12 @@ L_1 &= 0.1\times 2 + 0.2 \times 2 + 0.3 \times 2 + 0.4 \times 2 = 2 \\
 L_2 &= 0.1\times 3 + 0.2 \times 3 + 0.3 \times 2 + 0.4 \times 1 = 1.9
 \end{align}
 </script></p>
-<p>Here, it&apos;s clear that <script type="math/tex; ">L_2 < L_1</script>, and thus the second set of codewords compresses our data more than the first. 
+<p>Here, it&apos;s clear that <script type="math/tex; ">L_2 < L_1</script>, and thus the second set of codewords compresses our data more than the first.
 This measure can be used as a direct test of certain simple data compression techniques, notably those created by Shannon, Fano, and <a href="huffman/huffman.html">Huffman</a>, which will be covered soon!</p>
 <p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; "> 
+<script type="math/tex; mode=display">
 \newcommand{\d}{\mathrm{d}}
 \newcommand{\bff}{\boldsymbol{f}}
 \newcommand{\bfg}{\boldsymbol{g}}
@@ -1134,7 +1134,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Data Compression","level":"1.20","depth":1,"next":{"title":"Huffman Encoding","level":"1.20.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]},"previous":{"title":"Split-Operator Method","level":"1.19.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/data_compression.md","mtime":"2018-04-30T05:42:18.046Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Data Compression","level":"1.20","depth":1,"next":{"title":"Huffman Encoding","level":"1.20.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]},"previous":{"title":"Split-Operator Method","level":"1.19.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/data_compression.md","mtime":"2018-06-21T10:31:21.970Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

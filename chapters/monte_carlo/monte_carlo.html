@@ -936,6 +936,8 @@ each point is tested to see whether it&apos;s in the circle or not:</p>
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">inCircle</span> (x, y) = x^<span class="hljs-number">2</span> + y^<span class="hljs-number">2</span> &lt; <span class="hljs-number">1</span>
+</code></pre>
 </div></div></div>
 
 <p>If it&apos;s in the circle, we increase an internal count by one, and in the end,</p>
@@ -950,13 +952,13 @@ each point is tested to see whether it&apos;s in the circle or not:</p>
 <p>The true power of monte carlo comes from the fact that it can be used to integrate literally any object that can be embedded into the square.
 As long as you can write some function to tell whether the provided point is inside the shape you want (like <code>in_circle()</code> in this case), you can use monte carlo integration!
 This is obviously an incredibly powerful tool and has been used time and time again for many different areas of physics and engineering.
-I can gaurantee that we will see similar methods crop up all over the place in the future!</p>
+I can guarantee that we will see similar methods crop up all over the place in the future!</p>
 <h1 id="example-code">Example Code</h1>
 <p>Monte carlo methods are famous for their simplicity.
 It doesn&apos;t take too many lines to get something simple going.
 Here, we are just integrating a circle, like we described above; however, there is a small twist and trick.
 Instead of calculating the area of the circle, we are instead trying to find the value of <script type="math/tex; ">\pi</script>, and
-rather than integrating the entire circle, we are only integrating the upper right quadrant of the circle from <script type="math/tex; ">0 < x,y < 1</script>.
+rather than integrating the entire circle, we are only integrating the upper right quadrant of the circle from <script type="math/tex; ">0 < x, y < 1</script>.
 This saves a bit of computation time, but also requires us to multiply our output by <script type="math/tex; ">4</script>.</p>
 <p>That&apos;s all there is to it!
 Feel free to submit your version via pull request, and thanks for reading!</p>
@@ -989,13 +991,29 @@ Feel free to submit your version via pull request, and thanks for reading!</p>
 
 monte_carlo(<span class="hljs-number">10000000</span>, <span class="hljs-number">0.5</span>)
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><h3 id="haskell">Haskell</h3>
+<pre><code class="lang-haskell"><span class="hljs-keyword">import</span> System.Random
+
+<span class="hljs-title">monteCarloPi</span> :: <span class="hljs-type">RandomGen</span> g =&gt; g -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Float</span>
+<span class="hljs-title">monteCarloPi</span> g n = count $ filter inCircle $ makePairs
+  <span class="hljs-keyword">where</span> makePairs = take n $ toPair (randomRs (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) g :: [<span class="hljs-type">Float</span>])
+        toPair (x:y:rest) = (x, y) : toPair rest
+        inCircle (x, y) = x^<span class="hljs-number">2</span> + y^<span class="hljs-number">2</span> &lt; <span class="hljs-number">1</span>
+        count l = <span class="hljs-number">4</span> * fromIntegral (length l) / fromIntegral n
+
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  g &lt;- newStdGen
+  <span class="hljs-keyword">let</span> p = monteCarloPi g <span class="hljs-number">100000</span>
+  putStrLn $ <span class="hljs-string">&quot;Estimated pi: &quot;</span> ++ show p
+  putStrLn $ <span class="hljs-string">&quot;Percent error: &quot;</span> ++ show (<span class="hljs-number">100</span> * abs (pi - p) / pi)
+</code></pre>
 </div></div></div>
 
 
 <p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; "> 
+<script type="math/tex; mode=display">
 \newcommand{\d}{\mathrm{d}}
 \newcommand{\bff}{\boldsymbol{f}}
 \newcommand{\bfg}{\boldsymbol{g}}
@@ -1047,7 +1065,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Monte Carlo","level":"1.13","depth":1,"next":{"title":"Matrix Methods","level":"1.14","depth":1,"path":"chapters/matrix_methods/matrix_methods.md","ref":"chapters/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","ref":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]}]},"previous":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/monte_carlo/monte_carlo.md","mtime":"2018-05-28T21:22:44.380Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Monte Carlo","level":"1.13","depth":1,"next":{"title":"Matrix Methods","level":"1.14","depth":1,"path":"chapters/matrix_methods/matrix_methods.md","ref":"chapters/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","ref":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]}]},"previous":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/monte_carlo/monte_carlo.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

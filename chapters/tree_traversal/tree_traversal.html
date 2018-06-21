@@ -955,6 +955,10 @@
     value: <span class="hljs-keyword">u64</span>,
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Tree</span> a = <span class="hljs-type">Node</span> { <span class="hljs-title">node</span> :: <span class="hljs-title">a</span>
+                   , <span class="hljs-title">forest</span> :: [<span class="hljs-type">Tree</span> <span class="hljs-title">a</span>]
+                   } <span class="hljs-keyword">deriving</span> (<span class="hljs-type">Show</span>)</span>
+</code></pre>
 </div></div></div>
 
 <p>Because of this, the most straightforward way to traverse the tree might be recursive. This naturally leads us to the Depth-First Search (DFS) method:</p>
@@ -1045,6 +1049,9 @@
     }
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">dfs</span> :: <span class="hljs-type">Tree</span> a -&gt; [a]
+<span class="hljs-title">dfs</span> (<span class="hljs-type">Node</span> x ts) = x : concatMap dfs ts
+</code></pre>
 </div></div></div>
 
 <p>At least to me, this makes a lot of sense. We fight recursion with recursion! First, we first output the node we are on and then we call <code>DFS_recursive(...)</code> on each of its children nodes. This method of tree traversal does what its name implies: it goes to the depths of the tree first before going through the rest of the branches. In this case, the ordering looks like:</p>
@@ -1052,7 +1059,7 @@
     <img src="res/DFS_pre.png" width="500" height="500">
 </p>
 
-<p>Note that the in the code above, we are missing a crucial step: <em>checking to see if the node we are using actually exists!</em> Because we are using a vector to store all the nodes, we will be careful not to run into a case where we call <code>DFS_recursive(...)</code> on a node that has yet to be initialized; however, depending on the language we are using, we might need to be careful of this to avoid recursion errors! </p>
+<p>Note that the in the code above, we are missing a crucial step: <em>checking to see if the node we are using actually exists!</em> Because we are using a vector to store all the nodes, we will be careful not to run into a case where we call <code>DFS_recursive(...)</code> on a node that has yet to be initialized; however, depending on the language we are using, we might need to be careful of this to avoid recursion errors!</p>
 <p>Now, in this case the first element searched through is still the root of the tree. This type of tree traversal is known as <em>pre-order</em> DFS. We perform an action (output the ID) <em>before</em> searching through the children. If we shift the function around and place the data output at the end of the function, we can modify the order in which we search through the tree to be <em>post-order</em> and look something like this:</p>
 <div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
@@ -1148,6 +1155,9 @@
     <span class="hljs-comment"># Here we are doing something...</span>
     println(n.ID)
 <span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">dfsPostOrder</span> :: <span class="hljs-type">Tree</span> a -&gt; [a]
+<span class="hljs-title">dfsPostOrder</span> (<span class="hljs-type">Node</span> x ts) = concatMap dfsPostOrder ts ++ [x]
 </code></pre>
 </div></div></div>
 
@@ -1321,6 +1331,12 @@
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">dfsInOrder</span> :: <span class="hljs-type">Tree</span> a -&gt; [a] <span class="hljs-comment">-- For binary trees only</span>
+<span class="hljs-title">dfsInOrder</span> (<span class="hljs-type">Node</span> x [])     = [x]
+<span class="hljs-title">dfsInOrder</span> (<span class="hljs-type">Node</span> x [l])    = dfsInOrder l ++ [x] <span class="hljs-comment">-- Single branch assumed to be left</span>
+<span class="hljs-title">dfsInOrder</span> (<span class="hljs-type">Node</span> x [l, r]) = dfsInOrder l ++ [x] ++ dfsInOrder r
+<span class="hljs-title">dfsInOrder</span> _               = error <span class="hljs-string">&quot;Not a binary tree&quot;</span>
+</code></pre>
 </div></div></div>
 
 <p align="center">
@@ -1329,7 +1345,7 @@
 
 
 <p>The order here seems to be some mix of the other 2 methods and works through the binary tree from left to right.</p>
-<p>Now, at this point, it might seem that the only way to search through a recursive data structure is with recusion, but this is not necessarily the case! Rather surprisingly, we can perform a DFS non-recursively by using a stack, which are data structures that hold multiple elements, but only allow you to interact with the very last element you put in. The idea here is simple:</p>
+<p>Now, at this point, it might seem that the only way to search through a recursive data structure is with recursion, but this is not necessarily the case! Rather surprisingly, we can perform a DFS non-recursively by using a stack, which are data structures that hold multiple elements, but only allow you to interact with the very last element you put in. The idea here is simple:</p>
 <ol>
 <li>Put the root node in the stack</li>
 <li>Take it out and put in its children</li>
@@ -1475,6 +1491,20 @@
     }
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
+    s = Stack(Node)
+    push!(s, n)
+
+    <span class="hljs-keyword">while</span>(length(s) &gt; <span class="hljs-number">0</span>)
+        println(top(s).ID)
+        temp = pop!(s)
+        <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children
+            push!(s, child)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
 </div></div></div>
 
 <p>All this said, there are a few details about DFS that might not be idea, depending on the situation. For example, if we use DFS on an incredibly long tree, we will spend a lot of time going further and further down a single branch without searching the rest of the data structure. In addition, it is not the natural way humans would order a tree if asked to number all the nodes from top to bottom. I would argue a more natural traversal order would look something like this:</p>
@@ -1619,6 +1649,11 @@
         queue.extend(&amp;current.children);
     }
 }
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">bfs</span> :: <span class="hljs-type">Tree</span> a -&gt; [a]
+<span class="hljs-title">bfs</span> (<span class="hljs-type">Node</span> x ts) = x : go ts
+  <span class="hljs-keyword">where</span> go [] = []
+        go ts = map node ts ++ go (concatMap forest ts)
 </code></pre>
 </div></div></div>
 
@@ -1812,7 +1847,7 @@ main()
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><h3 id="c">C#</h3>
 <p>Tree.cs</p>
-<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
+<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
 <span class="hljs-keyword">using</span> System;
 <span class="hljs-keyword">using</span> System.Collections.Generic;
 
@@ -1911,7 +1946,7 @@ main()
 }
 </code></pre>
 <p>Program.cs</p>
-<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
+<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
 <span class="hljs-keyword">using</span> System;
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">TreeTraversal</span>
@@ -2295,7 +2330,7 @@ main()
 </code></pre>
 </div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><h3 id="python-3">Python 3</h3>
 <pre><code class="lang-python"><span class="hljs-comment"># Depth-First and Breadth-First Traversal</span>
-<span class="hljs-comment"># Submitted by Matthew Giallourakis </span>
+<span class="hljs-comment"># Submitted by Matthew Giallourakis</span>
 <span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">node</span><span class="hljs-params">()</span>:</span>
@@ -2366,7 +2401,7 @@ main()
     <span class="hljs-comment">#           5</span>
     <span class="hljs-comment">#       2       8</span>
     <span class="hljs-comment">#     1   3   6   9</span>
-    <span class="hljs-comment">#              </span>
+    <span class="hljs-comment">#</span>
 
     print(<span class="hljs-string">&quot;Depth First:&quot;</span>,depth_first_search(root))
     <span class="hljs-comment"># prints [5, 2, 1, 3, 8, 6, 9]</span>
@@ -2438,13 +2473,58 @@ main()
     bfs_queue(&amp;root);
 }
 </code></pre>
+<h3 id="haskell">Haskell</h3>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Tree</span> a = <span class="hljs-type">Node</span> { <span class="hljs-title">node</span> :: <span class="hljs-title">a</span>
+                   , <span class="hljs-title">forest</span> :: [<span class="hljs-type">Tree</span> <span class="hljs-title">a</span>]
+                   } <span class="hljs-keyword">deriving</span> (<span class="hljs-type">Show</span>)</span>
+
+<span class="hljs-title">dfs</span> :: <span class="hljs-type">Tree</span> a -&gt; [a]
+<span class="hljs-title">dfs</span> (<span class="hljs-type">Node</span> x ts) = x : concatMap dfs ts
+
+<span class="hljs-title">dfsPostOrder</span> :: <span class="hljs-type">Tree</span> a -&gt; [a]
+<span class="hljs-title">dfsPostOrder</span> (<span class="hljs-type">Node</span> x ts) = concatMap dfsPostOrder ts ++ [x]
+
+<span class="hljs-title">dfsInOrder</span> :: <span class="hljs-type">Tree</span> a -&gt; [a] <span class="hljs-comment">-- For binary trees only</span>
+<span class="hljs-title">dfsInOrder</span> (<span class="hljs-type">Node</span> x [])     = [x]
+<span class="hljs-title">dfsInOrder</span> (<span class="hljs-type">Node</span> x [l])    = dfsInOrder l ++ [x] <span class="hljs-comment">-- Single branch assumed to be left</span>
+<span class="hljs-title">dfsInOrder</span> (<span class="hljs-type">Node</span> x [l, r]) = dfsInOrder l ++ [x] ++ dfsInOrder r
+<span class="hljs-title">dfsInOrder</span> _               = error <span class="hljs-string">&quot;Not a binary tree&quot;</span>
+
+<span class="hljs-title">bfs</span> :: <span class="hljs-type">Tree</span> a -&gt; [a]
+<span class="hljs-title">bfs</span> (<span class="hljs-type">Node</span> x ts) = x : go ts
+  <span class="hljs-keyword">where</span> go [] = []
+        go ts = map node ts ++ go (concatMap forest ts)
+
+<span class="hljs-title">toBin</span> :: <span class="hljs-type">Tree</span> a -&gt; <span class="hljs-type">Tree</span> a
+<span class="hljs-title">toBin</span> (<span class="hljs-type">Node</span> x ts) = <span class="hljs-type">Node</span> x (map toBin $ take <span class="hljs-number">2</span> ts)
+
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  print $ dfs testTree
+  print $ dfsPostOrder testTree
+  print $ dfsInOrder $ toBin testTree
+  print $ bfs testTree
+
+<span class="hljs-title">testTree</span> :: <span class="hljs-type">Tree</span> <span class="hljs-type">Int</span>
+<span class="hljs-title">testTree</span> = <span class="hljs-type">Node</span> <span class="hljs-number">1</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">2</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">3</span> []
+                           , <span class="hljs-type">Node</span> <span class="hljs-number">4</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">5</span> []]
+                           ]
+                  , <span class="hljs-type">Node</span> <span class="hljs-number">6</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">7</span> []
+                           , <span class="hljs-type">Node</span> <span class="hljs-number">8</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">9</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">10</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">11</span> []]
+                                             , <span class="hljs-type">Node</span> <span class="hljs-number">12</span> []
+                                             ]
+                                    ]
+                           , <span class="hljs-type">Node</span> <span class="hljs-number">13</span> [ <span class="hljs-type">Node</span> <span class="hljs-number">14</span> []]
+                           ]
+                   , <span class="hljs-type">Node</span> <span class="hljs-number">15</span> []
+                   ]
+</code></pre>
 </div></div></div>
 
 
 <p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; "> 
+<script type="math/tex; mode=display">
 \newcommand{\d}{\mathrm{d}}
 \newcommand{\bff}{\boldsymbol{f}}
 \newcommand{\bfg}{\boldsymbol{g}}
@@ -2496,7 +2576,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-05-28T21:22:29.303Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-06-21T10:31:21.977Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

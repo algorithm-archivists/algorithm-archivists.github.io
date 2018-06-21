@@ -913,7 +913,7 @@ This problem is solved by the Gale-Shapley algorithm, which can be simply descri
 <li>All rejected men propose to their next choice, and the women again select whichever man they prefer, possibly rejecting the one they were already engaged to.</li>
 </ol>
 <p>This process continues until all individuals are paired, which means that this algorithm guarantees stable matching and also has a <script type="math/tex; ">\mathcal{O}(n^2)</script> runtime.
-To be clear, even though this algorithm seems conceptually simple, it is rather tricky to implement correctly. 
+To be clear, even though this algorithm seems conceptually simple, it is rather tricky to implement correctly.
 I do not at all claim that the code provided here is efficient and we will definitely be coming back to this problem in the future when we have more tools under our belt.
 I am incredibly interested to see what you guys do and how you implement the algorithm.</p>
 <div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
@@ -932,7 +932,7 @@ I am incredibly interested to see what you guys do and how you implement the alg
     <span class="hljs-keyword">return</span> men, women
 <span class="hljs-keyword">end</span>
 
-<span class="hljs-comment"># Returns if `person` prefers the `first` candidate over the `second` one. </span>
+<span class="hljs-comment"># Returns if `person` prefers the `first` candidate over the `second` one.</span>
 <span class="hljs-comment"># This translates to `first` appearing *sooner* in the preference list</span>
 prefers(prefs, person, first, second) =
     findfirst(m -&gt; m == first, prefs[person]) &lt;
@@ -1155,123 +1155,126 @@ main()
   print $ stableMatching aPref bPref
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
-<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdbool.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdbool.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;time.h&gt;</span></span>
 
-<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> person {
-    <span class="hljs-keyword">size_t</span> id;
-    <span class="hljs-keyword">size_t</span> prtnr;
-    <span class="hljs-keyword">size_t</span> *prefs;
-    <span class="hljs-keyword">size_t</span> pref_ind;
-} person;
+<span class="hljs-keyword">struct</span> person {
+    <span class="hljs-keyword">int</span> id;
+    <span class="hljs-keyword">struct</span> person *partner;
+    <span class="hljs-keyword">size_t</span> *prefers;
+    <span class="hljs-keyword">size_t</span> index;
+};
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(size_t *x, size_t n)</span> </span>{
-    <span class="hljs-keyword">if</span> (n &gt; <span class="hljs-number">1</span>) {
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; ++i) {
-            <span class="hljs-keyword">size_t</span> j = i + rand() / (RAND_MAX / (n - i) + <span class="hljs-number">1</span>);
-            <span class="hljs-keyword">size_t</span> t = x[j];
-            x[j] = x[i];
-            x[i] = t;
-        }
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(size_t *<span class="hljs-built_in">array</span>, size_t size)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = size - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; --i) {
+        <span class="hljs-keyword">size_t</span> j = rand() % (i + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">size_t</span> tmp = <span class="hljs-built_in">array</span>[i];
+        <span class="hljs-built_in">array</span>[i] = <span class="hljs-built_in">array</span>[j];
+        <span class="hljs-built_in">array</span>[j] = tmp;
     }
 }
 
-<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">prefers</span><span class="hljs-params">(size_t *prefs, size_t prtnr_id, size_t prop_id, size_t pref_size)</span> </span>{
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; pref_size; ++i) {
-        <span class="hljs-keyword">if</span> (prefs[i] == prtnr_id) {
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(prefs[i] == prop_id) {
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">create_group</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> person *group, size_t size, <span class="hljs-keyword">bool</span> are_men)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        group[i].id = i;
+        group[i].partner = <span class="hljs-literal">NULL</span>;
+        group[i].prefers = (<span class="hljs-keyword">size_t</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">size_t</span>) * size);
+        group[i].index = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; size; ++j) {
+            group[i].prefers[j] = j;
+        }
+
+        shuffle(group[i].prefers, size);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">prefers_partner</span><span class="hljs-params">(size_t *prefers, size_t partner, size_t id, size_t size)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        <span class="hljs-keyword">if</span> (prefers[i] == partner) {
             <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(prefers[i] == id) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
         }
     }
 }
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">create_ppl</span><span class="hljs-params">(person *grp, size_t grp_size)</span> </span>{
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-        person prn;
-        prn.id = i;
-        prn.prtnr = grp_size + <span class="hljs-number">1</span>;
-        prn.pref_ind = <span class="hljs-number">0</span>;
-        prn.prefs = (<span class="hljs-keyword">size_t</span> *) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">size_t</span>) * grp_size);
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stable_marriage</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> person *men, <span class="hljs-keyword">struct</span> person *women, size_t size)</span> </span>{
+    <span class="hljs-keyword">struct</span> person *bachelors[size];
+    <span class="hljs-keyword">size_t</span> bachelors_size = size;
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; grp_size; ++j) {
-            prn.prefs[j] = j;
-        }
-
-        shuffle(prn.prefs, grp_size);
-        grp[i] = prn;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        bachelors[i] = &amp;men[i];
     }
-}
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stable_matching</span><span class="hljs-params">(person *men, person *women, size_t grp_size)</span> </span>{
-    <span class="hljs-keyword">bool</span> cont = <span class="hljs-literal">true</span>;
-    <span class="hljs-keyword">while</span> (cont) {
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-            <span class="hljs-keyword">if</span> (men[i].prtnr == (grp_size + <span class="hljs-number">1</span>)) {
-                <span class="hljs-keyword">size_t</span> wmn_id = men[i].prefs[men[i].pref_ind];
+    <span class="hljs-keyword">while</span> (bachelors_size &gt; <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">struct</span> person *man = bachelors[bachelors_size - <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">struct</span> person *woman = &amp;women[man-&gt;prefers[man-&gt;index]];
 
-                <span class="hljs-keyword">if</span> (women[wmn_id].prtnr == (grp_size + <span class="hljs-number">1</span>)) {
-                    men[i].prtnr = wmn_id;
-                    women[wmn_id].prtnr = i;
-                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(prefers(women[wmn_id].prefs, women[wmn_id].prtnr, i,
-                                    grp_size)) {
-                    men[women[wmn_id].prtnr].prtnr = grp_size + <span class="hljs-number">1</span>;
-                    women[wmn_id].prtnr = i;
-                    men[i].prtnr = wmn_id;
-                }
+        <span class="hljs-keyword">if</span> (!woman-&gt;partner) {
+            woman-&gt;partner = man;
+            man-&gt;partner = woman;
+            bachelors[--bachelors_size] = <span class="hljs-literal">NULL</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!prefers_partner(woman-&gt;prefers, woman-&gt;partner-&gt;id, man-&gt;id,
+                                   size)) {
 
-                men[i].pref_ind++;
-            }
-        }
-
-        cont = <span class="hljs-literal">false</span>;
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-            <span class="hljs-keyword">if</span> (men[i].prtnr == (grp_size + <span class="hljs-number">1</span>)) {
-                cont = <span class="hljs-literal">true</span>;
-                <span class="hljs-keyword">break</span>;
-            }
+            woman-&gt;partner-&gt;index++;
+            bachelors[bachelors_size - <span class="hljs-number">1</span>] = woman-&gt;partner;
+            woman-&gt;partner = man;
+            man-&gt;partner = woman;
+        } <span class="hljs-keyword">else</span> {
+            man-&gt;index++;
         }
     }
 }
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">kill</span><span class="hljs-params">(person *grp, size_t grp_size)</span> </span>{
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-        <span class="hljs-built_in">free</span>(grp[i].prefs);
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">free_group</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> person *group, size_t size)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        <span class="hljs-built_in">free</span>(group[i].prefers);
     }
 }
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">int</span> grp_size = <span class="hljs-number">5</span>;
-    person men[grp_size], women[grp_size];
+    srand(time(<span class="hljs-literal">NULL</span>));
 
-    create_ppl(men, grp_size);
-    create_ppl(women, grp_size);
+    <span class="hljs-keyword">struct</span> person men[<span class="hljs-number">5</span>], women[<span class="hljs-number">5</span>];
 
-    stable_matching(men, women, grp_size);
+    create_group(men, <span class="hljs-number">5</span>, <span class="hljs-literal">true</span>);
+    create_group(women, <span class="hljs-number">5</span>, <span class="hljs-literal">false</span>);
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;preferences of man %zu \n&quot;</span>, i);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; grp_size; ++j) {
-            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu \n&quot;</span>, men[i].prefs[j]);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;preferences of man %zu: &quot;</span>, i);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">5</span>; ++j) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu &quot;</span>, men[i].prefers[j]);
         }
+
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
     }
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;preferences of woman %zu \n&quot;</span>, i);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; grp_size; ++j) {
-            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu \n&quot;</span>, women[i].prefs[j]);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;preferences of woman %zu: &quot;</span>, i);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">5</span>; ++j) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu &quot;</span>, women[i].prefers[j]);
         }
+
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
     }
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; grp_size; ++i) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;partners of man %zu is woman %zu\n&quot;</span>, i, men[i].prtnr);
+    stable_marriage(men, women, <span class="hljs-number">5</span>);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;the partner of man %zu is woman %d\n&quot;</span>, i, men[i].partner-&gt;id);
     }
 
-    kill(men, grp_size);
-    kill(women, grp_size);
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    free_group(men, <span class="hljs-number">5</span>);
+    free_group(women, <span class="hljs-number">5</span>);
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="cpp" data-name="C++"><h3 id="c">C++</h3>
@@ -1394,7 +1397,7 @@ int main() {
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><h3 id="c">C#</h3>
 <p>GaleShapleyAlgorithm.cs</p>
-<pre><code class="lang-csharp">&#xFEFF;// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
+<pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
 using System.Collections.Generic;
 
 namespace StableMarriageProblem
@@ -1431,7 +1434,7 @@ namespace StableMarriageProblem
 }
 </code></pre>
 <p>Person.cs</p>
-<pre><code class="lang-csharp">&#xFEFF;// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
+<pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
 using System.Collections.Generic;
 
 namespace StableMarriageProblem
@@ -1455,7 +1458,7 @@ namespace StableMarriageProblem
 
             // If the interest has no partner or prefers this person,
             // change interest&apos;s partner to this person.
-            if (interest.Partner == null || 
+            if (interest.Partner == null ||
                 interest.Choices.IndexOf(this as TSelf) &lt; interest.Choices.IndexOf(interest.Partner))
             {
                 // Should the interest already have a partner, set the partner
@@ -1472,7 +1475,7 @@ namespace StableMarriageProblem
 }
 </code></pre>
 <p>Program.cs</p>
-<pre><code class="lang-csharp">&#xFEFF;// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
+<pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
 using System;
 using System.Collections.Generic;
 
@@ -1541,7 +1544,7 @@ namespace StableMarriageProblem
 }
 </code></pre>
 <p>ListExtensions.cs</p>
-<pre><code class="lang-csharp">&#xFEFF;<span class="hljs-keyword">using</span> System;
+<pre><code class="lang-csharp"><span class="hljs-keyword">using</span> System;
 <span class="hljs-keyword">using</span> System.Collections.Generic;
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">StableMarriageProblem</span>
@@ -1619,7 +1622,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.18.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.17","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","mtime":"2018-04-30T05:42:18.047Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T21:27:22.861Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.18.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.17","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
