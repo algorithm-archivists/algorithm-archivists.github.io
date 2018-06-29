@@ -919,6 +919,10 @@ We can find whether a rotation is counter-clockwise with trigonometric functions
     <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccw</span>(<span class="hljs-params">a, b, c</span>) </span>{
+  <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
+}
+</code></pre>
 </div></div></div>
 
 <p>If the output of this function is 0, the points are collinear.
@@ -1008,6 +1012,37 @@ In the end, the code should look something like this:</p>
     memcpy(points, tmp_points + 1, size * sizeof(struct point));
 
     return m;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
+  <span class="hljs-comment">// First, sort the points so the one with the lowest y-coordinate comes first (the pivot)</span>
+  points = [...points].sort((a, b) =&gt; (a.y - b.y));
+  <span class="hljs-keyword">const</span> pivot = points[<span class="hljs-number">0</span>];
+
+  <span class="hljs-comment">// Then sort all remaining points based on the angle between the pivot and itself</span>
+  <span class="hljs-keyword">const</span> hull = points.slice(<span class="hljs-number">1</span>).sort((a, b) =&gt; polarAngle(a, pivot) - polarAngle(b, pivot));
+
+  <span class="hljs-comment">// The pivot is always on the hull</span>
+  hull.unshift(pivot);
+
+  <span class="hljs-keyword">let</span> n = hull.length;
+  <span class="hljs-keyword">let</span> m = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+    <span class="hljs-keyword">while</span> (ccw(hull[m - <span class="hljs-number">1</span>], hull[m], hull[i]) &lt;= <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">if</span> (m &gt; <span class="hljs-number">1</span>) {
+        m -= <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m === i) {
+        <span class="hljs-keyword">break</span>;
+      } <span class="hljs-keyword">else</span> {
+        i += <span class="hljs-number">1</span>;
+      }
+    }
+
+    m += <span class="hljs-number">1</span>;
+    [hull[i], hull[m]] = [hull[m], hull[i]];
+  }
+
+  <span class="hljs-keyword">return</span> hull.slice(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
 }
 </code></pre>
 </div></div></div>
@@ -1214,6 +1249,59 @@ int main() {
     return 0;
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
+  <span class="hljs-comment">// First, sort the points so the one with the lowest y-coordinate comes first (the pivot)</span>
+  points = [...points].sort((a, b) =&gt; (a.y - b.y));
+  <span class="hljs-keyword">const</span> pivot = points[<span class="hljs-number">0</span>];
+
+  <span class="hljs-comment">// Then sort all remaining points based on the angle between the pivot and itself</span>
+  <span class="hljs-keyword">const</span> hull = points.slice(<span class="hljs-number">1</span>).sort((a, b) =&gt; polarAngle(a, pivot) - polarAngle(b, pivot));
+
+  <span class="hljs-comment">// The pivot is always on the hull</span>
+  hull.unshift(pivot);
+
+  <span class="hljs-keyword">let</span> n = hull.length;
+  <span class="hljs-keyword">let</span> m = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+    <span class="hljs-keyword">while</span> (ccw(hull[m - <span class="hljs-number">1</span>], hull[m], hull[i]) &lt;= <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">if</span> (m &gt; <span class="hljs-number">1</span>) {
+        m -= <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m === i) {
+        <span class="hljs-keyword">break</span>;
+      } <span class="hljs-keyword">else</span> {
+        i += <span class="hljs-number">1</span>;
+      }
+    }
+
+    m += <span class="hljs-number">1</span>;
+    [hull[i], hull[m]] = [hull[m], hull[i]];
+  }
+
+  <span class="hljs-keyword">return</span> hull.slice(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">polarAngle</span>(<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.atan2(a.y - b.y, a.x - b.x);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccw</span>(<span class="hljs-params">a, b, c</span>) </span>{
+  <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
+}
+
+<span class="hljs-keyword">const</span> points = [
+  { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">3</span> },
+  { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">4</span> },
+  { x: <span class="hljs-number">4</span>, y: <span class="hljs-number">0</span> },
+  { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">0</span> },
+  { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">2</span> },
+  { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">2</span> },
+  { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">4</span> },
+  { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">1</span> },
+];
+
+<span class="hljs-keyword">const</span> convexHull = grahamScan(points);
+convexHull.forEach(p =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`(<span class="hljs-subst">${p.x}</span>, <span class="hljs-subst">${p.y}</span>)`</span>));
+</code></pre>
 </div></div></div>
 
 <p><script>
@@ -1271,7 +1359,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.15.1.2","depth":3,"next":{"title":"Chan's Algorithm","level":"1.15.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.15.1.1","depth":3,"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","ref":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","mtime":"2018-06-21T10:31:21.970Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.15.1.2","depth":3,"next":{"title":"Chan's Algorithm","level":"1.15.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.15.1.1","depth":3,"path":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","ref":"chapters/computational_geometry/gift_wrapping/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/computational_geometry/gift_wrapping/graham_scan/graham_scan.md","mtime":"2018-06-28T21:13:00.453Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:48:49.329Z"},"basePath":"../../../..","book":{"language":""}});
         });
     </script>
 </div>

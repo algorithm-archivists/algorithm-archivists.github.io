@@ -1395,6 +1395,78 @@ int main() {
   }
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><h3 id="javascript">JavaScript</h3>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>{
+  <span class="hljs-keyword">constructor</span>(name) {
+    <span class="hljs-keyword">this</span>.name = name;
+  }
+
+  get hasFiance() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-keyword">this</span>.fiance;
+  }
+
+  prefers(other) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.preferences.indexOf(other) &lt; <span class="hljs-keyword">this</span>.preferences.indexOf(<span class="hljs-keyword">this</span>.fiance);
+  }
+
+  engageTo(other) {
+    <span class="hljs-keyword">if</span> (other.hasFiance) {
+      other.fiance.fiance = <span class="hljs-literal">undefined</span>;
+    }
+
+    <span class="hljs-keyword">this</span>.fiance = other;
+    other.fiance = <span class="hljs-keyword">this</span>;
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stableMarriage</span>(<span class="hljs-params">guys, girls</span>) </span>{
+  <span class="hljs-keyword">const</span> bachelors = [...guys];
+  <span class="hljs-keyword">while</span> (bachelors.length &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">const</span> guy = bachelors.shift();
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> girl <span class="hljs-keyword">of</span> guy.preferences) {
+      <span class="hljs-keyword">if</span> (!girl.hasFiance) {
+        guy.engageTo(girl);
+        <span class="hljs-keyword">break</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (girl.prefers(guy)) {
+        bachelors.push(girl.fiance);
+        guy.engageTo(girl);
+        <span class="hljs-keyword">break</span>;
+      }
+    }
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">shuffle</span>(<span class="hljs-params">iterable</span>) </span>{
+  <span class="hljs-keyword">const</span> array = [...iterable];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = array.length - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; i--) {
+    <span class="hljs-keyword">const</span> j = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (i + <span class="hljs-number">1</span>));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  <span class="hljs-keyword">return</span> array;
+}
+
+<span class="hljs-keyword">const</span> guys = [...<span class="hljs-string">&quot;ABCDE&quot;</span>].map(name =&gt; <span class="hljs-keyword">new</span> Person(name));
+<span class="hljs-keyword">const</span> girls = [...<span class="hljs-string">&quot;FGHIJ&quot;</span>].map(name =&gt; <span class="hljs-keyword">new</span> Person(name));
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Guys&quot;</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> guy <span class="hljs-keyword">of</span> guys) {
+  guy.preferences = shuffle(girls);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${guy.name}</span>: <span class="hljs-subst">${guy.preferences.map(p =&gt; p.name).join()}</span>`</span>)
+}
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;\nGirls&quot;</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> girl <span class="hljs-keyword">of</span> girls) {
+  girl.preferences = shuffle(guys);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${girl.name}</span>: <span class="hljs-subst">${girl.preferences.map(p =&gt; p.name).join()}</span>`</span>)
+}
+
+stableMarriage(guys, girls);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;\nPairings&quot;</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> guy <span class="hljs-keyword">of</span> guys) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${guy.name}</span>: <span class="hljs-subst">${guy.fiance.name}</span>`</span>);
+}
+</code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><h3 id="c">C#</h3>
 <p>GaleShapleyAlgorithm.cs</p>
 <pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
@@ -1622,7 +1694,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.18.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.17","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.18.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.17","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","mtime":"2018-06-28T21:13:00.453Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:48:49.329Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

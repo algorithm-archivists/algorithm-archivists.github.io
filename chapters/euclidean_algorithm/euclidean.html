@@ -916,8 +916,12 @@
     <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidSub</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidSub</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
 </span>{
+    <span class="hljs-comment">// Math.Abs for negative number support</span>
+    a = Math.Abs(a);
+    b = Math.Abs(b);
+
     <span class="hljs-keyword">while</span> (a != b)
     {
         <span class="hljs-keyword">if</span> (a &gt; b)
@@ -968,7 +972,7 @@
     <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_sub</span><span class="hljs-params">(a, b)</span>:</span>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_sub</span><span class="hljs-params">(a, b)</span>:</span>
 
     a = abs(a)
     b = abs(b)
@@ -1030,6 +1034,21 @@
     <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> euclidSub(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
+    a = abs(a)
+    b = abs(b)
+
+    <span class="hljs-keyword">for</span> a != b {
+        <span class="hljs-keyword">if</span> a &gt; b {
+            a -= b
+        } <span class="hljs-keyword">else</span> {
+            b -= a
+        }
+    }
+
+    <span class="hljs-keyword">return</span> a
+}
+</code></pre>
 </div></div></div>
 
 <p>Here, we simply line the two numbers up every step and subtract the lower value from the higher one every timestep. Once the two values are equal, we call that value the greatest common divisor. A graph of <code>a</code> and <code>b</code> as they change every step would look something like this:</p>
@@ -1051,8 +1070,12 @@
     <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidMod</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidMod</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
 </span>{
+    <span class="hljs-comment">// Math.Abs for negative number support</span>
+    a = Math.Abs(a);
+    b = Math.Abs(b);
+
     <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>)
     {
         <span class="hljs-keyword">var</span> temp = b;
@@ -1095,16 +1118,13 @@
     <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_mod</span><span class="hljs-params">(a, b)</span>:</span>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_mod</span><span class="hljs-params">(a, b)</span>:</span>
 
     a = abs(a)
     b = abs(b)
-    temp = <span class="hljs-number">0</span>
 
     <span class="hljs-keyword">while</span> b &gt; <span class="hljs-number">0</span>:
-        temp = b
-        b = a % b
-        a = temp
+        a, b = b, a % b
 
     <span class="hljs-keyword">return</span> a
 </code></pre>
@@ -1150,6 +1170,17 @@
     }
 
     <span class="hljs-keyword">return</span> a;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> euclidMod(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
+    a = abs(a)
+    b = abs(b)
+
+    <span class="hljs-keyword">for</span> b != <span class="hljs-number">0</span> {
+        a, b = b, a%b
+    }
+
+    <span class="hljs-keyword">return</span> a
 }
 </code></pre>
 </div></div></div>
@@ -1210,9 +1241,9 @@
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">EuclideanAlgorithm</span>
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EuclideanAlgorithm</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EuclideanAlgorithm</span>
     {
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidSub</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidSub</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
         </span>{
             <span class="hljs-comment">// Math.Abs for negative number support</span>
             a = Math.Abs(a);
@@ -1229,7 +1260,7 @@
             <span class="hljs-keyword">return</span> a;
         }
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidMod</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">EuclidMod</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b</span>)
         </span>{
             <span class="hljs-comment">// Math.Abs for negative number support</span>
             a = Math.Abs(a);
@@ -1258,8 +1289,9 @@
         <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
         </span>{
             Console.WriteLine(<span class="hljs-string">&quot;EuclideanAlgorithm&quot;</span>);
-            <span class="hljs-keyword">int</span> check = EuclideanAlgorithm.EuclidMod(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>);
-            <span class="hljs-keyword">int</span> check2 = EuclideanAlgorithm.EuclidSub(<span class="hljs-number">128</span> * <span class="hljs-number">12</span>, <span class="hljs-number">128</span> * <span class="hljs-number">77</span>);
+            <span class="hljs-keyword">var</span> euclideanAlgorithm = <span class="hljs-keyword">new</span> EuclideanAlgorithm();
+            <span class="hljs-keyword">int</span> check = euclideanAlgorithm.EuclidMod(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>);
+            <span class="hljs-keyword">int</span> check2 = euclideanAlgorithm.EuclidSub(<span class="hljs-number">128</span> * <span class="hljs-number">12</span>, <span class="hljs-number">128</span> * <span class="hljs-number">77</span>);
 
             Console.WriteLine(check);
             Console.WriteLine(check2);
@@ -1365,17 +1397,14 @@
 <span class="hljs-built_in">console</span>.log(euclid_mod(<span class="hljs-number">64</span>*<span class="hljs-number">67</span>, <span class="hljs-number">64</span>*<span class="hljs-number">81</span>));
 <span class="hljs-built_in">console</span>.log(euclid_sub(<span class="hljs-number">128</span>*<span class="hljs-number">12</span>, <span class="hljs-number">128</span>*<span class="hljs-number">77</span>));
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><h3 id="python">Python</h3>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
 <pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">euclid_mod</span><span class="hljs-params">(a, b)</span>:</span>
 
     a = abs(a)
     b = abs(b)
-    temp = <span class="hljs-number">0</span>
 
     <span class="hljs-keyword">while</span> b &gt; <span class="hljs-number">0</span>:
-        temp = b
-        b = a % b
-        a = temp
+        a, b = b, a % b
 
     <span class="hljs-keyword">return</span> a
 
@@ -1392,8 +1421,11 @@
 
     <span class="hljs-keyword">return</span> a
 
-<span class="hljs-keyword">print</span> euclid_mod(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>)
-<span class="hljs-keyword">print</span> euclid_sub(<span class="hljs-number">128</span> * <span class="hljs-number">12</span>, <span class="hljs-number">128</span> * <span class="hljs-number">77</span>)
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    print(euclid_mod(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>))
+    print(euclid_sub(<span class="hljs-number">128</span> * <span class="hljs-number">12</span>, <span class="hljs-number">128</span> * <span class="hljs-number">77</span>))
+
+main()
 </code></pre>
 </div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><h3 id="haskell">Haskell</h3>
 <pre><code class="lang-haskell"><span class="hljs-comment">-- contributed by Nicole Mazzuca (ubsan)</span>
@@ -1519,6 +1551,54 @@
     <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="go" data-name="Go"><h3 id="go">Go</h3>
+<pre><code class="lang-golang"><span class="hljs-comment">// Submitted by Chinmaya Mahesh (chin123)</span>
+
+<span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-keyword">func</span> abs(a <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">if</span> a &lt; <span class="hljs-number">0</span> {
+        a = -a
+    }
+    <span class="hljs-keyword">return</span> a
+}
+
+<span class="hljs-keyword">func</span> euclidMod(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
+    a = abs(a)
+    b = abs(b)
+
+    <span class="hljs-keyword">for</span> b != <span class="hljs-number">0</span> {
+        a, b = b, a%b
+    }
+
+    <span class="hljs-keyword">return</span> a
+}
+
+<span class="hljs-keyword">func</span> euclidSub(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
+    a = abs(a)
+    b = abs(b)
+
+    <span class="hljs-keyword">for</span> a != b {
+        <span class="hljs-keyword">if</span> a &gt; b {
+            a -= b
+        } <span class="hljs-keyword">else</span> {
+            b -= a
+        }
+    }
+
+    <span class="hljs-keyword">return</span> a
+}
+
+<span class="hljs-keyword">func</span> main() {
+    check1 := euclidMod(<span class="hljs-number">64</span>*<span class="hljs-number">67</span>, <span class="hljs-number">64</span>*<span class="hljs-number">81</span>)
+    check2 := euclidSub(<span class="hljs-number">128</span>*<span class="hljs-number">12</span>, <span class="hljs-number">128</span>*<span class="hljs-number">77</span>)
+
+    fmt.Println(check1)
+    fmt.Println(check2)
+}
+</code></pre>
 </div></div></div>
 
 
@@ -1577,7 +1657,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"next":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.10","depth":1,"path":"chapters/tree_traversal/tree_traversal.md","ref":"chapters/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/euclidean_algorithm/euclidean.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"next":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.10","depth":1,"path":"chapters/tree_traversal/tree_traversal.md","ref":"chapters/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/euclidean_algorithm/euclidean.md","mtime":"2018-06-29T21:44:48.787Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:48:49.329Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

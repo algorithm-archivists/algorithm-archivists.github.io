@@ -982,7 +982,7 @@ Here is what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Verlet</span><span class="hljs-params">(Simulation)</span>:</span>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Verlet</span><span class="hljs-params">(Simulation)</span>:</span>
 
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">step</span><span class="hljs-params">(self)</span>:</span>
         temp_pos = self.obj.pos
@@ -1170,7 +1170,7 @@ Here&apos;s what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stormer_Verlet</span><span class="hljs-params">(Simulation)</span>:</span>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stormer_Verlet</span><span class="hljs-params">(Simulation)</span>:</span>
 
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">step</span><span class="hljs-params">(self)</span>:</span>
         temp_pos = self.obj.pos
@@ -1368,7 +1368,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Velocity_Verlet</span><span class="hljs-params">(Simulation)</span>:</span>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Velocity_Verlet</span><span class="hljs-params">(Simulation)</span>:</span>
 
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">step</span><span class="hljs-params">(self)</span>:</span>
         self.obj.pos += self.obj.vel * self.dt + <span class="hljs-number">0.5</span> * self.obj.acc * self.dt * self.dt
@@ -1715,7 +1715,7 @@ main()
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><h3 id="python">Python</h3>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
 <pre><code class="lang-python"><span class="hljs-comment"># KingFredrickVI</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ball</span>:</span>
 
@@ -1770,17 +1770,17 @@ main()
     sim = Verlet(Ball(pos = <span class="hljs-number">5.0</span>, acc = <span class="hljs-number">-10</span>))
     sim.run()
 
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Verlet:&quot;</span>, sim.time
+    print(<span class="hljs-string">&quot;Verlet:&quot;</span>, sim.time)
 
     sim = Stormer_Verlet(Ball(pos = <span class="hljs-number">5.0</span>, acc = <span class="hljs-number">-10</span>))
     sim.run()
 
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Stormer Verlet:&quot;</span>, sim.time
+    print(<span class="hljs-string">&quot;Stormer Verlet:&quot;</span>, sim.time)
 
     sim = Velocity_Verlet(Ball(pos = <span class="hljs-number">5.0</span>, acc = <span class="hljs-number">-10</span>))
     sim.run()
 
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Velocity Verlet:&quot;</span>, sim.time
+    print(<span class="hljs-string">&quot;Velocity Verlet:&quot;</span>, sim.time)
 
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
@@ -2031,7 +2031,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.19.1","depth":2,"next":{"title":"Barnes-Hut","level":"1.19.2","depth":2,"path":"chapters/physics_solvers/barnes_hut.md","ref":"chapters/physics_solvers/barnes_hut.md","articles":[]},"previous":{"title":"Physics Solvers","level":"1.19","depth":1,"path":"chapters/physics_solvers/physics_solvers.md","ref":"chapters/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.19.1","depth":2,"path":"chapters/physics_solvers/verlet/verlet.md","ref":"chapters/physics_solvers/verlet/verlet.md","articles":[]},{"title":"Barnes-Hut","level":"1.19.2","depth":2,"path":"chapters/physics_solvers/barnes_hut.md","ref":"chapters/physics_solvers/barnes_hut.md","articles":[]},{"title":"Quantum Systems","level":"1.19.3","depth":2,"path":"chapters/physics_solvers/quantum/quantum.md","ref":"chapters/physics_solvers/quantum/quantum.md","articles":[{"title":"Split-Operator Method","level":"1.19.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/physics_solvers/verlet/verlet.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.19.1","depth":2,"next":{"title":"Barnes-Hut","level":"1.19.2","depth":2,"path":"chapters/physics_solvers/barnes_hut.md","ref":"chapters/physics_solvers/barnes_hut.md","articles":[]},"previous":{"title":"Physics Solvers","level":"1.19","depth":1,"path":"chapters/physics_solvers/physics_solvers.md","ref":"chapters/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.19.1","depth":2,"path":"chapters/physics_solvers/verlet/verlet.md","ref":"chapters/physics_solvers/verlet/verlet.md","articles":[]},{"title":"Barnes-Hut","level":"1.19.2","depth":2,"path":"chapters/physics_solvers/barnes_hut.md","ref":"chapters/physics_solvers/barnes_hut.md","articles":[]},{"title":"Quantum Systems","level":"1.19.3","depth":2,"path":"chapters/physics_solvers/quantum/quantum.md","ref":"chapters/physics_solvers/quantum/quantum.md","articles":[{"title":"Split-Operator Method","level":"1.19.3.1","depth":3,"path":"chapters/physics_solvers/quantum/split-op/split-op.md","ref":"chapters/physics_solvers/quantum/split-op/split-op.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/physics_solvers/verlet/verlet.md","mtime":"2018-06-29T20:47:53.383Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:48:49.329Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

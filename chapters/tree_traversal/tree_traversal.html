@@ -911,10 +911,12 @@
   <span class="hljs-keyword">int</span> value;
 };
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
 {
     <span class="hljs-keyword">public</span> List&lt;Node&gt; Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Node&gt;();
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> id</span>) </span>=&gt; <span class="hljs-keyword">this</span>.Id = id;
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> node {
@@ -923,6 +925,24 @@
     <span class="hljs-keyword">int</span> id;
 };
 </code></pre>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Node</span>&gt; </span>{
+    <span class="hljs-keyword">public</span> ArrayList&lt;Node&gt; children;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>{
+        <span class="hljs-keyword">this</span>.children = <span class="hljs-keyword">new</span> ArrayList&lt;Node&gt;();
+        <span class="hljs-keyword">this</span>.id = id;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Node other)</span> </span>{
+        <span class="hljs-comment">// Need to implement Comparable&lt;Node&gt; and override this</span>
+        <span class="hljs-comment">// method because of the method BFSQueue() which uses Queues</span>
+        <span class="hljs-comment">// and must know how to check if two nodes are the same or not</span>
+        <span class="hljs-keyword">return</span> Integer.compare(<span class="hljs-keyword">this</span>.id, other.id);
+    }
+}
+</code></pre>
 </div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia">struct Node
     children<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Node}
@@ -930,18 +950,11 @@
     Node(ID<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>) = new(<span class="hljs-built_in">Vector</span>{Node}(), ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>:</span>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>:</span>
 
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
         self.data = <span class="hljs-keyword">None</span>
         self.children = []
-</code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">node</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-string">&quot;Create the node structure&quot;</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value, left, right)</span>:</span>
-        self.value = value
-        self.left = left
-        self.right = right
 </code></pre>
 </div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia">struct Node
@@ -980,14 +993,16 @@
   }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params"></span>)
 </span>{
-    <span class="hljs-comment">// Here we are doing something...</span>
-    Console.WriteLine(node.Id);
+    DFSRecursive(root);
 
-    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
-    {
-        DFSRecursive(c);
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+    </span>{
+        Console.WriteLine(node.Id);
+
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+            DFSRecursive(c);
     }
 }
 </code></pre>
@@ -1001,17 +1016,20 @@
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_recursive</span>(<span class="hljs-params">n</span>)</span>{
-    <span class="hljs-built_in">console</span>.log(n.ID);
-    <span class="hljs-keyword">if</span>(n.children.length == <span class="hljs-number">0</span>){
-        <span class="hljs-keyword">return</span>;
-    }
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n.children.length; ++i){
-            DFS_recursive(n.children[i]);
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursive</span><span class="hljs-params">(Node node)</span> </span>{
+    System.out.println(node.id);
+
+    <span class="hljs-keyword">for</span> (Node n : node.children) {
+        dfsRecursive(n);
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_tree</span><span class="hljs-params">(node, num_row, num_child)</span>:</span>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsPreorder</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(tree.id);
+  tree.children.forEach(dfsPreorder);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_tree</span><span class="hljs-params">(node, num_row, num_child)</span>:</span>
     node.data = num_row
 
     <span class="hljs-keyword">if</span> num_row &gt; <span class="hljs-number">0</span>:
@@ -1020,16 +1038,6 @@
             node.children.append(child)
 
     <span class="hljs-keyword">return</span> node
-</code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
-<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
-    <span class="hljs-comment"># Here we are doing something...</span>
-    println(n.ID)
-
-    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
-        DFS_recursive(child)
-    <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
 </code></pre>
 </div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive(n<span class="hljs-type">::</span>Node)
@@ -1082,15 +1090,17 @@
     println(n.ID)
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params"></span>)
 </span>{
-    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
-    {
-        DFSRecursivePostorder(c);
-    }
+    DFSRecursivePostorder(root);
 
-    <span class="hljs-comment">// Here we are doing something...</span>
-    Console.WriteLine(node.Id);
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
+    </span>{
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+            DFSRecursivePostorder(c);
+
+        Console.WriteLine(node.Id);
+    }
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs_recursive_postorder</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> node n)</span> </span>{
@@ -1101,29 +1111,21 @@
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, n.id);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
-<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursivePostOrder</span><span class="hljs-params">(Node node)</span> </span>{
+    <span class="hljs-keyword">for</span> (Node n : node.children) {
+        dfsRecursivePostOrder(n);
+    }
 
-    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
-        DFS_recursive_postorder(child)
-    <span class="hljs-keyword">end</span>
-
-    <span class="hljs-comment"># Here we are doing something...</span>
-    println(n.ID)
-<span class="hljs-keyword">end</span>
+    <span class="hljs-comment">// Here we are doing something ...</span>
+    System.out.println(node.id);
+}
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
-<pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
-
-    <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
-        DFS_recursive_postorder(child)
-    <span class="hljs-keyword">end</span>
-
-    <span class="hljs-comment"># Here we are doing something...</span>
-    println(n.ID)
-<span class="hljs-keyword">end</span>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsPostorder</span>(<span class="hljs-params">tree</span>) </span>{
+  tree.children.forEach(dfsPostorder);
+  <span class="hljs-built_in">console</span>.log(tree.id);
+}
 </code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_recursive_postorder(n<span class="hljs-type">::</span>Node)
 
     <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> n.children
@@ -1201,23 +1203,24 @@
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-comment">// This assumes only 2 children</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params"></span>)
 </span>{
-    <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">2</span>)
-    {
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
-    }
+    DFSRecursiveInorderBinary(root);
 
-    <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">0</span>)
-    {
-        DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">0</span>]);
-        Console.WriteLine(node.Id);
-        DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">1</span>]);
-    }
-    <span class="hljs-keyword">else</span>
-    {
-        Console.WriteLine(node.Id);
+    <span class="hljs-comment">// This assumes only 2 children</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
+    </span>{
+        <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">2</span>)
+             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
+
+        <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">0</span>)
+        {
+            DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">0</span>]);
+            Console.WriteLine(node.Id);
+            DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">1</span>]);
+        }
+        <span class="hljs-keyword">else</span>
+            Console.WriteLine(node.Id);
     }
 }
 </code></pre>
@@ -1241,43 +1244,37 @@
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
-<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
-<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-comment">// This assumes only 2 children</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursiveInOrderBinary</span><span class="hljs-params">(Node node)</span> </span>{
+    <span class="hljs-keyword">if</span> (node.children.size() &gt; <span class="hljs-number">2</span>) {
+        System.err.println(<span class="hljs-string">&quot;Not a binary tree at dfsRecursiveInOrderBinary()!&quot;</span>);
+        <span class="hljs-keyword">return</span>;
+    }
 
-    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
-        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
-        exit(<span class="hljs-number">1</span>)
-    <span class="hljs-keyword">end</span>
-
-    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
-        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
-        println(n.ID)
-        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
-    <span class="hljs-keyword">else</span>
-        println(n.ID)
-    <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">if</span> (node.children.size() &gt; <span class="hljs-number">1</span>) {
+        dfsRecursiveInOrderBinary(node.children.get(<span class="hljs-number">0</span>));
+        System.out.println(node.id);
+        dfsRecursiveInOrderBinary(node.children.get(<span class="hljs-number">1</span>));
+    } <span class="hljs-keyword">else</span> {
+        System.out.println(node.id);
+    }
+}
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
-<pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
-<span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsInorder</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-keyword">if</span> (!tree) {
+    <span class="hljs-keyword">return</span>;
+  }
 
-    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">2</span>)
-        println(<span class="hljs-string">&quot;Not a binary tree!&quot;</span>)
-        exit(<span class="hljs-number">1</span>)
-    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">if</span> (tree.children.length &gt; <span class="hljs-number">2</span>) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&quot;Postorder traversal is only valid for binary trees&quot;</span>);
+  }
 
-    <span class="hljs-keyword">if</span> (length(n.children) &gt; <span class="hljs-number">0</span>)
-        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">0</span>])
-        println(n.ID)
-        DFS_recursive_inorder_btree(n.children[<span class="hljs-number">1</span>])
-    <span class="hljs-keyword">else</span>
-        println(n.ID)
-    <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
+  dfsInorder(tree.children[<span class="hljs-number">0</span>]);
+  <span class="hljs-built_in">console</span>.log(tree.id);
+  dfsInorder(tree.children[<span class="hljs-number">1</span>]);
+}
 </code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia"><span class="hljs-comment"># This assumes only 2 children</span>
 <span class="hljs-keyword">function</span> DFS_recursive_inorder_btree(n<span class="hljs-type">::</span>Node)
 
@@ -1396,9 +1393,7 @@
         temp = stack.Pop();
 
         <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
-        {
             stack.Push(c);
-        }
     }
 }
 </code></pre>
@@ -1422,51 +1417,43 @@
     free_stack(stk);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_stack</span>(<span class="hljs-params">n</span>)</span>{
-    <span class="hljs-keyword">var</span> s = [];
-    s.push(n);
-    <span class="hljs-keyword">var</span> temp;
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsStack</span><span class="hljs-params">()</span> </span>{
+    Stack&lt;Node&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;Node&gt;();
+    stack.push(<span class="hljs-keyword">this</span>.root);
 
-    <span class="hljs-keyword">while</span>(s.length &gt; <span class="hljs-number">0</span>){
-        temp = s.pop();
-        <span class="hljs-built_in">console</span>.log(temp.ID);
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
-                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
-                <span class="hljs-keyword">break</span>;
-            }
-                s.push(temp.children[i]);
+    Node tmp;
+
+    <span class="hljs-keyword">while</span> (stack.size() != <span class="hljs-number">0</span>) {
+        System.out.println(stack.peek().id);
+        tmp = stack.pop();
+
+        <span class="hljs-keyword">for</span> (Node c : tmp.children) {
+            stack.push(c);
         }
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS_stack</span><span class="hljs-params">(node)</span>:</span>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsIterative</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-keyword">const</span> stack = [tree];
+  <span class="hljs-keyword">while</span> (stack.length &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">const</span> current = stack.pop();
+    <span class="hljs-built_in">console</span>.log(current.id);
+    stack.push(...current.children);
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS_stack</span><span class="hljs-params">(node)</span>:</span>
     stack = []
     stack.append(node)
 
     temp = <span class="hljs-keyword">None</span>
 
     <span class="hljs-keyword">while</span> len(stack) &gt; <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">print</span> stack[<span class="hljs-number">-1</span>].data
+        print(stack[<span class="hljs-number">-1</span>].data)
         temp = stack.pop()
 
         <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
             stack.append(child)
-</code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">depth_first_search</span><span class="hljs-params">(root)</span>:</span>
-    <span class="hljs-string">&quot;Traverses through a tree depth-first by putting nodes on a stack&quot;</span>
-    stack = deque()
-    result_list = []
-    stack.append(root)
-    <span class="hljs-keyword">while</span> len(stack) != <span class="hljs-number">0</span>:
-        <span class="hljs-comment"># Take off the node at the top of the stack, add it to the list</span>
-        temp_node = stack.pop()
-        result_list.append(temp_node.value)
-        <span class="hljs-comment"># Add the children of that node to the top of the stack</span>
-        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            stack.append(temp_node.right)
-        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            stack.append(temp_node.left)
-    <span class="hljs-keyword">return</span> result_list
 </code></pre>
 </div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFS_stack(n<span class="hljs-type">::</span>Node)
@@ -1554,9 +1541,7 @@
         temp = queue.Dequeue();
 
         <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
-        {
             queue.Enqueue(c);
-        }
     }
 }
 </code></pre>
@@ -1580,51 +1565,43 @@
     free_queue(q);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">BFS_queue</span>(<span class="hljs-params">n</span>)</span>{
-    <span class="hljs-keyword">var</span> q = [];
-    q.push(n);
-    <span class="hljs-keyword">var</span> temp;
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bfsQueue</span><span class="hljs-params">()</span> </span>{
+    Queue&lt;Node&gt; queue = <span class="hljs-keyword">new</span> PriorityQueue&lt;Node&gt;();
+    queue.add(<span class="hljs-keyword">this</span>.root);
 
-    <span class="hljs-keyword">while</span>(q.length &gt; <span class="hljs-number">0</span>){
-        temp = q.shift();
-        <span class="hljs-built_in">console</span>.log(temp.ID);
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
-                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
-                <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">while</span> (queue.size() != <span class="hljs-number">0</span>) {
+        System.out.println(queue.peek().id);
+        Node temp = queue.poll(); <span class="hljs-comment">// return null if the queue is empty</span>
+
+        <span class="hljs-keyword">if</span> (temp != <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">for</span> (Node c : temp.children) {
+                queue.add(c);
             }
-                q.push(temp.children[i]);
         }
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">BFS_queue</span><span class="hljs-params">(node)</span>:</span>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bfs</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-keyword">const</span> queue = [tree];
+  <span class="hljs-keyword">while</span> (queue.length &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">const</span> current = queue.shift();
+    <span class="hljs-built_in">console</span>.log(current.id);
+    queue.push(...current.children);
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">BFS_queue</span><span class="hljs-params">(node)</span>:</span>
     queue = []
     queue.append(node)
 
     temp = <span class="hljs-keyword">None</span>
 
     <span class="hljs-keyword">while</span> len(queue) &gt; <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">print</span> queue[<span class="hljs-number">0</span>].data
+        print(queue[<span class="hljs-number">0</span>].data)
         temp = queue.pop(<span class="hljs-number">0</span>)
 
         <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
             queue.append(child)
-</code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">breadth_first_search</span><span class="hljs-params">(root)</span>:</span>
-    <span class="hljs-string">&quot;Traverses through a tree breadth-first by putting nodes into a queue&quot;</span>
-    queue = deque()
-    result_list = []
-    queue.append(root)
-    <span class="hljs-keyword">while</span> len(queue) != <span class="hljs-number">0</span>:
-        <span class="hljs-comment"># Take off the node at the top of the queue, add it to the list</span>
-        temp_node = queue.pop()
-        result_list.append(temp_node.value)
-        <span class="hljs-comment"># Add the children of that node to the bottom of the queue</span>
-        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            queue.appendleft(temp_node.left)
-        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            queue.appendleft(temp_node.right)
-    <span class="hljs-keyword">return</span> result_list
 </code></pre>
 </div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>This has not been implemented in your chosen language, so here is the Julia code</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> BFS_queue(n<span class="hljs-type">::</span>Node)
@@ -1859,27 +1836,63 @@ main()
         {
             <span class="hljs-keyword">public</span> List&lt;Node&gt; Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Node&gt;();
             <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> id</span>) </span>=&gt; <span class="hljs-keyword">this</span>.Id = id;
         }
 
         <span class="hljs-keyword">private</span> Node root;
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Tree</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> depthCount, <span class="hljs-keyword">int</span> childrenCount</span>)
         </span>{
-            CreateTree(depthCount, childrenCount);
-        }
-
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CreateTree</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> depthCount, <span class="hljs-keyword">int</span> childrenCount</span>)
-        </span>{
-            root = <span class="hljs-keyword">new</span> Node
-            {
-                Id = <span class="hljs-number">1</span>
-            };
+            root = <span class="hljs-keyword">new</span> Node(<span class="hljs-number">1</span>);
             CreateAllChildren(root, depthCount, childrenCount);
         }
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StartDFSRecursive</span>(<span class="hljs-params"></span>)
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params"></span>)
         </span>{
             DFSRecursive(root);
+
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+            </span>{
+                Console.WriteLine(node.Id);
+
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+                    DFSRecursive(c);
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params"></span>)
+        </span>{
+            DFSRecursivePostorder(root);
+
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
+            </span>{
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+                    DFSRecursivePostorder(c);
+
+                Console.WriteLine(node.Id);
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params"></span>)
+        </span>{
+            DFSRecursiveInorderBinary(root);
+
+            <span class="hljs-comment">// This assumes only 2 children</span>
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
+            </span>{
+                <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">2</span>)
+                     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
+
+                <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">0</span>)
+                {
+                    DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">0</span>]);
+                    Console.WriteLine(node.Id);
+                    DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">1</span>]);
+                }
+                <span class="hljs-keyword">else</span>
+                    Console.WriteLine(node.Id);
+            }
         }
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSStack</span>(<span class="hljs-params"></span>)
@@ -1894,9 +1907,7 @@ main()
                 temp = stack.Pop();
 
                 <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
-                {
                     stack.Push(c);
-                }
             }
         }
 
@@ -1912,9 +1923,7 @@ main()
                 temp = queue.Dequeue();
 
                 <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
-                {
                     queue.Enqueue(c);
-                }
             }
         }
 
@@ -1925,21 +1934,8 @@ main()
 
             <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childrenCount; i++)
             {
-                node.Children.Add(<span class="hljs-keyword">new</span> Node
-                {
-                    Id = node.Id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>
-                });
+                node.Children.Add(<span class="hljs-keyword">new</span> Node(node.Id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>));
                 CreateAllChildren(node.Children[i], rowCount - <span class="hljs-number">1</span>, childrenCount);
-            }
-        }
-
-        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
-        </span>{
-            Console.WriteLine(node.Id);
-
-            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
-            {
-                DFSRecursive(c);
             }
         }
     }
@@ -1957,12 +1953,20 @@ main()
         </span>{
             Console.WriteLine(<span class="hljs-string">&quot;TreeTraversal&quot;</span>);
             <span class="hljs-keyword">var</span> tree = <span class="hljs-keyword">new</span> Tree(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
-            Console.WriteLine(<span class="hljs-string">&quot;StartDFSRecursive:&quot;</span>);
-            tree.StartDFSRecursive();
+            Console.WriteLine(<span class="hljs-string">&quot;DFSRecursive:&quot;</span>);
+            tree.DFSRecursive();
             Console.WriteLine(<span class="hljs-string">&quot;DFSStack:&quot;</span>);
             tree.DFSStack();
-            Console.WriteLine(<span class="hljs-string">&quot;DFSQueue:&quot;</span>);
+            Console.WriteLine(<span class="hljs-string">&quot;BFSQueue:&quot;</span>);
             tree.BFSQueue();
+            Console.WriteLine(<span class="hljs-string">&quot;DFSRecursivePostorder&quot;</span>);
+            tree.DFSRecursivePostorder();
+            <span class="hljs-comment">// Uncommenting the following 2 lines will result in an exception thrown because at least one Node of the Tree has more than 2 children and therefor a DFSRecursiveInorderBinary doesn&apos;t work.</span>
+            <span class="hljs-comment">// Console.WriteLine(&quot;DFSRecursiveInorder (fail)&quot;);</span>
+            <span class="hljs-comment">// tree.DFSRecursiveInorderBinary();</span>
+            tree = <span class="hljs-keyword">new</span> Tree(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>);
+            Console.WriteLine(<span class="hljs-string">&quot;DFSRecursiveInorder (succeed)&quot;</span>);
+            tree.DFSRecursiveInorderBinary();
         }
     }
 }
@@ -2198,78 +2202,235 @@ int main() {
     return 0;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><h3 id="javascript">JavaScript</h3>
-<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create_tree</span>(<span class="hljs-params">n, num_row, num_child</span>)</span>{
-    n.ID = num_row;
-    n.children = [];
-        <span class="hljs-keyword">if</span>(num_row == <span class="hljs-number">0</span>){
-                <span class="hljs-keyword">return</span>;
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><h3 id="java">Java</h3>
+<p>Tree.java</p>
+<pre><code class="lang-java"><span class="hljs-comment">// submitted by xam4lor</span>
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.PriorityQueue;
+<span class="hljs-keyword">import</span> java.util.Queue;
+<span class="hljs-keyword">import</span> java.util.Stack;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Tree</span> </span>{
+    <span class="hljs-keyword">public</span> Node root;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Tree</span><span class="hljs-params">(<span class="hljs-keyword">int</span> rowCount, <span class="hljs-keyword">int</span> childrenCount)</span> </span>{
+        <span class="hljs-comment">// this.root is the root node of the Tree</span>
+        <span class="hljs-keyword">this</span>.root = <span class="hljs-keyword">new</span> Node(<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">this</span>.createAllChildren(<span class="hljs-keyword">this</span>.root, rowCount, childrenCount);
+    }
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursive</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.dfsRecursive(<span class="hljs-keyword">this</span>.root);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursive</span><span class="hljs-params">(Node node)</span> </span>{
+        System.out.println(node.id);
+
+        <span class="hljs-keyword">for</span> (Node n : node.children) {
+            dfsRecursive(n);
+        }
+    }
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursivePostOrder</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.dfsRecursivePostOrder(<span class="hljs-keyword">this</span>.root);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursivePostOrder</span><span class="hljs-params">(Node node)</span> </span>{
+        <span class="hljs-keyword">for</span> (Node n : node.children) {
+            dfsRecursivePostOrder(n);
         }
 
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; num_child; ++i){
-                <span class="hljs-keyword">var</span> child = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();
-                create_tree(child, num_row - <span class="hljs-number">1</span>, num_child);
-                n.children.push(child);
+        <span class="hljs-comment">// Here we are doing something ...</span>
+        System.out.println(node.id);
+    }
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursiveInOrderBinary</span><span class="hljs-params">()</span> </span>{
+        dfsRecursiveInOrderBinary(<span class="hljs-keyword">this</span>.root);
+    }
+
+    <span class="hljs-comment">// This assumes only 2 children</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsRecursiveInOrderBinary</span><span class="hljs-params">(Node node)</span> </span>{
+        <span class="hljs-keyword">if</span> (node.children.size() &gt; <span class="hljs-number">2</span>) {
+            System.err.println(<span class="hljs-string">&quot;Not a binary tree at dfsRecursiveInOrderBinary()!&quot;</span>);
+            <span class="hljs-keyword">return</span>;
         }
-};
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_recursive</span>(<span class="hljs-params">n</span>)</span>{
-    <span class="hljs-built_in">console</span>.log(n.ID);
-    <span class="hljs-keyword">if</span>(n.children.length == <span class="hljs-number">0</span>){
-        <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">if</span> (node.children.size() &gt; <span class="hljs-number">1</span>) {
+            dfsRecursiveInOrderBinary(node.children.get(<span class="hljs-number">0</span>));
+            System.out.println(node.id);
+            dfsRecursiveInOrderBinary(node.children.get(<span class="hljs-number">1</span>));
+        } <span class="hljs-keyword">else</span> {
+            System.out.println(node.id);
+        }
     }
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n.children.length; ++i){
-            DFS_recursive(n.children[i]);
-    }
-}
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFS_stack</span>(<span class="hljs-params">n</span>)</span>{
-    <span class="hljs-keyword">var</span> s = [];
-    s.push(n);
-    <span class="hljs-keyword">var</span> temp;
 
-    <span class="hljs-keyword">while</span>(s.length &gt; <span class="hljs-number">0</span>){
-        temp = s.pop();
-        <span class="hljs-built_in">console</span>.log(temp.ID);
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
-                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
-                <span class="hljs-keyword">break</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfsStack</span><span class="hljs-params">()</span> </span>{
+        Stack&lt;Node&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;Node&gt;();
+        stack.push(<span class="hljs-keyword">this</span>.root);
+
+        Node tmp;
+
+        <span class="hljs-keyword">while</span> (stack.size() != <span class="hljs-number">0</span>) {
+            System.out.println(stack.peek().id);
+            tmp = stack.pop();
+
+            <span class="hljs-keyword">for</span> (Node c : tmp.children) {
+                stack.push(c);
             }
-                s.push(temp.children[i]);
         }
     }
-}
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">BFS_queue</span>(<span class="hljs-params">n</span>)</span>{
-    <span class="hljs-keyword">var</span> q = [];
-    q.push(n);
-    <span class="hljs-keyword">var</span> temp;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bfsQueue</span><span class="hljs-params">()</span> </span>{
+        Queue&lt;Node&gt; queue = <span class="hljs-keyword">new</span> PriorityQueue&lt;Node&gt;();
+        queue.add(<span class="hljs-keyword">this</span>.root);
 
-    <span class="hljs-keyword">while</span>(q.length &gt; <span class="hljs-number">0</span>){
-        temp = q.shift();
-        <span class="hljs-built_in">console</span>.log(temp.ID);
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; temp.children.length; ++i){
-                <span class="hljs-keyword">if</span>(temp.children.length == <span class="hljs-number">0</span>){
-                <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">while</span> (queue.size() != <span class="hljs-number">0</span>) {
+            System.out.println(queue.peek().id);
+            Node temp = queue.poll(); <span class="hljs-comment">// return null if the queue is empty</span>
+
+            <span class="hljs-keyword">if</span> (temp != <span class="hljs-keyword">null</span>) {
+                <span class="hljs-keyword">for</span> (Node c : temp.children) {
+                    queue.add(c);
+                }
             }
-                q.push(temp.children[i]);
+        }
+    }
+
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createAllChildren</span><span class="hljs-params">(Node node, <span class="hljs-keyword">int</span> rowCount, <span class="hljs-keyword">int</span> childrenCount)</span> </span>{
+        <span class="hljs-keyword">if</span> (rowCount &lt;= <span class="hljs-number">1</span>) {
+           <span class="hljs-keyword">return</span>; 
+        }
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childrenCount; i++) {
+            node.children.add(<span class="hljs-keyword">new</span> Node(node.id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>));
+            createAllChildren(node.children.get(i), rowCount - <span class="hljs-number">1</span>, childrenCount);
+        }
+    }
+
+
+    <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Node</span>&gt; </span>{
+        <span class="hljs-keyword">public</span> ArrayList&lt;Node&gt; children;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>{
+            <span class="hljs-keyword">this</span>.children = <span class="hljs-keyword">new</span> ArrayList&lt;Node&gt;();
+            <span class="hljs-keyword">this</span>.id = id;
+        }
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Node other)</span> </span>{
+            <span class="hljs-comment">// Need to implement Comparable&lt;Node&gt; and override this</span>
+            <span class="hljs-comment">// method because of the method BFSQueue() which uses Queues</span>
+            <span class="hljs-comment">// and must know how to check if two nodes are the same or not</span>
+            <span class="hljs-keyword">return</span> Integer.compare(<span class="hljs-keyword">this</span>.id, other.id);
         }
     }
 }
-
-<span class="hljs-keyword">var</span> root = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();
-create_tree(root, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
-<span class="hljs-comment">//DFS_recursive(root);</span>
-<span class="hljs-comment">//DFS_stack(root);</span>
-BFS_queue(root);
 </code></pre>
-</div><div class="api-method-sample" data-lang="py2" data-name="Python 2"><h3 id="python-2">Python 2</h3>
+<p>MainClass.java</p>
+<pre><code class="lang-java"><span class="hljs-comment">//submitted by xam4lor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainClass</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;Creating Tree&quot;</span>);
+        Tree tree = <span class="hljs-keyword">new</span> Tree(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+
+        System.out.println(<span class="hljs-string">&quot;Using recursive DFS :&quot;</span>);
+        tree.dfsRecursive();
+
+        System.out.println(<span class="hljs-string">&quot;Using stack-based DFS :&quot;</span>);
+        tree.dfsStack();
+
+        System.out.println(<span class="hljs-string">&quot;Using queue-based BFS :&quot;</span>);
+        tree.bfsQueue();
+
+        System.out.println(<span class="hljs-string">&quot;Using post-order recursive DFS :&quot;</span>);
+        tree.dfsRecursivePostOrder();
+
+
+        <span class="hljs-comment">// Uncommenting the following 2 lines will result in an exception thrown because at least one Node of the Tree has more than 2 children and therefor a DFSRecursiveInorderBinary doesn&apos;t work.</span>
+        System.out.println(<span class="hljs-string">&quot;Using in-order binary recursive DFS : (fail)&quot;</span>);
+        tree.dfsRecursiveInOrderBinary();
+
+        tree = <span class="hljs-keyword">new</span> Tree(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>);
+        System.out.println(<span class="hljs-string">&quot;Using in-order binary recursive DFS : (suceed)&quot;</span>);
+        tree.dfsRecursiveInOrderBinary();
+
+
+        System.out.println(<span class="hljs-string">&quot;&quot;</span>);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><h3 id="javascript">JavaScript</h3>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createTree</span>(<span class="hljs-params">rows, children</span>) </span>{
+  <span class="hljs-keyword">if</span> (rows === <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">return</span> { id: rows, children: [] };
+  }
+
+  <span class="hljs-keyword">return</span> {
+    id: rows,
+    children: [...Array(children).keys()].map(() =&gt; createTree(rows - <span class="hljs-number">1</span>, children))
+  };
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsPreorder</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(tree.id);
+  tree.children.forEach(dfsPreorder);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsPostorder</span>(<span class="hljs-params">tree</span>) </span>{
+  tree.children.forEach(dfsPostorder);
+  <span class="hljs-built_in">console</span>.log(tree.id);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsInorder</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-keyword">if</span> (!tree) {
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">if</span> (tree.children.length &gt; <span class="hljs-number">2</span>) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&quot;Postorder traversal is only valid for binary trees&quot;</span>);
+  }
+
+  dfsInorder(tree.children[<span class="hljs-number">0</span>]);
+  <span class="hljs-built_in">console</span>.log(tree.id);
+  dfsInorder(tree.children[<span class="hljs-number">1</span>]);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfsIterative</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-keyword">const</span> stack = [tree];
+  <span class="hljs-keyword">while</span> (stack.length &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">const</span> current = stack.pop();
+    <span class="hljs-built_in">console</span>.log(current.id);
+    stack.push(...current.children);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bfs</span>(<span class="hljs-params">tree</span>) </span>{
+  <span class="hljs-keyword">const</span> queue = [tree];
+  <span class="hljs-keyword">while</span> (queue.length &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">const</span> current = queue.shift();
+    <span class="hljs-built_in">console</span>.log(current.id);
+    queue.push(...current.children);
+  }
+}
+
+<span class="hljs-keyword">const</span> root = createTree(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+dfsPreorder(root);
+dfsPostorder(root);
+dfsIterative(root);
+bfs(root);
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
 <pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>:</span>
 
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
         self.data = <span class="hljs-keyword">None</span>
         self.children = []
-
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_tree</span><span class="hljs-params">(node, num_row, num_child)</span>:</span>
     node.data = num_row
@@ -2283,7 +2444,7 @@ BFS_queue(root);
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS_recursive</span><span class="hljs-params">(node)</span>:</span>
     <span class="hljs-keyword">if</span> len(node.children) &gt; <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">print</span> node.data
+        print(node.data)
 
         <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> node.children:
             DFS_recursive(child)
@@ -2295,7 +2456,7 @@ BFS_queue(root);
     temp = <span class="hljs-keyword">None</span>
 
     <span class="hljs-keyword">while</span> len(stack) &gt; <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">print</span> stack[<span class="hljs-number">-1</span>].data
+        print(stack[<span class="hljs-number">-1</span>].data)
         temp = stack.pop()
 
         <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
@@ -2308,7 +2469,7 @@ BFS_queue(root);
     temp = <span class="hljs-keyword">None</span>
 
     <span class="hljs-keyword">while</span> len(queue) &gt; <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">print</span> queue[<span class="hljs-number">0</span>].data
+        print(queue[<span class="hljs-number">0</span>].data)
         temp = queue.pop(<span class="hljs-number">0</span>)
 
         <span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> temp.children:
@@ -2317,101 +2478,16 @@ BFS_queue(root);
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
     tree = create_tree(Node(), <span class="hljs-number">3</span>, <span class="hljs-number">3</span>)
 
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Recursive:&quot;</span>
+    print(<span class="hljs-string">&quot;Recursive:&quot;</span>)
     DFS_recursive(tree)
 
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Stack:&quot;</span>
+    print(<span class="hljs-string">&quot;Stack:&quot;</span>)
     DFS_stack(tree)
 
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Queue:&quot;</span>
+    print(<span class="hljs-string">&quot;Queue:&quot;</span>)
     BFS_queue(tree)
 
 main()
-</code></pre>
-</div><div class="api-method-sample" data-lang="py3" data-name="Python 3"><h3 id="python-3">Python 3</h3>
-<pre><code class="lang-python"><span class="hljs-comment"># Depth-First and Breadth-First Traversal</span>
-<span class="hljs-comment"># Submitted by Matthew Giallourakis</span>
-<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">node</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-string">&quot;Create the node structure&quot;</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value, left, right)</span>:</span>
-        self.value = value
-        self.left = left
-        self.right = right
-
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_tree</span><span class="hljs-params">(root,nums)</span>:</span>
-    <span class="hljs-string">&quot;Makes a binary search tree from a list of numbers&quot;</span>
-    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums:
-        temp_node = root
-        new_node = node(value=num, left=<span class="hljs-keyword">None</span>, right=<span class="hljs-keyword">None</span>)
-        <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
-            <span class="hljs-keyword">if</span> num &lt; temp_node.value:
-                <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span>:
-                    temp_node.left = new_node
-                    <span class="hljs-keyword">break</span>
-                <span class="hljs-keyword">else</span>:
-                    temp_node = temp_node.left
-            <span class="hljs-keyword">elif</span> num &gt; temp_node.value:
-                <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span>:
-                    temp_node.right = new_node
-                    <span class="hljs-keyword">break</span>
-                <span class="hljs-keyword">else</span>:
-                    temp_node = temp_node.right
-
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">depth_first_search</span><span class="hljs-params">(root)</span>:</span>
-    <span class="hljs-string">&quot;Traverses through a tree depth-first by putting nodes on a stack&quot;</span>
-    stack = deque()
-    result_list = []
-    stack.append(root)
-    <span class="hljs-keyword">while</span> len(stack) != <span class="hljs-number">0</span>:
-        <span class="hljs-comment"># Take off the node at the top of the stack, add it to the list</span>
-        temp_node = stack.pop()
-        result_list.append(temp_node.value)
-        <span class="hljs-comment"># Add the children of that node to the top of the stack</span>
-        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            stack.append(temp_node.right)
-        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            stack.append(temp_node.left)
-    <span class="hljs-keyword">return</span> result_list
-
-
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">breadth_first_search</span><span class="hljs-params">(root)</span>:</span>
-    <span class="hljs-string">&quot;Traverses through a tree breadth-first by putting nodes into a queue&quot;</span>
-    queue = deque()
-    result_list = []
-    queue.append(root)
-    <span class="hljs-keyword">while</span> len(queue) != <span class="hljs-number">0</span>:
-        <span class="hljs-comment"># Take off the node at the top of the queue, add it to the list</span>
-        temp_node = queue.pop()
-        result_list.append(temp_node.value)
-        <span class="hljs-comment"># Add the children of that node to the bottom of the queue</span>
-        <span class="hljs-keyword">if</span> temp_node.left <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            queue.appendleft(temp_node.left)
-        <span class="hljs-keyword">if</span> temp_node.right <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
-            queue.appendleft(temp_node.right)
-    <span class="hljs-keyword">return</span> result_list
-
-
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
-    nums = [<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">6</span>,<span class="hljs-number">9</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>]
-    root = node(value=nums.pop(<span class="hljs-number">0</span>),left=<span class="hljs-keyword">None</span>,right=<span class="hljs-keyword">None</span>)
-    make_tree(root,nums)
-    <span class="hljs-comment">#     Tree Structure</span>
-    <span class="hljs-comment">#           5</span>
-    <span class="hljs-comment">#       2       8</span>
-    <span class="hljs-comment">#     1   3   6   9</span>
-    <span class="hljs-comment">#</span>
-
-    print(<span class="hljs-string">&quot;Depth First:&quot;</span>,depth_first_search(root))
-    <span class="hljs-comment"># prints [5, 2, 1, 3, 8, 6, 9]</span>
-
-    print(<span class="hljs-string">&quot;Breadth First:&quot;</span>,breadth_first_search(root))
-    <span class="hljs-comment"># prints [5, 2, 8, 1, 3, 6, 9]</span>
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    main()
 </code></pre>
 </div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><h3 id="scratch">Scratch</h3>
 <p><img src="code/scratch/scratch_tree.png" alt="scratch tree"></p>
@@ -2576,7 +2652,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py2","name":"Python 2"},{"lang":"py3","name":"Python 3"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-06-21T10:31:21.977Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-21T10:34:08.919Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-06-29T21:07:40.167Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:48:49.329Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
