@@ -917,8 +917,8 @@ As I mentioned, this is not intuitive syntax, so please allow me to explain a bi
 <p>If we take a sum sinusoidal functions (like <script type="math/tex; ">\sin(\omega t)</script> or <script type="math/tex; ">\cos(\omega t)</script>), we might find a complicated mess of waves between <script type="math/tex; ">\pm 1</script>.
 Each constituent wave can be described by only one value: <script type="math/tex; ">\omega</script>.
 So, instead of representing these curves as seen above, we could instead describe them as peaks in frequency space, as shown below.</p>
-<p align="center">
-    <img src="res/FT_example.png" width="500" height="250">
+<p>
+    <img class="center" src="res/FT_example.png" width="500">
 </p>
 
 <p>This is what the Fourier Transform does!
@@ -936,9 +936,9 @@ This means that a point in real space is defined by the integral over all space 
 Truth be told, I didn&apos;t understand it fully until I discretized real and frequency space to create the Discrete Fourier Transform (DFT), which is the only way to implement Fourier Transforms in code.</p>
 <h3 id="what-is-a-discrete-fourier-transform">What is a Discrete Fourier Transform?</h3>
 <p>In principle, the Discrete Fourier Transform (DFT) is simply the Fourier transform with summations instead of integrals:</p>
-<p><script type="math/tex; ">X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-2 \pi k n / N}</script></p>
+<p><script type="math/tex; ">X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-2 \pi i k n / N}</script></p>
 <p>and</p>
-<p><script type="math/tex; ">x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k \cdot e^{2 \pi k n / N}</script></p>
+<p><script type="math/tex; ">x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k \cdot e^{2 \pi i k n / N}</script></p>
 <p>Where <script type="math/tex; ">X_n</script> and <script type="math/tex; ">x_n</script> are sequences of <script type="math/tex; ">N</script> numbers in frequency and real space, respectively.
 In principle, this is no easier to understand than the previous case!
 For some reason, though, putting code to this transformation really helped me figure out what was actually going on.</p>
@@ -953,8 +953,7 @@ For some reason, though, putting code to this transformation really helped me fi
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
-void dft(double complex *X, const size_t N) {
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">void dft(double complex *X, const size_t N) {
     double complex tmp[N];
     for (size_t i = 0; i &lt; N; ++i) {
         tmp[i] = 0;
@@ -1052,7 +1051,8 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">    <span class="hljs-keyword">if</span> (N &gt;= <span class="hljs-number">2</span>) {
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *X, <span class="hljs-keyword">const</span> size_t N)</span> </span>{
+    <span class="hljs-keyword">if</span> (N &gt;= <span class="hljs-number">2</span>) {
         <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> tmp [N / <span class="hljs-number">2</span>];
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; N / <span class="hljs-number">2</span>; ++i) {
             tmp[i] = X[<span class="hljs-number">2</span>*i + <span class="hljs-number">1</span>];
@@ -1159,15 +1159,15 @@ This is a limitation of the fact that we are using recursion and dividing the ar
 <p>Butterfly Diagrams show where each element in the array goes before, during, and after the FFT.
 As mentioned, the FFT must perform a DFT.
 This means that even though we need to be careful about how we add elements together, we are still ultimately performing the following operation:</p>
-<p><script type="math/tex; ">X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-2 \pi k n / N}</script></p>
+<p><script type="math/tex; ">X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-2 \pi i k n / N}</script></p>
 <p>However, after shuffling the initial array (by bit reversing or recursive subdivision), we perform the matrix multiplication of the <script type="math/tex; ">e^{-2 \pi k n / N}</script> terms in pieces.
 Basically, we split the array into a series of omega values:</p>
-<p><script type="math/tex; ">\omega_N^k = e^{-2 \pi k / N}</script></p>
+<p><script type="math/tex; ">\omega_N^k = e^{-2 \pi i k / N}</script></p>
 <p>And at each step, we use the appropriate term.
 For example, imagine we need to perform an FFT of an array of only 2 elements.
 We can represent this addition with the following (radix-2) butterfly:</p>
-<p align="center">
-    <img src="res/radix-2screen_positive.jpg" width="400" height="225">
+<p>
+    <img class="center" src="res/radix-2screen_positive.jpg" width="400">
 </p>
 
 <p>Here, the diagram means the following:</p>
@@ -1177,8 +1177,8 @@ b_0 = a_0 + \omega_2^0 a_1 \\
 b_1 = a_0 + \omega_2^1 a_1
 </script></p>
 <p>However, it turns out that the second half of our array of <script type="math/tex; ">\omega</script> values is always the negative of the first half, so <script type="math/tex; ">\omega_2^0 = -\omega_2^1</script>, so we can use the following butterfly diagram:</p>
-<p align="center">
-    <img src="res/radix-2screen.jpg" width="400">
+<p>
+    <img class="center" src="res/radix-2screen.jpg" width="400">
 </p>
 
 <p>With the following equations:</p>
@@ -1191,15 +1191,15 @@ b_1 = a_0 - \omega_2^0 a_1
 Now imagine we need to combine more elements.
 In this case, we start with simple butterflies, as shown above, and then sum butterflies of butterflies.
 For example, if we have 8 elements, this might look like this:</p>
-<p align="center">
-    <img src="res/radix-8screen.jpg" width="500" height="500">
+<p>
+    <img class="center" src="res/radix-8screen.jpg" width="500">
 </p>
 
 <p>Note that we can perform a DFT directly before using any butterflies, if we so desire, but we need to be careful with how we shuffle our array if that&apos;s the case.
 In the code snippet provided in the previous section, the subdivision was performed in the same function as the concatenation, so the ordering was always correct; however, if we were to re-order with bit-reversal, this might not be the case.</p>
 <p>For example, take a look at the ordering of FFT (<a href="https://en.wikipedia.org/wiki/Butterfly_diagram" target="_blank">found on wikipedia</a>) that performs the DFT shortcut:</p>
-<p align="center">
-    <img src="res/butterfly_diagram.png" width="600" height="500">
+<p>
+    <img class="center" src="res/butterfly_diagram.png" width="600">
 </p>
 
 <p>Here, the ordering of the array was simply divided into even and odd elements once, but they did not recursively divide the arrays of even and odd elements again because they knew they would perform a DFT soon thereafter.</p>
@@ -1720,7 +1720,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.16","depth":1,"next":{"title":"Decision Problems","level":"1.17","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"previous":{"title":"Chan's Algorithm","level":"1.15.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/FFT/cooley_tukey.md","mtime":"2018-06-29T20:47:53.383Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:55:53.265Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.16","depth":1,"next":{"title":"Decision Problems","level":"1.17","depth":1,"path":"chapters/decision_problems/decision_problems.md","ref":"chapters/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.17.1","depth":2,"path":"chapters/decision_problems/stable_marriage/stable_marriage.md","ref":"chapters/decision_problems/stable_marriage/stable_marriage.md","articles":[]}]},"previous":{"title":"Chan's Algorithm","level":"1.15.1.3","depth":3,"path":"chapters/computational_geometry/gift_wrapping/chan/chans.md","ref":"chapters/computational_geometry/gift_wrapping/chan/chans.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/FFT/cooley_tukey.md","mtime":"2018-07-03T23:36:02.347Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-03T23:37:48.996Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

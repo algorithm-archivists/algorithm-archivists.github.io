@@ -1269,6 +1269,113 @@ Even though this seems straightforward, the pseudocode might not be as simple as
 
 main()
 </code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-comment">// submitted by jess 3jane</span>
+
+<span class="hljs-keyword">use</span> std::cmp::min;
+<span class="hljs-keyword">use</span> std::ops::{Index, IndexMut};
+
+<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Matrix</span></span> {
+    rows: usize,
+    cols: usize,
+    data: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-keyword">f64</span>&gt;,
+}
+
+<span class="hljs-keyword">impl</span> Matrix {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new</span></span>(rows: usize, cols: usize, data: &amp;[<span class="hljs-keyword">f64</span>]) -&gt; Matrix {
+        Matrix {
+            rows,
+            cols,
+            data: data.to_vec(),
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">swap_rows</span></span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, a: usize, b: usize) {
+        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.cols {
+            <span class="hljs-keyword">self</span>.data.swap(a * <span class="hljs-keyword">self</span>.cols + col, b * <span class="hljs-keyword">self</span>.cols + col);
+        }
+    }
+}
+
+<span class="hljs-keyword">impl</span> Index&lt;(usize, usize)&gt; <span class="hljs-keyword">for</span> Matrix {
+    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Output</span></span> = <span class="hljs-keyword">f64</span>;
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">index</span></span>(&amp;<span class="hljs-keyword">self</span>, (row, col): (usize, usize)) -&gt; &amp;<span class="hljs-keyword">f64</span> {
+        &amp;<span class="hljs-keyword">self</span>.data[row * <span class="hljs-keyword">self</span>.cols + col]
+    }
+}
+
+<span class="hljs-keyword">impl</span> IndexMut&lt;(usize, usize)&gt; <span class="hljs-keyword">for</span> Matrix {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">index_mut</span></span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, (row, col): (usize, usize)) -&gt; &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">f64</span> {
+        &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>.data[row * <span class="hljs-keyword">self</span>.cols + col]
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">gaussian_elimination</span></span>(a: &amp;<span class="hljs-keyword">mut</span> Matrix) {
+    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..min(a.cols, a.rows) {
+        <span class="hljs-comment">// Step 1: find the maximum element for this column</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_row = k;
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_value = a[(k, k)].abs();
+        <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.rows {
+            <span class="hljs-keyword">if</span> max_value &lt; a[(row, k)].abs() {
+                max_value = a[(row, k)].abs();
+                max_row = row;
+            }
+        }
+
+        <span class="hljs-comment">// Check to make sure the matrix is good</span>
+        <span class="hljs-keyword">if</span> a[(max_row, k)] == <span class="hljs-number">0.0</span> {
+            <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Matrix is singular, aborting&quot;</span>);
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// Step 2: swap the row with the highest value for this kumn to the top</span>
+        a.swap_rows(k, max_row);
+
+        <span class="hljs-comment">// Loop over all remaining rows</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> k + <span class="hljs-number">1</span>..a.rows {
+            <span class="hljs-comment">// Step 3: find the fraction</span>
+            <span class="hljs-keyword">let</span> fraction = a[(i, k)] / a[(k, k)];
+
+            <span class="hljs-comment">// Loop through all columns for that row</span>
+            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.cols {
+                <span class="hljs-comment">// Step 4: re-evaluate each element</span>
+                a[(i, j)] -= a[(k, j)] * fraction;
+            }
+
+            <span class="hljs-comment">// Step 5: set lower elements to 0</span>
+            a[(i, k)] = <span class="hljs-number">0.0</span>;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">back_substitution</span></span>(a: &amp;Matrix) -&gt; <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-keyword">f64</span>&gt; {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> soln = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0.0</span>; a.rows];
+
+    soln[a.rows - <span class="hljs-number">1</span>] = a[(a.rows - <span class="hljs-number">1</span>, a.cols - <span class="hljs-number">1</span>)] / a[(a.rows - <span class="hljs-number">1</span>, a.cols - <span class="hljs-number">2</span>)];
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> (<span class="hljs-number">0</span>..a.rows - <span class="hljs-number">1</span>).rev() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> sum = <span class="hljs-number">0.0</span>;
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> (i..a.rows).rev() {
+            sum += soln[j] * a[(i, j)];
+        }
+        soln[i] = (a[(i, a.cols - <span class="hljs-number">1</span>)] - sum) / a[(i, i)];
+    }
+
+    soln
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-comment">// The example matrix from the text</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = Matrix::new(
+        <span class="hljs-number">3</span>,
+        <span class="hljs-number">4</span>,
+        &amp;<span class="hljs-built_in">vec!</span>[<span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>, <span class="hljs-number">6.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>, <span class="hljs-number">3.0</span>, -<span class="hljs-number">4.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">10.0</span>],
+    );
+
+    gaussian_elimination(&amp;<span class="hljs-keyword">mut</span> a);
+    <span class="hljs-keyword">let</span> soln = back_substitution(&amp;a);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Solution: {:?}&quot;</span>, soln);
+}
+</code></pre>
 </div></div></div>
 
 
@@ -1327,7 +1434,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.14","depth":1,"path":"chapters/matrix_methods/matrix_methods.md","ref":"chapters/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","ref":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:55:53.265Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.14","depth":1,"path":"chapters/matrix_methods/matrix_methods.md","ref":"chapters/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","ref":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"path":"chapters/matrix_methods/thomas/thomas.md","ref":"chapters/matrix_methods/thomas/thomas.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/matrix_methods/gaussian_elimination/gaussian_elimination.md","mtime":"2018-07-02T21:10:25.897Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-03T23:37:48.996Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

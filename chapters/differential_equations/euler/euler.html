@@ -938,7 +938,9 @@ y_{n+1} = y_n + f(t_n, y_n) dt
 <p>Now, solving this set of equations in this way is known as the <em>forward</em> Euler Method.
 In fact, there is another method known as the <a href="backward_euler.html"><em>backward</em> Euler Method</a>, which we will get to soon enough.
 For now, it is important to note that the error of these methods depend on the timestep chosen.</p>
-<div style="text-align:center"><img src="res/error.png"></div>
+<p>
+    <img class="center" src="res/error.png">
+</p>
 
 <p>For example, here we see dramatically different results for different timesteps for solving the ODE <script type="math/tex; ">y' = \frac{x^3}{6}</script>, whose solution is <script type="math/tex; ">y = \frac{x^2}{2}</script>.
 The blue line is the analytical solution, the green is with a timestep of 0.5 and the red is with a timestep of 1.
@@ -951,7 +953,9 @@ As you might imagine, the only solution to this is decreasing the timestep and h
 The solution here is <script type="math/tex; ">y(t) = e^{-3t}</script> and we can find this solution somewhat easily with the forward Euler method shown below.
 That said, by choosing a larger timestep, we see the Euler method&apos;s solution oscillate above and below 0, which should <em>never</em> happen.
 If we were to take the Euler method&apos;s solution as valid, we would incorrectly assume that <script type="math/tex; ">e^{-3t}</script> will become negative!</p>
-<div style="text-align:center"><img src="res/instability.png"></div>
+<p>
+    <img class="center" src="res/instability.png">
+</p>
 
 <p>Like above, the blue line is the analytical solution, the green is with a timestep of 0.5 and the red is with a tiemstep of 1.
 Here, it&apos;s interesting that we see 2 different instability patterns.
@@ -1106,6 +1110,39 @@ main()
 
   <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Were any of the values outside of the threshold (&quot;</span> &lt;&lt; threshold
             &lt;&lt; <span class="hljs-string">&quot;)? &quot;</span> &lt;&lt; msg &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><h3 id="rust">Rust</h3>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> result = [<span class="hljs-number">0.0</span>; <span class="hljs-number">100</span>];
+    <span class="hljs-keyword">let</span> threshold = <span class="hljs-number">0.01</span>;
+    <span class="hljs-keyword">let</span> timestep = <span class="hljs-number">0.01</span>;
+
+    solve_euler(timestep, &amp;<span class="hljs-keyword">mut</span> result);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, check_result(&amp;result, threshold, timestep));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">solve_euler</span></span>(timestep: <span class="hljs-keyword">f64</span>, result: &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-keyword">f64</span>]) {
+    <span class="hljs-keyword">let</span> n = result.len();
+    <span class="hljs-keyword">if</span> n != <span class="hljs-number">0</span> {
+        result[<span class="hljs-number">0</span>] = <span class="hljs-number">1.0</span>;
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..n {
+            result[i] = result[i - <span class="hljs-number">1</span>] - <span class="hljs-number">3.0</span> * result[i - <span class="hljs-number">1</span>] * timestep;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">check_result</span></span>(result: &amp;[<span class="hljs-keyword">f64</span>], threshold: <span class="hljs-keyword">f64</span>, timestep: <span class="hljs-keyword">f64</span>) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> is_approx: <span class="hljs-keyword">bool</span> = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">for</span> (i, val) <span class="hljs-keyword">in</span> result.iter().enumerate() {
+        <span class="hljs-keyword">let</span> solution = (-<span class="hljs-number">3.0</span> * i <span class="hljs-keyword">as</span> <span class="hljs-keyword">f64</span> * timestep).exp();
+        <span class="hljs-keyword">if</span> (val - solution).abs() &gt; threshold {
+            <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}    {}&quot;</span>, val, solution);
+            is_approx = <span class="hljs-literal">false</span>;
+        }
+    }
+
+    <span class="hljs-keyword">return</span> is_approx;
 }
 </code></pre>
 </div><div class="api-method-sample" data-lang="elm" data-name="Elm"><h3 id="elm">Elm</h3>
@@ -1472,6 +1509,39 @@ gradient dt =
         else
             &quot;#&quot; ++ col
 </code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> math
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward_euler</span><span class="hljs-params">(time_step, n)</span>:</span>
+    result = [<span class="hljs-number">0</span>] * n
+    result[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, n):
+        result[i] = result[i - <span class="hljs-number">1</span>] - <span class="hljs-number">3</span> * result[i - <span class="hljs-number">1</span>] * time_step
+    <span class="hljs-keyword">return</span> result
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">check</span><span class="hljs-params">(result, threshold, time_step)</span>:</span>
+    approx = <span class="hljs-keyword">True</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(result)):
+        solution = math.exp(<span class="hljs-number">-3</span> * i * time_step)
+        <span class="hljs-keyword">if</span> abs(result[i] - solution) &gt; threshold:
+            print(result[i], solution)
+            approx = <span class="hljs-keyword">False</span>
+    <span class="hljs-keyword">return</span> approx
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    time_step = <span class="hljs-number">0.01</span>
+    n = <span class="hljs-number">100</span>
+    threshold = <span class="hljs-number">0.01</span>
+
+    result = forward_euler(time_step, n)
+    approx = check(result, threshold, time_step)
+    print(<span class="hljs-string">&quot;All values within threshold&quot;</span>) <span class="hljs-keyword">if</span> approx <span class="hljs-keyword">else</span> print(<span class="hljs-string">&quot;Value(s) not in threshold&quot;</span>)
+
+main()
+</code></pre>
 </div></div></div>
 
 <p><script>
@@ -1529,7 +1599,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.18.1","depth":2,"next":{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},"previous":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.18.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/differential_equations/euler/euler.md","mtime":"2018-06-21T10:31:21.973Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:55:53.265Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.18.1","depth":2,"next":{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},"previous":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/differential_equations/differential_equations.md","ref":"chapters/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/differential_equations/euler/euler.md","ref":"chapters/differential_equations/euler/euler.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/differential_equations/euler/backward_euler.md","ref":"chapters/differential_equations/euler/backward_euler.md","articles":[]},{"title":"Runge Kutta","level":"1.18.3","depth":2,"path":"chapters/differential_equations/runge_kutta/runge_kutta.md","ref":"chapters/differential_equations/runge_kutta/runge_kutta.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/differential_equations/euler/euler.md","mtime":"2018-07-03T23:36:02.347Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-03T23:37:48.996Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

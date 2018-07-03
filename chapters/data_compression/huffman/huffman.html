@@ -922,8 +922,8 @@ Well, here we build it from the bottom up like so:</p>
 </ol>
 <p>And that&apos;s it.
 Here&apos;s an image of what this might look like for the phrase <code>bibbity_bobbity</code>:</p>
-<p align="center">
-    <img src="res/huffman_tree.png" width="500" height="500">
+<p>
+    <img class="center" src="res/huffman_tree.png" width="500">
 </p>
 
 <p>This will create a codebook that looks like this:</p>
@@ -2344,8 +2344,122 @@ int main() {
 <span class="hljs-built_in">console</span>.log(encoded.string);
 <span class="hljs-built_in">console</span>.log(decoded);
 </code></pre>
-</div></div></div>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><h3 id="java">Java</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.*;
 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span> </span>{
+    String letter = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-keyword">int</span> frequency = <span class="hljs-number">0</span>;
+    TreeNode left = <span class="hljs-keyword">null</span>, right = <span class="hljs-keyword">null</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeNode</span><span class="hljs-params">(String letter, <span class="hljs-keyword">int</span> frequency)</span> </span>{
+        <span class="hljs-keyword">this</span>.letter = letter;
+        <span class="hljs-keyword">this</span>.frequency = frequency;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> frequency, TreeNode left, TreeNode right)</span> </span>{
+        <span class="hljs-keyword">this</span>.frequency = frequency;
+        <span class="hljs-keyword">this</span>.left = left;
+        <span class="hljs-keyword">this</span>.right = right;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HuffmanTree</span> </span>{
+    <span class="hljs-keyword">private</span> Map&lt;String, Integer&gt; frequencyMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    <span class="hljs-keyword">private</span> Map&lt;String, String&gt; codeBook = <span class="hljs-keyword">new</span> HashMap&lt;&gt;(), reverseCodeBook = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    <span class="hljs-keyword">private</span> TreeNode root;
+    <span class="hljs-keyword">private</span> String stringToEncode;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HuffmanTree</span><span class="hljs-params">(String stringToEncode)</span> </span>{
+        <span class="hljs-keyword">this</span>.stringToEncode = stringToEncode;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createTree</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; stringToEncode.length(); i++) {
+            String key = Character.toString(stringToEncode.charAt(i));
+            <span class="hljs-keyword">if</span> (!frequencyMap.containsKey(key)) {
+                frequencyMap.put(key, <span class="hljs-number">1</span>);
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">int</span> frequency = frequencyMap.get(key) + <span class="hljs-number">1</span>;
+                frequencyMap.replace(key, frequency);
+            }
+        }
+        Queue&lt;TreeNode&gt; priorityQueue = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;(Comparator.comparingInt(o -&gt; o.frequency));
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, Integer&gt; m : frequencyMap.entrySet()) {
+            priorityQueue.add(<span class="hljs-keyword">new</span> TreeNode(m.getKey(), m.getValue()));
+        }
+        <span class="hljs-keyword">while</span> (priorityQueue.size() &gt; <span class="hljs-number">1</span>) {
+            TreeNode left = priorityQueue.remove();
+            TreeNode right = priorityQueue.remove();
+            priorityQueue.add(<span class="hljs-keyword">new</span> TreeNode(left.frequency + right.frequency, left, right));
+        }
+        root = priorityQueue.remove();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(TreeNode node, StringBuilder code)</span> </span>{
+        <span class="hljs-keyword">if</span> (node.left == <span class="hljs-keyword">null</span> &amp;&amp; node.right == <span class="hljs-keyword">null</span>) {
+            codeBook.put(node.letter, code.toString());
+        }
+        <span class="hljs-keyword">if</span> (node.left != <span class="hljs-keyword">null</span>) {
+            traverse(node.left, code.append(<span class="hljs-number">0</span>));
+            code.deleteCharAt(code.length() - <span class="hljs-number">1</span>);
+        }
+        <span class="hljs-keyword">if</span> (node.right != <span class="hljs-keyword">null</span>) {
+            traverse(node.right, code.append(<span class="hljs-number">1</span>));
+            code.deleteCharAt(code.length() - <span class="hljs-number">1</span>);
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printCodeBook</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;Code Book&quot;</span>);
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, String&gt; m : codeBook.entrySet()) {
+            System.out.println(m.getKey() + <span class="hljs-string">&quot;\t&quot;</span> + m.getValue());
+        }
+        System.out.println();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CodeBookReverse</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, String&gt; m : codeBook.entrySet()) {
+            reverseCodeBook.put(m.getValue(), m.getKey());
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">encode</span><span class="hljs-params">()</span> </span>{
+        traverse(root, <span class="hljs-keyword">new</span> StringBuilder());
+        StringBuilder encode = <span class="hljs-keyword">new</span> StringBuilder();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; stringToEncode.length(); i++) {
+            String k = Character.toString(stringToEncode.charAt(i));
+            encode.append(codeBook.get(k));
+        }
+        printCodeBook();
+        <span class="hljs-keyword">return</span> encode.toString();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">decode</span><span class="hljs-params">(String encoded)</span> </span>{
+        StringBuilder decoded = <span class="hljs-keyword">new</span> StringBuilder(), key = <span class="hljs-keyword">new</span> StringBuilder();
+        CodeBookReverse();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; encoded.length(); i++) {
+            key = key.append(encoded.charAt(i));
+            <span class="hljs-keyword">if</span> (reverseCodeBook.containsKey(key.toString())) {
+                decoded.append(reverseCodeBook.get(key.toString()));
+                key = <span class="hljs-keyword">new</span> StringBuilder();
+            }
+        }
+        <span class="hljs-keyword">return</span> decoded.toString();
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Huffman</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        HuffmanTree huffmanTree = <span class="hljs-keyword">new</span> HuffmanTree(<span class="hljs-string">&quot;bibbity_bobbity&quot;</span>);
+        huffmanTree.createTree();
+        String encoded = huffmanTree.encode();
+        System.out.println(<span class="hljs-string">&quot;Encoded String: &quot;</span> + encoded);
+        System.out.println(<span class="hljs-string">&quot;Decoded String: &quot;</span> + huffmanTree.decode(encoded));
+    }
+}
+</code></pre>
+</div></div></div>
 
 <p><script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
@@ -2402,7 +2516,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.20.1","depth":2,"next":{"title":"Quantum Information","level":"1.21","depth":1,"path":"chapters/QI/QI.md","ref":"chapters/QI/QI.md","articles":[]},"previous":{"title":"Data Compression","level":"1.20","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.20.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-06-28T21:13:00.453Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:55:53.265Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.20.1","depth":2,"next":{"title":"Quantum Information","level":"1.21","depth":1,"path":"chapters/QI/QI.md","ref":"chapters/QI/QI.md","articles":[]},"previous":{"title":"Data Compression","level":"1.20","depth":1,"path":"chapters/data_compression/data_compression.md","ref":"chapters/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.20.1","depth":2,"path":"chapters/data_compression/huffman/huffman.md","ref":"chapters/data_compression/huffman/huffman.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/data_compression/huffman/huffman.md","mtime":"2018-07-03T23:36:02.347Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-03T23:37:48.996Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

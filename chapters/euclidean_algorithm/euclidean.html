@@ -956,6 +956,21 @@
   <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidSub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    a = Math.abs(a);
+    b = Math.abs(b);
+
+    <span class="hljs-keyword">while</span> (a != b) {
+        <span class="hljs-keyword">if</span> (a &gt; b) {
+            a -= b;
+        } <span class="hljs-keyword">else</span> {
+            b -= a;
+        }
+    }
+
+    <span class="hljs-keyword">return</span> a;
+}
+</code></pre>
 </div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">euclid_sub</span>(<span class="hljs-params">a, b</span>)</span>{
     a = <span class="hljs-built_in">Math</span>.abs(a);
     b = <span class="hljs-built_in">Math</span>.abs(b);
@@ -986,14 +1001,12 @@
     <span class="hljs-keyword">return</span> a
 </code></pre>
 </div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">euclidSub</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
-<span class="hljs-title">euclidSub</span> a b = inner (abs a) (abs b) <span class="hljs-keyword">where</span>
-  inner a b =
-    <span class="hljs-keyword">if</span> a == b <span class="hljs-keyword">then</span>
-      a
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> a &lt; b <span class="hljs-keyword">then</span>
-      euclidSub a (b - a)
-    <span class="hljs-keyword">else</span>
-      euclidSub (a - b) b
+<span class="hljs-title">euclidSub</span> a b = inner (abs a) (abs b)
+  <span class="hljs-keyword">where</span>
+    inner x y
+      | x == y = x
+      | x &lt; y = euclidSub x (y - x)
+      | otherwise = euclidSub (x - y) y
 </code></pre>
 </div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">euclid_sub</span></span>(<span class="hljs-keyword">mut</span> a: <span class="hljs-keyword">i64</span>, <span class="hljs-keyword">mut</span> b: <span class="hljs-keyword">i64</span>) -&gt; <span class="hljs-keyword">i64</span> {
     a = a.abs();
@@ -1019,21 +1032,6 @@
       inner (a - b) b
   <span class="hljs-keyword">in</span> (inner (abs a) (abs b))
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidSub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
-    a = Math.abs(a);
-    b = Math.abs(b);
-
-    <span class="hljs-keyword">while</span> (a != b) {
-        <span class="hljs-keyword">if</span> (a &gt; b) {
-            a -=b;
-        } <span class="hljs-keyword">else</span> {
-            b -=a;
-        }
-    }
-
-    <span class="hljs-keyword">return</span> a;
-}
-</code></pre>
 </div><div class="api-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> euclidSub(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
     a = abs(a)
     b = abs(b)
@@ -1052,8 +1050,8 @@
 </div></div></div>
 
 <p>Here, we simply line the two numbers up every step and subtract the lower value from the higher one every timestep. Once the two values are equal, we call that value the greatest common divisor. A graph of <code>a</code> and <code>b</code> as they change every step would look something like this:</p>
-<p align="center">
-    <img src="res/subtraction.png" width="500" height="500">
+<p>
+    <img class="center" src="res/subtraction.png" width="500">
 </p>
 
 <p>Modern implementations, though, often use the modulus operator (%) like so</p>
@@ -1104,6 +1102,16 @@
   <span class="hljs-keyword">return</span> a;
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidMod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">int</span> tmp = b;
+        b = a % b;
+        a = tmp;
+    }
+
+    <span class="hljs-keyword">return</span> a;
+}
+</code></pre>
 </div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">euclid_mod</span>(<span class="hljs-params">a, b</span>)</span>{
     a = <span class="hljs-built_in">Math</span>.abs(a);
     b = <span class="hljs-built_in">Math</span>.abs(b);
@@ -1129,17 +1137,10 @@
     <span class="hljs-keyword">return</span> a
 </code></pre>
 </div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">euclidMod</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
-<span class="hljs-title">euclidMod</span> a b = inner (abs a) (abs b) <span class="hljs-keyword">where</span>
-  inner a <span class="hljs-number">0</span> = a
-  inner a b = inner b (a `mod` b)
-
-<span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
-<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
-  <span class="hljs-keyword">let</span> chk1 = euclidMod (<span class="hljs-number">64</span> * <span class="hljs-number">67</span>) (<span class="hljs-number">64</span> * <span class="hljs-number">81</span>)
-      chk2 = euclidSub (<span class="hljs-number">128</span> * <span class="hljs-number">12</span>) (<span class="hljs-number">128</span> * <span class="hljs-number">77</span>)
-  putStrLn (show chk1)
-  putStrLn (show chk2)
-  return ()
+<span class="hljs-title">euclidMod</span> a b = inner (abs a) (abs b)
+  <span class="hljs-keyword">where</span>
+    inner x <span class="hljs-number">0</span> = x
+    inner x y = inner y (x `mod` y)
 </code></pre>
 </div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">euclid_rem</span></span>(<span class="hljs-keyword">mut</span> a: <span class="hljs-keyword">i64</span>, <span class="hljs-keyword">mut</span> b: <span class="hljs-keyword">i64</span>) -&gt; <span class="hljs-keyword">i64</span> {
     a = a.abs();
@@ -1159,19 +1160,6 @@
   | b -&gt; inner b (a <span class="hljs-keyword">mod</span> b)
   <span class="hljs-keyword">in</span> (inner (abs a) (abs b))
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidMod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
-    a = Math.abs(a);
-    b = Math.abs(b);
-
-    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        <span class="hljs-keyword">int</span> temp = b;
-        b = a % b;
-        a = temp;
-    }
-
-    <span class="hljs-keyword">return</span> a;
-}
-</code></pre>
 </div><div class="api-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> euclidMod(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">int</span> {
     a = abs(a)
     b = abs(b)
@@ -1186,8 +1174,8 @@
 </div></div></div>
 
 <p>Here, we set <code>b</code> to be the remainder of <code>a%b</code> and <code>a</code> to be whatever <code>b</code> was last timestep. Because of how the modulus operator works, this will provide the same information as the subtraction-based implementation, but when we show <code>a</code> and <code>b</code> as they change with time, we can see that it might take many fewer steps:</p>
-<p align="center">
-    <img src="res/modulus.png" width="500" height="500">
+<p>
+    <img class="center" src="res/modulus.png" width="500">
 </p>
 
 <p>The Euclidean Algorithm is truly fundamental to many other algorithms throughout the history of computer science and will definitely be used again later. At least to me, it&apos;s amazing how such an ancient algorithm can still have modern use and appeal. That said, there are still other algorithms out there that can find the greatest common divisor of two numbers that are arguably better in certain cases than the Euclidean algorithm, but the fact that we are discussing Euclid two millenia after his death shows how timeless and universal mathematics truly is. I think that&apos;s pretty cool.</p>
@@ -1363,6 +1351,46 @@
   <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; check2 &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><h3 id="java">Java</h3>
+<p>EuclideanAlgo.java</p>
+<pre><code class="lang-java"><span class="hljs-comment">// submitted by lolatomroflsinnlos, modified by xam4lor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EuclideanAlgo</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidSub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+        a = Math.abs(a);
+        b = Math.abs(b);
+
+        <span class="hljs-keyword">while</span> (a != b) {
+            <span class="hljs-keyword">if</span> (a &gt; b) {
+                a -= b;
+            } <span class="hljs-keyword">else</span> {
+                b -= a;
+            }
+        }
+
+        <span class="hljs-keyword">return</span> a;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidMod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
+        <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">int</span> tmp = b;
+            b = a % b;
+            a = tmp;
+        }
+
+        <span class="hljs-keyword">return</span> a;
+    }
+}
+</code></pre>
+<p>MainClass.java</p>
+<pre><code class="lang-java"><span class="hljs-comment">//submitted by lolatomroflsinnlos, modified by xam4lor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainClass</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;Euclidean Algorithm :&quot;</span>);
+        System.out.println(EuclideanAlgo.euclidMod(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>));
+        System.out.println(EuclideanAlgo.euclidSub(<span class="hljs-number">128</span> * <span class="hljs-number">12</span>, <span class="hljs-number">128</span> * <span class="hljs-number">77</span>) + <span class="hljs-string">&quot;\n&quot;</span>);
+    }
+}
+</code></pre>
 </div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><h3 id="javascript">JavaScript</h3>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">euclid_mod</span>(<span class="hljs-params">a, b</span>)</span>{
     a = <span class="hljs-built_in">Math</span>.abs(a);
@@ -1429,29 +1457,26 @@ main()
 </code></pre>
 </div><div class="api-method-sample" data-lang="haskell" data-name="Haskell"><h3 id="haskell">Haskell</h3>
 <pre><code class="lang-haskell"><span class="hljs-comment">-- contributed by Nicole Mazzuca (ubsan)</span>
-
 <span class="hljs-title">euclidSub</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
-<span class="hljs-title">euclidSub</span> a b = inner (abs a) (abs b) <span class="hljs-keyword">where</span>
-  inner a b =
-    <span class="hljs-keyword">if</span> a == b <span class="hljs-keyword">then</span>
-      a
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> a &lt; b <span class="hljs-keyword">then</span>
-      euclidSub a (b - a)
-    <span class="hljs-keyword">else</span>
-      euclidSub (a - b) b
+<span class="hljs-title">euclidSub</span> a b = inner (abs a) (abs b)
+  <span class="hljs-keyword">where</span>
+    inner x y
+      | x == y = x
+      | x &lt; y = euclidSub x (y - x)
+      | otherwise = euclidSub (x - y) y
 
 <span class="hljs-title">euclidMod</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
-<span class="hljs-title">euclidMod</span> a b = inner (abs a) (abs b) <span class="hljs-keyword">where</span>
-  inner a <span class="hljs-number">0</span> = a
-  inner a b = inner b (a `mod` b)
+<span class="hljs-title">euclidMod</span> a b = inner (abs a) (abs b)
+  <span class="hljs-keyword">where</span>
+    inner x <span class="hljs-number">0</span> = x
+    inner x y = inner y (x `mod` y)
 
 <span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
 <span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
   <span class="hljs-keyword">let</span> chk1 = euclidMod (<span class="hljs-number">64</span> * <span class="hljs-number">67</span>) (<span class="hljs-number">64</span> * <span class="hljs-number">81</span>)
       chk2 = euclidSub (<span class="hljs-number">128</span> * <span class="hljs-number">12</span>) (<span class="hljs-number">128</span> * <span class="hljs-number">77</span>)
-  putStrLn (show chk1)
-  putStrLn (show chk2)
-  return ()
+  print chk1
+  print chk2
 </code></pre>
 </div><div class="api-method-sample" data-lang="rs" data-name="Rust"><h3 id="rust">Rust</h3>
 <pre><code class="lang-rust"><span class="hljs-comment">// contributed by Nicole Mazzuca (ubsan)</span>
@@ -1514,44 +1539,7 @@ main()
   chk1 |&gt; print_int |&gt; print_newline;
   chk2 |&gt; print_int |&gt; print_newline
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><h3 id="java">Java</h3>
-<pre><code class="lang-java"><span class="hljs-comment">// sumbitted by lolatomroflsinnlos</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-
-    System.out.println(euclidSub(<span class="hljs-number">64</span> * <span class="hljs-number">67</span>, <span class="hljs-number">64</span> * <span class="hljs-number">81</span>));
-    System.out.println(euclidMod(<span class="hljs-number">128</span> * <span class="hljs-number">12</span>, <span class="hljs-number">128</span> * <span class="hljs-number">77</span>));
-
-}
-
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidSub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
-    a = Math.abs(a);
-    b = Math.abs(b);
-
-    <span class="hljs-keyword">while</span> (a != b) {
-        <span class="hljs-keyword">if</span> (a &gt; b) {
-            a -=b;
-        } <span class="hljs-keyword">else</span> {
-            b -=a;
-        }
-    }
-
-    <span class="hljs-keyword">return</span> a;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">euclidMod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>{
-    a = Math.abs(a);
-    b = Math.abs(b);
-
-    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>){
-        <span class="hljs-keyword">int</span> temp = b;
-        b = a % b;
-        a = temp;
-    }
-
-    <span class="hljs-keyword">return</span> a;
-}
-</code></pre>
-</div><div class="api-method-sample" data-lang="go" data-name="Go"><h3 id="go">Go</h3>
+<h3 id="go">Go</h3>
 <pre><code class="lang-golang"><span class="hljs-comment">// Submitted by Chinmaya Mahesh (chin123)</span>
 
 <span class="hljs-keyword">package</span> main
@@ -1657,7 +1645,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"next":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.10","depth":1,"path":"chapters/tree_traversal/tree_traversal.md","ref":"chapters/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/euclidean_algorithm/euclidean.md","mtime":"2018-06-29T21:44:48.787Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-06-29T21:55:53.265Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"next":{"title":"Multiplication","level":"1.12","depth":1,"path":"chapters/multiplication/multiplication.md","ref":"chapters/multiplication/multiplication.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.10","depth":1,"path":"chapters/tree_traversal/tree_traversal.md","ref":"chapters/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/euclidean_algorithm/euclidean.md","mtime":"2018-07-03T23:36:02.347Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-03T23:37:48.996Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
