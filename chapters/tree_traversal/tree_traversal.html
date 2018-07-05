@@ -17,7 +17,15 @@
     
             
                 
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
                 <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
                 
             
                 
@@ -26,14 +34,6 @@
             
                 
                 <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
-                
-            
-                
-                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
-                
-            
-                
-                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-api/theme-api.css">
                 
             
         
@@ -911,13 +911,10 @@
   <span class="hljs-keyword">int</span> value;
 };
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Tree</span>
 {
-    <span class="hljs-keyword">public</span> List&lt;Node&gt; Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Node&gt;();
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> id</span>) </span>=&gt; <span class="hljs-keyword">this</span>.Id = id;
-}
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">private</span> List&lt;Tree&gt; _children = <span class="hljs-keyword">new</span> List&lt;Tree&gt;();
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> node {
     <span class="hljs-keyword">struct</span> node *children;
@@ -994,13 +991,13 @@
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params"></span>)
 </span>{
-    DFSRecursive(root);
+    DFSRecursive(<span class="hljs-keyword">this</span>);
 
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Tree tree</span>)
     </span>{
-        Console.WriteLine(node.Id);
+        Console.WriteLine(tree.Id);
 
-        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> tree._children)
             DFSRecursive(c);
     }
 }
@@ -1088,14 +1085,14 @@
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params"></span>)
 </span>{
-    DFSRecursivePostorder(root);
+    DFSRecursivePostorder(<span class="hljs-keyword">this</span>);
 
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Tree tree</span>)
     </span>{
-        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> tree._children)
             DFSRecursivePostorder(c);
 
-        Console.WriteLine(node.Id);
+        Console.WriteLine(tree.Id);
     }
 }
 </code></pre>
@@ -1197,22 +1194,22 @@
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params"></span>)
 </span>{
-    DFSRecursiveInorderBinary(root);
+    DFSRecursiveInorderBinary(<span class="hljs-keyword">this</span>);
 
     <span class="hljs-comment">// This assumes only 2 children</span>
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Tree tree</span>)
     </span>{
-        <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">2</span>)
-             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
+        <span class="hljs-keyword">if</span> (tree._children.Count &gt; <span class="hljs-number">2</span>)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
 
-        <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> (tree._children.Count &gt; <span class="hljs-number">0</span>)
         {
-            DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">0</span>]);
-            Console.WriteLine(node.Id);
-            DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">1</span>]);
+            DFSRecursiveInorderBinary(tree._children[<span class="hljs-number">0</span>]);
+            Console.WriteLine(tree.Id);
+            DFSRecursiveInorderBinary(tree._children[<span class="hljs-number">1</span>]);
         }
         <span class="hljs-keyword">else</span>
-            Console.WriteLine(node.Id);
+            Console.WriteLine(tree.Id);
     }
 }
 </code></pre>
@@ -1371,16 +1368,15 @@
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSStack</span>(<span class="hljs-params"></span>)
 </span>{
-    <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Node&gt;();
-    stack.Push(root);
-    Node temp;
+    <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Tree&gt;();
+    stack.Push(<span class="hljs-keyword">this</span>);
 
     <span class="hljs-keyword">while</span> (stack.Count != <span class="hljs-number">0</span>)
     {
         Console.WriteLine(stack.Peek().Id);
-        temp = stack.Pop();
+        <span class="hljs-keyword">var</span> temp = stack.Pop();
 
-        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp._children)
             stack.Push(c);
     }
 }
@@ -1519,16 +1515,15 @@
 </code></pre>
 </div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BFSQueue</span>(<span class="hljs-params"></span>)
 </span>{
-    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue&lt;Node&gt;();
-    queue.Enqueue(root);
-    Node temp;
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue&lt;Tree&gt;();
+    queue.Enqueue(<span class="hljs-keyword">this</span>);
 
     <span class="hljs-keyword">while</span> (queue.Count != <span class="hljs-number">0</span>)
     {
         Console.WriteLine(queue.Peek().Id);
-        temp = queue.Dequeue();
+        <span class="hljs-keyword">var</span> temp = queue.Dequeue();
 
-        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp._children)
             queue.Enqueue(c);
     }
 }
@@ -1825,110 +1820,105 @@ main()
 {
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Tree</span>
     {
-        <span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
-        {
-            <span class="hljs-keyword">public</span> List&lt;Node&gt; Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-keyword">new</span> List&lt;Node&gt;();
-            <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-
-            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> id</span>) </span>=&gt; <span class="hljs-keyword">this</span>.Id = id;
-        }
-
-        <span class="hljs-keyword">private</span> Node root;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+        <span class="hljs-keyword">private</span> List&lt;Tree&gt; _children = <span class="hljs-keyword">new</span> List&lt;Tree&gt;();
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Tree</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> depthCount, <span class="hljs-keyword">int</span> childrenCount</span>)
         </span>{
-            root = <span class="hljs-keyword">new</span> Node(<span class="hljs-number">1</span>);
-            CreateAllChildren(root, depthCount, childrenCount);
+            <span class="hljs-keyword">this</span>.Id = <span class="hljs-number">1</span>;
+
+            <span class="hljs-keyword">if</span> (!(depthCount &lt;= <span class="hljs-number">1</span>))
+            {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childrenCount; i++)
+                    <span class="hljs-keyword">this</span>._children.Add(<span class="hljs-keyword">new</span> Tree(<span class="hljs-keyword">this</span>.Id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>, depthCount - <span class="hljs-number">1</span>, childrenCount));
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Tree</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> id, <span class="hljs-keyword">int</span> depthCount, <span class="hljs-keyword">int</span> childrenCount</span>)
+        </span>{
+            <span class="hljs-keyword">this</span>.Id = id;
+
+            <span class="hljs-keyword">if</span> (!(depthCount &lt;= <span class="hljs-number">1</span>))
+            {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childrenCount; i++)
+                    <span class="hljs-keyword">this</span>._children.Add(<span class="hljs-keyword">new</span> Tree(<span class="hljs-keyword">this</span>.Id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>, depthCount - <span class="hljs-number">1</span>, childrenCount));
+            }
         }
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params"></span>)
         </span>{
-            DFSRecursive(root);
+            DFSRecursive(<span class="hljs-keyword">this</span>);
 
-            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Node node</span>)
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursive</span>(<span class="hljs-params">Tree tree</span>)
             </span>{
-                Console.WriteLine(node.Id);
+                Console.WriteLine(tree.Id);
 
-                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> tree._children)
                     DFSRecursive(c);
             }
         }
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params"></span>)
         </span>{
-            DFSRecursivePostorder(root);
+            DFSRecursivePostorder(<span class="hljs-keyword">this</span>);
 
-            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Node node</span>)
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursivePostorder</span>(<span class="hljs-params">Tree tree</span>)
             </span>{
-                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> node.Children)
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> tree._children)
                     DFSRecursivePostorder(c);
 
-                Console.WriteLine(node.Id);
+                Console.WriteLine(tree.Id);
             }
         }
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params"></span>)
         </span>{
-            DFSRecursiveInorderBinary(root);
+            DFSRecursiveInorderBinary(<span class="hljs-keyword">this</span>);
 
             <span class="hljs-comment">// This assumes only 2 children</span>
-            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Node node</span>)
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFSRecursiveInorderBinary</span>(<span class="hljs-params">Tree tree</span>)
             </span>{
-                <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">2</span>)
-                     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
+                <span class="hljs-keyword">if</span> (tree._children.Count &gt; <span class="hljs-number">2</span>)
+                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Not binary tree!&quot;</span>);
 
-                <span class="hljs-keyword">if</span> (node.Children.Count &gt; <span class="hljs-number">0</span>)
+                <span class="hljs-keyword">if</span> (tree._children.Count &gt; <span class="hljs-number">0</span>)
                 {
-                    DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">0</span>]);
-                    Console.WriteLine(node.Id);
-                    DFSRecursiveInorderBinary(node.Children[<span class="hljs-number">1</span>]);
+                    DFSRecursiveInorderBinary(tree._children[<span class="hljs-number">0</span>]);
+                    Console.WriteLine(tree.Id);
+                    DFSRecursiveInorderBinary(tree._children[<span class="hljs-number">1</span>]);
                 }
                 <span class="hljs-keyword">else</span>
-                    Console.WriteLine(node.Id);
+                    Console.WriteLine(tree.Id);
             }
         }
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DFSStack</span>(<span class="hljs-params"></span>)
         </span>{
-            <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Node&gt;();
-            stack.Push(root);
-            Node temp;
+            <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Tree&gt;();
+            stack.Push(<span class="hljs-keyword">this</span>);
 
             <span class="hljs-keyword">while</span> (stack.Count != <span class="hljs-number">0</span>)
             {
                 Console.WriteLine(stack.Peek().Id);
-                temp = stack.Pop();
+                <span class="hljs-keyword">var</span> temp = stack.Pop();
 
-                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp._children)
                     stack.Push(c);
             }
         }
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BFSQueue</span>(<span class="hljs-params"></span>)
         </span>{
-            <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue&lt;Node&gt;();
-            queue.Enqueue(root);
-            Node temp;
+            <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> Queue&lt;Tree&gt;();
+            queue.Enqueue(<span class="hljs-keyword">this</span>);
 
             <span class="hljs-keyword">while</span> (queue.Count != <span class="hljs-number">0</span>)
             {
                 Console.WriteLine(queue.Peek().Id);
-                temp = queue.Dequeue();
+                <span class="hljs-keyword">var</span> temp = queue.Dequeue();
 
-                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp.Children)
+                <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> c <span class="hljs-keyword">in</span> temp._children)
                     queue.Enqueue(c);
-            }
-        }
-
-        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CreateAllChildren</span>(<span class="hljs-params">Node node, <span class="hljs-keyword">int</span> rowCount, <span class="hljs-keyword">int</span> childrenCount</span>)
-        </span>{
-            <span class="hljs-keyword">if</span> (rowCount &lt;= <span class="hljs-number">1</span>)
-                <span class="hljs-keyword">return</span>;
-
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childrenCount; i++)
-            {
-                node.Children.Add(<span class="hljs-keyword">new</span> Node(node.Id * <span class="hljs-number">10</span> + i + <span class="hljs-number">1</span>));
-                CreateAllChildren(node.Children[i], rowCount - <span class="hljs-number">1</span>, childrenCount);
             }
         }
     }
@@ -1954,6 +1944,7 @@ main()
             tree.BFSQueue();
             Console.WriteLine(<span class="hljs-string">&quot;DFSRecursivePostorder&quot;</span>);
             tree.DFSRecursivePostorder();
+
             <span class="hljs-comment">// Uncommenting the following 2 lines will result in an exception thrown because at least one Node of the Tree has more than 2 children and therefor a DFSRecursiveInorderBinary doesn&apos;t work.</span>
             <span class="hljs-comment">// Console.WriteLine(&quot;DFSRecursiveInorder (fail)&quot;);</span>
             <span class="hljs-comment">// tree.DFSRecursiveInorderBinary();</span>
@@ -2675,7 +2666,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mathjax","bibtex-cite","creativecommons","wordcount","theme-api","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"}],"split":false,"theme":"light"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-07-03T23:36:02.357Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-03T23:37:48.996Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.10","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.11","depth":1,"path":"chapters/euclidean_algorithm/euclidean.md","ref":"chapters/euclidean_algorithm/euclidean.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.9.2","depth":2,"path":"chapters/sorting_searching/bogo/bogo_sort.md","ref":"chapters/sorting_searching/bogo/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/tree_traversal/tree_traversal.md","mtime":"2018-07-05T20:27:03.533Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-05T20:43:33.750Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2685,11 +2676,19 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script src="../../gitbook/theme.js"></script>
     
         
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
         <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         
     
         
         <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
         
     
         
@@ -2714,14 +2713,6 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     
         
         <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
-        
-    
-        
-        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
-        
-    
-        
-        <script src="../../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
         
     
 
