@@ -1,0 +1,1141 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Thomas Algorithm · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../general/computational_geometry/computational_geometry.html" />
+    
+    
+    <link rel="prev" href="../gaussian_elimination/gaussian_elimination.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    Algorithm Archive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../../TODO.html">
+            
+                <a href="../../../TODO.html">
+            
+                    
+                    TODO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../introduction/introduction.html">
+            
+                <a href="../../introduction/introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../introduction/my_introduction_to_hobby_programming.html">
+            
+                <a href="../../introduction/my_introduction_to_hobby_programming.html">
+            
+                    
+                    A Personal Note
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../introduction/how_to_contribute.html">
+            
+                <a href="../../introduction/how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../principles_of_code/principles_of_code.html">
+            
+                <a href="../../principles_of_code/principles_of_code.html">
+            
+                    
+                    Principles of Code
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                    
+                    Choosing A Language
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                    
+                    Compiled Languages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1.1" data-path="../../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                    
+                    Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.1.2" data-path="../../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                    
+                    FORTRAN
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../principles_of_code/building_blocks/building_blocks.html">
+            
+                <a href="../../principles_of_code/building_blocks/building_blocks.html">
+            
+                    
+                    Building Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../../principles_of_code/building_blocks/variables.html">
+            
+                <a href="../../principles_of_code/building_blocks/variables.html">
+            
+                    
+                    Variables and Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../../principles_of_code/building_blocks/conditions.html">
+            
+                <a href="../../principles_of_code/building_blocks/conditions.html">
+            
+                    
+                    Conditions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../../principles_of_code/building_blocks/loops.html">
+            
+                <a href="../../principles_of_code/building_blocks/loops.html">
+            
+                    
+                    Loops
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.4" data-path="../../principles_of_code/building_blocks/functions.html">
+            
+                <a href="../../principles_of_code/building_blocks/functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.5" data-path="../../principles_of_code/building_blocks/classes.html">
+            
+                <a href="../../principles_of_code/building_blocks/classes.html">
+            
+                    
+                    Classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.6" data-path="../../principles_of_code/building_blocks/stacks.html">
+            
+                <a href="../../principles_of_code/building_blocks/stacks.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.7" data-path="../../principles_of_code/building_blocks/bitlogic.html">
+            
+                <a href="../../principles_of_code/building_blocks/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../../principles_of_code/version_control.html">
+            
+                <a href="../../principles_of_code/version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../principles_of_code/notation/notation.html">
+            
+                <a href="../../principles_of_code/notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../general/taylor_series_expansion/taylor_series_expansion.html">
+            
+                <a href="../../general/taylor_series_expansion/taylor_series_expansion.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../general/sorting_and_searching/sorting_and_searching.html">
+            
+                <a href="../../general/sorting_and_searching/sorting_and_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../bubble_sort/bubble_sort.html">
+            
+                <a href="../bubble_sort/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../bogo_sort/bogo_sort.html">
+            
+                <a href="../bogo_sort/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                <a href="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../../general/multiplication/multiplication.html">
+            
+                <a href="../../general/multiplication/multiplication.html">
+            
+                    
+                    Multiplication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                <a href="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                    
+                    Monte Carlo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../../general/matrix_methods/matrix_methods.html">
+            
+                <a href="../../general/matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.14.2" data-path="thomas_algorithm.html">
+            
+                <a href="thomas_algorithm.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../../general/computational_geometry/computational_geometry.html">
+            
+                <a href="../../general/computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1" data-path="../../general/gift_wrapping/gift_wrapping.html">
+            
+                <a href="../../general/gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1.1" data-path="../jarvis_march/jarvis_march.html">
+            
+                <a href="../jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15.1.2" data-path="../graham_scan/graham_scan.html">
+            
+                <a href="../graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15.1.3" data-path="../chans_algorithm/chans_algorithm.html">
+            
+                <a href="../chans_algorithm/chans_algorithm.html">
+            
+                    
+                    Chan's Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../cooley_tukey/cooley_tukey.html">
+            
+                <a href="../cooley_tukey/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../../general/decision_problems/decision_problems.html">
+            
+                <a href="../../general/decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                <a href="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../../general/differential_equations/differential_equations.html">
+            
+                <a href="../../general/differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.1" data-path="../forward_euler_method/forward_euler_method.html">
+            
+                <a href="../forward_euler_method/forward_euler_method.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../backward_euler_method/backward_euler_method.html">
+            
+                <a href="../backward_euler_method/backward_euler_method.html">
+            
+                    
+                    Backward Euler Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../../general/physics_solvers/physics_solvers.html">
+            
+                <a href="../../general/physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../verlet_integration/verlet_integration.html">
+            
+                <a href="../verlet_integration/verlet_integration.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.2" data-path="../barnes_hut_algorithm/barnes_hut_algorithm.html">
+            
+                <a href="../barnes_hut_algorithm/barnes_hut_algorithm.html">
+            
+                    
+                    Barnes-Hut
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.3" data-path="../../general/quantum_systems/quantum_systems.html">
+            
+                <a href="../../general/quantum_systems/quantum_systems.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.3.1" data-path="../split-operator_method/split-operator_method.html">
+            
+                <a href="../split-operator_method/split-operator_method.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../../general/data_compression/data_compression.html">
+            
+                <a href="../../general/data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.20.1" data-path="../huffman_encoding/huffman_encoding.html">
+            
+                <a href="../huffman_encoding/huffman_encoding.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="../../general/quantum_information/quantum_information.html">
+            
+                <a href="../../general/quantum_information/quantum_information.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >Thomas Algorithm</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="thomas-algorithm">Thomas Algorithm</h1>
+<p>As alluded to in the <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination chapter</a>, the Thomas Algorithm (or TDMA -- Tri-Diagonal Matrix Algorithm) allows for programmers to <strong>massively</strong> cut the computational cost of their code from <script type="math/tex; ">\sim O(n^3) \rightarrow \sim O(n)</script>! This is done by exploiting a particular case of Gaussian Elimination, particularly the case where our matrix looks like:</p>
+<p><script type="math/tex; mode=display">
+\left[
+    \begin{array}{ccccc|c}
+        b_0 & c_0 & & & & d_0 \\
+        a_1 & b_1 & c_1 & & & d_1 \\
+        & a_2 & \ddots & & & \vdots \\
+        & & & & c_{n-1}& d_{n-1} \\
+        & & & a_n & b_n & d_n
+    \end{array}
+\right]
+</script></p>
+<p>By this, I mean that our matrix is <em>Tri-Diagonal</em> (excluding the right-hand side of our system of equations, of course!). Now, at first, it might not be obvious how this helps; however, we may divide this array into separate vectors corresponding to <script type="math/tex; ">a</script>, <script type="math/tex; ">b</script>, <script type="math/tex; ">c</script>, and <script type="math/tex; ">d</script> and then solve for <script type="math/tex; ">x</script> with back-substitution, like before.</p>
+<p>In particular, we need to find an optimal scale factor for each row and use that. What is the scale factor? Well, it is the diagonal <script type="math/tex; ">-</script> the multiplicative sum of the off-diagonal elements.
+In the end, we will update <script type="math/tex; ">c</script> and <script type="math/tex; ">d</script> to be <script type="math/tex; ">c'</script> and <script type="math/tex; ">d'</script> like so:</p>
+<p><script type="math/tex; mode=display">
+\begin{align}
+c'_i &= \frac{c_i}{b_i - a_i \times c'_{i-1}} \\
+d'_i &= \frac{d_i - a_i*d'_{i-1}}{b_i - a_i \times c'_{i-1}}
+\end{align}
+</script></p>
+<p>Of course, the initial elements will need to be specifically defined as</p>
+<p><script type="math/tex; mode=display">
+\begin{align}
+c'_0 = \frac{c_0}{b_0}
+d'_0 = \frac{d_0}{b_0}
+\end{align}
+</script></p>
+<h2 id="example-code">Example Code</h2>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span>(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, b<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, c<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>},
+         d<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, soln<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+    <span class="hljs-comment"># Setting initial elements</span>
+    c[<span class="hljs-number">0</span>] = c[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>]
+    d[<span class="hljs-number">0</span>] = d[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>]
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:n
+        <span class="hljs-comment"># Scale factor is for c and d</span>
+        scale = <span class="hljs-number">1</span> / (b[i] - c[i-<span class="hljs-number">1</span>]*a[i])
+        c[i] = c[i] * scale
+        d[i] = (d[i] - a[i] * d[i-<span class="hljs-number">1</span>]) * scale
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># Set the last solution for back-substitution</span>
+    soln[n-<span class="hljs-number">1</span>] = d[n-<span class="hljs-number">1</span>]
+
+    <span class="hljs-comment"># Back-substitution</span>
+    <span class="hljs-keyword">for</span> i = n-<span class="hljs-number">2</span>:<span class="hljs-number">0</span>
+        soln[i] = d[i] - c[i] * soln[i+<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
+<pre><code class="lang-cpp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void thomas(double * const a, double * const b, double * const c,
+            double * const x, const size_t size) {
+
+    double y[size];
+    memset(y, 0, size * sizeof(double));
+
+    y[0] = c[0] / b[0];
+    x[0] = x[0] / b[0];
+
+    for (size_t i = 1; i &lt; size; ++i) {
+        double scale = 1.0 / (b[i] - a[i] * y[i - 1]);
+        y[i] = c[i] * scale;
+        x[i] = (x[i] - a[i] * x[i - 1]) * scale;
+    }
+
+    for (int i = size - 2; i &gt;= 0; --i) {
+        x[i] -= y[i] * x[i + 1];
+    }
+}
+
+int main() {
+    double a[] = {0.0, 2.0, 3.0};
+    double b[] = {1.0, 3.0, 6.0};
+    double c[] = {4.0, 5.0, 0.0};
+    double x[] = {7.0, 5.0, 3.0};
+
+    printf(&quot;The system,\n&quot;);
+    printf(&quot;[1.0  4.0  0.0][x] = [7.0]\n&quot;);
+    printf(&quot;[2.0  3.0  5.0][y] = [5.0]\n&quot;);
+    printf(&quot;[0.0  3.0  6.0][z] = [3.0]\n&quot;);
+    printf(&quot;has the solution:\n&quot;);
+
+    thomas(a, b, c, x, 3);
+
+    for (size_t i = 0; i &lt; 3; ++i) {
+        printf(&quot;[%f]\n&quot;, x[i]);
+    }
+
+    return 0;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
+<pre><code class="lang-python"><span class="hljs-comment"># Author: gammison</span>
+
+<span class="hljs-comment"># note this example is inplace and destructive</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">thomas</span><span class="hljs-params">(a, b, c, d)</span>:</span>
+
+    <span class="hljs-comment">#set the initial elements</span>
+    c[<span class="hljs-number">0</span>] = c[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>]
+    d[<span class="hljs-number">0</span>] = d[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>]
+
+    n = len(d) <span class="hljs-comment">#number of equations to solve</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,n):
+        <span class="hljs-comment">#scale factor for c and d</span>
+        scale = <span class="hljs-number">1</span> / (b[i] - c[i<span class="hljs-number">-1</span>]*a[i])
+
+        c[i] = c[i] * scale
+        d[i] = (d[i] -a[i] * d[i<span class="hljs-number">-1</span>]) * scale
+
+
+    <span class="hljs-comment"># do the back substitution</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n<span class="hljs-number">-2</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">-1</span>):
+        d[i] = d[i] - c[i]*d[i+<span class="hljs-number">1</span>]
+
+    <span class="hljs-keyword">return</span> d
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-comment"># example for matrix</span>
+    <span class="hljs-comment"># [1  4  0][x]   [7]</span>
+    <span class="hljs-comment"># [2  3  5][y] = [5]</span>
+    <span class="hljs-comment"># [0  3  6][z]   [3]</span>
+    <span class="hljs-comment">#                 [.8666]</span>
+    <span class="hljs-comment"># soln will equal [1.533]</span>
+    <span class="hljs-comment">#                 [-.266]</span>
+    <span class="hljs-comment"># note we index a from 1 and c from 0</span>
+    a = [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    b = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>]
+    c = [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0</span>]
+    d = [<span class="hljs-number">7</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>]
+    soln = thomas(a, b, c, d)
+    print(soln)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    main()
+</code></pre>
+</div></div></div>
+
+<p>This is a much simpler implementation than Gaussian Elimination and only has one for loop before back-substitution, which is why it has a better complexity case.</p>
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Thomas Algorithm","level":"1.14.2","depth":2,"next":{"title":"Computational Geometry","level":"1.15","depth":1,"path":"chapters/general/computational_geometry/computational_geometry.md","ref":"chapters/general/computational_geometry/computational_geometry.md","articles":[{"title":"Gift Wrapping","level":"1.15.1","depth":2,"path":"chapters/general/gift_wrapping/gift_wrapping.md","ref":"chapters/general/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.15.1.1","depth":3,"path":"chapters/algorithms/jarvis_march/jarvis_march.md","ref":"chapters/algorithms/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.15.1.2","depth":3,"path":"chapters/algorithms/graham_scan/graham_scan.md","ref":"chapters/algorithms/graham_scan/graham_scan.md","articles":[]},{"title":"Chan's Algorithm","level":"1.15.1.3","depth":3,"path":"chapters/algorithms/chans_algorithm/chans_algorithm.md","ref":"chapters/algorithms/chans_algorithm/chans_algorithm.md","articles":[]}]}]},"previous":{"title":"Gaussian Elimination","level":"1.14.1","depth":2,"path":"chapters/algorithms/gaussian_elimination/gaussian_elimination.md","ref":"chapters/algorithms/gaussian_elimination/gaussian_elimination.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/algorithms/thomas_algorithm/thomas_algorithm.md","mtime":"2018-07-12T21:32:13.903Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-12T21:33:26.121Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

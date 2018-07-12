@@ -1,0 +1,1663 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Forward Euler Method · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../backward_euler_method/backward_euler_method.html" />
+    
+    
+    <link rel="prev" href="../../general/differential_equations/differential_equations.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    Algorithm Archive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../../TODO.html">
+            
+                <a href="../../../TODO.html">
+            
+                    
+                    TODO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../introduction/introduction.html">
+            
+                <a href="../../introduction/introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../introduction/my_introduction_to_hobby_programming.html">
+            
+                <a href="../../introduction/my_introduction_to_hobby_programming.html">
+            
+                    
+                    A Personal Note
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../introduction/how_to_contribute.html">
+            
+                <a href="../../introduction/how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../principles_of_code/principles_of_code.html">
+            
+                <a href="../../principles_of_code/principles_of_code.html">
+            
+                    
+                    Principles of Code
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/choosing_a_language.html">
+            
+                    
+                    Choosing A Language
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/compiled.html">
+            
+                    
+                    Compiled Languages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1.1" data-path="../../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/makefiles.html">
+            
+                    
+                    Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.1.2" data-path="../../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                <a href="../../principles_of_code/choosing_a_language/compiled/FORTRAN.html">
+            
+                    
+                    FORTRAN
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../principles_of_code/building_blocks/building_blocks.html">
+            
+                <a href="../../principles_of_code/building_blocks/building_blocks.html">
+            
+                    
+                    Building Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../../principles_of_code/building_blocks/variables.html">
+            
+                <a href="../../principles_of_code/building_blocks/variables.html">
+            
+                    
+                    Variables and Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../../principles_of_code/building_blocks/conditions.html">
+            
+                <a href="../../principles_of_code/building_blocks/conditions.html">
+            
+                    
+                    Conditions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../../principles_of_code/building_blocks/loops.html">
+            
+                <a href="../../principles_of_code/building_blocks/loops.html">
+            
+                    
+                    Loops
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.4" data-path="../../principles_of_code/building_blocks/functions.html">
+            
+                <a href="../../principles_of_code/building_blocks/functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.5" data-path="../../principles_of_code/building_blocks/classes.html">
+            
+                <a href="../../principles_of_code/building_blocks/classes.html">
+            
+                    
+                    Classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.6" data-path="../../principles_of_code/building_blocks/stacks.html">
+            
+                <a href="../../principles_of_code/building_blocks/stacks.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.7" data-path="../../principles_of_code/building_blocks/bitlogic.html">
+            
+                <a href="../../principles_of_code/building_blocks/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../../principles_of_code/version_control.html">
+            
+                <a href="../../principles_of_code/version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../principles_of_code/notation/notation.html">
+            
+                <a href="../../principles_of_code/notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../general/taylor_series_expansion/taylor_series_expansion.html">
+            
+                <a href="../../general/taylor_series_expansion/taylor_series_expansion.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../general/sorting_and_searching/sorting_and_searching.html">
+            
+                <a href="../../general/sorting_and_searching/sorting_and_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../bubble_sort/bubble_sort.html">
+            
+                <a href="../bubble_sort/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../bogo_sort/bogo_sort.html">
+            
+                <a href="../bogo_sort/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                <a href="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../../general/multiplication/multiplication.html">
+            
+                <a href="../../general/multiplication/multiplication.html">
+            
+                    
+                    Multiplication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                <a href="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                    
+                    Monte Carlo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../../general/matrix_methods/matrix_methods.html">
+            
+                <a href="../../general/matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.2" data-path="../thomas_algorithm/thomas_algorithm.html">
+            
+                <a href="../thomas_algorithm/thomas_algorithm.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../../general/computational_geometry/computational_geometry.html">
+            
+                <a href="../../general/computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1" data-path="../../general/gift_wrapping/gift_wrapping.html">
+            
+                <a href="../../general/gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1.1" data-path="../jarvis_march/jarvis_march.html">
+            
+                <a href="../jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15.1.2" data-path="../graham_scan/graham_scan.html">
+            
+                <a href="../graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15.1.3" data-path="../chans_algorithm/chans_algorithm.html">
+            
+                <a href="../chans_algorithm/chans_algorithm.html">
+            
+                    
+                    Chan's Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../cooley_tukey/cooley_tukey.html">
+            
+                <a href="../cooley_tukey/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../../general/decision_problems/decision_problems.html">
+            
+                <a href="../../general/decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                <a href="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../../general/differential_equations/differential_equations.html">
+            
+                <a href="../../general/differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.18.1" data-path="forward_euler_method.html">
+            
+                <a href="forward_euler_method.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../backward_euler_method/backward_euler_method.html">
+            
+                <a href="../backward_euler_method/backward_euler_method.html">
+            
+                    
+                    Backward Euler Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../../general/physics_solvers/physics_solvers.html">
+            
+                <a href="../../general/physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../verlet_integration/verlet_integration.html">
+            
+                <a href="../verlet_integration/verlet_integration.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.2" data-path="../barnes_hut_algorithm/barnes_hut_algorithm.html">
+            
+                <a href="../barnes_hut_algorithm/barnes_hut_algorithm.html">
+            
+                    
+                    Barnes-Hut
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.3" data-path="../../general/quantum_systems/quantum_systems.html">
+            
+                <a href="../../general/quantum_systems/quantum_systems.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.3.1" data-path="../split-operator_method/split-operator_method.html">
+            
+                <a href="../split-operator_method/split-operator_method.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../../general/data_compression/data_compression.html">
+            
+                <a href="../../general/data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.20.1" data-path="../huffman_encoding/huffman_encoding.html">
+            
+                <a href="../huffman_encoding/huffman_encoding.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="../../general/quantum_information/quantum_information.html">
+            
+                <a href="../../general/quantum_information/quantum_information.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >Forward Euler Method</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="the-forward-euler-method">The Forward Euler Method</h1>
+<p>The Euler methods are some of the simplest methods to solve ordinary differential equations numerically.
+They introduce a new set of methods called the <a href="../runge_kutta_methods/runge_kutta_methods.md">Runge Kutta</a> methods, which will be discussed in the near future!</p>
+<p>As a physicist, I tend to understand things through methods that I have learned before.
+In this case, it makes sense for me to see Euler methods as extensions of the <a href="../general/taylor_series_expansion/taylor_series_expansion.md">Taylor Series Expansion</a>.
+These expansions basically approximate functions based on their derivatives, like so:</p>
+<p><script type="math/tex; mode=display">
+f(x) \approx f(a) + \frac{1}{1!}\frac{df(a)}{da}(x-a)
+    + \frac{1}{2!}\frac{d^2f(a)}{da^2}(x-a)^2
+    + \frac{1}{3!}\frac{d^3f(a)}{da^3}(x-a)^3 + \cdots
+</script></p>
+<p>Like before,  <script type="math/tex; ">f(x)</script> is some function along real or complex space, <script type="math/tex; ">a</script> is the point that we are expanding from, and <script type="math/tex; ">f^{(n)}(x)</script> denotes the <script type="math/tex; ">n^{\text{th}}</script> derivative of <script type="math/tex; ">f(x)</script>.</p>
+<p>So, what does this mean? Well, as mentioned, we can think of this similarly to the kinematic equation:
+<script type="math/tex; mode=display">
+x = x_0 + vt + \frac{1}{2}at^2
+</script>
+where <script type="math/tex; ">x</script> is position, <script type="math/tex; ">v</script> is velocity, and <script type="math/tex; ">a</script> is acceleration.
+This equation allows us to find the position of an object based on it&apos;s previous position (<script type="math/tex; ">x_0</script>), the derivative of it&apos;s position with respect to time (<script type="math/tex; ">\frac{dx}{dt} = v_0</script>) and one derivative on top of that (<script type="math/tex; ">\frac{d^2x}{dx^2} = a</script>).
+As stated in the Tayor Series Expansion, the acceleration term must also have <script type="math/tex; ">\frac{1}{2!}</script> in front of it.</p>
+<p>Now, how does this relate to the Euler methods?
+Well, with these methods, we assume that we are looking for a position in some space, usually denoted as <script type="math/tex; ">y(t)</script>, but we can use any variable.
+The methods assume that we have some function to evaluate the derivative of <script type="math/tex; ">y(t)</script>. In other words, we know that <script type="math/tex; ">\frac{dy(t)}{dt} = f(t,y(t))</script>.
+For the kinematic equation, we know what this is!</p>
+<p><script type="math/tex; mode=display">
+\frac{dy(t)}{dt} = v = f(t,y(t)) = v_0 + a(t)
+</script></p>
+<p>So, we can iteratively solve for position by first solving for velocity. By following the kinematic equation (or Taylor Series Expansion), we find that</p>
+<p><script type="math/tex; mode=display">
+y_{n+1} = y_n + f(t_n, y_n) dt
+</script></p>
+<p>For any timestep <script type="math/tex; ">dt</script>. This means that if we are solving the kinematic equation, we simply have the following equations:</p>
+<p><script type="math/tex; mode=display">
+\begin{align}
+    x_{n+1} &= x_n + v dt \\
+    v_{n+1} &= a (t_n)
+\end{align}
+</script></p>
+<p>Now, solving this set of equations in this way is known as the <em>forward</em> Euler Method.
+In fact, there is another method known as the <a href="../backward_euler_method/backward_euler_method.html"><em>backward</em> Euler Method</a>, which we will get to soon enough.
+For now, it is important to note that the error of these methods depend on the timestep chosen.</p>
+<p>
+    <img class="center" src="res/error.png">
+</p>
+
+<p>For example, here we see dramatically different results for different timesteps for solving the ODE <script type="math/tex; ">y' = \frac{x^3}{6}</script>, whose solution is <script type="math/tex; ">y = \frac{x^2}{2}</script>.
+The blue line is the analytical solution, the green is with a timestep of 0.5 and the red is with a timestep of 1.
+To be clear: the larger the timestep, the worse the error becomes; however, there is at least one more problem with using the forward Euler method on real problems: instabilities.</p>
+<p>As we mentioned, the forward Euler method approximates the solution to an Ordinary Differential Equation (ODE) by using only the first derivative.
+This is (rather expectedly) a poor approximation.
+In fact, the approximation is so poor that the error associated with running this algorithm can add up and result in incredibly incorrect results.
+As you might imagine, the only solution to this is decreasing the timestep and hoping for the best or using a similar method with different stability regions, like the backward Euler method.</p>
+<p>Let&apos;s assume we are solving a simple ODE: <script type="math/tex; ">y' = -3y, y(0) = 1</script>.
+The solution here is <script type="math/tex; ">y(t) = e^{-3t}</script> and we can find this solution somewhat easily with the forward Euler method shown below.
+That said, by choosing a larger timestep, we see the Euler method&apos;s solution oscillate above and below 0, which should <em>never</em> happen.
+If we were to take the Euler method&apos;s solution as valid, we would incorrectly assume that <script type="math/tex; ">e^{-3t}</script> will become negative!</p>
+<p>
+    <img class="center" src="res/instability.png">
+</p>
+
+<p>Like above, the blue line is the analytical solution, the green is with a timestep of 0.5 and the red is with a tiemstep of 1.
+Here, it&apos;s interesting that we see 2 different instability patterns.
+The green is initially unstable, but converges onto the correct solution, but the red is wrong from the get-go and only gets more wrong as time goes on.</p>
+<p>In truth, the stability region of the forward Euler method for the case where <script type="math/tex; ">y' = ky</script> can be found with the following inequality:
+<script type="math/tex; mode=display">
+|kdt + 1 | \leq 1
+</script>
+Which means that the forward Euler method is actually unstable for most values!
+If we want to stick to using the forward Euler method exclusively, the only solution is to decrease the timestep until it is within this stability region, and that&apos;s not necessarily easy for all cases.
+So now it might be obvious that another, more stable method should be used instead; however, many other stable methods are <em>implicit</em>, which means that in order to find the solution, we need to solve a system of equations via the <a href="../thomas_algorithm/thomas_algorithm.html">Thomas Algorithm</a> or <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination</a>.
+Which is an entire layer of complexity that most people don&apos;t want to mess with!</p>
+<p>Now, here is where we might want to relate the method to another algorithm that is sometimes used for a similar use-case: <a href="../verlet_integration/verlet_integration.html">Verlet Integration</a>.
+Verlet integration has a distinct advantage over the forward Euler method in both error and stability with more coarse-grained timesteps; however, Euler methods are powerful in that they may be used for cases other than simple kinematics.
+That said, in practice, due to the instability of the forward Euler method and the error with larger timesteps, this method is rarely used in practice.
+That said, variations of this method <em>are</em> certainly used (for example Crank-Nicolson and <a href="../runge_kutta_methods/runge_kutta_methods.md">Runge-Kutta</a>, so the time spent reading this chapter is not a total waste!</p>
+<h2 id="example-code">Example Code</h2>
+<p>Like in the case of <a href="../verlet_integration/verlet_integration.html">Verlet Integration</a>, the easiest way to test to see if this method works is to test it against a simple test-case.
+Here, the most obvious test-case would be dropping a ball from 5 meters, which is my favorite example, but proved itself to be slightly less enlightening than I would have thought.
+So, this time, let&apos;s remove ourselves from any physics and instead solve the following ODE: <script type="math/tex; ">y' = 5y</script>. Note that in this case, the velocity is directly given by the ODE and the acceleration is not part of the model.</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><h3 id="julia">Julia</h3>
+<pre><code class="lang-julia"><span class="hljs-keyword">function</span> solve_euler(timestep<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, n<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
+    euler_result = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(n)
+
+    <span class="hljs-comment"># Setting the initial condition</span>
+    euler_result[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">2</span>:length(euler_result)
+        euler_result[i] = euler_result[i-<span class="hljs-number">1</span>] - <span class="hljs-number">3.0</span>*euler_result[i-<span class="hljs-number">1</span>]*timestep
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> euler_result
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> check_result(euler_result<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, threshold<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>,
+                      timestep<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    is_approx = <span class="hljs-literal">true</span>
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:length(euler_result)
+        time = (i - <span class="hljs-number">1</span>)*timestep
+        solution = exp(-<span class="hljs-number">3</span>*time);
+        <span class="hljs-keyword">if</span> (abs(euler_result[i] - solution) &gt; threshold)
+            println(euler_result[i], solution)
+            is_approx = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> is_approx
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> main()
+    timestep = <span class="hljs-number">0.01</span>
+    n = <span class="hljs-number">100</span>
+    threshold = <span class="hljs-number">0.01</span>
+
+    euler_result = solve_euler(timestep,n)
+    is_approx = check_result(euler_result, threshold, timestep)
+
+    println(is_approx)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><h3 id="c">C</h3>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">solve_euler</span><span class="hljs-params">(<span class="hljs-keyword">double</span> timestep, <span class="hljs-keyword">double</span> *result, size_t n)</span> </span>{
+    <span class="hljs-keyword">if</span> (n != <span class="hljs-number">0</span>) {
+        result[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">1</span>; i &lt; n; ++i) {
+            result[i] = result[i<span class="hljs-number">-1</span>] - <span class="hljs-number">3.0</span> * result[i<span class="hljs-number">-1</span>] * timestep;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">check_result</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *result, size_t n, <span class="hljs-keyword">double</span> threshold, <span class="hljs-keyword">double</span> timestep)</span> </span>{
+    <span class="hljs-keyword">int</span> is_approx = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
+        <span class="hljs-keyword">double</span> solution = <span class="hljs-built_in">exp</span>(<span class="hljs-number">-3.0</span> * i * timestep);
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(result[i] - solution) &gt; threshold) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f    %f\n&quot;</span>, result[i], solution);
+            is_approx = <span class="hljs-number">0</span>;
+        }
+    }
+
+    <span class="hljs-keyword">return</span> is_approx;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">double</span> result[<span class="hljs-number">100</span>];
+    <span class="hljs-keyword">double</span> threshold = <span class="hljs-number">0.01</span>;
+    <span class="hljs-keyword">double</span> timestep = <span class="hljs-number">0.01</span>;
+
+    solve_euler(timestep, result, <span class="hljs-number">100</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, check_result(result, <span class="hljs-number">100</span>, threshold, timestep));
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><h3 id="c">C++</h3>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cmath&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstddef&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iterator&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;utility&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::begin;
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::end;
+
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>;
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; solve_euler(<span class="hljs-keyword">double</span> timestep, <span class="hljs-keyword">size_t</span> size) {
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; result;
+  <span class="hljs-keyword">double</span> current = <span class="hljs-number">1.0</span>;
+  <span class="hljs-built_in">std</span>::generate_n(<span class="hljs-built_in">std</span>::back_inserter(result), size, [&amp;] {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::exchange(current, current - <span class="hljs-number">3.0</span> * current * timestep);
+  });
+  <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-comment">/*
+  check_result takes an iterator over doubles,
+  and returns whether any value is outside the passed threshold.
+*/</span>
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> Iter&gt;
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">check_result</span><span class="hljs-params">(Iter first, Iter last, <span class="hljs-keyword">double</span> threshold, <span class="hljs-keyword">double</span> timestep)</span> </span>{
+  <span class="hljs-keyword">auto</span> it = first;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> idx = <span class="hljs-number">0</span>; it != last; ++idx, ++it) {
+    <span class="hljs-keyword">double</span> solution = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">exp</span>(<span class="hljs-number">-3.0</span> * idx * timestep);
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">std</span>::<span class="hljs-built_in">abs</span>(*it - solution) &gt; threshold) {
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;We found a value outside the threshold; the &quot;</span> &lt;&lt; idx
+                &lt;&lt; <span class="hljs-string">&quot;-th value was &quot;</span> &lt;&lt; *it &lt;&lt; <span class="hljs-string">&quot;, but the expected solution was &quot;</span>
+                &lt;&lt; solution &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;(the threshold was &quot;</span> &lt;&lt; threshold
+                &lt;&lt; <span class="hljs-string">&quot; and the difference was &quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">abs</span>(*it - solution)
+                &lt;&lt; <span class="hljs-string">&quot;)\n&quot;</span>;
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">double</span> threshold = <span class="hljs-number">0.01</span>;
+  <span class="hljs-keyword">double</span> timestep = <span class="hljs-number">0.01</span>;
+
+  <span class="hljs-keyword">auto</span> result = solve_euler(timestep, <span class="hljs-number">100</span>);
+  <span class="hljs-keyword">auto</span> outside_threshold =
+      check_result(begin(result), end(result), threshold, timestep);
+  <span class="hljs-keyword">auto</span> msg = outside_threshold ? <span class="hljs-string">&quot;yes :(&quot;</span> : <span class="hljs-string">&quot;no :D&quot;</span>;
+
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Were any of the values outside of the threshold (&quot;</span> &lt;&lt; threshold
+            &lt;&lt; <span class="hljs-string">&quot;)? &quot;</span> &lt;&lt; msg &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><h3 id="rust">Rust</h3>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> result = [<span class="hljs-number">0.0</span>; <span class="hljs-number">100</span>];
+    <span class="hljs-keyword">let</span> threshold = <span class="hljs-number">0.01</span>;
+    <span class="hljs-keyword">let</span> timestep = <span class="hljs-number">0.01</span>;
+
+    solve_euler(timestep, &amp;<span class="hljs-keyword">mut</span> result);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, check_result(&amp;result, threshold, timestep));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">solve_euler</span></span>(timestep: <span class="hljs-keyword">f64</span>, result: &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-keyword">f64</span>]) {
+    <span class="hljs-keyword">let</span> n = result.len();
+    <span class="hljs-keyword">if</span> n != <span class="hljs-number">0</span> {
+        result[<span class="hljs-number">0</span>] = <span class="hljs-number">1.0</span>;
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..n {
+            result[i] = result[i - <span class="hljs-number">1</span>] - <span class="hljs-number">3.0</span> * result[i - <span class="hljs-number">1</span>] * timestep;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">check_result</span></span>(result: &amp;[<span class="hljs-keyword">f64</span>], threshold: <span class="hljs-keyword">f64</span>, timestep: <span class="hljs-keyword">f64</span>) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> is_approx: <span class="hljs-keyword">bool</span> = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">for</span> (i, val) <span class="hljs-keyword">in</span> result.iter().enumerate() {
+        <span class="hljs-keyword">let</span> solution = (-<span class="hljs-number">3.0</span> * i <span class="hljs-keyword">as</span> <span class="hljs-keyword">f64</span> * timestep).exp();
+        <span class="hljs-keyword">if</span> (val - solution).abs() &gt; threshold {
+            <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}    {}&quot;</span>, val, solution);
+            is_approx = <span class="hljs-literal">false</span>;
+        }
+    }
+
+    <span class="hljs-keyword">return</span> is_approx;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="elm" data-name="Elm"><h3 id="elm">Elm</h3>
+<pre><code class="lang-elm"><span class="hljs-keyword">type</span> <span class="hljs-keyword">alias</span> <span class="hljs-type">Position</span> =
+    <span class="hljs-type">Float</span>
+
+
+<span class="hljs-keyword">type</span> <span class="hljs-keyword">alias</span> <span class="hljs-type">Velocity</span> =
+    <span class="hljs-type">Float</span>
+
+
+<span class="hljs-keyword">type</span> <span class="hljs-keyword">alias</span> <span class="hljs-type">Particle</span> =
+    { pos : <span class="hljs-type">List</span> <span class="hljs-type">Position</span>, vel : <span class="hljs-type">List</span> <span class="hljs-type">Velocity</span> }
+</code></pre>
+<pre><code class="lang-elm"><span class="hljs-title">k</span> : <span class="hljs-type">Float</span>
+<span class="hljs-title">k</span> =
+    <span class="hljs-number">-2</span>
+
+
+<span class="hljs-title">diffEq</span> : <span class="hljs-type">Position</span> -&gt; <span class="hljs-type">Velocity</span> -&gt; <span class="hljs-type">Time</span> -&gt; <span class="hljs-type">Time</span> -&gt; ( <span class="hljs-type">Position</span>, <span class="hljs-type">Velocity</span> )
+<span class="hljs-title">diffEq</span> x v t dt =
+    ( x + (k * x) * dt, k * (x + (k * x) * dt) )
+
+
+<span class="hljs-title">evolve</span> : <span class="hljs-type">Particle</span> -&gt; <span class="hljs-type">Time</span> -&gt; <span class="hljs-type">Time</span> -&gt; <span class="hljs-type">Particle</span>
+<span class="hljs-title">evolve</span> p t dt =
+    <span class="hljs-keyword">let</span>
+        ( x, v ) =
+            diffEq (getX p) (getV p) t dt
+    <span class="hljs-keyword">in</span>
+        { p | pos = x :: p.pos, vel = v :: p.vel }
+</code></pre>
+<p>Full code for the visualization follows:</p>
+<pre><code class="lang-elm">module Euler exposing (..)
+
+import Html exposing (Html, div, button, text, h3)
+import Html.Attributes exposing (style)
+import Html.Events exposing (onClick, on)
+import Time exposing (Time, second)
+import Maybe exposing (withDefault)
+import Window exposing (Size, size)
+import Svg exposing (svg, circle, line, polyline)
+import Svg.Attributes exposing (width, height, stroke, x1, x2, y1, y2, cx, cy, r, points, fill)
+import Task exposing (perform)
+import Slider exposing (..)
+import Mouse
+import Json.Decode as Decode
+import Hex
+
+
+main =
+    Html.program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
+
+
+
+-- MODEL
+
+
+type alias Model =
+    { part : Particle
+    , dt : Time
+    , dt0 : Time
+    , t : Time
+    , status : Status
+    , wWidth : Int
+    , wHeight : Int
+    , history : List ( Time, Time, Particle )
+    , drag : Maybe Drag
+    }
+
+
+type alias Position =
+    Float
+
+
+type alias Velocity =
+    Float
+
+
+type alias Particle =
+    { pos : List Position, vel : List Velocity }
+
+
+type Status
+    = Idle
+    | Running
+
+
+type alias Drag =
+    { start : Position
+    , current : Position
+    }
+
+
+getX : Particle -&gt; Position
+getX p =
+    withDefault 0 &lt;| List.head &lt;| .pos p
+
+
+getV : Particle -&gt; Velocity
+getV p =
+    withDefault 0 &lt;| List.head &lt;| .vel p
+
+
+getX0 : Model -&gt; Position
+getX0 m =
+    let
+        scale x =
+            3 - 6 * x / (toFloat m.wHeight)
+    in
+        case m.drag of
+            Nothing -&gt;
+                getX m.part
+
+            Just { start, current } -&gt;
+                getX m.part + scale current - scale start
+
+
+
+-- INIT
+
+
+init : ( Model, Cmd Msg )
+init =
+    ( Model (Particle [ x0 ] [ 0 ]) 0.5 0.5 0 Idle 0 0 [] Nothing, perform GetSize size )
+
+
+x0 : Position
+x0 =
+    2.5
+
+
+
+-- UPDATE
+
+
+type Msg
+    = Start
+    | Stop
+    | Tick Time
+    | GetSize Size
+    | SliderUpdate Float
+    | DragStart Mouse.Position
+    | DragAt Mouse.Position
+    | DragEnd Mouse.Position
+
+
+update : Msg -&gt; Model -&gt; ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Start -&gt;
+            ( { model
+                | status = Running
+                , t = 0
+                , dt = model.dt0
+                , drag = Nothing
+              }
+            , Cmd.none
+            )
+
+        Stop -&gt;
+            ( { model
+                | status = Idle
+                , part = Particle [ x0 ] [ 0 ]
+                , t = 0
+              }
+            , Cmd.none
+            )
+
+        Tick _ -&gt;
+            case model.status of
+                Idle -&gt;
+                    ( model, Cmd.none )
+
+                Running -&gt;
+                    if model.t &gt; 5 + model.dt then
+                        ( { model
+                            | status = Idle
+                            , part = Particle [ x0 ] [ 0 ]
+                            , history = ( model.dt, model.t, model.part ) :: model.history
+                            , t = 0
+                          }
+                        , Cmd.none
+                        )
+                    else
+                        ( { model
+                            | part = evolve model.part model.t model.dt
+                            , t = model.t + model.dt
+                          }
+                        , perform GetSize size
+                        )
+
+        GetSize s -&gt;
+            ( { model | wWidth = s.width, wHeight = s.height * 8 // 10 }, Cmd.none )
+
+        SliderUpdate dt -&gt;
+            ( { model | dt0 = dt }, Cmd.none )
+
+        DragStart { x, y } -&gt;
+            case model.status of
+                Idle -&gt;
+                    ( { model | drag = Just (Drag (toFloat y) (toFloat y)) }, Cmd.none )
+
+                Running -&gt;
+                    ( model, Cmd.none )
+
+        DragAt { x, y } -&gt;
+            ( { model | drag = Maybe.map (\{ start } -&gt; Drag start (toFloat y)) model.drag }
+            , Cmd.none
+            )
+
+        DragEnd _ -&gt;
+            ( { model
+                | drag = Nothing
+                , part = Particle [ getX0 model ] [ k * getX0 model ]
+              }
+            , Cmd.none
+            )
+
+
+k : Float
+k =
+    -2
+
+
+diffEq : Position -&gt; Velocity -&gt; Time -&gt; Time -&gt; ( Position, Velocity )
+diffEq x v t dt =
+    ( x + (k * x) * dt, k * (x + (k * x) * dt) )
+
+
+evolve : Particle -&gt; Time -&gt; Time -&gt; Particle
+evolve p t dt =
+    let
+        ( x, v ) =
+            diffEq (getX p) (getV p) t dt
+    in
+        { p | pos = x :: p.pos, vel = v :: p.vel }
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -&gt; Sub Msg
+subscriptions model =
+    case model.drag of
+        Nothing -&gt;
+            Time.every (model.dt * second) Tick
+
+        Just _ -&gt;
+            Sub.batch [ Mouse.moves DragAt, Mouse.ups DragEnd ]
+
+
+
+-- VIEW
+
+
+view : Model -&gt; Html Msg
+view model =
+    div []
+        [ h3 [] [ text &quot;Drag the ball up or down, pick a dt and click Start&quot; ]
+        , h3 [ style [ ( &quot;color&quot;, gradient model.dt0 ) ] ]
+            [ viewSlider
+            , text (&quot;dt = &quot; ++ toString model.dt0)
+            , button [ onClick Start ] [ text &quot;Start&quot; ]
+            , button [ onClick Stop ] [ text &quot;Stop&quot; ]
+            ]
+        , svg
+            [ width (toString model.wWidth)
+            , height (toString model.wHeight)
+            , stroke &quot;black&quot;
+            ]
+            ([ line
+                [ x1 &quot;0&quot;
+                , x2 (toString model.wWidth)
+                , y1 (toString (model.wHeight // 2))
+                , y2 (toString (model.wHeight // 2))
+                ]
+                []
+             , line
+                [ x1 (toString (model.wWidth // 20))
+                , x2 (toString (model.wWidth // 20))
+                , y1 &quot;0&quot;
+                , y2 (toString model.wHeight)
+                ]
+                []
+             , viewCircle model
+             ]
+                ++ (plotHistory model)
+            )
+        ]
+
+
+viewSlider : Html Msg
+viewSlider =
+    props2view [ MinVal 0, MaxVal 1, Step 0.01, onChange SliderUpdate ]
+
+
+scaleX : Int -&gt; Position -&gt; String
+scaleX h x =
+    toString (toFloat h / 2 * (1 - x / 3))
+
+
+scaleT : Int -&gt; Time -&gt; String
+scaleT w t =
+    toString (toFloat w * (0.05 + t / 5))
+
+
+viewCircle : Model -&gt; Html Msg
+viewCircle m =
+    circle
+        [ cy (scaleX m.wHeight (getX0 m))
+        , cx (scaleT m.wWidth m.t)
+        , r &quot;10&quot;
+        , on &quot;mousedown&quot; (Decode.map DragStart Mouse.position)
+        ]
+        []
+
+
+plotPath : Int -&gt; Int -&gt; ( Time, Time, Particle ) -&gt; String
+plotPath w h ( dt, tf, particle ) =
+    let
+        comb x ( t, s ) =
+            ( t - dt, s ++ (scaleT w t) ++ &quot;,&quot; ++ (scaleX h x) ++ &quot; &quot; )
+    in
+        Tuple.second &lt;| List.foldl comb ( tf, &quot;&quot; ) particle.pos
+
+
+plotHistory : Model -&gt; List (Html Msg)
+plotHistory m =
+    let
+        ( w, h ) =
+            ( m.wWidth, m.wHeight )
+    in
+        List.map
+            (\( dt, t, p ) -&gt;
+                polyline
+                    [ stroke &quot;black&quot;
+                    , fill &quot;none&quot;
+                    , stroke (gradient dt)
+                    , points (plotPath w h ( dt, t, p ))
+                    ]
+                    []
+            )
+            (( m.dt, m.t, m.part ) :: m.history)
+
+
+gradient : Time -&gt; String
+gradient dt =
+    let
+        ( r, g, b ) =
+            ( round (255 * dt), 0, round (255 * (1 - dt)) )
+
+        col =
+            Hex.toString (256 * (256 * r + g) + b)
+    in
+        if String.length col &lt; 6 then
+            &quot;#&quot; ++ String.repeat (6 - String.length col) &quot;0&quot; ++ col
+        else
+            &quot;#&quot; ++ col
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><h3 id="python">Python</h3>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> math
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward_euler</span><span class="hljs-params">(time_step, n)</span>:</span>
+    result = [<span class="hljs-number">0</span>] * n
+    result[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, n):
+        result[i] = result[i - <span class="hljs-number">1</span>] - <span class="hljs-number">3</span> * result[i - <span class="hljs-number">1</span>] * time_step
+    <span class="hljs-keyword">return</span> result
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">check</span><span class="hljs-params">(result, threshold, time_step)</span>:</span>
+    approx = <span class="hljs-keyword">True</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(result)):
+        solution = math.exp(<span class="hljs-number">-3</span> * i * time_step)
+        <span class="hljs-keyword">if</span> abs(result[i] - solution) &gt; threshold:
+            print(result[i], solution)
+            approx = <span class="hljs-keyword">False</span>
+    <span class="hljs-keyword">return</span> approx
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    time_step = <span class="hljs-number">0.01</span>
+    n = <span class="hljs-number">100</span>
+    threshold = <span class="hljs-number">0.01</span>
+
+    result = forward_euler(time_step, n)
+    approx = check(result, threshold, time_step)
+    print(<span class="hljs-string">&quot;All values within threshold&quot;</span>) <span class="hljs-keyword">if</span> approx <span class="hljs-keyword">else</span> print(<span class="hljs-string">&quot;Value(s) not in threshold&quot;</span>)
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><h3 id="haskell">Haskell</h3>
+<pre><code class="lang-haskell"><span class="hljs-title">solveEuler</span> :: <span class="hljs-type">Num</span> a =&gt; (a -&gt; a) -&gt; a -&gt; a -&gt; [a]
+<span class="hljs-title">solveEuler</span> f ts = iterate (\x -&gt; x + f x * ts)
+
+<span class="hljs-title">checkResult</span> :: (<span class="hljs-type">Ord</span> a, <span class="hljs-type">Num</span> a, <span class="hljs-type">Num</span> t, <span class="hljs-type">Enum</span> t) =&gt; a -&gt; (t -&gt; a) -&gt; [a] -&gt; <span class="hljs-type">Bool</span>
+<span class="hljs-title">checkResult</span> thresh check =
+    and . zipWith (\i k -&gt; abs (check i - k) &lt; thresh) [<span class="hljs-number">0.</span>.]
+
+<span class="hljs-title">kinematics</span> :: <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Double</span>
+<span class="hljs-title">kinematics</span> x = <span class="hljs-number">-3</span> * x
+
+<span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
+<span class="hljs-title">main</span> =
+    <span class="hljs-keyword">let</span> timestep = <span class="hljs-number">0.01</span>
+        n = <span class="hljs-number">100</span>
+        threshold = <span class="hljs-number">0.01</span>
+        checkResult&apos; = checkResult threshold $ exp . (\x -&gt; <span class="hljs-number">-3</span> * x * timestep)
+    <span class="hljs-keyword">in</span>  putStrLn $
+        <span class="hljs-keyword">if</span> checkResult&apos; (take n $ solveEuler kinematics timestep <span class="hljs-number">1</span>)
+        <span class="hljs-keyword">then</span> <span class="hljs-string">&quot;All values within threshold&quot;</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;Value(s) not in threshold&quot;</span>
+</code></pre>
+</div></div></div>
+
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.18.1","depth":2,"next":{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/algorithms/backward_euler_method/backward_euler_method.md","ref":"chapters/algorithms/backward_euler_method/backward_euler_method.md","articles":[]},"previous":{"title":"Differential Equation Solvers","level":"1.18","depth":1,"path":"chapters/general/differential_equations/differential_equations.md","ref":"chapters/general/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.18.1","depth":2,"path":"chapters/algorithms/forward_euler_method/forward_euler_method.md","ref":"chapters/algorithms/forward_euler_method/forward_euler_method.md","articles":[]},{"title":"Backward Euler Methods","level":"1.18.2","depth":2,"path":"chapters/algorithms/backward_euler_method/backward_euler_method.md","ref":"chapters/algorithms/backward_euler_method/backward_euler_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"pseudo","name":"Pseudocode"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"chapters/algorithms/forward_euler_method/forward_euler_method.md","mtime":"2018-07-12T21:32:13.880Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-12T21:33:26.121Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
