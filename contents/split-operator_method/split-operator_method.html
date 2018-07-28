@@ -787,13 +787,13 @@ There is no doubt that it makes the simulation easier to understand (albeit a li
 
 <p>As a note, when we generate our grid in momentum space <code>k</code>, we need to split the grid into two lines, one that is going from <code>0</code> to <code>-kmax</code> and is then discontinuous and goes from <code>kmax</code> to <code>0</code>.
 This is simply because the FFT will naturally assume that the <code>0</code> in our grid is at the left side of the simulation, so we shift k-space to match this expectation.
-Also, for this code we will be using the notation from above: <code>opr.R</code> will be the real space operators and <code>opr.M</code> will be the momentum space operators.
+Also, for this code we will be using notation to what we used above: <code>opr.R</code> will be the real space operators and <code>opr.K</code> will be the momentum space operators.
 There is another boolean value here called <code>im_time</code>, which is for imaginary time evolution.</p>
 <p>Afterwards, we turn them into operators:</p>
 <div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia">mutable struct Operators
     V<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
-    PE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
-    KE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    R<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    K<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
     wfc<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
 
     Operators(res) = new(<span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}(res),
@@ -808,11 +808,11 @@ There is another boolean value here called <code>im_time</code>, which is for im
     opr.V = <span class="hljs-number">0.5</span> * (par.x - voffset).^<span class="hljs-number">2</span>
     opr.wfc = exp.(-(par.x - wfcoffset).^<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
     <span class="hljs-keyword">if</span> (par.im_time)
-        opr. = exp.(-<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
-        opr.PE = exp.(-<span class="hljs-number">0.5</span>*opr.V*par.dt)
+        opr.K = exp.(-<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-number">0.5</span>*opr.V*par.dt)
     <span class="hljs-keyword">else</span>
-        opr. = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
-        opr.PE = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*opr.V*par.dt)
+        opr.K = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*opr.V*par.dt)
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> opr
@@ -830,19 +830,19 @@ Both of these have been shown in the figures above.</p>
 
     <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:par.timesteps
         <span class="hljs-comment"># Half-step in real space</span>
-        opr.wfc = opr.wfc .* opr.PE
+        opr.wfc = opr.wfc .* opr.R
 
         <span class="hljs-comment"># fft to momentum space</span>
         opr.wfc = fft(opr.wfc)
 
         <span class="hljs-comment"># Full step in momentum space</span>
-        opr.wfc = opr.wfc .* opr.
+        opr.wfc = opr.wfc .* opr.K
 
         <span class="hljs-comment"># ifft back</span>
         opr.wfc = ifft(opr.wfc)
 
         <span class="hljs-comment"># final half-step in real space</span>
-        opr.wfc = opr.wfc .* opr.PE
+        opr.wfc = opr.wfc .* opr.R
 
         <span class="hljs-comment"># density for plotting and potential</span>
         density = abs2.(opr.wfc)
@@ -921,8 +921,8 @@ struct Param
 
 mutable struct Operators
     V<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
-    PE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
-    KE<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    R<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    K<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
     wfc<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
 
     Operators(res) = new(<span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}(res),
@@ -937,11 +937,11 @@ mutable struct Operators
     opr.V = <span class="hljs-number">0.5</span> * (par.x - voffset).^<span class="hljs-number">2</span>
     opr.wfc = exp.(-(par.x - wfcoffset).^<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
     <span class="hljs-keyword">if</span> (par.im_time)
-        opr. = exp.(-<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
-        opr.PE = exp.(-<span class="hljs-number">0.5</span>*opr.V*par.dt)
+        opr.K = exp.(-<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-number">0.5</span>*opr.V*par.dt)
     <span class="hljs-keyword">else</span>
-        opr. = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
-        opr.PE = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*opr.V*par.dt)
+        opr.K = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*opr.V*par.dt)
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> opr
@@ -952,19 +952,19 @@ mutable struct Operators
 
     <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:par.timesteps
         <span class="hljs-comment"># Half-step in real space</span>
-        opr.wfc = opr.wfc .* opr.PE
+        opr.wfc = opr.wfc .* opr.R
 
         <span class="hljs-comment"># fft to momentum space</span>
         opr.wfc = fft(opr.wfc)
 
         <span class="hljs-comment"># Full step in momentum space</span>
-        opr.wfc = opr.wfc .* opr.
+        opr.wfc = opr.wfc .* opr.K
 
         <span class="hljs-comment"># ifft back</span>
         opr.wfc = ifft(opr.wfc)
 
         <span class="hljs-comment"># final half-step in real space</span>
-        opr.wfc = opr.wfc .* opr.PE
+        opr.wfc = opr.wfc .* opr.R
 
         <span class="hljs-comment"># density for plotting and potential</span>
         density = abs2.(opr.wfc)
@@ -1087,7 +1087,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"next":{"title":"Data Compression","level":"1.17","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.17.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-07-28T07:26:12.070Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T07:26:17.097Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"next":{"title":"Data Compression","level":"1.17","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.17.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-07-28T09:30:27.527Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T09:32:23.661Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
