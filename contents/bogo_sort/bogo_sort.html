@@ -1,0 +1,1313 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Bogo Sort · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../tree_traversal/tree_traversal.html" />
+    
+    
+    <link rel="prev" href="../bubble_sort/bubble_sort.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Algorithm Archive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../introduction/introduction.html">
+            
+                <a href="../introduction/introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../how_to_contribute/how_to_contribute.html">
+            
+                <a href="../how_to_contribute/how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../git_and_version_control/git_and_version_control.html">
+            
+                <a href="../git_and_version_control/git_and_version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../data_structures/data_structures.html">
+            
+                <a href="../data_structures/data_structures.html">
+            
+                    
+                    Data Structures
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../stacks_and_queues/stacks_and_queues.html">
+            
+                <a href="../stacks_and_queues/stacks_and_queues.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../mathematical_background/mathematical_background.html">
+            
+                <a href="../mathematical_background/mathematical_background.html">
+            
+                    
+                    Mathematical Background
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../notation/notation.html">
+            
+                <a href="../notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../bitlogic/bitlogic.html">
+            
+                <a href="../bitlogic/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                <a href="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../sorting_and_searching/sorting_and_searching.html">
+            
+                <a href="../sorting_and_searching/sorting_and_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../bubble_sort/bubble_sort.html">
+            
+                <a href="../bubble_sort/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7.2" data-path="bogo_sort.html">
+            
+                <a href="bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                <a href="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                <a href="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                    
+                    Monte Carlo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../matrix_methods/matrix_methods.html">
+            
+                <a href="../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../thomas_algorithm/thomas_algorithm.html">
+            
+                <a href="../thomas_algorithm/thomas_algorithm.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../computational_geometry/computational_geometry.html">
+            
+                <a href="../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1" data-path="../gift_wrapping/gift_wrapping.html">
+            
+                <a href="../gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1.1" data-path="../jarvis_march/jarvis_march.html">
+            
+                <a href="../jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.1.2" data-path="../graham_scan/graham_scan.html">
+            
+                <a href="../graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../cooley_tukey/cooley_tukey.html">
+            
+                <a href="../cooley_tukey/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../decision_problems/decision_problems.html">
+            
+                <a href="../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                <a href="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../differential_equations/differential_equations.html">
+            
+                <a href="../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1" data-path="../forward_euler_method/forward_euler_method.html">
+            
+                <a href="../forward_euler_method/forward_euler_method.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../physics_solvers/physics_solvers.html">
+            
+                <a href="../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../verlet_integration/verlet_integration.html">
+            
+                <a href="../verlet_integration/verlet_integration.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.2" data-path="../quantum_systems/quantum_systems.html">
+            
+                <a href="../quantum_systems/quantum_systems.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.2.1" data-path="../split-operator_method/split-operator_method.html">
+            
+                <a href="../split-operator_method/split-operator_method.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../data_compression/data_compression.html">
+            
+                <a href="../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../huffman_encoding/huffman_encoding.html">
+            
+                <a href="../huffman_encoding/huffman_encoding.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../quantum_information/quantum_information.html">
+            
+                <a href="../quantum_information/quantum_information.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Bogo Sort</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="bogo-sort">Bogo Sort</h1>
+<p>Look, Bogo Sort doesn&apos;t really sort anything out.
+In fact, it should never be used in practice for any reason I can think of and really only serves as a joke in the programming community.
+As far as jokes go, though, this one&apos;s pretty good.</p>
+<p>So, here&apos;s how it goes:
+imagine you have an array of <script type="math/tex; ">n</script> elements that you want sorted.
+One way to do it is to shuffle the array at random and hope that all the elements will be magically in order after shuffling.
+If they are not in order, just shuffle everything again.
+And then again. And again.
+In the best case, this algorithm runs with a complexity of <script type="math/tex; ">\Omega(n)</script>, and in the worst, <script type="math/tex; ">\mathcal{O}(\infty)</script>.</p>
+<p>In code, it looks something like this:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> bogo_sort(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+    <span class="hljs-keyword">while</span>(!is_sorted(a))
+        shuffle!(a)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;T&gt; RunBogoSort&lt;T&gt;(List&lt;T&gt; list) <span class="hljs-keyword">where</span> T : IComparable&lt;T&gt;
+{
+    <span class="hljs-keyword">while</span> (!IsSorted(list))
+        list = Shuffle(list, <span class="hljs-keyword">new</span> Random());
+
+    <span class="hljs-keyword">return</span> list;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="clj" data-name="Clojure"><pre><code class="lang-clojure">(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> bogo-sort [col func]
+  <span class="hljs-string">&quot;shuffle the collection untill it is sorted&quot;</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">if</span></span> (<span class="hljs-name">is-sorted</span> col func)
+    col
+    (<span class="hljs-name">shuffle</span> col)))
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
+    <span class="hljs-keyword">while</span> (!is_sorted(<span class="hljs-built_in">array</span>, n)) {
+        shuffle(<span class="hljs-built_in">array</span>, n);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bogoSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
+    <span class="hljs-keyword">while</span>(!isSorted(arr)) {
+        shuffle(arr);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bogoSort</span>(<span class="hljs-params">arr</span>) </span>{
+  <span class="hljs-keyword">while</span> (!isSorted(arr)) {
+    shuffle(arr);
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(a)</span>:</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> is_sorted(a):
+        random.shuffle(a)
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">bogoSort</span> :: (<span class="hljs-type">Ord</span> a, <span class="hljs-type">RandomGen</span> g) =&gt; g -&gt; [a] -&gt; [a]
+<span class="hljs-title">bogoSort</span> g a = fst $ head $
+               filter (isSorted . fst) $
+               iterate (uncurry fisherYates) (a, g)
+</code></pre>
+</div><div class="api-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sorted_array</span> = <span class="hljs-title">bogo_sort</span><span class="hljs-params">(array)</span></span>
+    <span class="hljs-keyword">while</span> ~is_sorted(array)
+        <span class="hljs-comment">% create a list of random permutation indices</span>
+        <span class="hljs-built_in">i</span> = randperm(<span class="hljs-built_in">length</span>(array));
+        array = array(<span class="hljs-built_in">i</span>);
+    <span class="hljs-keyword">end</span>
+    sorted_array = array;
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter, <span class="hljs-keyword">class</span> Rng&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(Iter <span class="hljs-keyword">const</span> first, Iter <span class="hljs-keyword">const</span> last, Rng&amp; rng)</span> </span>{
+  <span class="hljs-keyword">while</span> (not <span class="hljs-built_in">std</span>::is_sorted(first, last)) {
+    <span class="hljs-built_in">std</span>::shuffle(first, last, rng);
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bogo_sort</span></span>(arr : &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-keyword">i32</span>]) {
+    <span class="hljs-keyword">while</span> !is_sorted(arr) {
+        thread_rng().shuffle(arr);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bogoSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+    <span class="hljs-keyword">while</span>(!isSorted(inputArray: sortArray)) {
+        sortArray = shuffle(inputArray: &amp;sortArray)
+    }
+
+    <span class="hljs-keyword">return</span> sortArray
+}
+</code></pre>
+</div></div></div>
+
+<p>That&apos;s it.
+Ship it!
+We are done here!</p>
+<h2 id="example-code">Example Code</h2>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> is_sorted(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:length(a)-<span class="hljs-number">1</span>
+        <span class="hljs-keyword">if</span> (a[i+<span class="hljs-number">1</span>] &gt; a[i])
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> bogo_sort(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+    <span class="hljs-keyword">while</span>(!is_sorted(a))
+        shuffle!(a)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> main()
+    a = [<span class="hljs-number">1.</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>,<span class="hljs-number">4</span>]
+    bogo_sort(a)
+    println(a)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="cs" data-name="C#"><p>BogoSort.cs</p>
+<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
+<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">BogoSort</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BogoSort</span>
+    {
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;T&gt; RunBogoSort&lt;T&gt;(List&lt;T&gt; list) <span class="hljs-keyword">where</span> T : IComparable&lt;T&gt;
+        {
+            <span class="hljs-keyword">while</span> (!IsSorted(list))
+                list = Shuffle(list, <span class="hljs-keyword">new</span> Random());
+
+            <span class="hljs-keyword">return</span> list;
+        }
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> IsSorted&lt;T&gt;(List&lt;T&gt; list) <span class="hljs-keyword">where</span> T : IComparable&lt;T&gt;
+        {
+            <span class="hljs-keyword">var</span> sorted = <span class="hljs-keyword">true</span>;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; list.Count - <span class="hljs-number">1</span>; i++)
+            {
+                <span class="hljs-keyword">if</span> (!(<span class="hljs-number">0</span> &gt;= list[i].CompareTo(list[i + <span class="hljs-number">1</span>])))
+                    sorted = <span class="hljs-keyword">false</span>;
+            }
+            <span class="hljs-keyword">if</span> (!sorted)
+            {
+                sorted = <span class="hljs-keyword">true</span>;
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; list.Count - <span class="hljs-number">1</span>; i++)
+                {
+                    <span class="hljs-keyword">if</span> (!(<span class="hljs-number">0</span> &lt;= list[i].CompareTo(list[i + <span class="hljs-number">1</span>])))
+                        sorted = <span class="hljs-keyword">false</span>;
+                }
+            }
+
+            <span class="hljs-keyword">return</span> sorted;
+        }
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> List&lt;T&gt; Shuffle&lt;T&gt;(List&lt;T&gt; list, Random random)
+        {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = list.Count - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; i--)
+            {
+                <span class="hljs-keyword">var</span> j = random.Next(<span class="hljs-number">0</span>, i);
+                <span class="hljs-keyword">var</span> temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
+            <span class="hljs-keyword">return</span> list;
+        }
+    }
+}
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
+<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">BogoSort</span>
+{
+    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+            Console.WriteLine(<span class="hljs-string">&quot;BogoSort&quot;</span>);
+            <span class="hljs-keyword">var</span> listBogo = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">int</span>&gt;() { <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>, <span class="hljs-number">54</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">7</span>, <span class="hljs-number">15</span> };
+            Console.Write(<span class="hljs-string">&quot;unsorted: &quot;</span>);
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> number <span class="hljs-keyword">in</span> listBogo)
+                Console.Write(number + <span class="hljs-string">&quot; &quot;</span>);
+            Console.WriteLine();
+            listBogo = BogoSort.RunBogoSort(listBogo);
+            Console.Write(<span class="hljs-string">&quot;sorted: &quot;</span>);
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> number <span class="hljs-keyword">in</span> listBogo)
+                Console.Write(number + <span class="hljs-string">&quot; &quot;</span>);
+            Console.WriteLine();
+        }
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="clj" data-name="Clojure"><pre><code class="lang-clojure"><span class="hljs-comment">;; earthfail</span>
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> is-sorted [col func]
+  <span class="hljs-string">&quot;return true of col is sorted in respect to func role
+   like &lt;,&gt;,&lt;=,&gt;=&quot;</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">apply</span></span> func col))
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> bogo-sort [col func]
+  <span class="hljs-string">&quot;shuffle the collection untill it is sorted&quot;</span>
+  (<span class="hljs-name"><span class="hljs-builtin-name">if</span></span> (<span class="hljs-name">is-sorted</span> col func)
+    col
+    (<span class="hljs-name">shuffle</span> col)))
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdbool.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stddef.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">is_sorted</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
+    <span class="hljs-keyword">while</span> (--n &gt;= <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">array</span>[n] &lt; <span class="hljs-built_in">array</span>[n - <span class="hljs-number">1</span>]) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
+        <span class="hljs-keyword">int</span> t = <span class="hljs-built_in">array</span>[i];
+        <span class="hljs-keyword">int</span> r = rand() % n;
+        <span class="hljs-built_in">array</span>[i] = <span class="hljs-built_in">array</span>[r];
+        <span class="hljs-built_in">array</span>[r] = t;
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
+    <span class="hljs-keyword">while</span> (!is_sorted(<span class="hljs-built_in">array</span>, n)) {
+        shuffle(<span class="hljs-built_in">array</span>, n);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> <span class="hljs-built_in">array</span>[<span class="hljs-number">10</span>] = {<span class="hljs-number">1</span>, <span class="hljs-number">3654</span>, <span class="hljs-number">78</span>, <span class="hljs-number">654</span>, <span class="hljs-number">-234</span>, <span class="hljs-number">-12</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">-6</span>, <span class="hljs-number">-100</span>};
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Unsorted array:\n&quot;</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, <span class="hljs-built_in">array</span>[i]);
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n\n&quot;</span>);
+
+    bogo_sort(<span class="hljs-built_in">array</span>, <span class="hljs-number">10</span>);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Sorted array:\n&quot;</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, <span class="hljs-built_in">array</span>[i]);
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bogo</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bogoSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
+        <span class="hljs-keyword">while</span>(!isSorted(arr)) {
+            shuffle(arr);
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isSorted</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; arr.length - <span class="hljs-number">1</span>; i++) {
+            <span class="hljs-keyword">if</span>(arr[i] &gt; arr[i + <span class="hljs-number">1</span>]) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> r = arr.length - <span class="hljs-number">1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
+            <span class="hljs-keyword">int</span> i = (<span class="hljs-keyword">int</span>) Math.floor(Math.random() * r);
+            <span class="hljs-keyword">int</span> tmp = arr[i];
+            arr[i] = arr[r];
+            arr[r] = tmp;
+        }
+    }
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">int</span>[] test = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{<span class="hljs-number">20</span>, -<span class="hljs-number">3</span>, <span class="hljs-number">50</span>, <span class="hljs-number">1</span>, -<span class="hljs-number">6</span>, <span class="hljs-number">59</span>};
+
+        System.out.println(<span class="hljs-string">&quot;Unsorted array :&quot;</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; test.length; i++) {
+            System.out.print(test[i] + <span class="hljs-string">&quot; &quot;</span>);
+        }
+
+
+        bogoSort(test);
+
+
+        System.out.println(<span class="hljs-string">&quot;\n\nSorted array :&quot;</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; test.length; i++) {
+            System.out.print(test[i] + <span class="hljs-string">&quot; &quot;</span>);
+        }
+    System.out.println(<span class="hljs-string">&quot;&quot;</span>);
+    }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isSorted</span>(<span class="hljs-params">arr</span>) </span>{
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.length - <span class="hljs-number">1</span>; i++) {
+    <span class="hljs-keyword">if</span> (arr[i] &gt; arr[i + <span class="hljs-number">1</span>]) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bogoSort</span>(<span class="hljs-params">arr</span>) </span>{
+  <span class="hljs-keyword">while</span> (!isSorted(arr)) {
+    shuffle(arr);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">shuffle</span>(<span class="hljs-params">arr</span>) </span>{
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> r = arr.length <span class="hljs-number">-1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
+    <span class="hljs-keyword">let</span> i = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * r);
+    <span class="hljs-keyword">let</span> tmp = arr[i];
+    arr[i] = arr[r];
+    arr[r] = tmp;
+  }
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> random
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_sorted</span><span class="hljs-params">(a)</span>:</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(a)<span class="hljs-number">-1</span>):
+        <span class="hljs-keyword">if</span> a[i+<span class="hljs-number">1</span>] &lt; a[i]:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">False</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">True</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(a)</span>:</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> is_sorted(a):
+        random.shuffle(a)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    a = [<span class="hljs-number">1.</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>]
+    bogo_sort(a)
+    print(a)
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span>           System.Random
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">qualified</span> Data.Map <span class="hljs-keyword">as</span> M
+<span class="hljs-keyword">import</span>           Data.Map ((!))
+
+<span class="hljs-title">fisherYates</span> :: <span class="hljs-type">RandomGen</span> g =&gt; [a] -&gt; g -&gt; ([a], g)
+<span class="hljs-title">fisherYates</span> a gen = shuffle <span class="hljs-number">1</span> gen m
+  <span class="hljs-keyword">where</span> m = <span class="hljs-type">M</span>.fromList $ zip [<span class="hljs-number">1.</span>.] a
+        shuffle i g k
+          | i == <span class="hljs-type">M</span>.size m = (<span class="hljs-type">M</span>.elems k, g)
+          | otherwise     = <span class="hljs-keyword">let</span> (j, g&apos;) = randomR (i, <span class="hljs-type">M</span>.size m) g
+                                k&apos; = <span class="hljs-type">M</span>.insert i (k!j) $ <span class="hljs-type">M</span>.insert j (k!i) k
+                            <span class="hljs-keyword">in</span> shuffle (i+<span class="hljs-number">1</span>) g&apos; k&apos;
+
+<span class="hljs-title">isSorted</span> :: <span class="hljs-type">Ord</span> a =&gt; [a] -&gt; <span class="hljs-type">Bool</span>
+<span class="hljs-title">isSorted</span> = all (uncurry (&lt;=)) . (zip &lt;*&gt; tail)
+
+<span class="hljs-title">bogoSort</span> :: (<span class="hljs-type">Ord</span> a, <span class="hljs-type">RandomGen</span> g) =&gt; g -&gt; [a] -&gt; [a]
+<span class="hljs-title">bogoSort</span> g a = fst $ head $
+               filter (isSorted . fst) $
+               iterate (uncurry fisherYates) (a, g)
+
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  g &lt;- newStdGen
+  print $ bogoSort g [<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">6</span>, <span class="hljs-number">1</span>, <span class="hljs-number">7</span>]
+</code></pre>
+</div><div class="api-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+    array = <span class="hljs-built_in">floor</span>( <span class="hljs-built_in">rand</span>(<span class="hljs-number">1</span>,<span class="hljs-number">7</span>)*<span class="hljs-number">100</span> );
+    <span class="hljs-built_in">disp</span>(<span class="hljs-string">&apos;Before Sorting:&apos;</span>)
+    <span class="hljs-built_in">disp</span>(array)
+
+    array = bogo_sort(array);
+    <span class="hljs-built_in">disp</span>(<span class="hljs-string">&apos;After Sorting&apos;</span>)
+    <span class="hljs-built_in">disp</span>(array)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">retval</span> = <span class="hljs-title">is_sorted</span><span class="hljs-params">(array)</span></span>
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(array)<span class="hljs-number">-1</span>
+        <span class="hljs-keyword">if</span> array(<span class="hljs-built_in">i</span>) &gt; array(<span class="hljs-built_in">i</span>+<span class="hljs-number">1</span>)
+            retval = false;
+            <span class="hljs-keyword">return</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    retval = true;
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sorted_array</span> = <span class="hljs-title">bogo_sort</span><span class="hljs-params">(array)</span></span>
+    <span class="hljs-keyword">while</span> ~is_sorted(array)
+        <span class="hljs-comment">% create a list of random permutation indices</span>
+        <span class="hljs-built_in">i</span> = randperm(<span class="hljs-built_in">length</span>(array));
+        array = array(<span class="hljs-built_in">i</span>);
+    <span class="hljs-keyword">end</span>
+    sorted_array = array;
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstddef&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iterator&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;random&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::begin;
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::end;
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Rng&gt;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">float</span>&gt; generate_input(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> size, Rng&amp; rng) {
+  <span class="hljs-keyword">auto</span> dist = <span class="hljs-built_in">std</span>::uniform_real_distribution&lt;&gt;(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+
+  <span class="hljs-keyword">auto</span> ret = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">float</span>&gt;();
+  <span class="hljs-built_in">std</span>::generate_n(<span class="hljs-built_in">std</span>::back_inserter(ret), size,
+    [&amp;rng, &amp;dist] { <span class="hljs-keyword">return</span> dist(rng); });
+
+  <span class="hljs-keyword">return</span> ret;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_range</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::ostream&amp; os, Iter <span class="hljs-keyword">const</span> first, Iter <span class="hljs-keyword">const</span> last)</span> </span>{
+  os &lt;&lt; <span class="hljs-string">&apos;{&apos;</span>;
+
+  <span class="hljs-keyword">if</span> (first != last) {
+    os &lt;&lt; *first;
+    <span class="hljs-built_in">std</span>::for_each(first + <span class="hljs-number">1</span>, last, [&amp;os] (<span class="hljs-keyword">double</span> d) { os &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; *it; });
+  }
+
+  os &lt;&lt; <span class="hljs-string">&quot;}\n&quot;</span>;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter, <span class="hljs-keyword">class</span> Rng&gt;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(Iter <span class="hljs-keyword">const</span> first, Iter <span class="hljs-keyword">const</span> last, Rng&amp; rng)</span> </span>{
+  <span class="hljs-keyword">while</span> (not <span class="hljs-built_in">std</span>::is_sorted(first, last)) {
+    <span class="hljs-built_in">std</span>::shuffle(first, last, rng);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-built_in">std</span>::random_device random_device;
+  <span class="hljs-keyword">auto</span> rng = <span class="hljs-built_in">std</span>::mt19937(random_device());
+
+  <span class="hljs-keyword">auto</span> input = generate_input(<span class="hljs-number">5</span>, rng);
+
+  print_range(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>, begin(input), end(input));
+
+  bogo_sort(begin(input), end(input), rng);
+
+  print_range(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>, begin(input), end(input));
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-comment">// Submitted by jess 3jane</span>
+
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">crate</span> rand;
+
+<span class="hljs-keyword">use</span> rand::{thread_rng, Rng};
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">is_sorted</span></span>(arr : &amp;[<span class="hljs-keyword">i32</span>]) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..arr.len() {
+        <span class="hljs-keyword">if</span> arr[i-<span class="hljs-number">1</span>] &gt; arr[i] {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+    }
+    <span class="hljs-literal">true</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bogo_sort</span></span>(arr : &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-keyword">i32</span>]) {
+    <span class="hljs-keyword">while</span> !is_sorted(arr) {
+        thread_rng().shuffle(arr);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> v = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+    thread_rng().shuffle(&amp;<span class="hljs-keyword">mut</span> v);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Original array: {:?}&quot;</span>, v);
+    bogo_sort(&amp;<span class="hljs-keyword">mut</span> v);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Sorted array: {:?}&quot;</span>, v);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">isSorted</span><span class="hljs-params">(inputArray: [Int])</span></span> -&gt; <span class="hljs-type">Bool</span> {
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;inputArray.<span class="hljs-built_in">count</span>-<span class="hljs-number">1</span> {
+        <span class="hljs-keyword">if</span> inputArray[i] &gt; inputArray[i+<span class="hljs-number">1</span>] {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+        }
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(inputArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+    <span class="hljs-keyword">var</span> shuffledArray = [<span class="hljs-type">Int</span>]()
+
+    <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;inputArray.<span class="hljs-built_in">count</span> {
+        <span class="hljs-keyword">let</span> rand = <span class="hljs-type">Int</span>(arc4random_uniform(<span class="hljs-type">UInt32</span>(inputArray.<span class="hljs-built_in">count</span>)))
+        shuffledArray.append(inputArray[rand])
+        inputArray.remove(at: rand)
+    }
+
+    <span class="hljs-keyword">return</span> shuffledArray
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bogoSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+    <span class="hljs-keyword">while</span>(!isSorted(inputArray: sortArray)) {
+        sortArray = shuffle(inputArray: &amp;sortArray)
+    }
+
+    <span class="hljs-keyword">return</span> sortArray
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+    <span class="hljs-keyword">var</span> testArray = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">123</span>,<span class="hljs-number">24</span>,<span class="hljs-number">34</span>,-<span class="hljs-number">5</span>]
+    <span class="hljs-built_in">print</span>(bogoSort(sortArray: &amp;testArray))
+}
+
+main()
+</code></pre>
+</div></div></div>
+
+
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-07-28T07:26:12.053Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T07:26:17.097Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

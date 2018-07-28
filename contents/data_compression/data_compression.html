@@ -1,0 +1,969 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Data Compression · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../huffman_encoding/huffman_encoding.html" />
+    
+    
+    <link rel="prev" href="../split-operator_method/split-operator_method.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Algorithm Archive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../introduction/introduction.html">
+            
+                <a href="../introduction/introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../how_to_contribute/how_to_contribute.html">
+            
+                <a href="../how_to_contribute/how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../git_and_version_control/git_and_version_control.html">
+            
+                <a href="../git_and_version_control/git_and_version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../data_structures/data_structures.html">
+            
+                <a href="../data_structures/data_structures.html">
+            
+                    
+                    Data Structures
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../stacks_and_queues/stacks_and_queues.html">
+            
+                <a href="../stacks_and_queues/stacks_and_queues.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../mathematical_background/mathematical_background.html">
+            
+                <a href="../mathematical_background/mathematical_background.html">
+            
+                    
+                    Mathematical Background
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../notation/notation.html">
+            
+                <a href="../notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../bitlogic/bitlogic.html">
+            
+                <a href="../bitlogic/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                <a href="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../sorting_and_searching/sorting_and_searching.html">
+            
+                <a href="../sorting_and_searching/sorting_and_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../bubble_sort/bubble_sort.html">
+            
+                <a href="../bubble_sort/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../bogo_sort/bogo_sort.html">
+            
+                <a href="../bogo_sort/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                <a href="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                <a href="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                    
+                    Monte Carlo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../matrix_methods/matrix_methods.html">
+            
+                <a href="../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../thomas_algorithm/thomas_algorithm.html">
+            
+                <a href="../thomas_algorithm/thomas_algorithm.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../computational_geometry/computational_geometry.html">
+            
+                <a href="../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1" data-path="../gift_wrapping/gift_wrapping.html">
+            
+                <a href="../gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1.1" data-path="../jarvis_march/jarvis_march.html">
+            
+                <a href="../jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.1.2" data-path="../graham_scan/graham_scan.html">
+            
+                <a href="../graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../cooley_tukey/cooley_tukey.html">
+            
+                <a href="../cooley_tukey/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../decision_problems/decision_problems.html">
+            
+                <a href="../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                <a href="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../differential_equations/differential_equations.html">
+            
+                <a href="../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1" data-path="../forward_euler_method/forward_euler_method.html">
+            
+                <a href="../forward_euler_method/forward_euler_method.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../physics_solvers/physics_solvers.html">
+            
+                <a href="../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../verlet_integration/verlet_integration.html">
+            
+                <a href="../verlet_integration/verlet_integration.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.2" data-path="../quantum_systems/quantum_systems.html">
+            
+                <a href="../quantum_systems/quantum_systems.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.2.1" data-path="../split-operator_method/split-operator_method.html">
+            
+                <a href="../split-operator_method/split-operator_method.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.17" data-path="data_compression.html">
+            
+                <a href="data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../huffman_encoding/huffman_encoding.html">
+            
+                <a href="../huffman_encoding/huffman_encoding.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../quantum_information/quantum_information.html">
+            
+                <a href="../quantum_information/quantum_information.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Data Compression</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="data-compression">Data Compression</h1>
+<p>I&apos;ll be honest, data compression used to be an incredibly hot topic, but kids these days usually have incredibly powerful devices that do not seem to be memory-limited at all.
+Because of this, it seems odd to talk about data compression as a field of intense debate and development.
+It would naively seem that better hardware means that there are less restrictions on programmers and less of a need to search for new and unique ways to compress their data; however, this is far from the case.</p>
+<p>That said, there will always be new devices on the market that require minimizing data storage.
+In fact, some of the most revolutionary algorithms and methods in existence today fall in the category of data compression.
+From lossless data compression with <a href="../huffman_encoding/huffman_encoding.html">Huffman encoding</a> to genetic compression algorithms and machine learning, there is a lot to learn about this field, and we&apos;ll go through it piece-by-piece.</p>
+<p>All that said, no discussion about data compression is complete without first discussing the information, itself -- specifically how information is represented in computer systems.
+Now, we&apos;ve discussed this in some depth before with <a href="../../principles_of_code/building_blocks/bitlogic.md">bitlogic</a>, but there is much more to the story than what we let on before.
+Let&apos;s start with a working definition of information:</p>
+<p><em>Information is a representation of certainty.</em></p>
+<p>This might seem like a silly, hand-wavey definition, but hear me out.
+If I am uncertain about something, I will ask a question.
+The answer to this question could be any number of things, but it will contain information from an individual with some level of certainty.
+For example, let&apos;s pretend you have been furiously coding for months in your mother&apos;s basement (it happens).
+At some point, you realize you haven&apos;t gone outside and are completely unaware of the day, month, or even year!
+As your mother slips food under your door one day, you reach out to her and ask, &quot;What&apos;s it like outside today?&quot;
+Overjoyed at the prospect of her child finally leaving their room, your mother might say, &quot;It&apos;s bright, sunny and warm. A perfect day to go outside and relax!&quot;
+This provides you a lot of information, and to some degree of certainty you can conclude it is summer.</p>
+<p>Of course, after this interaction you do not acknowledge your mother&apos;s existence after her answer and go back to coding.
+You have the information you need.
+No reason to overcomplicate things with further human contact.</p>
+<p>See, information is defined in a number of different places for a number of different reasons, so for our purposes, we will define the unit of information to be the <em>bit</em>, a simple binary 1 or 0.
+Taking the example mentioned before (assuming you can take your mother at face-value), you were provided 3 true statements:</p>
+<ol>
+<li>It is bright</li>
+<li>It is sunny</li>
+<li>It is warm</li>
+</ol>
+<p>With this information, you assumed that it was probably summer.
+Unfortunately, your assumption about it being summer is not information.
+It might be a logical conclusion, but it was not provided as a &quot;fact.&quot;
+This is an important distinction between what we might colloquially describe as information and what information theory requires.
+Information theory works with measurements -- binary absolutes.</p>
+<p>Now, we can clearly say that <em>with some probability</em> it is summer, but this is a different story altogether, which we will undoubtedly discuss in the future.
+For now, let&apos;s talk about a simple representation of information on computer systems.
+Imagine you have a simple alphabet with only 2 characters in it, <em>a</em> and <em>b</em>.
+In this case, there are plenty of ways you can represent these characters in bits, but the most obvious way might look like this:</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Bit Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>a</em></td>
+<td>0</td>
+</tr>
+<tr>
+<td><em>b</em></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>So long as you don&apos;t add any new characters to the mix, this is a perfectly valid set of codewords.
+If you get the bitstring 0111101, you can easily decode it as <em>abbbbab</em>.</p>
+<p>But what if you wanted to add a third character, <em>c</em>?
+Well, it&apos;s clear that <em>c</em> cannot be either 0 or 1, but because of the way we have defined the set of codewords above, it actually cannot be <em>any combination</em> of 0 or 1 either.
+For example, if we defined <em>c</em> to be 01 and we were provided the bitstring 0111101, we could interpret this string as either <em>abbbbab</em> or <em>cbbbc</em>!
+Now, we could use context or other information provided to distinguish these two possible cases, but it is clear that we need to think more deeply about our set of codewords in this case.</p>
+<p>First, let&apos;s think a bit about decoding.
+For our purposes, we do not want to think when decoding.
+No matter what the bitstring is that we need to decode, we want to be able to read bit-by-bit until we find a match in our set of codewords and move on.
+Basically, we do not want any ambiguity in our set of codewords.
+The code for <em>c</em> should not contain the code for <em>a</em> or <em>b</em>!
+In this way, our set of codewords should be <em>prefix-free</em>.
+No word should appear as a prefix to another word.</p>
+<p>If we wanted a good, prefix-free set of codewords for 4 characters (<em>a</em>, <em>b</em>, <em>c</em>, and <em>d</em>), it might look like this:</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Bit Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>a</em></td>
+<td>00</td>
+</tr>
+<tr>
+<td><em>b</em></td>
+<td>01</td>
+</tr>
+<tr>
+<td><em>c</em></td>
+<td>10</td>
+</tr>
+<tr>
+<td><em>d</em></td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>We can decode any even bitstring with this set.
+0100101010110100 is <em>bacccdba</em>.
+This is great, but now we have another question: given a string of characters, can we construct a set of codewords that <em>minimizes</em> the number of bits in its corresponding bitstring?</p>
+<p><em>This is the heart of data compression!</em></p>
+<p>First things first, let&apos;s define a simple measure for how compressed the data is.
+Let&apos;s take the following set of characters: <em>abbcccdddd</em>.
+If we were to put all the letters in a bag and pull one out at random, we would have the following probabilities of pulling out any of the letters:</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>a</em></td>
+<td>.1</td>
+</tr>
+<tr>
+<td><em>b</em></td>
+<td>.2</td>
+</tr>
+<tr>
+<td><em>c</em></td>
+<td>.3</td>
+</tr>
+<tr>
+<td><em>d</em></td>
+<td>.4</td>
+</tr>
+</tbody>
+</table>
+<p>This basically means that we are far more likely to pull out a <em>d</em> than an <em>a</em>, and if we are trying to minimize the length of our encoded bitstring, the length of the bit representation for <em>d</em> should probably be shorter than the bit representation for <em>a</em>.
+Ultimately, to compress our encoded bitstring, we want to minimize the following quantity:</p>
+<p><script type="math/tex; mode=display">
+L(C(W)) = \sum_{i=0}^{n}w_i\times \text{length}(c_i)
+</script></p>
+<p>Where <script type="math/tex; ">C</script> is the characters of our alphabet and <script type="math/tex; ">c_i</script> is codeword for a single character, <script type="math/tex; ">W</script> is related to the probability of pulling that character out of a bag and <script type="math/tex; ">w_i</script> is an individual probability of getting a specific character, and <script type="math/tex; ">L</script> is a vague, unitless quantity to determine the overall length and is usually used to determine compression ratios.
+To show how this works, let&apos;s consider encoding the word <em>abbcccdddd</em> with two different alphabets:</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Probability</th>
+<th>Bit Representation 1</th>
+<th>Bit Representation 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>a</em></td>
+<td>.1</td>
+<td>00</td>
+<td>000</td>
+</tr>
+<tr>
+<td><em>b</em></td>
+<td>.2</td>
+<td>01</td>
+<td>001</td>
+</tr>
+<tr>
+<td><em>c</em></td>
+<td>.3</td>
+<td>10</td>
+<td>01</td>
+</tr>
+<tr>
+<td><em>d</em></td>
+<td>.4</td>
+<td>11</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>In this case:</p>
+<p><script type="math/tex; mode=display">
+\begin{align}
+L_1 &= 0.1\times 2 + 0.2 \times 2 + 0.3 \times 2 + 0.4 \times 2 = 2 \\
+L_2 &= 0.1\times 3 + 0.2 \times 3 + 0.3 \times 2 + 0.4 \times 1 = 1.9
+\end{align}
+</script></p>
+<p>Here, it&apos;s clear that <script type="math/tex; ">L_2 < L_1</script>, and thus the second set of codewords compresses our data more than the first.
+This measure can be used as a direct test of certain simple data compression techniques, notably those created by Shannon, Fano, and <a href="../huffman_encoding/huffman_encoding.html">Huffman</a>, which will be covered soon!</p>
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Data Compression","level":"1.17","depth":1,"next":{"title":"Huffman Encoding","level":"1.17.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]},"previous":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/data_compression/data_compression.md","mtime":"2018-07-20T23:25:46.483Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T07:26:17.097Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

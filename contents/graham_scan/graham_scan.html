@@ -1,0 +1,1250 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Graham Scan · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../cooley_tukey/cooley_tukey.html" />
+    
+    
+    <link rel="prev" href="../jarvis_march/jarvis_march.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Algorithm Archive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../introduction/introduction.html">
+            
+                <a href="../introduction/introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../how_to_contribute/how_to_contribute.html">
+            
+                <a href="../how_to_contribute/how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../git_and_version_control/git_and_version_control.html">
+            
+                <a href="../git_and_version_control/git_and_version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../data_structures/data_structures.html">
+            
+                <a href="../data_structures/data_structures.html">
+            
+                    
+                    Data Structures
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../stacks_and_queues/stacks_and_queues.html">
+            
+                <a href="../stacks_and_queues/stacks_and_queues.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../mathematical_background/mathematical_background.html">
+            
+                <a href="../mathematical_background/mathematical_background.html">
+            
+                    
+                    Mathematical Background
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../notation/notation.html">
+            
+                <a href="../notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../bitlogic/bitlogic.html">
+            
+                <a href="../bitlogic/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                <a href="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../sorting_and_searching/sorting_and_searching.html">
+            
+                <a href="../sorting_and_searching/sorting_and_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../bubble_sort/bubble_sort.html">
+            
+                <a href="../bubble_sort/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../bogo_sort/bogo_sort.html">
+            
+                <a href="../bogo_sort/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                <a href="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                <a href="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                    
+                    Monte Carlo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../matrix_methods/matrix_methods.html">
+            
+                <a href="../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../thomas_algorithm/thomas_algorithm.html">
+            
+                <a href="../thomas_algorithm/thomas_algorithm.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../computational_geometry/computational_geometry.html">
+            
+                <a href="../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1" data-path="../gift_wrapping/gift_wrapping.html">
+            
+                <a href="../gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1.1" data-path="../jarvis_march/jarvis_march.html">
+            
+                <a href="../jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.12.1.2" data-path="graham_scan.html">
+            
+                <a href="graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../cooley_tukey/cooley_tukey.html">
+            
+                <a href="../cooley_tukey/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../decision_problems/decision_problems.html">
+            
+                <a href="../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                <a href="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../differential_equations/differential_equations.html">
+            
+                <a href="../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1" data-path="../forward_euler_method/forward_euler_method.html">
+            
+                <a href="../forward_euler_method/forward_euler_method.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../physics_solvers/physics_solvers.html">
+            
+                <a href="../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../verlet_integration/verlet_integration.html">
+            
+                <a href="../verlet_integration/verlet_integration.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.2" data-path="../quantum_systems/quantum_systems.html">
+            
+                <a href="../quantum_systems/quantum_systems.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.2.1" data-path="../split-operator_method/split-operator_method.html">
+            
+                <a href="../split-operator_method/split-operator_method.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../data_compression/data_compression.html">
+            
+                <a href="../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../huffman_encoding/huffman_encoding.html">
+            
+                <a href="../huffman_encoding/huffman_encoding.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../quantum_information/quantum_information.html">
+            
+                <a href="../quantum_information/quantum_information.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Graham Scan</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="graham-scan">Graham Scan</h1>
+<p>At around the same time of the <a href="../jarvis_march/jarvis_march.html">Jarvis March</a>, R. L. Graham was also developing an algorithm to find the convex hull of a random set of points <a href="#cite-1">[1]</a>.
+Unlike the Jarvis March, which is an <script type="math/tex; ">\mathcal{O}(nh)</script> operation, the Graham Scan is <script type="math/tex; ">\mathcal{O}(n\log(n))</script>, where <script type="math/tex; ">n</script> is the number of points and <script type="math/tex; ">h</script> is the size fo the hull.
+This means that the complexity of the Graham Scan is not output-sensitive; moreover, there are some cases where the Jarvis March is more optimal, depending on the size of the hull and the number of points to wrap.</p>
+<p>Rather than starting at the leftmost point like the Jarvis March, the Graham scan starts at the bottom.
+We then sort the distribution of points based on the angle between the bottom-most point, the origin, and each other point.
+After sorting, we go through point-by-point, searching for points that are on the convex hull and throwing out any other points.
+We do this by looking for counter-clockwise rotations.
+If an angle between three points turns inward, the shape is obviously not convex, so we can throw that result out.
+We can find whether a rotation is counter-clockwise with trigonometric functions or by using a cross-product, like so:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> ccw(a<span class="hljs-type">::</span>Point, b<span class="hljs-type">::</span>Point, c<span class="hljs-type">::</span>Point)
+    <span class="hljs-keyword">return</span> ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x))
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">ccw</span> :: <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Double</span>
+<span class="hljs-title">ccw</span> (xa, ya) (xb, yb) (xc, yc) = (xb - xa) * (yc - ya) - (yb - ya) * (xc - xa)
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">ccw</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point a, <span class="hljs-keyword">struct</span> point b, <span class="hljs-keyword">struct</span> point c)</span> </span>{
+    <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccw</span>(<span class="hljs-params">a, b, c</span>) </span>{
+  <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment">#Is the turn counter clockwise?</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">counter_clockwise</span><span class="hljs-params">(p1, p2, p3)</span>:</span>
+    <span class="hljs-keyword">return</span> (p3[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p2[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>]) &gt;= (p2[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p3[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>])
+</code></pre>
+</div></div></div>
+
+<p>If the output of this function is 0, the points are collinear.
+If the output is positive, then the points form a counter-clockwise &quot;left&quot; turn.
+If the output is negative, then the points form a clockwise &quot;right&quot; turn.
+We basically do not want clockwise rotations, because this means we are at an interior angle.</p>
+<!---ADD FIGURE--->
+<p>To save memory and expensive <code>append()</code> operations, we ultimately look for points that should be on the hull and swap them with the first elements in the array.
+If there are <script type="math/tex; ">M</script> elements on the hull, then the first <script type="math/tex; ">M</script> elements in our output random distribution of points will be the hull.
+In the end, the code should look something like this:</p>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> graham_scan(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Point})
+    N = length(points)
+
+    <span class="hljs-comment"># Place the lowest point at the start of the array</span>
+    sort!(points, by = item -&gt; item.y)
+
+    <span class="hljs-comment"># Sort all other points according to angle with that point</span>
+    other_points = sort(points[<span class="hljs-number">2</span>:<span class="hljs-keyword">end</span>], by = item -&gt; atan2(item.y - points[<span class="hljs-number">1</span>].y,
+                                                          item.x - points[<span class="hljs-number">1</span>].x))
+
+    <span class="hljs-comment"># Place points sorted by angle back into points vector</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:length(other_points)
+        points[i+<span class="hljs-number">1</span>] = other_points[i]
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># M will be the point on the hull</span>
+    M = <span class="hljs-number">2</span>
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:N
+        <span class="hljs-keyword">while</span> (ccw(points[M-<span class="hljs-number">1</span>], points[M], points[i]) &lt;= <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">if</span> (M &gt; <span class="hljs-number">2</span>)
+                M -= <span class="hljs-number">1</span>
+            <span class="hljs-comment"># All points are collinear</span>
+            <span class="hljs-keyword">elseif</span> (i == N)
+                <span class="hljs-keyword">break</span>
+            <span class="hljs-keyword">else</span>
+                i += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+
+        <span class="hljs-comment"># ccw point found, updating hull and swapping points</span>
+        M += <span class="hljs-number">1</span>
+        points[i], points[M] = points[M], points[i]
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> points[<span class="hljs-number">1</span>:M]
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">grahamScan</span> :: [<span class="hljs-type">Point</span>] -&gt; [<span class="hljs-type">Point</span>]
+<span class="hljs-title">grahamScan</span> [] = []
+<span class="hljs-title">grahamScan</span> pts = wrap sortedPts [p0]
+  <span class="hljs-keyword">where</span> p0@(x, y)= minimumBy (compare `on` snd) pts
+        sortedPts = sortOn (\(px, py) -&gt; atan2 (py-y) (px-x) ) $ filter (/=p0) pts
+        wrap [] ps = ps
+        wrap (s:ss) [p] = wrap ss [s, p]
+        wrap (s:ss) (p1:p2:ps)
+          | ccw s p1 p2 &gt; <span class="hljs-number">0</span> = wrap (s:ss) (p2:ps)
+          | otherwise       = wrap ss (s:p1:p2:ps)
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">size_t graham_scan(struct point *points, size_t size) {
+    qsort(points, size, sizeof(struct point), cmp_points);
+    polar_angles_sort(points, points[0], size);
+
+    struct point tmp_points[size + 1];
+    memcpy(tmp_points + 1, points, size * sizeof(struct point));
+    tmp_points[0] = tmp_points[size];
+
+    size_t m = 1;
+    for (size_t i = 2; i &lt;= size; ++i) {
+        while (ccw(tmp_points[m - 1], tmp_points[m], tmp_points[i]) &lt;= 0) {
+            if (m &gt; 1) {
+                m--;
+                continue;
+            } else if (i == size) {
+                break;
+            } else {
+                i++;
+            }
+        }
+
+        m++;
+        struct point tmp = tmp_points[i];
+        tmp_points[i] = tmp_points[m];
+        tmp_points[m] = tmp;
+    }
+
+    memcpy(points, tmp_points + 1, size * sizeof(struct point));
+
+    return m;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
+  <span class="hljs-comment">// First, sort the points so the one with the lowest y-coordinate comes first (the pivot)</span>
+  points = [...points].sort((a, b) =&gt; (a.y - b.y));
+  <span class="hljs-keyword">const</span> pivot = points[<span class="hljs-number">0</span>];
+
+  <span class="hljs-comment">// Then sort all remaining points based on the angle between the pivot and itself</span>
+  <span class="hljs-keyword">const</span> hull = points.slice(<span class="hljs-number">1</span>).sort((a, b) =&gt; polarAngle(a, pivot) - polarAngle(b, pivot));
+
+  <span class="hljs-comment">// The pivot is always on the hull</span>
+  hull.unshift(pivot);
+
+  <span class="hljs-keyword">let</span> n = hull.length;
+  <span class="hljs-keyword">let</span> m = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+    <span class="hljs-keyword">while</span> (ccw(hull[m - <span class="hljs-number">1</span>], hull[m], hull[i]) &lt;= <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">if</span> (m &gt; <span class="hljs-number">1</span>) {
+        m -= <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m === i) {
+        <span class="hljs-keyword">break</span>;
+      } <span class="hljs-keyword">else</span> {
+        i += <span class="hljs-number">1</span>;
+      }
+    }
+
+    m += <span class="hljs-number">1</span>;
+    [hull[i], hull[m]] = [hull[m], hull[i]];
+  }
+
+  <span class="hljs-keyword">return</span> hull.slice(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">graham_scan</span><span class="hljs-params">(gift)</span>:</span>
+    gift = list(set(gift)) <span class="hljs-comment">#Remove duplicate points</span>
+    start = min(gift, key=<span class="hljs-keyword">lambda</span> p: (p[<span class="hljs-number">1</span>], p[<span class="hljs-number">0</span>])) <span class="hljs-comment">#Must be in hull</span>
+    gift.remove(start)
+
+    s = sorted(gift,key=<span class="hljs-keyword">lambda</span> point: polar_angle(start, point))
+    hull = [start,s[<span class="hljs-number">0</span>],s[<span class="hljs-number">1</span>]]
+
+    <span class="hljs-comment">#Remove points from hull that make the hull concave</span>
+    <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> s[<span class="hljs-number">2</span>:]:
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> counter_clockwise(hull[<span class="hljs-number">-2</span>], hull[<span class="hljs-number">-1</span>], pt):
+            <span class="hljs-keyword">del</span> hull[<span class="hljs-number">-1</span>]
+        hull.append(pt)
+</code></pre>
+</div></div></div>
+
+<h3 id="bibliography">Bibliography</h3>
+<p><table class="references"><tr><td><span class="citation-number" id="cite-1">1</span></td><td>Graham, Ronald L, An efficient algorithm for determining the convex hull of a finite planar set, <i>Elsevier</i>, 1972.</td></tr></table></p>
+<h2 id="example-code">Example Code</h2>
+<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">type</span> Point
+    x<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    y<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> ccw(a<span class="hljs-type">::</span>Point, b<span class="hljs-type">::</span>Point, c<span class="hljs-type">::</span>Point)
+    <span class="hljs-keyword">return</span> ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x))
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> graham_scan(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Point})
+    N = length(points)
+
+    <span class="hljs-comment"># Place the lowest point at the start of the array</span>
+    sort!(points, by = item -&gt; item.y)
+
+    <span class="hljs-comment"># Sort all other points according to angle with that point</span>
+    other_points = sort(points[<span class="hljs-number">2</span>:<span class="hljs-keyword">end</span>], by = item -&gt; atan2(item.y - points[<span class="hljs-number">1</span>].y,
+                                                          item.x - points[<span class="hljs-number">1</span>].x))
+
+    <span class="hljs-comment"># Place points sorted by angle back into points vector</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:length(other_points)
+        points[i+<span class="hljs-number">1</span>] = other_points[i]
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-comment"># M will be the point on the hull</span>
+    M = <span class="hljs-number">2</span>
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:N
+        <span class="hljs-keyword">while</span> (ccw(points[M-<span class="hljs-number">1</span>], points[M], points[i]) &lt;= <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">if</span> (M &gt; <span class="hljs-number">2</span>)
+                M -= <span class="hljs-number">1</span>
+            <span class="hljs-comment"># All points are collinear</span>
+            <span class="hljs-keyword">elseif</span> (i == N)
+                <span class="hljs-keyword">break</span>
+            <span class="hljs-keyword">else</span>
+                i += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+
+        <span class="hljs-comment"># ccw point found, updating hull and swapping points</span>
+        M += <span class="hljs-number">1</span>
+        points[i], points[M] = points[M], points[i]
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> points[<span class="hljs-number">1</span>:M]
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> main()
+    <span class="hljs-comment"># This hull is just a simple test so we know what the output should be</span>
+    points = [Point(<span class="hljs-number">2</span>,<span class="hljs-number">1.9</span>), Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), Point(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>), Point(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>), Point(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>)]
+    hull = graham_scan(points)
+    println(hull)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">sortOn</span>, <span class="hljs-title">minimumBy</span>)
+<span class="hljs-keyword">import</span> Data.Function (<span class="hljs-title">on</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Point</span> = (<span class="hljs-type">Double</span>, <span class="hljs-type">Double</span>)</span>
+
+<span class="hljs-title">ccw</span> :: <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Double</span>
+<span class="hljs-title">ccw</span> (xa, ya) (xb, yb) (xc, yc) = (xb - xa) * (yc - ya) - (yb - ya) * (xc - xa)
+
+<span class="hljs-title">grahamScan</span> :: [<span class="hljs-type">Point</span>] -&gt; [<span class="hljs-type">Point</span>]
+<span class="hljs-title">grahamScan</span> [] = []
+<span class="hljs-title">grahamScan</span> pts = wrap sortedPts [p0]
+  <span class="hljs-keyword">where</span> p0@(x, y)= minimumBy (compare `on` snd) pts
+        sortedPts = sortOn (\(px, py) -&gt; atan2 (py-y) (px-x) ) $ filter (/=p0) pts
+        wrap [] ps = ps
+        wrap (s:ss) [p] = wrap ss [s, p]
+        wrap (s:ss) (p1:p2:ps)
+          | ccw s p1 p2 &gt; <span class="hljs-number">0</span> = wrap (s:ss) (p2:ps)
+          | otherwise       = wrap ss (s:p1:p2:ps)
+
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  <span class="hljs-comment">-- We build the set of points of integer coordinates within a circle of radius 5</span>
+  <span class="hljs-keyword">let</span> pts = [(x,y) | x&lt;-[<span class="hljs-number">-5.</span><span class="hljs-number">.5</span>], y&lt;-[<span class="hljs-number">-5.</span><span class="hljs-number">.5</span>], x^<span class="hljs-number">2</span>+y^<span class="hljs-number">2</span>&lt;=<span class="hljs-number">5</span>^<span class="hljs-number">2</span>]
+  <span class="hljs-comment">-- And extract the convex hull</span>
+  print $ grahamScan pts
+</code></pre>
+</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;math.h&gt;
+#include &lt;stddef.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct point {
+    double x, y;
+};
+
+int cmp_points(const void *a, const void *b) {
+    struct point* pa = (struct point*) a;
+    struct point* pb = (struct point*) b;
+
+    if (pa-&gt;y &gt; pb-&gt;y) {
+        return 1;
+    } else if (pa-&gt;y &lt; pb-&gt;y) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+double ccw(struct point a, struct point b, struct point c) {
+    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+
+double polar_angle(struct point origin, struct point p) {
+    return atan2(p.y - origin.y, p.x - origin.x);
+}
+
+void polar_angles_sort(struct point *points, struct point origin, size_t size) {
+    if (size &lt; 2) {
+        return;
+    }
+
+    double pivot_angle = polar_angle(origin, points[size / 2]);
+
+    int i = 0;
+    int j = size - 1;
+    while (1) {
+        while (polar_angle(origin, points[i]) &lt; pivot_angle) {
+            i++;
+        }
+        while (polar_angle(origin, points[j]) &gt; pivot_angle) {
+            j--;
+        }
+
+        if (i &gt;= j) {
+            break;
+        }
+
+        struct point tmp = points[i];
+        points[i] = points[j];
+        points[j] = tmp;
+
+        i++;
+        j--;
+    }
+
+    polar_angles_sort(points, origin, i);
+    polar_angles_sort(points + i, origin, size - i);
+}
+
+size_t graham_scan(struct point *points, size_t size) {
+    qsort(points, size, sizeof(struct point), cmp_points);
+    polar_angles_sort(points, points[0], size);
+
+    struct point tmp_points[size + 1];
+    memcpy(tmp_points + 1, points, size * sizeof(struct point));
+    tmp_points[0] = tmp_points[size];
+
+    size_t m = 1;
+    for (size_t i = 2; i &lt;= size; ++i) {
+        while (ccw(tmp_points[m - 1], tmp_points[m], tmp_points[i]) &lt;= 0) {
+            if (m &gt; 1) {
+                m--;
+                continue;
+            } else if (i == size) {
+                break;
+            } else {
+                i++;
+            }
+        }
+
+        m++;
+        struct point tmp = tmp_points[i];
+        tmp_points[i] = tmp_points[m];
+        tmp_points[m] = tmp;
+    }
+
+    memcpy(points, tmp_points + 1, size * sizeof(struct point));
+
+    return m;
+}
+
+int main() {
+    struct point points[] = {{2.0, 1.9}, {1.0, 1.0}, {2.0, 4.0}, {3.0, 1.0},
+                                {2.0, 0.0}};
+
+    printf(&quot;Points:\n&quot;);
+    for (size_t i = 0; i &lt; 5; ++i) {
+        printf(&quot;(%f,%f)\n&quot;, points[i].x, points[i].y);
+    }
+
+    size_t hull_size = graham_scan(points, 5);
+
+    printf(&quot;\nHull:\n&quot;);
+    for (size_t i = 0; i &lt; hull_size; ++i) {
+        printf(&quot;(%f,%f)\n&quot;, points[i].x, points[i].y);
+    }
+
+    return 0;
+}
+</code></pre>
+</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
+  <span class="hljs-comment">// First, sort the points so the one with the lowest y-coordinate comes first (the pivot)</span>
+  points = [...points].sort((a, b) =&gt; (a.y - b.y));
+  <span class="hljs-keyword">const</span> pivot = points[<span class="hljs-number">0</span>];
+
+  <span class="hljs-comment">// Then sort all remaining points based on the angle between the pivot and itself</span>
+  <span class="hljs-keyword">const</span> hull = points.slice(<span class="hljs-number">1</span>).sort((a, b) =&gt; polarAngle(a, pivot) - polarAngle(b, pivot));
+
+  <span class="hljs-comment">// The pivot is always on the hull</span>
+  hull.unshift(pivot);
+
+  <span class="hljs-keyword">let</span> n = hull.length;
+  <span class="hljs-keyword">let</span> m = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+    <span class="hljs-keyword">while</span> (ccw(hull[m - <span class="hljs-number">1</span>], hull[m], hull[i]) &lt;= <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">if</span> (m &gt; <span class="hljs-number">1</span>) {
+        m -= <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m === i) {
+        <span class="hljs-keyword">break</span>;
+      } <span class="hljs-keyword">else</span> {
+        i += <span class="hljs-number">1</span>;
+      }
+    }
+
+    m += <span class="hljs-number">1</span>;
+    [hull[i], hull[m]] = [hull[m], hull[i]];
+  }
+
+  <span class="hljs-keyword">return</span> hull.slice(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">polarAngle</span>(<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.atan2(a.y - b.y, a.x - b.x);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccw</span>(<span class="hljs-params">a, b, c</span>) </span>{
+  <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
+}
+
+<span class="hljs-keyword">const</span> points = [
+  { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">3</span> },
+  { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">4</span> },
+  { x: <span class="hljs-number">4</span>, y: <span class="hljs-number">0</span> },
+  { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">0</span> },
+  { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">2</span> },
+  { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">2</span> },
+  { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">4</span> },
+  { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">1</span> },
+];
+
+<span class="hljs-keyword">const</span> convexHull = grahamScan(points);
+convexHull.forEach(p =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`(<span class="hljs-subst">${p.x}</span>, <span class="hljs-subst">${p.y}</span>)`</span>));
+</code></pre>
+</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> atan2
+
+
+<span class="hljs-comment">#Is the turn counter clockwise?</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">counter_clockwise</span><span class="hljs-params">(p1, p2, p3)</span>:</span>
+    <span class="hljs-keyword">return</span> (p3[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p2[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>]) &gt;= (p2[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p3[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>])
+
+
+<span class="hljs-comment">#Find the polar angle of a point relative to a reference point</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">polar_angle</span><span class="hljs-params">(ref, point)</span>:</span>
+    <span class="hljs-keyword">return</span> atan2(point[<span class="hljs-number">1</span>]-ref[<span class="hljs-number">1</span>],point[<span class="hljs-number">0</span>]-ref[<span class="hljs-number">0</span>])
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">graham_scan</span><span class="hljs-params">(gift)</span>:</span>
+    gift = list(set(gift)) <span class="hljs-comment">#Remove duplicate points</span>
+    start = min(gift, key=<span class="hljs-keyword">lambda</span> p: (p[<span class="hljs-number">1</span>], p[<span class="hljs-number">0</span>])) <span class="hljs-comment">#Must be in hull</span>
+    gift.remove(start)
+
+    s = sorted(gift,key=<span class="hljs-keyword">lambda</span> point: polar_angle(start, point))
+    hull = [start,s[<span class="hljs-number">0</span>],s[<span class="hljs-number">1</span>]]
+
+    <span class="hljs-comment">#Remove points from hull that make the hull concave</span>
+    <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> s[<span class="hljs-number">2</span>:]:
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> counter_clockwise(hull[<span class="hljs-number">-2</span>], hull[<span class="hljs-number">-1</span>], pt):
+            <span class="hljs-keyword">del</span> hull[<span class="hljs-number">-1</span>]
+        hull.append(pt)
+
+    <span class="hljs-keyword">return</span> hull
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    test_gift = [(<span class="hljs-number">-5</span>, <span class="hljs-number">2</span>), (<span class="hljs-number">5</span>, <span class="hljs-number">7</span>), (<span class="hljs-number">-6</span>, <span class="hljs-number">-12</span>), (<span class="hljs-number">-14</span>, <span class="hljs-number">-14</span>), (<span class="hljs-number">9</span>, <span class="hljs-number">9</span>),
+                (<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>), (<span class="hljs-number">-10</span>, <span class="hljs-number">11</span>), (<span class="hljs-number">-6</span>, <span class="hljs-number">15</span>), (<span class="hljs-number">-6</span>, <span class="hljs-number">-8</span>), (<span class="hljs-number">15</span>, <span class="hljs-number">-9</span>),
+                (<span class="hljs-number">7</span>, <span class="hljs-number">-7</span>), (<span class="hljs-number">-2</span>, <span class="hljs-number">-9</span>), (<span class="hljs-number">6</span>, <span class="hljs-number">-5</span>), (<span class="hljs-number">0</span>, <span class="hljs-number">14</span>), (<span class="hljs-number">2</span>, <span class="hljs-number">8</span>)]
+    hull = graham_scan(test_gift)
+
+    print(<span class="hljs-string">&quot;The points in the hull are:&quot;</span>)
+    <span class="hljs-keyword">for</span> point <span class="hljs-keyword">in</span> hull:
+        print(point)
+
+
+main()
+</code></pre>
+</div></div></div>
+
+<p><script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script type="math/tex; mode=display">
+\newcommand{\d}{\mathrm{d}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bfg}{\boldsymbol{g}}
+\newcommand{\bfp}{\boldsymbol{p}}
+\newcommand{\bfq}{\boldsymbol{q}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfu}{\boldsymbol{u}}
+\newcommand{\bfv}{\boldsymbol{v}}
+\newcommand{\bfA}{\boldsymbol{A}}
+\newcommand{\bfB}{\boldsymbol{B}}
+\newcommand{\bfC}{\boldsymbol{C}}
+\newcommand{\bfM}{\boldsymbol{M}}
+\newcommand{\bfJ}{\boldsymbol{J}}
+\newcommand{\bfR}{\boldsymbol{R}}
+\newcommand{\bfT}{\boldsymbol{T}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+</script></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-07-28T07:26:12.057Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T07:26:17.097Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
