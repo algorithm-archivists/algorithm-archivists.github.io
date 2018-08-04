@@ -890,6 +890,32 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     <span class="hljs-keyword">return</span> arr
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="api-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span></span>(arr)
+  arr = arr.dup 
+  (<span class="hljs-number">0</span> ... arr.size).each <span class="hljs-keyword">do</span> 
+    (<span class="hljs-number">0</span> ... arr.size-<span class="hljs-number">1</span>).each <span class="hljs-keyword">do</span> |k| 
+      <span class="hljs-keyword">if</span> arr[k] &gt; arr[k+<span class="hljs-number">1</span>]
+        arr[k+<span class="hljs-number">1</span>],arr[k] = arr[k],arr[k+<span class="hljs-number">1</span>]
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span> 
+  arr
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="api-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array $arr)</span>: <span class="hljs-title">array</span>
+</span>{
+  <span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>, $length = count($arr); $i &lt; $length; $i++) {
+    <span class="hljs-keyword">for</span> ($j = <span class="hljs-number">1</span>; $j &lt; $length; $j++) {
+      <span class="hljs-keyword">if</span> ($arr[$j - <span class="hljs-number">1</span>] &gt; $arr[$j]) {
+        $tmp = $arr[$j - <span class="hljs-number">1</span>];
+        $arr[$j - <span class="hljs-number">1</span>] = $arr[$j];
+        $arr[$j] = $tmp;
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> $arr;
+}
+</code></pre>
 </div></div></div>
 
 <p>... And that&apos;s it for the simplest bubble sort method.
@@ -1311,6 +1337,49 @@ main()
 
 main()
 </code></pre>
+</div><div class="api-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span></span>(arr)
+  arr = arr.dup 
+  (<span class="hljs-number">0</span> ... arr.size).each <span class="hljs-keyword">do</span> 
+    (<span class="hljs-number">0</span> ... arr.size-<span class="hljs-number">1</span>).each <span class="hljs-keyword">do</span> |k| 
+      <span class="hljs-keyword">if</span> arr[k] &gt; arr[k+<span class="hljs-number">1</span>]
+        arr[k+<span class="hljs-number">1</span>],arr[k] = arr[k],arr[k+<span class="hljs-number">1</span>]
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span> 
+  arr
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span></span> 
+  number = <span class="hljs-number">10</span>.times.map{rand(<span class="hljs-number">0</span>..<span class="hljs-number">1_000</span>)}.to_a 
+  pp <span class="hljs-string">&quot;The array before sorting is <span class="hljs-subst">#{number}</span>&quot;</span>
+  number = bubble_sort number 
+  pp <span class="hljs-string">&quot;The array after  sorting is <span class="hljs-subst">#{number}</span>&quot;</span>
+<span class="hljs-keyword">end</span> 
+
+main
+</code></pre>
+</div><div class="api-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array $arr)</span>: <span class="hljs-title">array</span>
+</span>{
+  <span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>, $length = count($arr); $i &lt; $length; $i++) {
+    <span class="hljs-keyword">for</span> ($j = <span class="hljs-number">1</span>; $j &lt; $length; $j++) {
+      <span class="hljs-keyword">if</span> ($arr[$j - <span class="hljs-number">1</span>] &gt; $arr[$j]) {
+        $tmp = $arr[$j - <span class="hljs-number">1</span>];
+        $arr[$j - <span class="hljs-number">1</span>] = $arr[$j];
+        $arr[$j] = $tmp;
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> $arr;
+}
+
+$unsorted = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">47</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">23</span>, <span class="hljs-number">15</span>];
+$bubble_sorted = bubble_sort($unsorted);
+
+<span class="hljs-keyword">echo</span> sprintf(<span class="hljs-string">&apos;Unsorted: %s%s&apos;</span>, implode(<span class="hljs-string">&apos;,&apos;</span>, $unsorted), PHP_EOL);
+<span class="hljs-keyword">echo</span> sprintf(<span class="hljs-string">&apos;Sorted: %s%s&apos;</span>, implode(<span class="hljs-string">&apos;,&apos;</span>, $bubble_sorted), PHP_EOL);
+</code></pre>
 </div></div></div>
 
 <p><script>
@@ -1368,7 +1437,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.7.1","depth":2,"next":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.7","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-07-28T09:28:42.910Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T09:53:41.715Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.7.1","depth":2,"next":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.7","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-08-04T22:08:04.400Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T22:08:39.292Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -1382,7 +1451,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
         
     
         
-        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdn.mathjax.org/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         
     
         

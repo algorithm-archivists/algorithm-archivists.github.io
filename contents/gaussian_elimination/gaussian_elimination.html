@@ -799,7 +799,7 @@ z &= \frac{18}{11}
 \begin{array}{ccc|c}
 1 & 0 & 0 & \frac{18}{11} \\
 0 & 1 & 0 & \frac{-14}{11} \\
-0 & 0 & 1 & \frac{18}{11} 
+0 & 0 & 1 & \frac{18}{11}
 \end{array}
 \right]
 </script></p>
@@ -1103,6 +1103,34 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
     }
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">swapRows</span> :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">swapRows</span> r1 r2 m
+  | r1 == r2 = m
+  | otherwise =
+    m //
+    concat [[((r2, c), m ! (r1, c)), ((r1, c), m ! (r2, c))] | c &lt;- [c1 .. cn]]
+  <span class="hljs-keyword">where</span>
+    ((_, c1), (_, cn)) = bounds m
+
+<span class="hljs-title">subRows</span> ::
+     <span class="hljs-type">Fractional</span> a
+  =&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- pivot location</span>
+  -&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- rows to cover</span>
+  -&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- columns to cover</span>
+  -&gt; <span class="hljs-type">Matrix</span> a
+  -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">subRows</span> (r, c) (r1, rn) (c1, cn) m =
+  accum
+    (-)
+    m
+    [ ((i, j), m ! (i, c) * m ! (r, j) / m ! (r, c))
+    | i &lt;- [r1 .. rn]
+    , j &lt;- [c1 .. cn]
+    ]
+
+<span class="hljs-title">gaussianElimination</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Ord</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">gaussianElimination</span> mat = go (r1, c1) mat
+</code></pre>
 </div></div></div>
 
 <p>Now, to be clear: this algorithm creates an upper-triangular matrix.
@@ -1208,6 +1236,16 @@ Here it is in code:</p>
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell">((r1, c1), (rn, cn)) = bounds mat
+<span class="hljs-title">go</span> (r, c) m
+  | c == cn = m
+  | pivot == <span class="hljs-number">0</span> = go (r, c + <span class="hljs-number">1</span>) m
+  | otherwise = go (r + <span class="hljs-number">1</span>, c + <span class="hljs-number">1</span>) $ subRows (r, c) (r + <span class="hljs-number">1</span>, rn) (c, cn) m&apos;
+  <span class="hljs-keyword">where</span>
+    (target, pivot) =
+      maximumBy (compare `on` abs . snd) [(k, m ! (k, c)) | k &lt;- [r .. rn]]
+    m&apos; = swapRows r target m
+</code></pre>
 </div></div></div>
 
 <h2 id="back-substitution">Back-substitution</h2>
@@ -1233,10 +1271,7 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
     <span class="hljs-comment"># Creating the solution Vector</span>
     soln = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(rows)
 
-    <span class="hljs-comment"># initialize the final element</span>
-    soln[rows] = A[rows, cols] / A[rows, cols-<span class="hljs-number">1</span>]
-
-    <span class="hljs-keyword">for</span> i = (rows - <span class="hljs-number">1</span>):-<span class="hljs-number">1</span>:<span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> i = rows:-<span class="hljs-number">1</span>:<span class="hljs-number">1</span>
         sum = <span class="hljs-number">0.0</span>
         <span class="hljs-keyword">for</span> j = rows:-<span class="hljs-number">1</span>:i
             sum += soln[j]*A[i,j]
@@ -1246,6 +1281,9 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
 
     <span class="hljs-keyword">return</span> soln
 <span class="hljs-keyword">end</span>
+
+
+<span class="hljs-keyword">function</span> gauss_jordan_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 </code></pre>
 </div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> a, <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> x,
                        <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
@@ -1276,6 +1314,13 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
 
     soln
 }
+</code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">gaussJordan</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Eq</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">gaussJordan</span> mat = go (r1, c1) mat
+  <span class="hljs-keyword">where</span>
+    ((r1, c1), (rn, cn)) = bounds mat
+    go (r, c) m
+      | c == cn = m
 </code></pre>
 </div></div></div>
 
@@ -1340,10 +1385,7 @@ As we said at the start, the notation for Gaussian Elimination is rather ambiguo
     <span class="hljs-comment"># Creating the solution Vector</span>
     soln = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(rows)
 
-    <span class="hljs-comment"># initialize the final element</span>
-    soln[rows] = A[rows, cols] / A[rows, cols-<span class="hljs-number">1</span>]
-
-    <span class="hljs-keyword">for</span> i = (rows - <span class="hljs-number">1</span>):-<span class="hljs-number">1</span>:<span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> i = rows:-<span class="hljs-number">1</span>:<span class="hljs-number">1</span>
         sum = <span class="hljs-number">0.0</span>
         <span class="hljs-keyword">for</span> j = rows:-<span class="hljs-number">1</span>:i
             sum += soln[j]*A[i,j]
@@ -1592,6 +1634,96 @@ main()
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Solution: {:?}&quot;</span>, soln);
 }
 </code></pre>
+</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Array
+<span class="hljs-keyword">import</span> Data.Function (<span class="hljs-title">on</span>)
+<span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">intercalate</span>, <span class="hljs-title">maximumBy</span>)
+<span class="hljs-keyword">import</span> Data.Ratio
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Matrix</span> a = <span class="hljs-type">Array</span> (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) a</span>
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Vector</span> a = <span class="hljs-type">Array</span> <span class="hljs-type">Int</span> a</span>
+
+<span class="hljs-title">swapRows</span> :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">swapRows</span> r1 r2 m
+  | r1 == r2 = m
+  | otherwise =
+    m //
+    concat [[((r2, c), m ! (r1, c)), ((r1, c), m ! (r2, c))] | c &lt;- [c1 .. cn]]
+  <span class="hljs-keyword">where</span>
+    ((_, c1), (_, cn)) = bounds m
+
+<span class="hljs-title">subRows</span> ::
+     <span class="hljs-type">Fractional</span> a
+  =&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- pivot location</span>
+  -&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- rows to cover</span>
+  -&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- columns to cover</span>
+  -&gt; <span class="hljs-type">Matrix</span> a
+  -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">subRows</span> (r, c) (r1, rn) (c1, cn) m =
+  accum
+    (-)
+    m
+    [ ((i, j), m ! (i, c) * m ! (r, j) / m ! (r, c))
+    | i &lt;- [r1 .. rn]
+    , j &lt;- [c1 .. cn]
+    ]
+
+<span class="hljs-title">gaussianElimination</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Ord</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">gaussianElimination</span> mat = go (r1, c1) mat
+  <span class="hljs-keyword">where</span>
+    ((r1, c1), (rn, cn)) = bounds mat
+    go (r, c) m
+      | c == cn = m
+      | pivot == <span class="hljs-number">0</span> = go (r, c + <span class="hljs-number">1</span>) m
+      | otherwise = go (r + <span class="hljs-number">1</span>, c + <span class="hljs-number">1</span>) $ subRows (r, c) (r + <span class="hljs-number">1</span>, rn) (c, cn) m&apos;
+      <span class="hljs-keyword">where</span>
+        (target, pivot) =
+          maximumBy (compare `on` abs . snd) [(k, m ! (k, c)) | k &lt;- [r .. rn]]
+        m&apos; = swapRows r target m
+
+<span class="hljs-title">gaussJordan</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Eq</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">gaussJordan</span> mat = go (r1, c1) mat
+  <span class="hljs-keyword">where</span>
+    ((r1, c1), (rn, cn)) = bounds mat
+    go (r, c) m
+      | c == cn = m
+      | m ! (r, c) == <span class="hljs-number">0</span> = go (r, c + <span class="hljs-number">1</span>) m
+      | otherwise = go (r + <span class="hljs-number">1</span>, c + <span class="hljs-number">1</span>) $ subRows (r, c) (r1, r - <span class="hljs-number">1</span>) (c, cn) m&apos;
+      <span class="hljs-keyword">where</span>
+        m&apos; = accum (/) m [((r, j), m ! (r, c)) | j &lt;- [c .. cn]]
+
+<span class="hljs-title">backSubstitution</span> :: (<span class="hljs-type">Fractional</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Vector</span> a
+<span class="hljs-title">backSubstitution</span> m = sol
+  <span class="hljs-keyword">where</span>
+    ((r1, _), (rn, cn)) = bounds m
+    sol =
+      listArray (r1, rn) [(m ! (r, cn) - sum&apos; r) / m ! (r, r) | r &lt;- [r1 .. rn]]
+    sum&apos; r = sum [m ! (r, k) * sol ! k | k &lt;- [r + <span class="hljs-number">1</span> .. rn]]
+
+<span class="hljs-title">printM</span> :: (<span class="hljs-type">Show</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">String</span>
+<span class="hljs-title">printM</span> m =
+  <span class="hljs-keyword">let</span> ((r1, c1), (rn, cn)) = bounds m
+   <span class="hljs-keyword">in</span> unlines
+        [ intercalate <span class="hljs-string">&quot;\t&quot;</span> [show $ m ! (r, c) | c &lt;- [c1 .. cn]]
+        | r &lt;- [r1 .. rn]
+        ]
+
+<span class="hljs-title">printV</span> :: (<span class="hljs-type">Show</span> a) =&gt; <span class="hljs-type">Vector</span> a -&gt; <span class="hljs-type">String</span>
+<span class="hljs-title">printV</span> = unlines . map show . elems
+
+<span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">let</span> mat = [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">-4</span>, <span class="hljs-number">0</span>, <span class="hljs-number">10</span>] :: [<span class="hljs-type">Ratio</span> <span class="hljs-type">Int</span>]
+      m = listArray ((<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), (<span class="hljs-number">3</span>, <span class="hljs-number">4</span>)) mat
+  putStrLn <span class="hljs-string">&quot;Original Matrix:&quot;</span>
+  putStrLn $ printM m
+  putStrLn <span class="hljs-string">&quot;Echelon form&quot;</span>
+  putStrLn $ printM $ gaussianElimination m
+  putStrLn <span class="hljs-string">&quot;Reduced echelon form&quot;</span>
+  putStrLn $ printM $ gaussJordan $ gaussianElimination m
+  putStrLn <span class="hljs-string">&quot;Solution from back substitution&quot;</span>
+  putStrLn $ printV $ backSubstitution $ gaussianElimination m
+</code></pre>
 </div></div></div>
 
 
@@ -1650,7 +1782,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-07-20T23:25:46.350Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T09:53:41.715Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-08-04T22:08:04.400Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T22:08:39.292Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -1664,7 +1796,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
         
     
         
-        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdn.mathjax.org/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         
     
         

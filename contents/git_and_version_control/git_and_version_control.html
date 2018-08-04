@@ -682,12 +682,12 @@
 <p>I am a fan of open-source software. It allows users to see inside the code running on their system and mess around with it if they like.
 Unlike proprietary software, open source software allows any user to learn the entire codebase from the ground up, and that&apos;s an incredibly exciting prospect!
 More than that, open-source development breeds strong communities of like-minded individuals who work together to solve problems they care about.
-At least in my case, different open-source communites inspired me to code in my free time.
+At least in my case, different open-source communities inspired me to code in my free time.
 It taught me that programming is more than a simple series of instructions for a computer.
 More than anything, though, open-source software development taught me about how to work with others and overcome petty squabbles, because if there&apos;s one thing any open-source community is known for, it&apos;s petty squabbling.</p>
 <p>It might be because of my appreciation of large-scale software development that I never questioned the utility of version control.
 If there are a couple hundred people all contributing source code to the same place, there has to be some way to control all the different codebases each individual has on their own machine.
-Even if I have no collaborators, version control is a way to make sure my laptop and work machine both have the same code without having to transer a USB stick back and forth.
+Even if I have no collaborators, version control is a way to make sure my laptop and work machine both have the same code without having to transfer a USB stick back and forth.
 That said, at some point in my life, I became a physics researcher.
 This meant that I wrote code to solve physics problems with a small team. The problem was that even though I was using version control, the rest of my team was not.</p>
 <p>This was frustrating.</p>
@@ -697,7 +697,7 @@ The point is: version control exists to control different versions of software (
 If you are writing code, it exists as a way to quickly save what you have before making largescale modifications.
 It also allows individuals to collaborate on a larger scale by providing necessary tools to merge work created by different individuals into a single, cohesive story.</p>
 <p>No matter how you look at it, version control is a useful and necessary tool to collaborate with other programmers and is definitely worth discussing in depth.
-Though many version control systems exist, for now we will focus on git, simply because it is incredibly popular and this book is hosted both on github and gitbook.
+Though many version control systems exist, for now we will focus on git, simply because it is incredibly popular and this book is hosted both on GitHub and GitBook.
 We hope to discuss other version control methods and strengthen this tutorial on git in the future; however, this book is meant as an archive of algorithms, not as an introduction to version control or best software practices.
 Though discussions like these are useful, we must be careful not to get too far out-of-scope.
 For now, this tutorial is simply meant as a quick way to kickstart our community into using git and collaborating more effectively with each other (specifically on this book).</p>
@@ -707,8 +707,8 @@ For now, this tutorial is simply meant as a quick way to kickstart our community
 When using git, there will be a local copy of a repository of code that may or may not be up-to-date with a copy of the code repository in some remote location.</p>
 <p>Now, there is an easy way, a hard way, and an impossibly complicated way to use git.
 We&apos;ll be walking through the easy and hard ways.
-We are not trying to impress anyone with git wizardry. We are simply trying to provide the basics with a little undersanding sprinkled in.</p>
-<p>As a side note: we will be assuming that you are using git from the terminal. There is a GUI available from github and it works super well for most cases; however, it&apos;s also self-explanatory in most cases.
+We are not trying to impress anyone with git wizardry. We are simply trying to provide the basics with a little understanding sprinkled in.</p>
+<p>As a side note: we will be assuming that you are using git from the terminal. There is a GUI available from GitHub and it works super well for most cases; however, it&apos;s also self-explanatory in most cases.
 Put another way: if you can understand the ways of the terminal, the git GUI will be much more straightforward. On the other hand, learning the GUI will not necessarily help you when using the terminal.</p>
 <p>So, first things first. Make sure git is installed on your system and set it up with the following commands</p>
 <pre><code>git config --global user.name name
@@ -720,23 +720,23 @@ That said, it is alright to use a username and e-mail address that does not spoi
 <h3 id="finding-some-code">Finding some code</h3>
 <p>Now we need to find a repository of code to work on. If you are starting your own repository or want to work on an internal network, this will not be too big of an issue.
 If you just want to get the feel for how git works, I suggest going to <a href="https://github.com/" target="_blank">github.com</a> and checking out the code developed there.
-Note that you will not be able to contribute to any old directory on github, simply because if anyone could contribute any code they wanted to any repository they wanted, the world would become incredibly chaotic.
-Because of this, you may want to create a repository under your own github username or make your own copy of someone elses code on github by clicking the <em>fork</em> button:</p>
+Note that you will not be able to contribute to any old directory on GitHub, simply because if anyone could contribute any code they wanted to any repository they wanted, the world would become incredibly chaotic.
+Because of this, you may want to create a repository under your own GitHub username or make your own copy of someone elses code on GitHub by clicking the <em>fork</em> button:</p>
 <p>
     <img class="center" src="res/fork.png">
 </p>
 
 <p>Note that if you have a fork of a particular code repository, you can ask the owner of the original code repository to pull your changes into their version of the code with a <em>pull request</em>, but we are getting ahead of ourselves here.
 If you cannot think of what repository to work on and want to collaborate on this project in the future, feel free to fork the <a href="https://github.com/algorithm-archivists/algorithm-archive" target="_blank">Algorithm Archive</a> and modify that!</p>
-<p>Regardless, as long as there is a repository under your username on github, we can continue by linking that remote github location to your local git directory. First, we need to find the url of the github repository, as shown here:</p>
+<p>Regardless, as long as there is a repository under your username on GitHub, we can continue by linking that remote GitHub location to your local git directory. First, we need to find the URL of the GitHub repository, as shown here:</p>
 <p>
     <img class="center" src="res/clone.png">
 </p>
 
-<p>Note that there are 2 provided urls here, one for <em>ssh</em> and another for <em>https</em>. From the user&apos;s perspective, the difference between the two is minimal: ssh requires the user to type only a password when interacting with the remote github repository, while https requires both a username and password.
-Now, you will probably be interacting with github a lot, so ssh will definitely save time and is preferred for many people who use git a lot; however, <a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank">there is some initial set-up</a>.
+<p>Note that there are 2 provided URLs here, one for <em>ssh</em> and another for <em>https</em>. From the user&apos;s perspective, the difference between the two is minimal: ssh requires the user to type only a password when interacting with the remote GitHub repository, while https requires both a username and password.
+Now, you will probably be interacting with GitHub a lot, so ssh will definitely save time and is preferred for many people who use git a lot; however, <a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank">there is some initial set-up</a>.
 If you want, we can discuss the set-up in more detail later (just let me know!), but for now, we&apos;ll stick with https because it&apos;s more familiar to new users.</p>
-<p>Once you have the url, there are 2 ways to proceed:</p>
+<p>Once you have the URL, there are 2 ways to proceed:</p>
 <p><strong>The easy way:</strong></p>
 <pre><code>git clone https://github.com/algorithm-archivists/algorithm-archive
 </code></pre><p><strong>The not-so-easy way:</strong></p>
@@ -747,12 +747,12 @@ git remote add origin https://github.com/algorithm-archivists/algorithm-archive
 git fetch
 git merge origin/master
 </code></pre><p>Here, <code>git clone</code> does every step of the <em>not-so-easy</em> way in one command, so the two methods are completely identical. Because of this, in most cases, I just use <code>git clone</code>; however, the <em>not-so-easy</em> way is much more explicit and helps us understand what is going on a little better.
-For now, we will breifly describe each of the commands; however, we will definitely be covering them in more depth through this tutorial.
+For now, we will briefly describe each of the commands; however, we will definitely be covering them in more depth through this tutorial.
 So, here it is, step-by-step:</p>
 <ol>
 <li><code>mkdir algorithm_archive</code>: make a directory. We can call this directory anything, but we&apos;ll call it algorithm_archive for now.</li>
 <li><code>git init</code>: initialize git</li>
-<li><code>git remote add origin https://github.com/algorithm-archivists/algorithm-archive</code>: add a remote location (the github url we found just a second ago). Again, we can call this remote location anything, but <code>git clone</code> always calls it <code>origin</code>, so well stick with that.</li>
+<li><code>git remote add origin https://github.com/algorithm-archivists/algorithm-archive</code>: add a remote location (the GitHub URL we found just a second ago). Again, we can call this remote location anything, but <code>git clone</code> always calls it <code>origin</code>, so well stick with that.</li>
 <li><code>git fetch</code>: update the local directory with the information from the remote online repository</li>
 <li><code>git merge origin/master</code>: merge those updates. Right now, the <code>origin/master</code> part of this command might seem like a bit of black octocat magic, but we will cover it in just a bit!</li>
 </ol>
@@ -761,14 +761,14 @@ So, here it is, step-by-step:</p>
 origin    https://github.com/user/algorithm-archive.git (fetch)
 origin    https://github.com/user/algorithm-archive.git (push)
 </code></pre><p>This provides information on different <code>remotes</code>. We&apos;ll talk about <code>fetch</code> and <code>push</code> a bit later.
-Now, you might be asking yourself: If I am only connected to the url I forked earlier, what happens when the owner of the main code repository pushes changes? How will I update my code when this happens?
+Now, you might be asking yourself: If I am only connected to the URL I forked earlier, what happens when the owner of the main code repository pushes changes? How will I update my code when this happens?
 Actually, you probably were not asking that question. It&apos;s not an obvious question to ask at all, but it&apos;s a useful question to move this tutorial forward.
 The solution is simple: Add another <code>remote</code> like so:</p>
 <pre><code>git remote add upstream https://github.com/algorithm-archivists/algorithm-archive
 </code></pre><p>Obviously, you can call the remote anything. I kinda arbitrarily chose to call it <code>upstream</code>. By adding this in, you can easily interact with the same codebase from multiple remote locations.
 That said, we need to talk about how to do that.</p>
 <h3 id="committing-to-git">Committing to git</h3>
-<p>Now you have the repository linked to another online source. Note that you are not authorized to push changes onto the <code>upstream</code> url, but that&apos;s alright for now. Let&apos;s just stick to modifying <code>origin</code>.
+<p>Now you have the repository linked to another online source. Note that you are not authorized to push changes onto the <code>upstream</code> URL, but that&apos;s alright for now. Let&apos;s just stick to modifying <code>origin</code>.
 At this point, we can make any modification we want! I might suggest doing something simple:</p>
 <pre><code>echo name &gt;&gt; CONTRIBUTORS.md
 </code></pre><p>Nothing crazy, just something so we can get the feeling of git. To see what files have been changed, type:</p>
@@ -790,7 +790,7 @@ If you want to see all commits that have ever been made on this repository, simp
 If there are hundreds (or thousands) of commits, and one of the features implemented somewhere down the line has a bug, clean commit messages allow us to find when that feature was implemented and possibly when the bug arose.</p>
 <p>Now let&apos;s say you want to checkout what the code looked like at a particular commit. To do this, we need to look at the generated unique string (SHA-1 checksum) associated with the commit we want and paste the first few (roughly 5) characters into the following command:</p>
 <pre><code>git checkout CHARS
-</code></pre><p>It&apos;s incredibly unlikely that any two commits will share the first <em>n</em> characters, so this is unique enough for git to identify which commit we were referring to and send us back there, but here&apos;s where the notation get&apos;s a little crazy!
+</code></pre><p>It&apos;s incredibly unlikely that any two commits will share the first <em>n</em> characters, so this is unique enough for git to identify which commit we were referring to and send us back there, but here&apos;s where the notation gets a little crazy!
 See, when we are sent back in time to the chosen commit (with the above command), we will be in a <em>detached head</em> state.
 This refers to the term we use to describe the very latest commit, <strong>HEAD</strong>.
 If we wanted to checkout the previous commit (for example), we would use <code>git checkout HEAD~1</code>, the second-to-last commit would be <code>HEAD~2</code>, and so on and so-forth.</p>
@@ -800,7 +800,7 @@ In the detached head state, we shouldn&apos;t really do any development. It&apos
 </code></pre><p>But this requires a little explanation!</p>
 <h3 id="checkout-these-branches">Checkout these branches!</h3>
 <p>Now let&apos;s take a step to the side and talk about another fantastic git feature, <em>branches</em>.
-At this point, we might have code forked under our own username on github. This means that there could be at least 2 functioning versions of the code we are working on: our own fork and the original owner&apos;s fork.
+At this point, we might have code forked under our own username on GitHub. This means that there could be at least 2 functioning versions of the code we are working on: our own fork and the original owner&apos;s fork.
 That said, within each fork, there is the ability to have multiple lines of development, each one on a different <em>branch</em>.</p>
 <p>If you are new to software development, this might not seem too useful; however, imagine you are working on a large, open-source project that thousands of people use.
 At some point, you might want to re-organize a bunch of features in the code.
@@ -850,7 +850,7 @@ The easiest way to do this (in my opinion) can be found here: <a href="https://h
 I don&apos;t expect for too many users to run into merge conflicts while working with the Algorithm Archive, so I will omit much more discussion here, but let me know if you think I should cover this in more detail.
 It&apos;s an incredibly difficult aspect of using git and will drive you nuts the first tie you see it, but after that, it will be much more straightforward.
 Also: let me know if there&apos;s any tools you like, and I&apos;ll add them to this guide here.</p>
-<h3 id="interacting-with-github">Interacting with github</h3>
+<h3 id="interacting-with-github">Interacting with GitHub</h3>
 <p>To this point, we have introduced the concept of <code>remote</code>s and how to set them up, but we have not discussed how to interact with them.
 For the most part, there are only a few commands to keep in mind. the easiest one to explain is</p>
 <pre><code>git push
@@ -858,12 +858,12 @@ For the most part, there are only a few commands to keep in mind. the easiest on
 <pre><code>git push remote branch
 </code></pre><p>For example, if you are pushing the <code>master</code> branch to the <code>origin</code> remote, it would be</p>
 <pre><code>git push origin master
-</code></pre><p>Now, I personally like being explicit about which branch and remote we are working with, but you can tell git to ignore the <code>remote</code> and <code>branch</code> specifications by setting an upstream url, which means running</p>
+</code></pre><p>Now, I personally like being explicit about which branch and remote we are working with, but you can tell git to ignore the <code>remote</code> and <code>branch</code> specifications by setting an upstream URL, which means running</p>
 <pre><code>git push -u remote branch
 </code></pre><p>Once this is run, the remote and branch will be stored for later and you won&apos;t need to think about it ever again! (Well, you might need to think about it when working on more complicated things later)</p>
 <p>Now, if <code>push</code>ing moves changes from your own computer to a repository online, it would make sense that <code>pull</code>ing does the opposite and moves changes from an online repository to your machine. Like before, this is straightforward:</p>
 <pre><code>git pull remote branch
-</code></pre><p>However, there&apos;s a little more to it than that. In essense, <code>git pull</code> is running two separate commands. One updates your git repository with the information found on your remotes. This one is called <code>git fetch</code>.
+</code></pre><p>However, there&apos;s a little more to it than that. In essence, <code>git pull</code> is running two separate commands. One updates your git repository with the information found on your remotes. This one is called <code>git fetch</code>.
 The other one finds the changes and merges those changes with the branch found on your local machine. This is called <code>git merge</code> (as discussed before). When put together, it might look like:</p>
 <pre><code>git fetch
 git merge origin/master
@@ -878,7 +878,7 @@ Because of this, I will link to appropriate documentation as necessary.</p>
 Here, the solution is simple:</p>
 <pre><code>git reset
 </code></pre><p>That&apos;s it. Don&apos;t overcomplicate it. You haven&apos;t committed to the code yet, so just unstage everything back to the <code>HEAD</code>.
-The problem is that this command is quite nuanced and has plenty of other uses. This goes beyong the scope of this text, but you can find more information here: <a href="https://git-scm.com/blog" target="_blank">https://git-scm.com/blog</a>.</p>
+The problem is that this command is quite nuanced and has plenty of other uses. This goes beyond the scope of this text, but you can find more information here: <a href="https://git-scm.com/blog" target="_blank">https://git-scm.com/blog</a>.</p>
 <p>Now, what if your mistake was found after committing? Well, that&apos;s a little more complicated. Your mistake is already in your <code>git log</code>.
 The easiest way to deal with this is to live with the mistake and make a new commit that fixes it later.
 One way to reverse the commit completely is with</p>
@@ -930,7 +930,7 @@ That said, due to the nature of this guide, there were a few things we missed, t
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Version Control","level":"1.4","depth":1,"next":{"title":"Data Structures","level":"1.5","depth":1,"path":"contents/data_structures/data_structures.md","ref":"contents/data_structures/data_structures.md","articles":[{"title":"Stacks and Queues","level":"1.5.1","depth":2,"path":"contents/stacks_and_queues/stacks_and_queues.md","ref":"contents/stacks_and_queues/stacks_and_queues.md","articles":[]}]},"previous":{"title":"How To Contribute","level":"1.3","depth":1,"path":"contents/how_to_contribute/how_to_contribute.md","ref":"contents/how_to_contribute/how_to_contribute.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/git_and_version_control/git_and_version_control.md","mtime":"2018-07-20T23:25:46.477Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-07-28T09:53:41.715Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Version Control","level":"1.4","depth":1,"next":{"title":"Data Structures","level":"1.5","depth":1,"path":"contents/data_structures/data_structures.md","ref":"contents/data_structures/data_structures.md","articles":[{"title":"Stacks and Queues","level":"1.5.1","depth":2,"path":"contents/stacks_and_queues/stacks_and_queues.md","ref":"contents/stacks_and_queues/stacks_and_queues.md","articles":[]}]},"previous":{"title":"How To Contribute","level":"1.3","depth":1,"path":"contents/how_to_contribute/how_to_contribute.md","ref":"contents/how_to_contribute/how_to_contribute.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/git_and_version_control/git_and_version_control.md","mtime":"2018-08-04T22:08:04.403Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T22:08:39.292Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -944,7 +944,7 @@ That said, due to the nature of this guide, there were a few things we missed, t
         
     
         
-        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdn.mathjax.org/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         
     
         
