@@ -698,7 +698,7 @@ x(t+ \Delta t) = 2x(t) - x(t-\Delta t) + a(t)\Delta t^2 + \mathcal{O}(\Delta t^4
 </script></p>
 <p>So, this means, we can find our next <script type="math/tex; ">x</script> simply by knowing our current <script type="math/tex; ">x</script>, the <script type="math/tex; ">x</script> before that, and the acceleration! No velocity necessary! In addition, this drops the error to <script type="math/tex; ">\mathcal{O}(\Delta t^4)</script>, which is great!
 Here is what it looks like in code:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
 
@@ -712,7 +712,7 @@ Here is what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
   <span class="hljs-keyword">double</span> prev_pos = pos;
   <span class="hljs-keyword">double</span> time = <span class="hljs-number">0</span>;
@@ -727,7 +727,7 @@ Here is what it looks like in code:</p>
   <span class="hljs-keyword">return</span> time;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
     <span class="hljs-keyword">double</span> prev_pos, temp_pos;
     prev_pos = pos;
     *time = <span class="hljs-number">0.0</span>;
@@ -740,7 +740,7 @@ Here is what it looks like in code:</p>
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
 
     <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
     <span class="hljs-keyword">double</span> prev_pos, temp_pos, time;
@@ -758,7 +758,7 @@ Here is what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
     prev_pos = pos
     time = <span class="hljs-number">0</span>
 
@@ -767,7 +767,7 @@ Here is what it looks like in code:</p>
         next_pos = pos * <span class="hljs-number">2</span> - prev_pos + acc * dt * dt
         prev_pos, pos = pos, next_pos
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><p>Unfortunately, this has not yet been implemented in haskell, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><p>Unfortunately, this has not yet been implemented in haskell, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -782,7 +782,7 @@ Here is what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -797,7 +797,7 @@ Here is what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="matlab" data-name="Matlab"><p>Unfortunately, this has not yet been implemented in matlab, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="matlab" data-name="Matlab"><p>Unfortunately, this has not yet been implemented in matlab, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -812,7 +812,7 @@ Here is what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Unfortunately, this has not yet been implemented in LabVIEW, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Unfortunately, this has not yet been implemented in LabVIEW, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -827,7 +827,7 @@ Here is what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
+</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
 
     <span class="hljs-keyword">var</span> prev_pos, temp_pos, time;
     prev_pos = pos;
@@ -844,7 +844,7 @@ Here is what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
 
@@ -872,7 +872,7 @@ v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
 </script></p>
 <p>However, the error for this is <script type="math/tex; ">\mathcal{O}(\Delta t)</script>, which is quite poor, but get&apos;s the job done in a pinch.
 Here&apos;s what it looks like in code:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
     vel = <span class="hljs-number">0.0</span>
@@ -890,7 +890,7 @@ Here&apos;s what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
   <span class="hljs-keyword">double</span> prev_pos = pos;
   <span class="hljs-keyword">double</span> time = <span class="hljs-number">0</span>;
@@ -908,7 +908,7 @@ Here&apos;s what it looks like in code:</p>
   <span class="hljs-keyword">return</span> time;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> *vel,
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> *vel,
                     <span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
     <span class="hljs-keyword">double</span> prev_pos, temp_pos;
     prev_pos = pos;
@@ -925,7 +925,7 @@ Here&apos;s what it looks like in code:</p>
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
 
     <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
     <span class="hljs-keyword">double</span> prev_pos, temp_pos, time, vel;
@@ -946,7 +946,7 @@ Here&apos;s what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
     prev_pos = pos
     time = <span class="hljs-number">0</span>
@@ -958,7 +958,7 @@ Here&apos;s what it looks like in code:</p>
         prev_pos, pos = pos, next_pos
         vel += acc * dt
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -977,7 +977,7 @@ Here&apos;s what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -996,7 +996,7 @@ Here&apos;s what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="matlab" data-name="Matlab"><p>Unfortunately, this has not yet been implemented in matlab, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="matlab" data-name="Matlab"><p>Unfortunately, this has not yet been implemented in matlab, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -1015,7 +1015,7 @@ Here&apos;s what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Unfortunately, this has not yet been implemented in LabVIEW, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Unfortunately, this has not yet been implemented in LabVIEW, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -1034,7 +1034,7 @@ Here&apos;s what it looks like in code:</p>
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stormer_verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
+</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stormer_verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
 
     <span class="hljs-keyword">var</span> prev_pos, temp_pos, time, vel;
     prev_pos = pos;
@@ -1053,7 +1053,7 @@ Here&apos;s what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">stormer_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">stormer_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
 
@@ -1090,7 +1090,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 \end{align}
 </script></p>
 <p>Here is the velocity Verlet method in code:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> velocity_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> velocity_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
     vel = <span class="hljs-number">0.0</span>
@@ -1104,7 +1104,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
   <span class="hljs-keyword">double</span> time = <span class="hljs-number">0</span>;
   <span class="hljs-keyword">double</span> vel = <span class="hljs-number">0</span>;
@@ -1117,7 +1117,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
   <span class="hljs-keyword">return</span> time;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> *vel,
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> *vel,
                      <span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
     *vel = <span class="hljs-number">0.0</span>;
     *time = <span class="hljs-number">0.0</span>;
@@ -1129,7 +1129,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
 
     <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
     <span class="hljs-keyword">double</span> time, vel;
@@ -1145,7 +1145,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">    <span class="hljs-keyword">return</span> time, vel
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">    <span class="hljs-keyword">return</span> time, vel
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
     time = <span class="hljs-number">0</span>
@@ -1156,7 +1156,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
         pos += vel * dt + <span class="hljs-number">0.5</span> * acc * dt * dt
         vel += acc * dt
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><p>Unfortunately, this has not yet been implemented in haskell, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><p>Unfortunately, this has not yet been implemented in haskell, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> velocity_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -1171,7 +1171,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><p>Unfortunately, this has not yet been implemented in scratch, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> velocity_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -1186,7 +1186,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="matlab" data-name="Matlab"><p>Unfortunately, this has not yet been implemented in matlab, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="matlab" data-name="Matlab"><p>Unfortunately, this has not yet been implemented in matlab, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> velocity_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -1201,7 +1201,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Unfortunately, this has not yet been implemented in LabVIEW, so here&apos;s Julia code:</p>
+</div><div class="code-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Unfortunately, this has not yet been implemented in LabVIEW, so here&apos;s Julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> velocity_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -1216,7 +1216,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="hljs-keyword">return</span> time, vel
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">velocity_verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
+</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">velocity_verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
 
     <span class="hljs-keyword">var</span> time, vel;
     vel = <span class="hljs-number">0</span>;
@@ -1231,7 +1231,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">velocity_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">velocity_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> vel = <span class="hljs-number">0.0</span>;
 
@@ -1250,7 +1250,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 <p>Even though this method is more used than the simple Verlet method mentioned above, it unfortunately has an error term of <script type="math/tex; ">\mathcal{O} \Delta t^2</script>, which is two orders of magnitude worse. That said, if you want to have a simulation with many objects that depend on one another --- like a gravity simulation --- the Velocity Verlet algorithm is a handy choice; however, you may have to play further tricks to allow everything to scale appropriately. These types of simulations are sometimes called <em>n-body</em> simulations and one such trick is the Barnes-Hut algorithm, which cuts the complexity of n-body simulations from <script type="math/tex; ">\sim \mathcal{O}(n^2)</script> to <script type="math/tex; ">\sim \mathcal{O}(n\log(n))</script></p>
 <h2 id="example-code">Example Code</h2>
 <p>Both of these methods work simply by iterating timestep-by-timestep and can be written straightforwardly in any language. For reference, here are snippets of code that use both the classic and velocity Verlet methods to find the time it takes for a ball to hit the ground after being dropped from a given height.</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
 
@@ -1311,7 +1311,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
 
 <span class="hljs-comment">// Simple function for velocity-verlet</span>
 <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
@@ -1374,7 +1374,7 @@ main()
   <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; velocity_verlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10</span>, <span class="hljs-number">0.01</span>) &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *time, <span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
     <span class="hljs-keyword">double</span> prev_pos, temp_pos;
@@ -1436,7 +1436,7 @@ main()
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-comment">// Submitted by lolatomroflsinnlos</span>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-comment">// Submitted by lolatomroflsinnlos</span>
 <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
 
     <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
@@ -1502,7 +1502,7 @@ main()
 
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
     prev_pos = pos
     time = <span class="hljs-number">0</span>
 
@@ -1558,7 +1558,7 @@ main()
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
     main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-comment">-- submitted by Jie</span>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-comment">-- submitted by Jie</span>
 <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Position</span>     = [<span class="hljs-type">Double</span>]</span>
 <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Speed</span>        = [<span class="hljs-type">Double</span>]</span>
 <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Time</span>         = <span class="hljs-type">Double</span></span>
@@ -1594,12 +1594,12 @@ main()
   dt    = <span class="hljs-number">0.001</span>
   acc _ = [<span class="hljs-number">-10</span>]
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>Submitted by Jie</p>
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><p>Submitted by Jie</p>
 <p></p><p>
     <img class="center" src="code/scratch/verlet_scratch.png">
 </p>
 Link: <a href="https://scratch.mit.edu/projects/173039394/" target="_blank">https://scratch.mit.edu/projects/173039394/</a><p></p>
-</div><div class="api-method-sample" data-lang="matlab" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-comment">% Submitted by P. Mekhail</span>
+</div><div class="code-method-sample" data-lang="matlab" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-comment">% Submitted by P. Mekhail</span>
 <span class="hljs-comment">% Parameters to change</span>
 n = <span class="hljs-number">400</span>;        <span class="hljs-comment">% Number of steps</span>
 x0 = <span class="hljs-number">5</span>;         <span class="hljs-comment">% Ball starting height(in metres)</span>
@@ -1637,10 +1637,10 @@ plot(t,x)
 title(<span class="hljs-string">&apos;Ball&apos;&apos;s Trajectory&apos;</span>)
 xlabel(<span class="hljs-string">&apos;Time (s)&apos;</span>); ylabel(<span class="hljs-string">&apos;Height (m)&apos;</span>);
 </code></pre>
-</div><div class="api-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Submitted by P. Mekhail</p>
+</div><div class="code-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Submitted by P. Mekhail</p>
 <p>
     <img class="center" src="code/labview/verlet_labview.png">
-</p></div><div class="api-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
+</p></div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">verlet</span>(<span class="hljs-params">pos, acc, dt</span>)</span>{
 
     <span class="hljs-keyword">var</span> prev_pos, temp_pos, time;
     prev_pos = pos;
@@ -1695,7 +1695,7 @@ xlabel(<span class="hljs-string">&apos;Time (s)&apos;</span>); ylabel(<span clas
 <span class="hljs-built_in">console</span>.log(stormer_verlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10</span>, <span class="hljs-number">0.01</span>));
 <span class="hljs-built_in">console</span>.log(velocity_verlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10</span>, <span class="hljs-number">0.01</span>));
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
 
@@ -1745,28 +1745,9 @@ xlabel(<span class="hljs-string">&apos;Time (s)&apos;</span>); ylabel(<span clas
 </div></div></div>
 
 
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -1793,14 +1774,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../physics_solvers/physics_solvers.html" class="navigation navigation-prev " aria-label="Previous page: Physics Solvers">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../quantum_systems/quantum_systems.html" class="navigation navigation-next " aria-label="Next page: Quantum Systems">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.16.1","depth":2,"next":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-08-04T22:08:04.403Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.16.1","depth":2,"next":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-08-05T22:42:27.237Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

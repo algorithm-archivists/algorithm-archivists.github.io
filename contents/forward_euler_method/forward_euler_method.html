@@ -756,7 +756,7 @@ That said, variations of this method <em>are</em> certainly used (for example Cr
 <p>Like in the case of <a href="../verlet_integration/verlet_integration.html">Verlet Integration</a>, the easiest way to test to see if this method works is to test it against a simple test-case.
 Here, the most obvious test-case would be dropping a ball from 5 meters, which is my favorite example, but proved itself to be slightly less enlightening than I would have thought.
 So, this time, let&apos;s remove ourselves from any physics and instead solve the following ODE: <script type="math/tex; ">y' = 5y</script>. Note that in this case, the velocity is directly given by the ODE and the acceleration is not part of the model.</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> solve_euler(timestep<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, n<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> solve_euler(timestep<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, n<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>)
     euler_result = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(n)
 
     <span class="hljs-comment"># Setting the initial condition</span>
@@ -796,7 +796,7 @@ So, this time, let&apos;s remove ourselves from any physics and instead solve th
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">solve_euler</span><span class="hljs-params">(<span class="hljs-keyword">double</span> timestep, <span class="hljs-keyword">double</span> *result, size_t n)</span> </span>{
@@ -832,7 +832,7 @@ main()
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cmath&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstddef&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
@@ -888,7 +888,7 @@ main()
             &lt;&lt; <span class="hljs-string">&quot;)? &quot;</span> &lt;&lt; msg &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> result = [<span class="hljs-number">0.0</span>; <span class="hljs-number">100</span>];
     <span class="hljs-keyword">let</span> threshold = <span class="hljs-number">0.01</span>;
     <span class="hljs-keyword">let</span> timestep = <span class="hljs-number">0.01</span>;
@@ -920,7 +920,7 @@ main()
     <span class="hljs-keyword">return</span> is_approx;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="elm" data-name="Elm"><pre><code class="lang-elm"><span class="hljs-keyword">type</span> <span class="hljs-keyword">alias</span> <span class="hljs-type">Position</span> =
+</div><div class="code-method-sample" data-lang="elm" data-name="Elm"><pre><code class="lang-elm"><span class="hljs-keyword">type</span> <span class="hljs-keyword">alias</span> <span class="hljs-type">Position</span> =
     <span class="hljs-type">Float</span>
 
 
@@ -1283,7 +1283,7 @@ gradient dt =
         else
             &quot;#&quot; ++ col
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> math
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> math
 
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward_euler</span><span class="hljs-params">(time_step, n)</span>:</span>
@@ -1315,7 +1315,7 @@ gradient dt =
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">solveEuler</span> :: <span class="hljs-type">Num</span> a =&gt; (a -&gt; a) -&gt; a -&gt; a -&gt; [a]
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">solveEuler</span> :: <span class="hljs-type">Num</span> a =&gt; (a -&gt; a) -&gt; a -&gt; a -&gt; [a]
 <span class="hljs-title">solveEuler</span> f ts = iterate (\x -&gt; x + f x * ts)
 
 <span class="hljs-title">checkResult</span> :: (<span class="hljs-type">Ord</span> a, <span class="hljs-type">Num</span> a, <span class="hljs-type">Num</span> t, <span class="hljs-type">Enum</span> t) =&gt; a -&gt; (t -&gt; a) -&gt; [a] -&gt; <span class="hljs-type">Bool</span>
@@ -1336,7 +1336,7 @@ main()
         <span class="hljs-keyword">then</span> <span class="hljs-string">&quot;All values within threshold&quot;</span>
         <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;Value(s) not in threshold&quot;</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab">clc;clear;close all
+</div><div class="code-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab">clc;clear;close all
 
 <span class="hljs-comment">%==========================================================================</span>
 <span class="hljs-comment">% Define Function</span>
@@ -1383,7 +1383,7 @@ title(<span class="hljs-string">&apos;Analytical VS Numerical Solution&apos;</sp
 grid
 legend(<span class="hljs-string">&apos;Numerical&apos;</span>,<span class="hljs-string">&apos;Analytical&apos;</span>)
 </code></pre>
-</div><div class="api-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-keyword">import</span> Foundation
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-keyword">import</span> Foundation
 
 <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">solveEuler</span><span class="hljs-params">(timeStep: Double, n: Int)</span></span> -&gt; [<span class="hljs-type">Double</span>] {
     <span class="hljs-keyword">var</span> result : [<span class="hljs-type">Double</span>] = [<span class="hljs-number">1</span>]
@@ -1428,28 +1428,9 @@ main()
 </code></pre>
 </div></div></div>
 
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -1476,14 +1457,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../differential_equations/differential_equations.html" class="navigation navigation-prev " aria-label="Previous page: Differential Equation Solvers">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../physics_solvers/physics_solvers.html" class="navigation navigation-next " aria-label="Next page: Physics Solvers">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.15.1","depth":2,"next":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"previous":{"title":"Differential Equation Solvers","level":"1.15","depth":1,"path":"contents/differential_equations/differential_equations.md","ref":"contents/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.15.1","depth":2,"path":"contents/forward_euler_method/forward_euler_method.md","ref":"contents/forward_euler_method/forward_euler_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/forward_euler_method/forward_euler_method.md","mtime":"2018-08-04T22:08:04.400Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Forward Euler Method","level":"1.15.1","depth":2,"next":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"previous":{"title":"Differential Equation Solvers","level":"1.15","depth":1,"path":"contents/differential_equations/differential_equations.md","ref":"contents/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.15.1","depth":2,"path":"contents/forward_euler_method/forward_euler_method.md","ref":"contents/forward_euler_method/forward_euler_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/forward_euler_method/forward_euler_method.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

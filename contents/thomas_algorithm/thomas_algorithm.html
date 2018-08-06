@@ -679,7 +679,8 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="thomas-algorithm">Thomas Algorithm</h1>
-<p>As alluded to in the <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination chapter</a>, the Thomas Algorithm (or TDMA -- Tri-Diagonal Matrix Algorithm) allows for programmers to <strong>massively</strong> cut the computational cost of their code from <script type="math/tex; ">\sim O(n^3) \rightarrow \sim O(n)</script>! This is done by exploiting a particular case of Gaussian Elimination, particularly the case where our matrix looks like:</p>
+<p>As alluded to in the <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination chapter</a>, the Thomas Algorithm (or TDMA, Tri-Diagonal Matrix Algorithm) allows for programmers to <strong>massively</strong> cut the computational cost of their code from <script type="math/tex; "> O(n^3)</script> to <script type="math/tex; ">O(n)</script> in certain cases!
+This is done by exploiting a particular case of Gaussian Elimination where the matrix looks like this:</p>
 <p><script type="math/tex; mode=display">
 \left[
     \begin{array}{ccccc|c}
@@ -691,24 +692,68 @@
     \end{array}
 \right]
 </script></p>
-<p>By this, I mean that our matrix is <em>Tri-Diagonal</em> (excluding the right-hand side of our system of equations, of course!). Now, at first, it might not be obvious how this helps; however, we may divide this array into separate vectors corresponding to <script type="math/tex; ">a</script>, <script type="math/tex; ">b</script>, <script type="math/tex; ">c</script>, and <script type="math/tex; ">d</script> and then solve for <script type="math/tex; ">x</script> with back-substitution, like before.</p>
-<p>In particular, we need to find an optimal scale factor for each row and use that. What is the scale factor? Well, it is the diagonal <script type="math/tex; ">-</script> the multiplicative sum of the off-diagonal elements.
-In the end, we will update <script type="math/tex; ">c</script> and <script type="math/tex; ">d</script> to be <script type="math/tex; ">c'</script> and <script type="math/tex; ">d'</script> like so:</p>
+<p>This matrix shape is called <em>Tri-Diagonal</em> (excluding the right-hand side of our system of equations, of course!).
+Now, at first, it might not be obvious how this helps. Well, firstly, it makes the system easier to encode: we may divide it into four separate vectors corresponding to <script type="math/tex; ">a</script>, <script type="math/tex; ">b</script>, <script type="math/tex; ">c</script>, and <script type="math/tex; ">d</script> (in some implementations, you will see the missing <script type="math/tex; ">a_0</script> and <script type="math/tex; ">c_n</script> set to zero to get four vectors of the same size).
+Secondly, and most importantly, equations this short and regular are easy to solve analytically.</p>
+<p>We&apos;ll start by applying mechanisms familiar to those who have read the <a href="../gaussian_elimination/gaussian_elimination.html">Gaussian Elimination</a> chapter.
+Our first goal is to eliminate the <script type="math/tex; ">a_i</script> terms and set the diagonal values <script type="math/tex; ">b_i</script> to <script type="math/tex; ">1</script>. The <script type="math/tex; ">c_i</script> and <script type="math/tex; ">d_i</script> terms will be transformed into <script type="math/tex; ">c'_i</script> and <script type="math/tex; ">d'_i</script>.
+The first row is particularly easy to transform since there is no <script type="math/tex; ">a_0</script>, we simply need to divide the row by <script type="math/tex; ">b_0</script>:</p>
 <p><script type="math/tex; mode=display">
+\left\{
 \begin{align}
+c'_0 &= \frac{c_0}{b_0} \\
+d'_0 &= \frac{d_0}{b_0}
+\end{align}
+\right.
+</script></p>
+<p>Let&apos;s assume that we found a way to transform the first <script type="math/tex; ">i-1</script> rows. How would we transform the next one? We have</p>
+<p><script type="math/tex; mode=display">
+\begin{array}{ccccccc|c}
+    &  & \ddots & & & & &  \\
+(i-1) & & 0 & 1 & c'_{i-1} & & & d'_{i-1} \\
+(i)   & &   & a_i & b_i & c_i & & d_i \\
+      & &   &   &   &  \ddots &  &
+\end{array}
+</script></p>
+<p>Let&apos;s transform row <script type="math/tex; ">(i)</script> in two steps.</p>
+<p><strong>Step one</strong>: eliminate <script type="math/tex; ">a_i</script> with the transformation <script type="math/tex; ">(i)^* = (i) - a_i \times (i-1)</script>:</p>
+<p><script type="math/tex; mode=display">
+\left\{
+\begin{align}
+a^*_i &= 0 \\
+b^*_i &= b_i - a_i \times c'_{i-1} \\
+c^*_i &= c_i \\
+d^*_i &= d_i - a_i \times d'_{i-1}
+\end{align}
+\right.
+</script></p>
+<p><strong>Step two</strong>: get <script type="math/tex; ">b'_i=1</script> with the transformation <script type="math/tex; ">(i)' = (i)^* / b^*_i </script>:</p>
+<p><script type="math/tex; mode=display">
+\left\{
+\begin{align}
+a'_i &= 0 \\
+b'_i &= 1 \\
 c'_i &= \frac{c_i}{b_i - a_i \times c'_{i-1}} \\
 d'_i &= \frac{d_i - a_i \times d'_{i-1}}{b_i - a_i \times c'_{i-1}}
 \end{align}
+\right.
 </script></p>
-<p>Of course, the initial elements will need to be specifically defined as</p>
+<p>Brilliant! With the last two formula, we can calculate all the <script type="math/tex; ">c'_i</script> and <script type="math/tex; ">d'_i</script> in a single pass, starting from row <script type="math/tex; ">1</script>, since we already know the values of <script type="math/tex; ">c'_0</script> and <script type="math/tex; ">d'_0</script>.</p>
+<p>Of course, what we really need are the solutions <script type="math/tex; ">x_i</script>. It&apos;s back substitution time!</p>
+<p>If we express our system in terms of equations instead of a matrix, we get</p>
 <p><script type="math/tex; mode=display">
-\begin{align}
-c'_0 = \frac{c_0}{b_0}
-d'_0 = \frac{d_0}{b_0}
-\end{align}
+x_i + c'_i \times x_{i+1} = d'_i
 </script></p>
+<p>plus the last row that is even simpler: <script type="math/tex; ">x_n = d'_n</script>. One solution for free!
+Maybe we can backtrack from the last solution? Let&apos;s (barely) transform the above equation:</p>
+<p><script type="math/tex; mode=display">
+x_i = d'_i - c'_i \times x_{i+1}
+</script></p>
+<p>and that&apos;s all there is to it. We can calculate all the <script type="math/tex; ">x_i</script> in a single pass starting from the end.</p>
+<p>Overall, we only need two passes, and that&apos;s why our algorithm is <script type="math/tex; ">O(n)</script>!
+The transformations are quite easy too, isn&apos;t that neat?</p>
 <h2 id="example-code">Example Code</h2>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span>(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, b<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, c<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>},
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span>(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, b<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, c<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>},
          d<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}, soln<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
     <span class="hljs-comment"># Setting initial elements</span>
     c[<span class="hljs-number">0</span>] = c[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>]
@@ -731,7 +776,7 @@ d'_0 = \frac{d_0}{b_0}
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;stdio.h&gt;
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
 
 void thomas(double * const a, double * const b, double * const c,
@@ -775,7 +820,7 @@ int main() {
     return 0;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment"># Author: gammison</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment"># Author: gammison</span>
 
 <span class="hljs-comment"># note this example is inplace and destructive</span>
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">thomas</span><span class="hljs-params">(a, b, c, d)</span>:</span>
@@ -818,7 +863,45 @@ int main() {
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
     main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">zip4</span>)
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">thomas</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">thomasAlgorithm</span><span class="hljs-params">(<span class="hljs-keyword">double</span> a[], <span class="hljs-keyword">double</span> b[], <span class="hljs-keyword">double</span> c[], <span class="hljs-keyword">double</span> x[], <span class="hljs-keyword">int</span> size)</span> </span>{
+
+        <span class="hljs-keyword">double</span> y[] = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>[size];
+
+        y[<span class="hljs-number">0</span>] = c[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>];
+        x[<span class="hljs-number">0</span>] = x[<span class="hljs-number">0</span>] / b[<span class="hljs-number">0</span>];
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; size; ++i) {
+            <span class="hljs-keyword">double</span> scale = <span class="hljs-number">1.0</span> / (b[i] - a[i] * y[i - <span class="hljs-number">1</span>]);
+            y[i] = c[i] * scale;
+            x[i] = (x[i] - a[i] * x[i - <span class="hljs-number">1</span>]) * scale;
+        }
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = size - <span class="hljs-number">2</span>; i &gt;= <span class="hljs-number">0</span>; --i) {
+            x[i] -= y[i] * x[i + <span class="hljs-number">1</span>];
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">double</span> a[] = {<span class="hljs-number">0.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>};
+        <span class="hljs-keyword">double</span> b[] = {<span class="hljs-number">1.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">6.0</span>};
+        <span class="hljs-keyword">double</span> c[] = {<span class="hljs-number">4.0</span>, <span class="hljs-number">5.0</span>, <span class="hljs-number">0.0</span>};
+        <span class="hljs-keyword">double</span> x[] = {<span class="hljs-number">7.0</span>, <span class="hljs-number">5.0</span>, <span class="hljs-number">3.0</span>};
+
+        System.out.println(<span class="hljs-string">&quot;The system,\n&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;[1.0  4.0  0.0][x] = [7.0]\n&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;[2.0  3.0  5.0][y] = [5.0]\n&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;[0.0  3.0  6.0][z] = [3.0]\n&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;has the solution:\n&quot;</span>);
+
+        thomasAlgorithm(a, b, c, x, <span class="hljs-number">3</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; ++i)
+            System.out.println(<span class="hljs-string">&quot;[&quot;</span> + x[i] + <span class="hljs-string">&quot;]\n&quot;</span>);
+    }
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">zip4</span>)
 <span class="hljs-keyword">import</span> Data.Ratio
 
 <span class="hljs-title">thomas</span> :: <span class="hljs-type">Fractional</span> a =&gt; [a] -&gt; [a] -&gt; [a] -&gt; [a] -&gt; [a]
@@ -839,29 +922,9 @@ int main() {
 </code></pre>
 </div></div></div>
 
-<p>This is a much simpler implementation than Gaussian Elimination and only has one for loop before back-substitution, which is why it has a better complexity case.</p>
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -888,14 +951,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../gaussian_elimination/gaussian_elimination.html" class="navigation navigation-prev " aria-label="Previous page: Gaussian Elimination">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../computational_geometry/computational_geometry.html" class="navigation navigation-next " aria-label="Next page: Computational Geometry">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"next":{"title":"Computational Geometry","level":"1.12","depth":1,"path":"contents/computational_geometry/computational_geometry.md","ref":"contents/computational_geometry/computational_geometry.md","articles":[{"title":"Gift Wrapping","level":"1.12.1","depth":2,"path":"contents/gift_wrapping/gift_wrapping.md","ref":"contents/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.12.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]}]}]},"previous":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/thomas_algorithm/thomas_algorithm.md","mtime":"2018-08-04T22:08:04.403Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"next":{"title":"Computational Geometry","level":"1.12","depth":1,"path":"contents/computational_geometry/computational_geometry.md","ref":"contents/computational_geometry/computational_geometry.md","articles":[{"title":"Gift Wrapping","level":"1.12.1","depth":2,"path":"contents/gift_wrapping/gift_wrapping.md","ref":"contents/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.12.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]}]}]},"previous":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/thomas_algorithm/thomas_algorithm.md","mtime":"2018-08-06T10:41:02.200Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -819,7 +819,7 @@ This notation is called <em>braket</em> notation, where a <em>ket</em> looks lik
 \lvert A \rangle
 </script></p>
 <p>and basically describes <script type="math/tex; ">A</script> as a column vector.
-The <em>bra</em> represents the Hermitian conjucate of the ket and looks like this:</p>
+The <em>bra</em> represents the Hermitian conjugate of the ket and looks like this:</p>
 <p><script type="math/tex; mode=display">
 \langle B \rvert
 </script></p>
@@ -829,7 +829,7 @@ Now, to this point, the braket notation does not have any particularly quantum-l
 For example, if we want to indicate the probability of a wavefunction <script type="math/tex; ">\psi</script> collapsing onto state <script type="math/tex; ">\phi</script>, we might write: <script type="math/tex; ">\langle \phi \rvert \psi \rangle</script>, which is precisely the same as the probability density defined above.</p>
 <p>Now that we have a basic understanding of the notation, we should go through several other important quantum mechanical ideas and properties.</p>
 <h2 id="eigenstates">Eigenstates</h2>
-<p>As mentioned, the wavefunction <script type="math/tex; ">\Psi(x)</script> is complex and has both real and imaginary parts; however, there are certain states that are eclusively real.
+<p>As mentioned, the wavefunction <script type="math/tex; ">\Psi(x)</script> is complex and has both real and imaginary parts; however, there are certain states that are exclusively real.
 These states are <em>eigenstates</em> of the system, and are often described as the constituent states that make up all other possible wavefunctions.
 In other words,</p>
 <p><script type="math/tex; mode=display">
@@ -845,7 +845,7 @@ E = \langle \Psi \lvert \hat H \lvert \Psi \rangle
 </script></p>
 <p>Which can be done rather trivially in code by finding the conjugate of the wavefunction and multiplying it with another wavefunction after operation in position and momentum space.
 This ultimately looks like this:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># We are calculating the energy to check &lt;Psi|H|Psi&gt;</span>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># We are calculating the energy to check &lt;Psi|H|Psi&gt;</span>
 <span class="hljs-keyword">function</span> calculate_energy(wfc, H_k, H_r, dx)
     <span class="hljs-comment"># Creating momentum and conjugate wavefunctions</span>
     wfc_k = fft(wfc)
@@ -864,6 +864,55 @@ This ultimately looks like this:</p>
     <span class="hljs-keyword">return</span> energy_final*dx
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">calculate_energy</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *wfc, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *h_r,
+                        <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *h_k, <span class="hljs-keyword">double</span> dx, size_t size)</span> </span>{
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> wfc_k[size];
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> wfc_c[size];
+    <span class="hljs-built_in">memcpy</span>(wfc_k, wfc, <span class="hljs-keyword">sizeof</span>(wfc_k));
+    fft(wfc_k, size, <span class="hljs-literal">false</span>);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        wfc_c[i] = conj(wfc[i]);
+    }
+
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> energy_k[size];
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> energy_r[size];
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        energy_k[i] = wfc_k[i] * h_k[i];
+    }
+
+    fft(energy_k, size, <span class="hljs-literal">true</span>);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        energy_k[i] *= wfc_c[i];
+        energy_r[i] = wfc_c[i] * H_r[i] * wfc[i];
+    }
+
+    <span class="hljs-keyword">double</span> energy_final = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
+        energy_final += creal(energy_k[i] + energy_r[i]);
+    }
+
+    <span class="hljs-keyword">return</span> energy_final * dx;
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calculate_energy</span><span class="hljs-params">(wfc, H_k, H_r, dx)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Calculate the energy &lt;Psi|H|Psi&gt;.&quot;&quot;&quot;</span>
+    <span class="hljs-comment"># Creating momentum conjugate wavefunctions</span>
+    wfc_k = np.fft.fft(wfc)
+    wfc_c = np.conj(wfc)
+
+    <span class="hljs-comment"># Finding the momentum and real-space energy terms</span>
+    energy_k = <span class="hljs-number">0.5</span> * wfc_c * np.fft.ifft((H_k ** <span class="hljs-number">2</span>) * wfc_k)
+    energy_r = wfc_c * H_r * wfc
+
+    <span class="hljs-comment"># Integrating over all space</span>
+    energy_final = sum(energy_k + energy_r).real
+
+    <span class="hljs-keyword">return</span> energy_final * dx
+</code></pre>
 </div></div></div>
 
 <p>This calculation will be used in many different simulations of quantum systems to check our results.
@@ -871,33 +920,14 @@ In the end, many quantum simulations are focused on the <em>ground</em> state, w
 <h2 id="the-future">The Future</h2>
 <p>As we proceed to add new algorithms to simulate quantum systems, I will add more and more notation to this section; however, there are already huge textbooks out there related to understanding and studying quantum systems.
 We don&apos;t want to re-invent the wheel here.
-Instead, we want to focus on an area that is often not considered with too much detail: algorithms and methods researchers use to ascertain new knowedge about quantum mechanics, like the split-operator method, DMRG, quantum Monte Carlo, exact diagonalization, and many more.</p>
+Instead, we want to focus on an area that is often not considered with too much detail: algorithms and methods researchers use to ascertain new knowledge about quantum mechanics, like the split-operator method, DMRG, quantum Monte Carlo, exact diagonalization, and many more.</p>
 <p>Quantum mechanics is one of those areas of physics that really does push the boundary of human knowledge in a number of different areas and computing is one of those areas.
 In fact, <a href="../quantum_information/quantum_information.html">quantum information theory</a> is currently set to be the next innovation to radically change the landscape of modern computation as we know it!
 Of course, because of the large-scale effects that this will likely have on the industry, it deserved it&apos;s own section.</p>
 <p>As always, if there is something that you feel is missing from this section, please feel free to contact me or create an issue on GitHub and we&apos;ll get to it as soon as we can!</p>
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -924,14 +954,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../verlet_integration/verlet_integration.html" class="navigation navigation-prev " aria-label="Previous page: Verlet Integration">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../split-operator_method/split-operator_method.html" class="navigation navigation-next " aria-label="Next page: Split-Operator Method">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Quantum Systems","level":"1.16.2","depth":2,"next":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]},"previous":{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/quantum_systems/quantum_systems.md","mtime":"2018-08-04T22:08:04.403Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Quantum Systems","level":"1.16.2","depth":2,"next":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]},"previous":{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/quantum_systems/quantum_systems.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

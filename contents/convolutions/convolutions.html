@@ -703,7 +703,7 @@ This means we basically just need to keep one array steady, flip the second arra
 <!---This can be seen in the following animation:--->
 <!---ADD ANIMATION--->
 <p>In code, this looks something like:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
     n = length(signal1) + length(signal2)
     out = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}(n)
     sum = <span class="hljs-number">0</span>
@@ -721,13 +721,13 @@ This means we basically just need to keep one array steady, flip the second arra
     <span class="hljs-keyword">return</span> out
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">tails</span>)
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">tails</span>)
 
 <span class="hljs-title">convolution</span> :: (<span class="hljs-type">Num</span> a) =&gt; [a] -&gt; [a] -&gt; [a]
 <span class="hljs-title">convolution</span> x = map (sum . zipWith (*) (reverse x)) . spread
   <span class="hljs-keyword">where</span> spread = init . tails . (replicate (length x - <span class="hljs-number">1</span>) <span class="hljs-number">0</span> ++)
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out,
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out,
           size_t n1, size_t n2)</span> </span>{
     <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> sum = <span class="hljs-number">0</span>;
 
@@ -742,7 +742,7 @@ This means we basically just need to keep one array steady, flip the second arra
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(
     S1 <span class="hljs-keyword">const</span> s1,
     S1 <span class="hljs-keyword">const</span> s1_last,
@@ -791,19 +791,19 @@ Now, by using a Fast Fourier Transform (fft) in code, this can take a standard c
 This means that the convolution theorem is fundamental to creating fast convolutional methods for large inputs, assuming that both of the input signals are similar sizes.
 That said, it is debatable whether the convolution theorem will be faster when the filter size is small.
 Also: depending on the language used, we might need to read in a separate library for FFT&apos;s.</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><p>That said, Julia has an in-built fft routine, so the code for this method could not be simpler:</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><p>That said, Julia has an in-built fft routine, so the code for this method could not be simpler:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv_fft(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
     <span class="hljs-keyword">return</span> ifft(fft(signal1).*fft(signal2))
 <span class="hljs-keyword">end</span>
 </code></pre>
 <p>Where the <code>.*</code> operator is an element-wise multiplication.</p>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><p>The FFT-based convolution in Haskell is complicated, so here is some simple julia code:</p>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><p>The FFT-based convolution in Haskell is complicated, so here is some simple julia code:</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv_fft(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
     <span class="hljs-keyword">return</span> ifft(fft(signal1).*fft(signal2))
 <span class="hljs-keyword">end</span>
 </code></pre>
 <p>Where the <code>.*</code> operator is an element-wise multiplication.</p>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2,
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2,
               <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out, size_t n)</span> </span>{
     fft(signal1, n);
     fft(signal2, n);
@@ -815,7 +815,7 @@ Also: depending on the language used, we might need to read in a separate librar
     ifft(out, n);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(S1 <span class="hljs-keyword">const</span> s1, S1 <span class="hljs-keyword">const</span> s1_last, S2 <span class="hljs-keyword">const</span> s2, Out <span class="hljs-keyword">const</span> out)</span> </span>{
   <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size = s1_last - s1;
 
@@ -845,28 +845,9 @@ ADD IMAGE
 
 Remember that each element of the frequency-space array is a different waveform in real-space, so when you multiply two frequency-space arrays, you are selectively amplifying similar waveforms.
 --->
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -893,14 +874,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../bitlogic/bitlogic.html" class="navigation navigation-prev " aria-label="Previous page: Bit Logic">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../taylor_series_expansion/taylor_series_expansion.html" class="navigation navigation-next " aria-label="Next page: Taylor Series">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Convolutions","level":"1.6.3","depth":2,"next":{"title":"Taylor Series","level":"1.6.4","depth":2,"path":"contents/taylor_series_expansion/taylor_series_expansion.md","ref":"contents/taylor_series_expansion/taylor_series_expansion.md","articles":[]},"previous":{"title":"Bit Logic","level":"1.6.2","depth":2,"path":"contents/bitlogic/bitlogic.md","ref":"contents/bitlogic/bitlogic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/convolutions/convolutions.md","mtime":"2018-07-20T23:25:46.490Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Convolutions","level":"1.6.3","depth":2,"next":{"title":"Taylor Series","level":"1.6.4","depth":2,"path":"contents/taylor_series_expansion/taylor_series_expansion.md","ref":"contents/taylor_series_expansion/taylor_series_expansion.md","articles":[]},"previous":{"title":"Bit Logic","level":"1.6.2","depth":2,"path":"contents/bitlogic/bitlogic.md","ref":"contents/bitlogic/bitlogic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/convolutions/convolutions.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -685,7 +685,7 @@ Though it might not be the fastest tool in the shed, it&apos;s definitely straig
 If it is, we swap the elements and then move to the next element.
 In this way, we sweep through the array <script type="math/tex; ">n</script> times for each element and continually swap any two adjacent elements that are improperly ordered.
 This means that we need to go through the vector <script type="math/tex; ">\mathcal{O}(n^2)</script> times with code similar to the following:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> bubble_sort(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> bubble_sort(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
     n = length(a)
     <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:n
         <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:n-<span class="hljs-number">1</span>
@@ -696,7 +696,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;T&gt; RunBubbleSort&lt;T&gt;(List&lt;T&gt; list) <span class="hljs-keyword">where</span> T : IComparable&lt;T&gt;
+</div><div class="code-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;T&gt; RunBubbleSort&lt;T&gt;(List&lt;T&gt; list) <span class="hljs-keyword">where</span> T : IComparable&lt;T&gt;
 {
     <span class="hljs-keyword">var</span> length = list.Count;
 
@@ -716,7 +716,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     <span class="hljs-keyword">return</span> list;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; n - <span class="hljs-number">1</span>; ++j) {
             <span class="hljs-keyword">if</span> (<span class="hljs-built_in">array</span>[j] &gt; <span class="hljs-built_in">array</span>[j + <span class="hljs-number">1</span>]) {
@@ -728,7 +728,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> r = arr.length - <span class="hljs-number">1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; r; i++) {
             <span class="hljs-keyword">if</span>(arr[i] &gt; arr[i + <span class="hljs-number">1</span>]) {
@@ -740,7 +740,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubbleSort</span>(<span class="hljs-params">arr</span>) </span>{
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubbleSort</span>(<span class="hljs-params">arr</span>) </span>{
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> r = arr.length <span class="hljs-number">-1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; r; i++) {
       <span class="hljs-keyword">if</span> (arr[i] &gt; arr[i + <span class="hljs-number">1</span>]) {
@@ -752,14 +752,14 @@ This means that we need to go through the vector <script type="math/tex; ">\math
   }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array)</span>:</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array)</span>:</span>
     len_array = len(array)
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len_array):
         <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len_array - i - <span class="hljs-number">1</span>):
             <span class="hljs-keyword">if</span>(array[j] &gt; array[j+<span class="hljs-number">1</span>]):
                 array[j], array[j+<span class="hljs-number">1</span>] = array[j+<span class="hljs-number">1</span>], array[j] <span class="hljs-comment">#swap elements in the list</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sorted_array</span> = <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array)</span></span>
+</div><div class="code-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sorted_array</span> = <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array)</span></span>
     <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(array)
         <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span>=<span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(array)-<span class="hljs-built_in">i</span>
             <span class="hljs-keyword">if</span> array(<span class="hljs-built_in">j</span>) &gt; array(<span class="hljs-built_in">j</span>+<span class="hljs-number">1</span>)
@@ -773,14 +773,14 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     sorted_array = array
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">bubbleSort</span> :: (<span class="hljs-type">Ord</span> a) =&gt; [a] -&gt; [a]
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">bubbleSort</span> :: (<span class="hljs-type">Ord</span> a) =&gt; [a] -&gt; [a]
 <span class="hljs-title">bubbleSort</span> x = (!!length x) $ iterate bubble x
   <span class="hljs-keyword">where</span> bubble (x:y:r)
           | x &lt;= y    = x : bubble (y:r)
           | otherwise = y : bubble (x:r)
         bubble x = x
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter&gt;
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> Iter&gt;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(Iter first, Iter last)</span> </span>{
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> it1 = first; it1 != last; ++it1) {
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> it2 = first; it2 + <span class="hljs-number">1</span> != last; ++it2) {
@@ -792,7 +792,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
   }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bubble_sort</span></span>(a: &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-keyword">u32</span>]) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bubble_sort</span></span>(a: &amp;<span class="hljs-keyword">mut</span> [<span class="hljs-keyword">u32</span>]) {
     <span class="hljs-keyword">let</span> n = a.len();
 
     <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
@@ -804,7 +804,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="d" data-name="D"><pre><code class="lang-d"><span class="hljs-keyword">void</span> bubbleSort(R)(<span class="hljs-keyword">ref</span> R range)
+</div><div class="code-method-sample" data-lang="d" data-name="D"><pre><code class="lang-d"><span class="hljs-keyword">void</span> bubbleSort(R)(<span class="hljs-keyword">ref</span> R range)
 <span class="hljs-keyword">if</span> (isRandomAccessRange!R &amp;&amp; hasAssignableElements!R &amp;&amp; hasLength!R)
 {
     <span class="hljs-keyword">import</span> std.algorithm : swap;
@@ -821,7 +821,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> bubbleSort(array []<span class="hljs-keyword">int</span>) {
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> bubbleSort(array []<span class="hljs-keyword">int</span>) {
     n := <span class="hljs-built_in">len</span>(array)
     <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; n<span class="hljs-number">-1</span>; i++ {
         swapped := <span class="hljs-literal">false</span>
@@ -837,7 +837,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="racket" data-name="Racket"><pre><code class="lang-racket">(define bubbleSort
+</div><div class="code-method-sample" data-lang="racket" data-name="Racket"><pre><code class="lang-racket">(define bubbleSort
   (case-lambda [(l) (bubbleSort l (length l))]
                [(l n) (if (= n 1)
                           l
@@ -851,7 +851,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     (cond [(= (- n counter) 2) (cons (min x y) (cons (max x y) r))]
           [(cons (min x y) (pass  (cons (max x y) r) (+ counter 1) n))])))
 </code></pre>
-</div><div class="api-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>..&lt;sortArray.<span class="hljs-built_in">count</span>).reversed() {
         <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;i {
             <span class="hljs-keyword">if</span> sortArray[j] &gt; sortArray[j+<span class="hljs-number">1</span>] {
@@ -865,7 +865,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     <span class="hljs-keyword">return</span> sortArray
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="ti83b" data-name="TI-83 Basic"><pre><code class="lang-ti-83_basic">:&quot;L IS LENGTH OF LIST&quot;
+</div><div class="code-method-sample" data-lang="ti83b" data-name="TI-83 Basic"><pre><code class="lang-ti-83_basic">:&quot;L IS LENGTH OF LIST&quot;
 :dim(L1)&#x2192;L
 :For(A,1,L)
 :For(X,1,L-1)
@@ -878,7 +878,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
 :End
 :End
 </code></pre>
-</div><div class="api-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(arr)</span></span>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(arr)</span></span>
     (<span class="hljs-number">0</span>..arr.length - <span class="hljs-number">1</span>).each <span class="hljs-keyword">do</span>
         (<span class="hljs-number">0</span>..arr.length - <span class="hljs-number">2</span>).each <span class="hljs-keyword">do</span> |k|
             <span class="hljs-keyword">if</span> arr[k] &gt; arr[k + <span class="hljs-number">1</span>]
@@ -890,7 +890,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     <span class="hljs-keyword">return</span> arr
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span></span>(arr)
+</div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span></span>(arr)
   arr = arr.dup 
   (<span class="hljs-number">0</span> ... arr.size).each <span class="hljs-keyword">do</span> 
     (<span class="hljs-number">0</span> ... arr.size-<span class="hljs-number">1</span>).each <span class="hljs-keyword">do</span> |k| 
@@ -902,7 +902,7 @@ This means that we need to go through the vector <script type="math/tex; ">\math
   arr
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array $arr)</span>: <span class="hljs-title">array</span>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array $arr)</span>: <span class="hljs-title">array</span>
 </span>{
   <span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>, $length = count($arr); $i &lt; $length; $i++) {
     <span class="hljs-keyword">for</span> ($j = <span class="hljs-number">1</span>; $j &lt; $length; $j++) {
@@ -923,7 +923,7 @@ Now, as you might imagine, computer scientists have optimized this to the fiery 
 For now, it&apos;s fine to just bask in the simplicity that is bubble sort.
 Trust me, there are plenty of more complicated algorithms that do precisely the same thing, only much, much better (for most cases).</p>
 <h2 id="example-code">Example Code</h2>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> bubble_sort(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> bubble_sort(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
     n = length(a)
     <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:n
         <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:n-<span class="hljs-number">1</span>
@@ -943,7 +943,7 @@ Trust me, there are plenty of more complicated algorithms that do precisely the 
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="cs" data-name="C#"><p>BubbleSort.cs</p>
+</div><div class="code-method-sample" data-lang="cs" data-name="C#"><p>BubbleSort.cs</p>
 <pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
 <span class="hljs-keyword">using</span> System;
 <span class="hljs-keyword">using</span> System.Collections.Generic;
@@ -1000,7 +1000,7 @@ main()
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_range</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span>, size_t n)</span> </span>{
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
@@ -1036,7 +1036,7 @@ main()
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bubble</span> </span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bubble</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> r = arr.length - <span class="hljs-number">1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
             <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; r; i++) {
@@ -1068,7 +1068,7 @@ main()
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubbleSort</span>(<span class="hljs-params">arr</span>) </span>{
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubbleSort</span>(<span class="hljs-params">arr</span>) </span>{
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> r = arr.length <span class="hljs-number">-1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; r; i++) {
       <span class="hljs-keyword">if</span> (arr[i] &gt; arr[i + <span class="hljs-number">1</span>]) {
@@ -1080,7 +1080,7 @@ main()
   }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> random
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> random
 
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array)</span>:</span>
@@ -1098,7 +1098,7 @@ main()
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+</div><div class="code-method-sample" data-lang="m" data-name="Matlab"><pre><code class="lang-matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
     array = <span class="hljs-built_in">floor</span>( <span class="hljs-built_in">rand</span>(<span class="hljs-number">1</span>,<span class="hljs-number">7</span>)*<span class="hljs-number">100</span> );
     <span class="hljs-built_in">disp</span>(<span class="hljs-string">&apos;Before Sorting:&apos;</span>)
     <span class="hljs-built_in">disp</span>(array)
@@ -1122,14 +1122,14 @@ main()
     sorted_array = array
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">bubbleSort</span> :: (<span class="hljs-type">Ord</span> a) =&gt; [a] -&gt; [a]
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">bubbleSort</span> :: (<span class="hljs-type">Ord</span> a) =&gt; [a] -&gt; [a]
 <span class="hljs-title">bubbleSort</span> x = (!!length x) $ iterate bubble x
   <span class="hljs-keyword">where</span> bubble (x:y:r)
           | x &lt;= y    = x : bubble (y:r)
           | otherwise = y : bubble (x:r)
         bubble x = x
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstddef&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iterator&gt;</span></span>
@@ -1165,7 +1165,7 @@ main()
   print_range(<span class="hljs-built_in">std</span>::begin(input), <span class="hljs-built_in">std</span>::end(input));
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">crate</span> rand; <span class="hljs-comment">// External crate that provides random number generation tools</span>
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">crate</span> rand; <span class="hljs-comment">// External crate that provides random number generation tools</span>
 
 <span class="hljs-keyword">use</span> rand::{thread_rng, Rng}; <span class="hljs-comment">// Used for random number generation</span>
 <span class="hljs-keyword">use</span> rand::distributions::Uniform; <span class="hljs-comment">// Used for a uniform distribution</span>
@@ -1193,7 +1193,7 @@ main()
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;After sorting: {:?}&quot;</span>, rand_vec);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="d" data-name="D"><pre><code class="lang-d"><span class="hljs-keyword">import</span> std.range : hasAssignableElements, isRandomAccessRange, hasLength;
+</div><div class="code-method-sample" data-lang="d" data-name="D"><pre><code class="lang-d"><span class="hljs-keyword">import</span> std.range : hasAssignableElements, isRandomAccessRange, hasLength;
 
 <span class="hljs-keyword">void</span> bubbleSort(R)(<span class="hljs-keyword">ref</span> R range)
 <span class="hljs-keyword">if</span> (isRandomAccessRange!R &amp;&amp; hasAssignableElements!R &amp;&amp; hasLength!R)
@@ -1225,7 +1225,7 @@ main()
     writefln!<span class="hljs-string">&quot;after sorting:\n%s&quot;</span>(input);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-comment">// Submitted by Chinmaya Mahesh (chin123)</span>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-comment">// Submitted by Chinmaya Mahesh (chin123)</span>
 
 <span class="hljs-keyword">package</span> main
 
@@ -1256,7 +1256,7 @@ main()
     fmt.Println(<span class="hljs-string">&quot;Sorted array:&quot;</span>, array)
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="racket" data-name="Racket"><pre><code class="lang-racket">#lang racket
+</div><div class="code-method-sample" data-lang="racket" data-name="Racket"><pre><code class="lang-racket">#lang racket
 
 (provide bubbleSort)
 
@@ -1278,7 +1278,7 @@ main()
 
 ((lambda (x) (display (bubbleSort x))) (read))
 </code></pre>
-</div><div class="api-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>..&lt;sortArray.<span class="hljs-built_in">count</span>).reversed() {
         <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;i {
             <span class="hljs-keyword">if</span> sortArray[j] &gt; sortArray[j+<span class="hljs-number">1</span>] {
@@ -1299,7 +1299,7 @@ main()
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="ti83b" data-name="TI-83 Basic"><pre><code class="lang-ti-83_basic">:&quot;SUBMITTED BY GIBUS WEARING BRONY&quot;
+</div><div class="code-method-sample" data-lang="ti83b" data-name="TI-83 Basic"><pre><code class="lang-ti-83_basic">:&quot;SUBMITTED BY GIBUS WEARING BRONY&quot;
 :&quot;L IS LENGTH OF LIST&quot;
 :dim(L1)&#x2192;L
 :For(A,1,L)
@@ -1314,7 +1314,7 @@ main()
 :End
 :Disp L1
 </code></pre>
-</div><div class="api-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-comment">#!/usr/bin/env ruby</span>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-comment">#!/usr/bin/env ruby</span>
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(arr)</span></span>
     (<span class="hljs-number">0</span>..arr.length - <span class="hljs-number">1</span>).each <span class="hljs-keyword">do</span>
@@ -1337,7 +1337,7 @@ main()
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span></span>(arr)
+</div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span></span>(arr)
   arr = arr.dup 
   (<span class="hljs-number">0</span> ... arr.size).each <span class="hljs-keyword">do</span> 
     (<span class="hljs-number">0</span> ... arr.size-<span class="hljs-number">1</span>).each <span class="hljs-keyword">do</span> |k| 
@@ -1358,7 +1358,7 @@ main()
 
 main
 </code></pre>
-</div><div class="api-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-meta">&lt;?php</span>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-meta">&lt;?php</span>
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(array $arr)</span>: <span class="hljs-title">array</span>
 </span>{
@@ -1382,28 +1382,9 @@ $bubble_sorted = bubble_sort($unsorted);
 </code></pre>
 </div></div></div>
 
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -1430,14 +1411,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../sorting_and_searching/sorting_and_searching.html" class="navigation navigation-prev " aria-label="Previous page: Sorting and Searching">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../bogo_sort/bogo_sort.html" class="navigation navigation-next " aria-label="Next page: Bogo Sort">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.7.1","depth":2,"next":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.7","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-08-04T22:08:04.400Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.7.1","depth":2,"next":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.7","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

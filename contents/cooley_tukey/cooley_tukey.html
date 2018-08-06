@@ -722,7 +722,7 @@ Truth be told, I didn&apos;t understand it fully until I discretized real and fr
 <p>Where <script type="math/tex; ">X_n</script> and <script type="math/tex; ">x_n</script> are sequences of <script type="math/tex; ">N</script> numbers in frequency and real space, respectively.
 In principle, this is no easier to understand than the previous case!
 For some reason, though, putting code to this transformation really helped me figure out what was actually going on.</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
     N = length(x)
 
     <span class="hljs-comment"># We want two vectors here for real space (n) and frequency space (k)</span>
@@ -733,7 +733,7 @@ For some reason, though, putting code to this transformation really helped me fi
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">void dft(double complex *X, const size_t N) {
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">void dft(double complex *X, const size_t N) {
     double complex tmp[N];
     for (size_t i = 0; i &lt; N; ++i) {
         tmp[i] = 0;
@@ -745,7 +745,7 @@ For some reason, though, putting code to this transformation really helped me fi
     memcpy(X, tmp, N * sizeof(*X));
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
     N = length(x)
 
     <span class="hljs-comment"># We want two vectors here for real space (n) and frequency space (k)</span>
@@ -756,7 +756,7 @@ For some reason, though, putting code to this transformation really helped me fi
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
     N = length(x)
 
     <span class="hljs-comment"># We want two vectors here for real space (n) and frequency space (k)</span>
@@ -767,7 +767,7 @@ For some reason, though, putting code to this transformation really helped me fi
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
     N = length(x)
 
     <span class="hljs-comment"># We want two vectors here for real space (n) and frequency space (k)</span>
@@ -778,7 +778,7 @@ For some reason, though, putting code to this transformation really helped me fi
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
     N = length(x)
 
     <span class="hljs-comment"># We want two vectors here for real space (n) and frequency space (k)</span>
@@ -813,7 +813,7 @@ We then proceed to split the array again and again until we have a manageable ar
 We can also perform a similar re-ordering by using a bit reversal scheme, where we output each array index&apos;s integer value in binary and flip it to find the new location of that element.
 With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \mathcal{O}(n \log n)</script>, which is a feasible operation.</p>
 <p>In the end, the code looks like:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> cooley_tukey(x)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> cooley_tukey(x)
     N = length(x)
 
     <span class="hljs-keyword">if</span> (N &gt; <span class="hljs-number">2</span>)
@@ -831,7 +831,7 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
 
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *X, <span class="hljs-keyword">const</span> size_t N)</span> </span>{
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *X, <span class="hljs-keyword">const</span> size_t N)</span> </span>{
     <span class="hljs-keyword">if</span> (N &gt;= <span class="hljs-number">2</span>) {
         <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> tmp [N / <span class="hljs-number">2</span>];
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; N / <span class="hljs-number">2</span>; ++i) {
@@ -852,7 +852,7 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> Iter&gt;
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> Iter&gt;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(Iter first, Iter last)</span> </span>{
   <span class="hljs-keyword">auto</span> size = last - first;
   <span class="hljs-keyword">if</span> (size &gt;= <span class="hljs-number">2</span>) {
@@ -884,7 +884,7 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
   }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">fft</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">fft</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
 <span class="hljs-title">fft</span> x = <span class="hljs-keyword">let</span> n = length x
             i = <span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>
             w = <span class="hljs-type">M</span>.fromList [(k%n, exp ((<span class="hljs-number">-2</span>)*pi*i*(fromIntegral k)/(fromIntegral n)) ) | k&lt;-[<span class="hljs-number">0.</span>.n<span class="hljs-number">-1</span>]]
@@ -899,7 +899,7 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
                                             (k + n2, e!k - o!k * w <span class="hljs-type">M</span>.!(k%n))]
                                                                | k &lt;- [<span class="hljs-number">0.</span>.n2<span class="hljs-number">-1</span>]]
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(X)</span>:</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(X)</span>:</span>
     N = len(X)
     <span class="hljs-keyword">if</span> N &lt;= <span class="hljs-number">1</span>:
         <span class="hljs-keyword">return</span> X
@@ -912,7 +912,7 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
         temp[k+N//<span class="hljs-number">2</span>] = even[k] - exp(<span class="hljs-number">-2j</span>*pi*k/N)*odd[k]
     <span class="hljs-keyword">return</span> temp
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> cooley_tukey(x)
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> cooley_tukey(x)
     N = length(x)
 
     <span class="hljs-keyword">if</span> (N &gt; <span class="hljs-number">2</span>)
@@ -999,7 +999,7 @@ If the language you want to write your implementation in is already used, please
 As before, pull requests are favoured.</p>
 <p>Note: I implemented this in Julia because the code seems more straightforward in Julia; however, if you wish to write better Julia code or better code in your own language, please feel free to do so!
 <strong>I do not claim that this is the most efficient way to implement the Cooley-Tukey method, so if you have a better way to do it, feel free to implement it that way!</strong></p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment">#simple DFT function</span>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment">#simple DFT function</span>
 <span class="hljs-keyword">function</span> DFT(x)
     N = length(x)
 
@@ -1130,7 +1130,7 @@ As before, pull requests are favoured.</p>
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;complex.h&gt;
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;complex.h&gt;
 #include &lt;math.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -1232,7 +1232,7 @@ int main() {
     return 0;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp">// written by Gathros, modernized by Nicole Mazzuca.
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp">// written by Gathros, modernized by Nicole Mazzuca.
 
 #include &lt;algorithm&gt;
 #include &lt;array&gt;
@@ -1360,7 +1360,7 @@ int main() {
   }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Complex
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Complex
 <span class="hljs-keyword">import</span> Data.Array
 <span class="hljs-keyword">import</span> Data.Ratio
 <span class="hljs-keyword">import</span> <span class="hljs-keyword">qualified</span> Data.Map <span class="hljs-keyword">as</span> M
@@ -1383,7 +1383,7 @@ int main() {
 <span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
   print $ fft [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> random
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> random
 <span class="hljs-keyword">from</span> cmath <span class="hljs-keyword">import</span> exp, pi
 <span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> log2
 
@@ -1435,32 +1435,13 @@ Z = iterative_cooley_tukey(X)
 
 print(all(abs([Y[i] - Z[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">64</span>)][j]) &lt; <span class="hljs-number">1</span> <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">64</span>)))
 </code></pre>
-</div><div class="api-method-sample" data-lang="scratch" data-name="Scratch"><p>Some rather impressive scratch code was submitted by Jie and can be found here: <a href="https://scratch.mit.edu/projects/37759604/#editor" target="_blank">https://scratch.mit.edu/projects/37759604/#editor</a></p>
+</div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><p>Some rather impressive scratch code was submitted by Jie and can be found here: <a href="https://scratch.mit.edu/projects/37759604/#editor" target="_blank">https://scratch.mit.edu/projects/37759604/#editor</a></p>
 </div></div></div>
 
 
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -1487,14 +1468,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../graham_scan/graham_scan.html" class="navigation navigation-prev " aria-label="Previous page: Graham Scan">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../decision_problems/decision_problems.html" class="navigation navigation-next " aria-label="Next page: Decision Problems">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.13","depth":1,"next":{"title":"Decision Problems","level":"1.14","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.14.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"previous":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/cooley_tukey/cooley_tukey.md","mtime":"2018-08-04T22:08:04.400Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.13","depth":1,"next":{"title":"Decision Problems","level":"1.14","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.14.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"previous":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/cooley_tukey/cooley_tukey.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

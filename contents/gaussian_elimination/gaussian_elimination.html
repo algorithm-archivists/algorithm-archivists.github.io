@@ -986,7 +986,7 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 </script></li>
 </ol>
 <p>In code, this looks like:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gaussian_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gaussian_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
     cols = size(A,<span class="hljs-number">2</span>)
@@ -1032,40 +1032,42 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">gaussian_elimination</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
-    <span class="hljs-keyword">size_t</span> min_dim = (rows &lt; cols)? rows: cols;
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">gaussian_elimination</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+    <span class="hljs-keyword">size_t</span> row = <span class="hljs-number">0</span>;
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> k = <span class="hljs-number">0</span>; k &lt; min_dim; ++k) {
-        <span class="hljs-keyword">size_t</span> pivot = k;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; ++col) {
+        <span class="hljs-keyword">size_t</span> pivot = row;
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = k + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
-            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i * cols + k]) &gt; <span class="hljs-built_in">fabs</span>(a[pivot * cols + k])) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i * cols + col]) &gt; <span class="hljs-built_in">fabs</span>(a[pivot * cols + col])) {
                 pivot = i;
             }
         }
 
-        <span class="hljs-keyword">if</span> (a[pivot * cols + k] == <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">if</span> (a[pivot * cols + col] == <span class="hljs-number">0</span>) {
             <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The matrix is singular.\n&quot;</span>);
-            <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+            <span class="hljs-keyword">continue</span>;
         }
 
-        <span class="hljs-keyword">if</span> (k != pivot) {
-            swap_rows(a, k, pivot, cols);
+        <span class="hljs-keyword">if</span> (col != pivot) {
+            swap_rows(a, col, pivot, cols);
         }
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = k + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
-            <span class="hljs-keyword">double</span> scale = a[i * cols + k] / a[k * cols + k];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+            <span class="hljs-keyword">double</span> scale = a[i * cols + col] / a[row * cols + col];
 
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = k + <span class="hljs-number">1</span>; j &lt; cols; ++j) {
-                a[i * cols + j] -= a[k * cols + j] * scale;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; ++j) {
+                a[i * cols + j] -= a[row * cols + j] * scale;
             }
 
-            a[i * cols + k] = <span class="hljs-number">0</span>;
+            a[i * cols + col] = <span class="hljs-number">0</span>;
         }
+
+        row++;
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">gaussian_elimination</span></span>(a: &amp;<span class="hljs-keyword">mut</span> Matrix) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">gaussian_elimination</span></span>(a: &amp;<span class="hljs-keyword">mut</span> Matrix) {
     <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..min(a.cols, a.rows) {
         <span class="hljs-comment">// Step 1: find the maximum element for this column</span>
         <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_row = k;
@@ -1103,7 +1105,7 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">swapRows</span> :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">swapRows</span> :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
 <span class="hljs-title">swapRows</span> r1 r2 m
   | r1 == r2 = m
   | otherwise =
@@ -1150,7 +1152,7 @@ If you intend to solve a system of equations, then it makes sense to stop the me
 We basically need to find the pivot of every row and set that value to 1.
 Afterwards, we subtract upwards until all values above the pivot are 0 before moving on to the next column.
 Here it is in code:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gauss_jordan_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gauss_jordan_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
     cols = size(A,<span class="hljs-number">2</span>)
@@ -1178,7 +1180,27 @@ Here it is in code:</p>
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><p>This code does not exist yet in C, so here&apos;s Julia code (sorry for the inconvenience)</p>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">gauss_jordan</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+    <span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; ++col) {
+        <span class="hljs-keyword">if</span> (a[row * cols + col] != <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = cols - <span class="hljs-number">1</span>; i &gt; col - <span class="hljs-number">1</span>; --i) {
+                a[row * cols + i] /= a[row * cols + col];
+            }
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; row; ++i) {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = cols - <span class="hljs-number">1</span>; j &gt; col - <span class="hljs-number">1</span>; --j) {
+                    a[i * cols + j] -= a[i * cols + col] * a[row * cols + j];
+                }
+            }
+
+            row++;
+        }
+    }
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><p>This code does not exist yet in rust, so here&apos;s Julia code (sorry for the inconvenience)</p>
 <pre><code class="lang-julia"><span class="hljs-keyword">function</span> gauss_jordan_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
@@ -1207,36 +1229,7 @@ Here it is in code:</p>
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><p>This code does not exist yet in rust, so here&apos;s Julia code (sorry for the inconvenience)</p>
-<pre><code class="lang-julia"><span class="hljs-keyword">function</span> gauss_jordan_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
-
-    rows = size(A,<span class="hljs-number">1</span>)
-    cols = size(A,<span class="hljs-number">2</span>)
-
-
-    <span class="hljs-comment"># After this, we know what row to start on (r-1)</span>
-    <span class="hljs-comment"># to go back through the matrix</span>
-    row = <span class="hljs-number">1</span>
-    <span class="hljs-keyword">for</span> col = <span class="hljs-number">1</span>:cols-<span class="hljs-number">1</span>
-        <span class="hljs-keyword">if</span> (A[row, col] != <span class="hljs-number">0</span>)
-
-            <span class="hljs-comment"># divide row by pivot and leaving pivot as 1</span>
-            <span class="hljs-keyword">for</span> i = cols:-<span class="hljs-number">1</span>:col
-                A[row,i] /= A[row,col]
-            <span class="hljs-keyword">end</span>
-
-            <span class="hljs-comment"># subtract value from above row and set values above pivot to 0</span>
-            <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:row-<span class="hljs-number">1</span>
-                <span class="hljs-keyword">for</span> j = cols:-<span class="hljs-number">1</span>:col
-                    A[i,j] -= A[i,col]*A[row,j]
-                <span class="hljs-keyword">end</span>
-            <span class="hljs-keyword">end</span>
-            row += <span class="hljs-number">1</span>
-        <span class="hljs-keyword">end</span>
-    <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
-</code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell">((r1, c1), (rn, cn)) = bounds mat
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell">((r1, c1), (rn, cn)) = bounds mat
 <span class="hljs-title">go</span> (r, c) m
   | c == cn = m
   | pivot == <span class="hljs-number">0</span> = go (r, c + <span class="hljs-number">1</span>) m
@@ -1263,7 +1256,7 @@ For example, if our matrix looks like this:</p>
 <p>We can quickly solve <script type="math/tex; ">11z = 18</script> for <script type="math/tex; ">z</script>, and then use that to solve <script type="math/tex; ">y + 2z = 2</script> for <script type="math/tex; ">y</script> by plugging in for <script type="math/tex; ">z</script>.
 After that, we simply need to solve <script type="math/tex; ">2x + 3y + 4z = 6</script> for <script type="math/tex; ">x</script> in a similar fashion.
 In code, this involves keeping a rolling sum of all the values we substitute in like so:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> back_substitution(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> back_substitution(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
     cols = size(A,<span class="hljs-number">2</span>)
@@ -1285,8 +1278,8 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
 
 <span class="hljs-keyword">function</span> gauss_jordan_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> a, <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> x,
-                       <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">double</span> *x, <span class="hljs-keyword">const</span> size_t rows,
+                       <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = rows - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; --i) {
         <span class="hljs-keyword">double</span> sum = <span class="hljs-number">0.0</span>;
@@ -1299,7 +1292,7 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
     }
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">back_substitution</span></span>(a: &amp;Matrix) -&gt; <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-keyword">f64</span>&gt; {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">back_substitution</span></span>(a: &amp;Matrix) -&gt; <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-keyword">f64</span>&gt; {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> soln = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0.0</span>; a.rows];
 
     soln[a.rows - <span class="hljs-number">1</span>] = a[(a.rows - <span class="hljs-number">1</span>, a.cols - <span class="hljs-number">1</span>)] / a[(a.rows - <span class="hljs-number">1</span>, a.cols - <span class="hljs-number">2</span>)];
@@ -1315,7 +1308,7 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
     soln
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">gaussJordan</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Eq</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">gaussJordan</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Eq</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
 <span class="hljs-title">gaussJordan</span> mat = go (r1, c1) mat
   <span class="hljs-keyword">where</span>
     ((r1, c1), (rn, cn)) = bounds mat
@@ -1331,7 +1324,7 @@ If no solution exists or we are trying to find a reduced row echelon matrix, the
 As we said at the start, the notation for Gaussian Elimination is rather ambiguous in the literature, so we are hoping that the definitions provided here are clear and consistent enough to cover all the bases.</p>
 <p>As for what&apos;s next... Well, we are in for a treat! The above algorithm clearly has 3 <code>for</code> loops, and will thus have a complexity of <script type="math/tex; ">\sim O(n^3)</script>, which is abysmal! If we can reduce the matrix to a specifically <strong>tridiagonal</strong> matrix, we can actually solve the system in <script type="math/tex; ">\sim O(n)</script>! How? Well, we can use an algorithm known as the <em>Tri-Diagonal Matrix Algorithm</em> (TDMA) also known as the <em>Thomas Algorithm</em>.</p>
 <h2 id="example-code">Example Code</h2>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gaussian_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gaussian_elimination(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
     cols = size(A,<span class="hljs-number">2</span>)
@@ -1443,11 +1436,13 @@ As we said at the start, the notation for Gaussian Elimination is rather ambiguo
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap_rows</span><span class="hljs-params">(<span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> a, size_t i, size_t pivot, size_t cols)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap_rows</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t i, <span class="hljs-keyword">const</span> size_t pivot,
+               <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; cols; ++j) {
         <span class="hljs-keyword">double</span> tmp = a[i * cols + j];
         a[i * cols + j] = a[pivot * cols + j];
@@ -1456,40 +1451,42 @@ main()
 }
 
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">gaussian_elimination</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
-    <span class="hljs-keyword">size_t</span> min_dim = (rows &lt; cols)? rows: cols;
+    <span class="hljs-keyword">size_t</span> row = <span class="hljs-number">0</span>;
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> k = <span class="hljs-number">0</span>; k &lt; min_dim; ++k) {
-        <span class="hljs-keyword">size_t</span> pivot = k;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; ++col) {
+        <span class="hljs-keyword">size_t</span> pivot = row;
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = k + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
-            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i * cols + k]) &gt; <span class="hljs-built_in">fabs</span>(a[pivot * cols + k])) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i * cols + col]) &gt; <span class="hljs-built_in">fabs</span>(a[pivot * cols + col])) {
                 pivot = i;
             }
         }
 
-        <span class="hljs-keyword">if</span> (a[pivot * cols + k] == <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">if</span> (a[pivot * cols + col] == <span class="hljs-number">0</span>) {
             <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The matrix is singular.\n&quot;</span>);
-            <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+            <span class="hljs-keyword">continue</span>;
         }
 
-        <span class="hljs-keyword">if</span> (k != pivot) {
-            swap_rows(a, k, pivot, cols);
+        <span class="hljs-keyword">if</span> (col != pivot) {
+            swap_rows(a, col, pivot, cols);
         }
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = k + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
-            <span class="hljs-keyword">double</span> scale = a[i * cols + k] / a[k * cols + k];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+            <span class="hljs-keyword">double</span> scale = a[i * cols + col] / a[row * cols + col];
 
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = k + <span class="hljs-number">1</span>; j &lt; cols; ++j) {
-                a[i * cols + j] -= a[k * cols + j] * scale;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; ++j) {
+                a[i * cols + j] -= a[row * cols + j] * scale;
             }
 
-            a[i * cols + k] = <span class="hljs-number">0</span>;
+            a[i * cols + col] = <span class="hljs-number">0</span>;
         }
+
+        row++;
     }
 }
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> a, <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> x,
-                       <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">double</span> *x, <span class="hljs-keyword">const</span> size_t rows,
+                       <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = rows - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; --i) {
         <span class="hljs-keyword">double</span> sum = <span class="hljs-number">0.0</span>;
@@ -1502,12 +1499,45 @@ main()
     }
 }
 
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">gauss_jordan</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t rows, <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+    <span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; ++col) {
+        <span class="hljs-keyword">if</span> (a[row * cols + col] != <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = cols - <span class="hljs-number">1</span>; i &gt; col - <span class="hljs-number">1</span>; --i) {
+                a[row * cols + i] /= a[row * cols + col];
+            }
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; row; ++i) {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = cols - <span class="hljs-number">1</span>; j &gt; col - <span class="hljs-number">1</span>; --j) {
+                    a[i * cols + j] -= a[i * cols + col] * a[row * cols + j];
+                }
+            }
+
+            row++;
+        }
+    }
+}
+
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">double</span> a[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = {{<span class="hljs-number">3.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">-4.0</span>, <span class="hljs-number">3.0</span>},
                       {<span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">15.0</span>},
                       {<span class="hljs-number">5.0</span>, <span class="hljs-number">-3.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">14.0</span>}};
 
     gaussian_elimination((<span class="hljs-keyword">double</span> *)a, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Gaussian elimination:\n&quot;</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[&quot;</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; ++j) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f &quot;</span>, a[i][j]);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;]\n&quot;</span>);
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\nGauss-Jordan:\n&quot;</span>);
+
+    gauss_jordan((<span class="hljs-keyword">double</span> *)a, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; ++i) {
         <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[&quot;</span>);
@@ -1517,7 +1547,7 @@ main()
         <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;]\n&quot;</span>);
     }
 
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\nSolutions are:\n&quot;</span>);
 
     <span class="hljs-keyword">double</span> x[<span class="hljs-number">3</span>] = {<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>};
     back_substitution((<span class="hljs-keyword">double</span> *)a, x, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
@@ -1527,7 +1557,7 @@ main()
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-comment">// submitted by jess 3jane</span>
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-comment">// submitted by jess 3jane</span>
 
 <span class="hljs-keyword">use</span> std::cmp::min;
 <span class="hljs-keyword">use</span> std::ops::{Index, IndexMut};
@@ -1634,7 +1664,7 @@ main()
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Solution: {:?}&quot;</span>, soln);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Array
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Array
 <span class="hljs-keyword">import</span> Data.Function (<span class="hljs-title">on</span>)
 <span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">intercalate</span>, <span class="hljs-title">maximumBy</span>)
 <span class="hljs-keyword">import</span> Data.Ratio
@@ -1727,28 +1757,9 @@ main()
 </div></div></div>
 
 
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -1775,14 +1786,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../matrix_methods/matrix_methods.html" class="navigation navigation-prev " aria-label="Previous page: Matrix Methods">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../thomas_algorithm/thomas_algorithm.html" class="navigation navigation-next " aria-label="Next page: Thomas Algorithm">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-08-04T22:08:04.400Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-08-05T23:07:55.067Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

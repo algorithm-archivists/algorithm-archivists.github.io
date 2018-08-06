@@ -688,22 +688,22 @@ After sorting, we go through point-by-point, searching for points that are on th
 We do this by looking for counter-clockwise rotations.
 If an angle between three points turns inward, the shape is obviously not convex, so we can throw that result out.
 We can find whether a rotation is counter-clockwise with trigonometric functions or by using a cross-product, like so:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> ccw(a<span class="hljs-type">::</span>Point, b<span class="hljs-type">::</span>Point, c<span class="hljs-type">::</span>Point)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> ccw(a<span class="hljs-type">::</span>Point, b<span class="hljs-type">::</span>Point, c<span class="hljs-type">::</span>Point)
     <span class="hljs-keyword">return</span> ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x))
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">ccw</span> :: <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Double</span>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">ccw</span> :: <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Double</span>
 <span class="hljs-title">ccw</span> (xa, ya) (xb, yb) (xc, yc) = (xb - xa) * (yc - ya) - (yb - ya) * (xc - xa)
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">ccw</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point a, <span class="hljs-keyword">struct</span> point b, <span class="hljs-keyword">struct</span> point c)</span> </span>{
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">ccw</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point a, <span class="hljs-keyword">struct</span> point b, <span class="hljs-keyword">struct</span> point c)</span> </span>{
     <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccw</span>(<span class="hljs-params">a, b, c</span>) </span>{
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccw</span>(<span class="hljs-params">a, b, c</span>) </span>{
   <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment">#Is the turn counter clockwise?</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment">#Is the turn counter clockwise?</span>
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">counter_clockwise</span><span class="hljs-params">(p1, p2, p3)</span>:</span>
     <span class="hljs-keyword">return</span> (p3[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p2[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>]) &gt;= (p2[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p3[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>])
 </code></pre>
@@ -717,7 +717,7 @@ We basically do not want clockwise rotations, because this means we are at an in
 <p>To save memory and expensive <code>append()</code> operations, we ultimately look for points that should be on the hull and swap them with the first elements in the array.
 If there are <script type="math/tex; ">M</script> elements on the hull, then the first <script type="math/tex; ">M</script> elements in our output random distribution of points will be the hull.
 In the end, the code should look something like this:</p>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> graham_scan(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Point})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> graham_scan(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Point})
     N = length(points)
 
     <span class="hljs-comment"># Place the lowest point at the start of the array</span>
@@ -754,7 +754,7 @@ In the end, the code should look something like this:</p>
     <span class="hljs-keyword">return</span> points[<span class="hljs-number">1</span>:M]
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">grahamScan</span> :: [<span class="hljs-type">Point</span>] -&gt; [<span class="hljs-type">Point</span>]
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">grahamScan</span> :: [<span class="hljs-type">Point</span>] -&gt; [<span class="hljs-type">Point</span>]
 <span class="hljs-title">grahamScan</span> [] = []
 <span class="hljs-title">grahamScan</span> pts = wrap sortedPts [p0]
   <span class="hljs-keyword">where</span> p0@(x, y)= minimumBy (compare `on` snd) pts
@@ -765,7 +765,7 @@ In the end, the code should look something like this:</p>
           | ccw s p1 p2 &gt; <span class="hljs-number">0</span> = wrap (s:ss) (p2:ps)
           | otherwise       = wrap ss (s:p1:p2:ps)
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">size_t graham_scan(struct point *points, size_t size) {
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">size_t graham_scan(struct point *points, size_t size) {
     qsort(points, size, sizeof(struct point), cmp_points);
     polar_angles_sort(points, points[0], size);
 
@@ -797,7 +797,7 @@ In the end, the code should look something like this:</p>
     return m;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
   <span class="hljs-comment">// First, sort the points so the one with the lowest y-coordinate comes first (the pivot)</span>
   points = [...points].sort((a, b) =&gt; (a.y - b.y));
   <span class="hljs-keyword">const</span> pivot = points[<span class="hljs-number">0</span>];
@@ -828,7 +828,7 @@ In the end, the code should look something like this:</p>
   <span class="hljs-keyword">return</span> hull.slice(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">graham_scan</span><span class="hljs-params">(gift)</span>:</span>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">graham_scan</span><span class="hljs-params">(gift)</span>:</span>
     gift = list(set(gift)) <span class="hljs-comment">#Remove duplicate points</span>
     start = min(gift, key=<span class="hljs-keyword">lambda</span> p: (p[<span class="hljs-number">1</span>], p[<span class="hljs-number">0</span>])) <span class="hljs-comment">#Must be in hull</span>
     gift.remove(start)
@@ -847,7 +847,7 @@ In the end, the code should look something like this:</p>
 <h3 id="bibliography">Bibliography</h3>
 <p><table class="references"><tr><td><span class="citation-number" id="cite-1">1</span></td><td>Graham, Ronald L, An efficient algorithm for determining the convex hull of a finite planar set, <i>Elsevier</i>, 1972.</td></tr></table></p>
 <h2 id="example-code">Example Code</h2>
-<div class="api-method"><div class="api-method-definition"></div><div class="api-method-code"><div class="api-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">type</span> Point
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">type</span> Point
     x<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
     y<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
 <span class="hljs-keyword">end</span>
@@ -902,7 +902,7 @@ In the end, the code should look something like this:</p>
 
 main()
 </code></pre>
-</div><div class="api-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">sortOn</span>, <span class="hljs-title">minimumBy</span>)
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">sortOn</span>, <span class="hljs-title">minimumBy</span>)
 <span class="hljs-keyword">import</span> Data.Function (<span class="hljs-title">on</span>)
 
 <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Point</span> = (<span class="hljs-type">Double</span>, <span class="hljs-type">Double</span>)</span>
@@ -927,7 +927,7 @@ main()
   <span class="hljs-comment">-- And extract the convex hull</span>
   print $ grahamScan pts
 </code></pre>
-</div><div class="api-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;math.h&gt;
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;math.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -1042,7 +1042,7 @@ int main() {
     return 0;
 }
 </code></pre>
-</div><div class="api-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grahamScan</span>(<span class="hljs-params">points</span>) </span>{
   <span class="hljs-comment">// First, sort the points so the one with the lowest y-coordinate comes first (the pivot)</span>
   points = [...points].sort((a, b) =&gt; (a.y - b.y));
   <span class="hljs-keyword">const</span> pivot = points[<span class="hljs-number">0</span>];
@@ -1095,7 +1095,7 @@ int main() {
 <span class="hljs-keyword">const</span> convexHull = grahamScan(points);
 convexHull.forEach(p =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`(<span class="hljs-subst">${p.x}</span>, <span class="hljs-subst">${p.y}</span>)`</span>));
 </code></pre>
-</div><div class="api-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> atan2
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> atan2
 
 
 <span class="hljs-comment">#Is the turn counter clockwise?</span>
@@ -1140,28 +1140,9 @@ main()
 </code></pre>
 </div></div></div>
 
-<p><script>
+<script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-<script type="math/tex; mode=display">
-\newcommand{\d}{\mathrm{d}}
-\newcommand{\bff}{\boldsymbol{f}}
-\newcommand{\bfg}{\boldsymbol{g}}
-\newcommand{\bfp}{\boldsymbol{p}}
-\newcommand{\bfq}{\boldsymbol{q}}
-\newcommand{\bfx}{\boldsymbol{x}}
-\newcommand{\bfu}{\boldsymbol{u}}
-\newcommand{\bfv}{\boldsymbol{v}}
-\newcommand{\bfA}{\boldsymbol{A}}
-\newcommand{\bfB}{\boldsymbol{B}}
-\newcommand{\bfC}{\boldsymbol{C}}
-\newcommand{\bfM}{\boldsymbol{M}}
-\newcommand{\bfJ}{\boldsymbol{J}}
-\newcommand{\bfR}{\boldsymbol{R}}
-\newcommand{\bfT}{\boldsymbol{T}}
-\newcommand{\bfomega}{\boldsymbol{\omega}}
-\newcommand{\bftau}{\boldsymbol{\tau}}
-</script></p>
 
                                 
                                 </section>
@@ -1188,14 +1169,24 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             </div>
 
             
-
+                
+                <a href="../jarvis_march/jarvis_march.html" class="navigation navigation-prev " aria-label="Previous page: Jarvis March">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../cooley_tukey/cooley_tukey.html" class="navigation navigation-next " aria-label="Next page: FFT">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
         
     </div>
 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-08-04T22:08:04.403Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-04T23:21:01.835Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T11:43:05.787Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
