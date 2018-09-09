@@ -728,6 +728,17 @@ each point is tested to see whether it&apos;s in the circle or not:</p>
     <span class="hljs-keyword">return</span> x * x + y * y &lt; radius * radius;
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-comment">/**
+ * Check if the point (x, y) is within a circle of a given radius.
+ * @param x coordinate one
+ * @param y coordinate two
+ * @param r radius of the circle (optional)
+ * @return true if (x, y) is within the circle.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">in_circle</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y, <span class="hljs-keyword">double</span> r = <span class="hljs-number">1</span>)</span> </span>{
+    <span class="hljs-keyword">return</span> x * x + y * y &lt; r * r;
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inCircle</span>(<span class="hljs-params">xPos, yPos</span>) </span>{
   <span class="hljs-comment">// Setting radius to 1 for unit circle</span>
   <span class="hljs-keyword">let</span> radius = <span class="hljs-number">1</span>;
@@ -767,6 +778,14 @@ each point is tested to see whether it&apos;s in the circle or not:</p>
     <span class="hljs-keyword">return</span> (x*x + y*y) &lt; radius*radius
 </code></pre>
 </div><div class="code-method-sample" data-lang="cs" data-name="C#"><pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">IsInMe</span>(<span class="hljs-params">Point point</span>) </span>=&gt; Math.Pow(point.X, <span class="hljs-number">2</span>) + Math.Pow(point.Y, <span class="hljs-number">2</span>) &lt; Math.Pow(Radius, <span class="hljs-number">2</span>);
+</code></pre>
+</div><div class="code-method-sample" data-lang="nim" data-name="Nim"><pre><code class="lang-nim"><span class="hljs-keyword">proc</span> in_circle(x,y,radius: <span class="hljs-built_in">float</span>): <span class="hljs-built_in">bool</span> =
+    <span class="hljs-keyword">return</span> x * x + y * y &lt; radius * radius
+</code></pre>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">in_circle</span><span class="hljs-params">(x, y, radius=<span class="hljs-number">1</span>)</span></span>
+  <span class="hljs-comment"># Check if coords are in circle via Pythagorean Thm</span>
+  <span class="hljs-keyword">return</span> (x*x + y*y) &lt; radius*radius
+<span class="hljs-keyword">end</span>
 </code></pre>
 </div></div></div>
 
@@ -892,6 +911,55 @@ pi&quot;</span>
     monte_carlo(<span class="hljs-number">1000000</span>);
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdlib&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;random&gt;</span></span>
+
+<span class="hljs-keyword">constexpr</span> <span class="hljs-keyword">double</span> PI = <span class="hljs-number">3.14159265358979323846264338</span>;
+
+<span class="hljs-comment">/**
+ * Check if the point (x, y) is within a circle of a given radius.
+ * @param x coordinate one
+ * @param y coordinate two
+ * @param r radius of the circle (optional)
+ * @return true if (x, y) is within the circle.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">in_circle</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y, <span class="hljs-keyword">double</span> r = <span class="hljs-number">1</span>)</span> </span>{
+    <span class="hljs-keyword">return</span> x * x + y * y &lt; r * r;
+}
+
+<span class="hljs-comment">/**
+ * Return an estimate of PI using Monte Carlo integration.
+ * @param samples number of iterations to use
+ * @return estimate of pi
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">monte_carlo_pi</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> samples)</span> </span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-built_in">std</span>::default_random_engine generator;
+    <span class="hljs-keyword">static</span> <span class="hljs-built_in">std</span>::uniform_real_distribution&lt;<span class="hljs-keyword">double</span>&gt; dist(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+
+    <span class="hljs-keyword">unsigned</span> count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> i = <span class="hljs-number">0</span>; i &lt; samples; ++i) {
+        <span class="hljs-keyword">double</span> x = dist(generator);
+        <span class="hljs-keyword">double</span> y = dist(generator);
+
+        <span class="hljs-keyword">if</span> (in_circle(x, y))
+            ++count;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">4.0</span> * count / samples;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">unsigned</span> samples;
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Enter samples to use: &quot;</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; samples;
+
+    <span class="hljs-keyword">double</span> pi_estimate = monte_carlo_pi(samples);
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Pi = &quot;</span> &lt;&lt; pi_estimate &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Percent error is: &quot;</span> &lt;&lt; <span class="hljs-number">100</span> * <span class="hljs-built_in">std</span>::<span class="hljs-built_in">abs</span>(pi_estimate - PI) / PI &lt;&lt; <span class="hljs-string">&quot; %\n&quot;</span>;
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-comment">// submitted by xam4lor</span>
@@ -1075,7 +1143,7 @@ print(paste(<span class="hljs-string">&quot;The percent error is:: &quot;</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
         <span class="hljs-keyword">double</span> piEstimation = monteCarlo(<span class="hljs-number">1000</span>);
         System.out.println(<span class="hljs-string">&quot;Estimated pi value: &quot;</span> + piEstimation);
-        System.out.printf(<span class="hljs-string">&quot;Percent error: &quot;</span> + <span class="hljs-number">100</span> * (Math.PI - piEstimation) / Math.PI);
+        System.out.printf(<span class="hljs-string">&quot;Percent error: &quot;</span> + <span class="hljs-number">100</span> * Math.abs(piEstimation - Math.PI) / Math.PI);
     }
 
     <span class="hljs-comment">//function to check whether point (x,y) is in unit circle</span>
@@ -1183,7 +1251,7 @@ main()
     print(<span class="hljs-string">&quot;The estimate of pi is: {:.3f}&quot;</span>.format(pi_estimate))
     print(<span class="hljs-string">&quot;The percent error is: {:.3f}&quot;</span>.format(percent_error))
 </code></pre>
-</div><div class="code-method-sample" data-lang="cs" data-name="C#"><p>MonteCarlo.cs</p>
+</div><div class="code-method-sample" data-lang="cs" data-name="C#"><h5 id="montecarlocs">MonteCarlo.cs</h5>
 <pre><code class="lang-csharp"><span class="hljs-keyword">using</span> System;
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">MonteCarloIntegration</span>
@@ -1208,7 +1276,7 @@ main()
     }
 }
 </code></pre>
-<p>Circle.cs</p>
+<h5 id="circlecs">Circle.cs</h5>
 <pre><code class="lang-csharp"><span class="hljs-keyword">using</span> System;
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">MonteCarloIntegration</span>
@@ -1235,7 +1303,7 @@ main()
     }
 }
 </code></pre>
-<p>Program.cs</p>
+<h5 id="programcs">Program.cs</h5>
 <pre><code class="lang-csharp"><span class="hljs-keyword">using</span> System;
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">MonteCarloIntegration</span>
@@ -1253,7 +1321,68 @@ main()
     }
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="nim" data-name="Nim"><pre><code class="lang-nim"><span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> math
+
+randomize()
+
+<span class="hljs-keyword">proc</span> in_circle(x,y,radius: <span class="hljs-built_in">float</span>): <span class="hljs-built_in">bool</span> =
+    <span class="hljs-keyword">return</span> x * x + y * y &lt; radius * radius
+
+<span class="hljs-keyword">proc</span> monte_carlo(samples: <span class="hljs-built_in">int</span>): <span class="hljs-built_in">float</span> =
+    <span class="hljs-keyword">const</span> radius: <span class="hljs-built_in">float</span> = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">var</span> count: <span class="hljs-built_in">int</span> = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> .. &lt; samples:
+        <span class="hljs-keyword">var</span>
+            x: <span class="hljs-built_in">float</span> = random(radius)
+            y: <span class="hljs-built_in">float</span> = random(radius)
+
+        <span class="hljs-keyword">if</span> in_circle(x,y,radius):
+            count += <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">var</span> pi_estimate: <span class="hljs-built_in">float</span> = <span class="hljs-number">4</span> * count / samples
+    <span class="hljs-keyword">return</span> pi_estimate
+
+<span class="hljs-keyword">let</span> estimate: <span class="hljs-built_in">float</span> = monte_carlo(<span class="hljs-number">1000000</span>)
+
+echo <span class="hljs-string">&quot;the estimate of pi is &quot;</span>, estimate
+echo <span class="hljs-string">&quot;percent error: &quot;</span>, <span class="hljs-number">100</span> * (abs(estimate - <span class="hljs-type">PI</span>)/<span class="hljs-type">PI</span>)
+</code></pre>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">in_circle</span><span class="hljs-params">(x, y, radius=<span class="hljs-number">1</span>)</span></span>
+  <span class="hljs-comment"># Check if coords are in circle via Pythagorean Thm</span>
+  <span class="hljs-keyword">return</span> (x*x + y*y) &lt; radius*radius
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">monte_carlo</span><span class="hljs-params">(n_samples, radius=<span class="hljs-number">1</span>)</span></span>
+  <span class="hljs-comment"># estimate pi via monte carlo sampling</span>
+  in_circle_count = <span class="hljs-number">0</span>.<span class="hljs-number">0</span>
+
+  <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>...n_samples
+    <span class="hljs-comment"># randomly choose coords within square</span>
+    x = rand()*radius
+    y = rand()*radius
+    <span class="hljs-keyword">if</span> in_circle(x, y, radius)
+      in_circle_count += <span class="hljs-number">1</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-comment"># circle area is pi*r^2 and rect area is 4r^2</span>
+  <span class="hljs-comment"># ratio between the two is then pi/4 so multiply by 4 to get pi</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-number">4</span> * (in_circle_count / n_samples)
+
+<span class="hljs-keyword">end</span>
+
+
+<span class="hljs-comment"># Main</span>
+pi_estimate = monte_carlo(<span class="hljs-number">100000</span>)
+percent_error = <span class="hljs-number">100</span> * (pi_estimate - <span class="hljs-symbol">Math:</span><span class="hljs-symbol">:PI</span>).abs / <span class="hljs-symbol">Math:</span><span class="hljs-symbol">:PI</span>
+
+puts <span class="hljs-string">&quot;The estimate of pi is: <span class="hljs-subst">#{pi_estimate.round(<span class="hljs-number">3</span>)}</span>&quot;</span>
+puts <span class="hljs-string">&quot;The percent error is: <span class="hljs-subst">#{percent_error.round(<span class="hljs-number">3</span>)}</span>&quot;</span>
+</code></pre>
 </div></div></div>
+
 
 
 <script>
@@ -1302,7 +1431,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Monte Carlo","level":"1.10","depth":1,"next":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"previous":{"title":"Euclidean Algorithm","level":"1.9","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/monte_carlo_integration/monte_carlo_integration.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T21:34:44.505Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Monte Carlo","level":"1.10","depth":1,"next":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"previous":{"title":"Euclidean Algorithm","level":"1.9","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/monte_carlo_integration/monte_carlo_integration.md","mtime":"2018-09-09T21:52:25.097Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-09-09T23:37:27.923Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

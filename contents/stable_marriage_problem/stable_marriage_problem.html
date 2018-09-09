@@ -1242,7 +1242,7 @@ stableMarriage(guys, girls);
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${guy.name}</span>: <span class="hljs-subst">${guy.fiance.name}</span>`</span>);
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="cs" data-name="C#"><p>GaleShapleyAlgorithm.cs</p>
+</div><div class="code-method-sample" data-lang="cs" data-name="C#"><h5 id="galeshapleyalgorithmcs">GaleShapleyAlgorithm.cs</h5>
 <pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
 using System.Collections.Generic;
 
@@ -1279,7 +1279,7 @@ namespace StableMarriageProblem
     }
 }
 </code></pre>
-<p>Person.cs</p>
+<h5 id="personcs">Person.cs</h5>
 <pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
 using System.Collections.Generic;
 
@@ -1320,7 +1320,7 @@ namespace StableMarriageProblem
     }
 }
 </code></pre>
-<p>Program.cs</p>
+<h5 id="programcs">Program.cs</h5>
 <pre><code class="lang-csharp">// submitted by Julian Schacher (jspp) with great help by gustorn and Marius Becker
 using System;
 using System.Collections.Generic;
@@ -1389,7 +1389,7 @@ namespace StableMarriageProblem
     }
 }
 </code></pre>
-<p>ListExtensions.cs</p>
+<h5 id="listextensionscs">ListExtensions.cs</h5>
 <pre><code class="lang-csharp"><span class="hljs-keyword">using</span> System;
 <span class="hljs-keyword">using</span> System.Collections.Generic;
 
@@ -1407,6 +1407,147 @@ namespace StableMarriageProblem
                 list[j] = tmp;
             }
             <span class="hljs-keyword">return</span> list;
+        }
+    }
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Collections;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StableMarriage</span> </span>{
+
+    <span class="hljs-comment">/*
+     * Use the stable marriage algorithm to find stable pairs from the
+     * lists of men and women.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">findStableMarriages</span><span class="hljs-params">(List&lt;Woman&gt; women, List&lt;Man&gt; men)</span> </span>{
+        <span class="hljs-comment">// We might have more men/women than women/men. In this case, not everybody can</span>
+        <span class="hljs-comment">// get a mate. We should aim to give every member of the less numerous gender a mate,</span>
+        <span class="hljs-comment">// as this is always possible.</span>
+        List&lt;? extends Person&gt; leastCommonGender = women.size() &lt;= men.size() ? women : men;
+        do {
+            <span class="hljs-comment">// Every single man proposes to a woman.</span>
+            <span class="hljs-keyword">for</span> (Man man : men)
+                <span class="hljs-keyword">if</span> (man.isLonely())
+                    man.propose();
+
+            <span class="hljs-comment">// The women pick their favorite suitor.</span>
+            <span class="hljs-keyword">for</span> (Woman woman : women)
+                woman.chooseMate();
+
+            <span class="hljs-comment">// End the process if everybody has a mate.</span>
+            <span class="hljs-keyword">if</span> (!leastCommonGender.stream().anyMatch(Person::isLonely))
+                <span class="hljs-keyword">break</span>;
+
+        } <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>);
+
+        women.forEach(w -&gt; System.out.println(w + <span class="hljs-string">&quot; married to &quot;</span> + w.getMate()));
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">int</span> nPairs = <span class="hljs-number">5</span>;
+        List&lt;Woman&gt; women = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        List&lt;Man&gt; men = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">char</span> i = <span class="hljs-string">&apos;A&apos;</span>; i &lt; <span class="hljs-string">&apos;A&apos;</span> + nPairs; ++i) {
+            women.add(<span class="hljs-keyword">new</span> Woman(<span class="hljs-string">&quot;&quot;</span> + i));
+            men.add(<span class="hljs-keyword">new</span> Man(<span class="hljs-string">&quot;&quot;</span> + i));
+        }
+        <span class="hljs-comment">// Make the genders unbalanced:</span>
+        women.add(<span class="hljs-keyword">new</span> Woman(<span class="hljs-string">&quot;X&quot;</span>));
+
+        women.forEach(w -&gt; {
+            w.receiveOptions(men);
+            System.out.println(w + <span class="hljs-string">&quot; prefers &quot;</span> + w.getPreferredMates());
+        });
+        men.forEach(m -&gt; {
+            m.receiveOptions(women);
+            System.out.println(m + <span class="hljs-string">&quot; prefers &quot;</span> + m.getPreferredMates());
+        });
+
+        findStableMarriages(women, men);
+    }
+
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;
+    <span class="hljs-keyword">protected</span> Person mate;
+    <span class="hljs-keyword">protected</span> List&lt;Person&gt; preferredMates;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span><span class="hljs-params">(String name)</span> </span>{
+        <span class="hljs-keyword">this</span>.name = name;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isLonely</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> mate == <span class="hljs-keyword">null</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMate</span><span class="hljs-params">(Person mate)</span> </span>{
+        <span class="hljs-comment">// Only set mates if there is a change.</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mate != mate) {
+            <span class="hljs-comment">// Remove old mates mate.</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mate != <span class="hljs-keyword">null</span>)
+                <span class="hljs-keyword">this</span>.mate.mate = <span class="hljs-keyword">null</span>;
+
+            <span class="hljs-comment">// Set the new mate.</span>
+            <span class="hljs-keyword">this</span>.mate = mate;
+
+            <span class="hljs-comment">// If new mate is someone, update their mate.</span>
+            <span class="hljs-keyword">if</span> (mate != <span class="hljs-keyword">null</span>)
+                mate.mate = <span class="hljs-keyword">this</span>;
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Person <span class="hljs-title">getMate</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> mate;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">receiveOptions</span><span class="hljs-params">(List&lt;? extends Person&gt; mates)</span> </span>{
+        <span class="hljs-comment">// Preferences are subjective.</span>
+        preferredMates = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(mates);
+        Collections.shuffle(preferredMates);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Person&gt; <span class="hljs-title">getPreferredMates</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> preferredMates;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> getClass().getName() + <span class="hljs-string">&quot;(&quot;</span> + name + <span class="hljs-string">&quot;)&quot;</span>;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Woman</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Person</span> </span>{
+    <span class="hljs-keyword">private</span> List&lt;Man&gt; suitors = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Woman</span><span class="hljs-params">(String name)</span> </span>{
+        <span class="hljs-keyword">super</span>(name);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">recieveProposal</span><span class="hljs-params">(Man suitor)</span> </span>{
+        suitors.add(suitor);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">chooseMate</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (Person mostDesired : preferredMates) {
+            <span class="hljs-keyword">if</span> (mostDesired == mate || suitors.contains(mostDesired)) {
+                setMate(mostDesired);
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Man</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Person</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Man</span><span class="hljs-params">(String name)</span> </span>{
+        <span class="hljs-keyword">super</span>(name);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">propose</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">if</span> (!preferredMates.isEmpty()) {
+            Woman fiance = (Woman) preferredMates.remove(<span class="hljs-number">0</span>);
+            fiance.recieveProposal(<span class="hljs-keyword">this</span>);
         }
     }
 }
@@ -1459,7 +1600,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.14.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.15","depth":1,"path":"contents/differential_equations/differential_equations.md","ref":"contents/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.15.1","depth":2,"path":"contents/forward_euler_method/forward_euler_method.md","ref":"contents/forward_euler_method/forward_euler_method.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.14","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.14.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/stable_marriage_problem/stable_marriage_problem.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T21:34:44.505Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Stable Marriage Problem","level":"1.14.1","depth":2,"next":{"title":"Differential Equation Solvers","level":"1.15","depth":1,"path":"contents/differential_equations/differential_equations.md","ref":"contents/differential_equations/differential_equations.md","articles":[{"title":"Forward Euler Method","level":"1.15.1","depth":2,"path":"contents/forward_euler_method/forward_euler_method.md","ref":"contents/forward_euler_method/forward_euler_method.md","articles":[]}]},"previous":{"title":"Decision Problems","level":"1.14","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.14.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/stable_marriage_problem/stable_marriage_problem.md","mtime":"2018-09-09T21:52:25.097Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-09-09T23:37:27.923Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

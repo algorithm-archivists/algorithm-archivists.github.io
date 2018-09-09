@@ -679,11 +679,11 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="verlet-integration">Verlet Integration</h1>
-<p>Verlet Integration is essentially a solution to the kinematic equation for the motion of any object,</p>
+<p>Verlet integration is essentially a solution to the kinematic equation for the motion of any object,</p>
 <p><script type="math/tex; mode=display">
 x = x_0 + v_0t + \frac{1}{2}at^2 + \frac{1}{6}bt^3 + \cdots
 </script></p>
-<p>Where <script type="math/tex; ">x</script> is the position, <script type="math/tex; ">v</script> is the velocity, <script type="math/tex; ">a</script> is the acceleration, <script type="math/tex; ">b</script> is the often forgotten jerk term, and <script type="math/tex; ">t</script> is time. This equation is a central equation to almost every Newtonian physics solver and brings up a class of algorithms known as <em>force integrators</em>. One of the first force integrators to work with is <em>Verlet Integration</em>.</p>
+<p>where <script type="math/tex; ">x</script> is the position, <script type="math/tex; ">v</script> is the velocity, <script type="math/tex; ">a</script> is the acceleration, <script type="math/tex; ">b</script> is the often forgotten jerk term, and <script type="math/tex; ">t</script> is time. This equation is a central equation to almost every Newtonian physics solver and brings up a class of algorithms known as <em>force integrators</em>. One of the first force integrators to work with is <em>Verlet Integration</em>.</p>
 <p>So, let&apos;s say we want to solve for the next timestep in <script type="math/tex; ">x</script>. To a close approximation (actually performing a Taylor Series Expansion about <script type="math/tex; ">x(t\pm \Delta t)</script>), that might look like this:</p>
 <p><script type="math/tex; mode=display">
 x(t+\Delta t) = x(t) + v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2 + \frac{1}{6}b(t) \Delta t^3 + \mathcal{O}(\Delta t^4)
@@ -692,11 +692,11 @@ x(t+\Delta t) = x(t) + v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2 + \frac{1}{6}b(t
 <p><script type="math/tex; mode=display">
 x(t-\Delta t) = x(t) - v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2 - \frac{1}{6}b(t) \Delta t^3 + \mathcal{O}(\Delta t^4)
 </script></p>
-<p>Now, we have two equations to solve for two different timesteps in x, one of which we already have. If we add the two equations together and solve for <script type="math/tex; ">x(t+\Delta t)</script>, we find</p>
+<p>Now, we have two equations to solve for two different timesteps in x, one of which we already have. If we add the two equations together and solve for <script type="math/tex; ">x(t+\Delta t)</script>, we find that</p>
 <p><script type="math/tex; mode=display">
 x(t+ \Delta t) = 2x(t) - x(t-\Delta t) + a(t)\Delta t^2 + \mathcal{O}(\Delta t^4)
 </script></p>
-<p>So, this means, we can find our next <script type="math/tex; ">x</script> simply by knowing our current <script type="math/tex; ">x</script>, the <script type="math/tex; ">x</script> before that, and the acceleration! No velocity necessary! In addition, this drops the error to <script type="math/tex; ">\mathcal{O}(\Delta t^4)</script>, which is great!
+<p>So, this means we can find our next <script type="math/tex; ">x</script> simply by knowing our current <script type="math/tex; ">x</script>, the <script type="math/tex; ">x</script> before that, and the acceleration! No velocity necessary! In addition, this drops the error to <script type="math/tex; ">\mathcal{O}(\Delta t^4)</script>, which is great!
 Here is what it looks like in code:</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
@@ -740,22 +740,21 @@ Here is what it looks like in code:</p>
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
-    <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
-    <span class="hljs-keyword">double</span> prev_pos, temp_pos, time;
-    prev_pos = pos;
-    time = <span class="hljs-number">0</span>;
+  <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
+  <span class="hljs-keyword">double</span> prev_pos, temp_pos, time;
+  prev_pos = pos;
+  time = <span class="hljs-number">0</span>;
 
-    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>){
+  <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
         time += dt;
         temp_pos = pos;
         pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt;
         prev_pos = temp_pos;
     }
 
-    System.out.println(time);
-
+    <span class="hljs-keyword">return</span> time;
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
@@ -844,7 +843,7 @@ Here is what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) -&gt; <span class="hljs-keyword">f64</span> {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
 
@@ -855,14 +854,28 @@ Here is what it looks like in code:</p>
         prev_pos = temp_pos;
     }
 
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, time);
+    time
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos: Double, acc: Double, dt: Double)</span></span> -&gt; <span class="hljs-type">Double</span> {
+    <span class="hljs-keyword">var</span> pos = pos
+    <span class="hljs-keyword">var</span> temp_pos, time: <span class="hljs-type">Double</span>
+    <span class="hljs-keyword">var</span> prev_pos = pos
+    time = <span class="hljs-number">0.0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        temp_pos = pos
+        pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt
+        prev_pos = temp_pos
+    }
+
+    <span class="hljs-keyword">return</span> time
 }
 </code></pre>
 </div></div></div>
 
-
-
-<p>Now, obviously this poses a problem, what if we want to calculate a term that requires velocity, like the kinetic energy, <script type="math/tex; ">\frac{1}{2}mv^2</script>? In this case, we certainly cannot get rid of the velocity! Well, we can find the velocity to <script type="math/tex; ">\mathcal{O}(\Delta t^2)</script> accuracy by using the Stormer-Verlet method, which is the same as before, but we calculate velocity like so</p>
+<p>Now, obviously this poses a problem; what if we want to calculate a term that requires velocity, like the kinetic energy, <script type="math/tex; ">\frac{1}{2}mv^2</script>? In this case, we certainly cannot get rid of the velocity! Well, we can find the velocity to <script type="math/tex; ">\mathcal{O}(\Delta t^2)</script> accuracy by using the Stormer-Verlet method, which is the same as before, but we calculate velocity like so</p>
 <p><script type="math/tex; mode=display">
 v(t) = \frac{x(t+\Delta t) - x(t-\Delta t)}{2\Delta t} + \mathcal{O}(\Delta t^2)
 </script></p>
@@ -870,8 +883,7 @@ v(t) = \frac{x(t+\Delta t) - x(t-\Delta t)}{2\Delta t} + \mathcal{O}(\Delta t^2)
 <p><script type="math/tex; mode=display">
 v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
 </script></p>
-<p>However, the error for this is <script type="math/tex; ">\mathcal{O}(\Delta t)</script>, which is quite poor, but get&apos;s the job done in a pinch.
-Here&apos;s what it looks like in code:</p>
+<p>However, the error for this is <script type="math/tex; ">\mathcal{O}(\Delta t)</script>, which is quite poor, but it gets the job done in a pinch.  Here&apos;s what it looks like in code:</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> stormer_verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
     prev_pos = pos
     time = <span class="hljs-number">0.0</span>
@@ -884,7 +896,7 @@ Here&apos;s what it looks like in code:</p>
         prev_pos = temp_pos
 
         <span class="hljs-comment"># Because acceleration is constant, velocity is straightforward</span>
-        vel += acc*dt
+        vel += acc * dt
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> time, vel
@@ -925,25 +937,25 @@ Here&apos;s what it looks like in code:</p>
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> VerletValues <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
     <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
     <span class="hljs-keyword">double</span> prev_pos, temp_pos, time, vel;
     prev_pos = pos;
     vel = <span class="hljs-number">0</span>;
     time = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>){
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
         time += dt;
         temp_pos = pos;
         pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt;
         prev_pos = temp_pos;
 
-       <span class="hljs-comment">// The acceleration is constant, so the velocity is straightforward</span>
-       vel += acc*dt;
+        <span class="hljs-comment">// The acceleration is constant, so the velocity is straightforward</span>
+         vel += acc*dt;
     }
 
-    System.out.println(time);
-
+   VerletValues stormerVerlet = <span class="hljs-keyword">new</span> VerletValues(time, vel);
+   <span class="hljs-keyword">return</span> stormerVerlet;
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">
@@ -971,7 +983,7 @@ Here&apos;s what it looks like in code:</p>
         prev_pos = temp_pos
 
         <span class="hljs-comment"># Because acceleration is constant, velocity is straightforward</span>
-        vel += acc*dt
+        vel += acc * dt
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> time, vel
@@ -990,7 +1002,7 @@ Here&apos;s what it looks like in code:</p>
         prev_pos = temp_pos
 
         <span class="hljs-comment"># Because acceleration is constant, velocity is straightforward</span>
-        vel += acc*dt
+        vel += acc * dt
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> time, vel
@@ -1009,7 +1021,7 @@ Here&apos;s what it looks like in code:</p>
         prev_pos = temp_pos
 
         <span class="hljs-comment"># Because acceleration is constant, velocity is straightforward</span>
-        vel += acc*dt
+        vel += acc * dt
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> time, vel
@@ -1028,7 +1040,7 @@ Here&apos;s what it looks like in code:</p>
         prev_pos = temp_pos
 
         <span class="hljs-comment"># Because acceleration is constant, velocity is straightforward</span>
-        vel += acc*dt
+        vel += acc * dt
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> time, vel
@@ -1053,18 +1065,42 @@ Here&apos;s what it looks like in code:</p>
 
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">stormer_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">stormer_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) -&gt; (<span class="hljs-keyword">f64</span>, <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> vel = <span class="hljs-number">0.0</span>;
 
     <span class="hljs-keyword">while</span> pos &gt; <span class="hljs-number">0.0</span> {
         time += dt;
         <span class="hljs-keyword">let</span> temp_pos = pos;
         pos = pos * <span class="hljs-number">2.0</span> - prev_pos + acc * dt * dt;
         prev_pos = temp_pos;
+
+        <span class="hljs-comment">// Because acceleration is constant, velocity is</span>
+        <span class="hljs-comment">// straightforward</span>
+        vel += acc * dt;
     }
 
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, time);
+    (time, vel)
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">stormerVerlet</span><span class="hljs-params">(pos: Double, acc: Double, dt: Double)</span></span> -&gt; (time: <span class="hljs-type">Double</span>, vel: <span class="hljs-type">Double</span>) {
+    <span class="hljs-keyword">var</span> pos = pos
+    <span class="hljs-keyword">var</span> temp_pos, time, vel: <span class="hljs-type">Double</span>
+    <span class="hljs-keyword">var</span> prev_pos = pos
+    vel = <span class="hljs-number">0</span>
+    time = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        temp_pos = pos
+        pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt
+        prev_pos = temp_pos
+
+        vel += acc*dt
+    }
+
+    <span class="hljs-keyword">return</span> (time:time, vel:vel)
 }
 </code></pre>
 </div></div></div>
@@ -1072,7 +1108,7 @@ Here&apos;s what it looks like in code:</p>
 
 <p>Now, let&apos;s say we actually need the velocity to calculate out next timestep. Well, in this case, we simply cannot use the above approximation and instead need to use the <em>Velocity Verlet</em> algorithm.</p>
 <h1 id="velocity-verlet">Velocity Verlet</h1>
-<p>In some ways, this algorithm is even simpler than above. We can calculate everything like so</p>
+<p>In some ways, this algorithm is even simpler than above. We can calculate everything like</p>
 <p><script type="math/tex; mode=display">
 \begin{align}
 x(t+\Delta t) &=x(t) + v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2 \\
@@ -1080,7 +1116,7 @@ a(t+\Delta t) &= f(x(t+\Delta t)) \\
 v(t+\Delta t) &= v(t) + \frac{1}{2}(a(t) + a(t+\Delta t))\Delta t
 \end{align}
 </script></p>
-<p>Which is literally the kinematic equation above, solving for <script type="math/tex; ">x</script>, <script type="math/tex; ">v</script>, and <script type="math/tex; ">a</script> every timestep. You can also split up the equations like so</p>
+<p>which is literally the kinematic equation above, solving for <script type="math/tex; ">x</script>, <script type="math/tex; ">v</script>, and <script type="math/tex; ">a</script> every timestep. You can also split up the equations like so</p>
 <p><script type="math/tex; mode=display">
 \begin{align}
 v(t+\frac{1}{2}\Delta t) &= v(t) + \frac{1}{2}a(t)\Delta t \\
@@ -1129,20 +1165,20 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> VerletValues <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
     <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
     <span class="hljs-keyword">double</span> time, vel;
     vel = <span class="hljs-number">0</span>;
     time = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>){
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
         time += dt;
         pos += vel*dt + <span class="hljs-number">0.5</span>*acc * dt * dt;
         vel += acc*dt;
-    }
+  }
 
-    System.out.println(time);
-
+    VerletValues velocityVerlet = <span class="hljs-keyword">new</span> VerletValues(time, vel);
+    <span class="hljs-keyword">return</span> velocityVerlet;
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">    <span class="hljs-keyword">return</span> time, vel
@@ -1231,7 +1267,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">velocity_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">velocity_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) -&gt; (<span class="hljs-keyword">f64</span>, <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> vel = <span class="hljs-number">0.0</span>;
 
@@ -1241,13 +1277,27 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
         vel += acc * dt;
     }
 
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, time);
+    (time, vel)
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">velocityVerlet</span><span class="hljs-params">(pos: Double, acc: Double, dt: Double)</span></span> -&gt; (time: <span class="hljs-type">Double</span>, vel: <span class="hljs-type">Double</span>) {
+    <span class="hljs-keyword">var</span> pos = pos
+    <span class="hljs-keyword">var</span> time, vel : <span class="hljs-type">Double</span>
+    vel = <span class="hljs-number">0</span>
+    time = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        pos += vel*dt + <span class="hljs-number">0.5</span>*acc * dt * dt
+        vel += acc*dt
+    }
+
+    <span class="hljs-keyword">return</span> (time:time, vel:vel)
 }
 </code></pre>
 </div></div></div>
 
-
-<p>Even though this method is more used than the simple Verlet method mentioned above, it unfortunately has an error term of <script type="math/tex; ">\mathcal{O} \Delta t^2</script>, which is two orders of magnitude worse. That said, if you want to have a simulation with many objects that depend on one another --- like a gravity simulation --- the Velocity Verlet algorithm is a handy choice; however, you may have to play further tricks to allow everything to scale appropriately. These types of simulations are sometimes called <em>n-body</em> simulations and one such trick is the Barnes-Hut algorithm, which cuts the complexity of n-body simulations from <script type="math/tex; ">\sim \mathcal{O}(n^2)</script> to <script type="math/tex; ">\sim \mathcal{O}(n\log(n))</script></p>
+<p>Even though this method is more widely used than the simple Verlet method mentioned above, it unforunately has an error term of <script type="math/tex; ">\mathcal{O}(\Delta t^2)</script>, which is two orders of magnitude worse. That said, if you want to have a simulaton with many objects that depend on one another --- like a gravity simulation --- the Velocity Verlet algorithm is a handy choice; however, you may have to play further tricks to allow everything to scale appropriately. These types of simulatons are sometimes called <em>n-body</em> simulations and one such trick is the Barnes-Hut algorithm, which cuts the complexity of n-body simulations from <script type="math/tex; ">\sim \mathcal{O}(n^2)</script> to <script type="math/tex; ">\sim \mathcal{O}(n\log(n))</script>.</p>
 <h2 id="example-code">Example Code</h2>
 <p>Both of these methods work simply by iterating timestep-by-timestep and can be written straightforwardly in any language. For reference, here are snippets of code that use both the classic and velocity Verlet methods to find the time it takes for a ball to hit the ground after being dropped from a given height.</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> verlet(pos<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, acc<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
@@ -1276,7 +1326,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
         prev_pos = temp_pos
 
         <span class="hljs-comment"># Because acceleration is constant, velocity is straightforward</span>
-        vel += acc*dt
+        vel += acc * dt
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">return</span> time, vel
@@ -1437,69 +1487,84 @@ main()
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-comment">// Submitted by lolatomroflsinnlos</span>
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VerletValues</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> time;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> vel;
 
-    <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
-    <span class="hljs-keyword">double</span> prev_pos, temp_pos, time;
-    prev_pos = pos;
-    time = <span class="hljs-number">0</span>;
-
-    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>){
-        time += dt;
-        temp_pos = pos;
-        pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt;
-        prev_pos = temp_pos;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">VerletValues</span><span class="hljs-params">(<span class="hljs-keyword">double</span> time, <span class="hljs-keyword">double</span> vel)</span> </span>{
+        <span class="hljs-keyword">this</span>.time = time;
+        <span class="hljs-keyword">this</span>.vel = vel;
     }
-
-    System.out.println(time);
-
 }
 
-<span class="hljs-comment">// Simple function for stormer-verlet</span>
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Verlet</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
-    <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
-    <span class="hljs-keyword">double</span> prev_pos, temp_pos, time, vel;
-    prev_pos = pos;
-    vel = <span class="hljs-number">0</span>;
-    time = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>){
-        time += dt;
-        temp_pos = pos;
-        pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt;
-        prev_pos = temp_pos;
+      <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
+      <span class="hljs-keyword">double</span> prev_pos, temp_pos, time;
+      prev_pos = pos;
+      time = <span class="hljs-number">0</span>;
 
-       <span class="hljs-comment">// The acceleration is constant, so the velocity is straightforward</span>
-       vel += acc*dt;
+      <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+            time += dt;
+            temp_pos = pos;
+            pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt;
+            prev_pos = temp_pos;
+        }
+
+        <span class="hljs-keyword">return</span> time;
     }
 
-    System.out.println(time);
+    <span class="hljs-function"><span class="hljs-keyword">static</span> VerletValues <span class="hljs-title">stormer_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
-}
+        <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
+        <span class="hljs-keyword">double</span> prev_pos, temp_pos, time, vel;
+        prev_pos = pos;
+        vel = <span class="hljs-number">0</span>;
+        time = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+            time += dt;
+            temp_pos = pos;
+            pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt;
+            prev_pos = temp_pos;
 
-<span class="hljs-comment">// Simple function for velocity-verlet</span>
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span></span>{
+            <span class="hljs-comment">// The acceleration is constant, so the velocity is straightforward</span>
+             vel += acc*dt;
+        }
 
-    <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
-    <span class="hljs-keyword">double</span> time, vel;
-    vel = <span class="hljs-number">0</span>;
-    time = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>){
-        time += dt;
-        pos += vel*dt + <span class="hljs-number">0.5</span>*acc * dt * dt;
-        vel += acc*dt;
+       VerletValues stormerVerlet = <span class="hljs-keyword">new</span> VerletValues(time, vel);
+       <span class="hljs-keyword">return</span> stormerVerlet;
     }
 
-    System.out.println(time);
+    <span class="hljs-function"><span class="hljs-keyword">static</span> VerletValues <span class="hljs-title">velocity_verlet</span><span class="hljs-params">(<span class="hljs-keyword">double</span> pos, <span class="hljs-keyword">double</span> acc, <span class="hljs-keyword">double</span> dt)</span> </span>{
 
-}
+        <span class="hljs-comment">// Note that we are using a temp variable for the previous position</span>
+        <span class="hljs-keyword">double</span> time, vel;
+        vel = <span class="hljs-number">0</span>;
+        time = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+            time += dt;
+            pos += vel*dt + <span class="hljs-number">0.5</span>*acc * dt * dt;
+            vel += acc*dt;
+      }
 
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        VerletValues velocityVerlet = <span class="hljs-keyword">new</span> VerletValues(time, vel);
+        <span class="hljs-keyword">return</span> velocityVerlet;
+    }
 
-    verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">0.01</span>);
-    stormer_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">0.01</span>);
-    velocity_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">0.01</span>);
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
 
+        <span class="hljs-keyword">double</span> verletTime = verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">0.01</span>);
+        System.out.println(<span class="hljs-string">&quot;Time for Verlet integration is: &quot;</span> + verletTime);
+
+        VerletValues stormerVerlet = stormer_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">0.01</span>);
+        System.out.println(<span class="hljs-string">&quot;Time for Stormer Verlet integration is: &quot;</span> + stormerVerlet.time);
+        System.out.println(<span class="hljs-string">&quot;Velocity for Stormer Verlet integration is: &quot;</span> + stormerVerlet.vel);
+
+        VerletValues velocityVerlet = velocity_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">0.01</span>);
+        System.out.println(<span class="hljs-string">&quot;Time for velocity Verlet integration is: &quot;</span> + velocityVerlet.time);
+        System.out.println(<span class="hljs-string">&quot;Velocity for velocity Verlet integration is: &quot;</span> + velocityVerlet.vel);
+    }
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos, acc, dt)</span>:</span>
@@ -1695,7 +1760,7 @@ xlabel(<span class="hljs-string">&apos;Time (s)&apos;</span>); ylabel(<span clas
 <span class="hljs-built_in">console</span>.log(stormer_verlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10</span>, <span class="hljs-number">0.01</span>));
 <span class="hljs-built_in">console</span>.log(velocity_verlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10</span>, <span class="hljs-number">0.01</span>));
 </code></pre>
-</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) -&gt; <span class="hljs-keyword">f64</span> {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
 
@@ -1706,24 +1771,29 @@ xlabel(<span class="hljs-string">&apos;Time (s)&apos;</span>); ylabel(<span clas
         prev_pos = temp_pos;
     }
 
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, time);
+    time
 }
 
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">stormer_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">stormer_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) -&gt; (<span class="hljs-keyword">f64</span>, <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> prev_pos = pos;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> vel = <span class="hljs-number">0.0</span>;
 
     <span class="hljs-keyword">while</span> pos &gt; <span class="hljs-number">0.0</span> {
         time += dt;
         <span class="hljs-keyword">let</span> temp_pos = pos;
         pos = pos * <span class="hljs-number">2.0</span> - prev_pos + acc * dt * dt;
         prev_pos = temp_pos;
+
+        <span class="hljs-comment">// Because acceleration is constant, velocity is</span>
+        <span class="hljs-comment">// straightforward</span>
+        vel += acc * dt;
     }
 
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, time);
+    (time, vel)
 }
 
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">velocity_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) {
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">velocity_verlet</span></span>(<span class="hljs-keyword">mut</span> pos: <span class="hljs-keyword">f64</span>, acc: <span class="hljs-keyword">f64</span>, dt: <span class="hljs-keyword">f64</span>) -&gt; (<span class="hljs-keyword">f64</span>, <span class="hljs-keyword">f64</span>) {
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> time = <span class="hljs-number">0.0</span>;
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> vel = <span class="hljs-number">0.0</span>;
 
@@ -1733,14 +1803,83 @@ xlabel(<span class="hljs-string">&apos;Time (s)&apos;</span>); ylabel(<span clas
         vel += acc * dt;
     }
 
-    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, time);
+    (time, vel)
 }
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
-    verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10.0</span>, <span class="hljs-number">0.01</span>);
-    stormer_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10.0</span>, <span class="hljs-number">0.01</span>);
-    velocity_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10.0</span>, <span class="hljs-number">0.01</span>);
+    <span class="hljs-keyword">let</span> time_v = verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10.0</span>, <span class="hljs-number">0.01</span>);
+    <span class="hljs-keyword">let</span> (time_sv, vel_sv) = stormer_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10.0</span>, <span class="hljs-number">0.01</span>);
+    <span class="hljs-keyword">let</span> (time_vv, vel_vv) = velocity_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-number">10.0</span>, <span class="hljs-number">0.01</span>);
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Time for original Verlet integration: {}&quot;</span>, time_v);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Time and velocity for Stormer Verlet integration: {}, {}&quot;</span>, time_sv, vel_sv);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Time and velocity for velocity Verlet integration: {}, {}&quot;</span>, time_vv, vel_vv);
 }
+</code></pre>
+</div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">verlet</span><span class="hljs-params">(pos: Double, acc: Double, dt: Double)</span></span> -&gt; <span class="hljs-type">Double</span> {
+    <span class="hljs-keyword">var</span> pos = pos
+    <span class="hljs-keyword">var</span> temp_pos, time: <span class="hljs-type">Double</span>
+    <span class="hljs-keyword">var</span> prev_pos = pos
+    time = <span class="hljs-number">0.0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        temp_pos = pos
+        pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt
+        prev_pos = temp_pos
+    }
+
+    <span class="hljs-keyword">return</span> time
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">stormerVerlet</span><span class="hljs-params">(pos: Double, acc: Double, dt: Double)</span></span> -&gt; (time: <span class="hljs-type">Double</span>, vel: <span class="hljs-type">Double</span>) {
+    <span class="hljs-keyword">var</span> pos = pos
+    <span class="hljs-keyword">var</span> temp_pos, time, vel: <span class="hljs-type">Double</span>
+    <span class="hljs-keyword">var</span> prev_pos = pos
+    vel = <span class="hljs-number">0</span>
+    time = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        temp_pos = pos
+        pos = pos*<span class="hljs-number">2</span> - prev_pos + acc * dt * dt
+        prev_pos = temp_pos
+
+        vel += acc*dt
+    }
+
+    <span class="hljs-keyword">return</span> (time:time, vel:vel)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">velocityVerlet</span><span class="hljs-params">(pos: Double, acc: Double, dt: Double)</span></span> -&gt; (time: <span class="hljs-type">Double</span>, vel: <span class="hljs-type">Double</span>) {
+    <span class="hljs-keyword">var</span> pos = pos
+    <span class="hljs-keyword">var</span> time, vel : <span class="hljs-type">Double</span>
+    vel = <span class="hljs-number">0</span>
+    time = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        pos += vel*dt + <span class="hljs-number">0.5</span>*acc * dt * dt
+        vel += acc*dt
+    }
+
+    <span class="hljs-keyword">return</span> (time:time, vel:vel)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+    <span class="hljs-keyword">let</span> verletTime = verlet(pos: <span class="hljs-number">5.0</span>, acc: -<span class="hljs-number">10.0</span>, dt: <span class="hljs-number">0.01</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Time for Verlet integration is: <span class="hljs-subst">\(verletTime)</span>&quot;</span>)
+
+    <span class="hljs-keyword">let</span> stormer = stormerVerlet(pos: <span class="hljs-number">5.0</span>, acc: -<span class="hljs-number">10.0</span>, dt: <span class="hljs-number">0.01</span>);
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Time for Stormer Verlet integration is: <span class="hljs-subst">\(stormer.time)</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Velocity for Stormer Verlet integration is: <span class="hljs-subst">\(stormer.vel)</span>&quot;</span>)
+
+    <span class="hljs-keyword">let</span> velVerlet = velocityVerlet(pos: <span class="hljs-number">5.0</span>, acc: -<span class="hljs-number">10</span>, dt: <span class="hljs-number">0.01</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Time for velocity Verlet integration is: <span class="hljs-subst">\(velVerlet.time)</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Velocity for velocity Verlet integration is: <span class="hljs-subst">\(velVerlet.vel)</span>&quot;</span>)
+}
+
+main()
 </code></pre>
 </div></div></div>
 
@@ -1791,7 +1930,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.16.1","depth":2,"next":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-08-05T22:42:27.237Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T21:34:44.505Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.16.1","depth":2,"next":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-09-09T21:52:25.097Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-09-09T23:37:27.923Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

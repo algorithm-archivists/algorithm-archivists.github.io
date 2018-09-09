@@ -766,6 +766,23 @@ In the best case, this algorithm runs with a complexity of <script type="math/te
     <span class="hljs-keyword">return</span> sortArray
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(array $array)</span>: <span class="hljs-title">array</span>
+</span>{
+  <span class="hljs-keyword">if</span> (!is_sorted($array)) shuffle($array);
+
+  <span class="hljs-keyword">return</span> $array;
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="nim" data-name="Nim"><pre><code class="lang-nim"><span class="hljs-keyword">proc</span> bogo_sort(a: <span class="hljs-keyword">var</span> openArray[<span class="hljs-built_in">int</span>]) =
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> is_sorted(a):
+        shuffle(a)
+</code></pre>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(a)</span></span>
+  <span class="hljs-keyword">while</span> !is_sorted(a)
+    a.shuffle!
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
 </div></div></div>
 
 <p>That&apos;s it.
@@ -795,7 +812,7 @@ We are done here!</p>
 
 main()
 </code></pre>
-</div><div class="code-method-sample" data-lang="cs" data-name="C#"><p>BogoSort.cs</p>
+</div><div class="code-method-sample" data-lang="cs" data-name="C#"><h5 id="bogosortcs">BogoSort.cs</h5>
 <pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
 <span class="hljs-keyword">using</span> System;
 <span class="hljs-keyword">using</span> System.Collections.Generic;
@@ -848,7 +865,7 @@ main()
     }
 }
 </code></pre>
-<p>Program.cs</p>
+<h5 id="programcs">Program.cs</h5>
 <pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp)</span>
 <span class="hljs-keyword">using</span> System;
 <span class="hljs-keyword">using</span> System.Collections.Generic;
@@ -1005,6 +1022,14 @@ main()
     arr[r] = tmp;
   }
 }
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> testArray = [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">123</span>, <span class="hljs-number">24</span>, <span class="hljs-number">34</span>, <span class="hljs-number">-5</span>];
+  bogoSort(testArray);
+  <span class="hljs-built_in">console</span>.log(testArray);
+}
+
+main();
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> random
 
@@ -1200,6 +1225,88 @@ main()
 
 main()
 </code></pre>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">is_sorted</span><span class="hljs-params">(array $array)</span>: <span class="hljs-title">bool</span>
+</span>{
+  <span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>, $count = count($array); $i &lt; $count - <span class="hljs-number">1</span>; $i++)
+    <span class="hljs-keyword">if</span> ($array[$i] &lt; $array[$i + <span class="hljs-number">1</span>]) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(array $array)</span>: <span class="hljs-title">array</span>
+</span>{
+  <span class="hljs-keyword">if</span> (!is_sorted($array)) shuffle($array);
+
+  <span class="hljs-keyword">return</span> $array;
+}
+
+
+$unsorted = [<span class="hljs-number">10</span>, <span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>, <span class="hljs-number">2</span>];
+$bogo_sorted = bogo_sort($unsorted);
+
+<span class="hljs-keyword">echo</span> sprintf(<span class="hljs-string">&apos;Unsorted: %s%s&apos;</span>, implode(<span class="hljs-string">&apos;,&apos;</span>, $unsorted), PHP_EOL);
+<span class="hljs-keyword">echo</span> sprintf(<span class="hljs-string">&apos;Sorted: %s%s&apos;</span>, implode(<span class="hljs-string">&apos;,&apos;</span>, $bogo_sorted), PHP_EOL);
+</code></pre>
+</div><div class="code-method-sample" data-lang="nim" data-name="Nim"><pre><code class="lang-nim"><span class="hljs-keyword">import</span> random
+
+randomize()
+
+<span class="hljs-keyword">proc</span> print_array(a: openArray[<span class="hljs-built_in">int</span>]) =
+    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> .. len(a)-<span class="hljs-number">1</span>:
+        echo a[n]
+
+<span class="hljs-keyword">proc</span> is_sorted(a: openArray[<span class="hljs-built_in">int</span>]): <span class="hljs-built_in">bool</span> =
+    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> .. len(a)-<span class="hljs-number">1</span>:
+        <span class="hljs-keyword">if</span> a[n] &gt; a[n-<span class="hljs-number">1</span>]:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+
+<span class="hljs-keyword">proc</span> bogo_sort(a: <span class="hljs-keyword">var</span> openArray[<span class="hljs-built_in">int</span>]) =
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> is_sorted(a):
+        shuffle(a)
+
+
+<span class="hljs-keyword">var</span> x: <span class="hljs-built_in">array</span>[<span class="hljs-number">10</span>,<span class="hljs-built_in">int</span>] =  [<span class="hljs-number">32</span>,<span class="hljs-number">32</span>,<span class="hljs-number">64</span>,<span class="hljs-number">16</span>,<span class="hljs-number">128</span>,<span class="hljs-number">8</span>,<span class="hljs-number">256</span>,<span class="hljs-number">4</span>,<span class="hljs-number">512</span>,<span class="hljs-number">2</span>]
+
+print_array(x)
+bogo_sort(x)
+echo <span class="hljs-string">&quot;\n&quot;</span>
+print_array(x)
+</code></pre>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre><code class="lang-ruby"><span class="hljs-comment">#!/usr/bin/env ruby</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_sorted</span><span class="hljs-params">(a)</span></span>
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>...a.length-<span class="hljs-number">1</span>
+    <span class="hljs-keyword">if</span> a[i+<span class="hljs-number">1</span>] &lt; a[i]
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bogo_sort</span><span class="hljs-params">(a)</span></span>
+  <span class="hljs-keyword">while</span> !is_sorted(a)
+    a.shuffle!
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+    a = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>]
+
+    puts(<span class="hljs-string">&quot;Unsorted&quot;</span>)
+    print(a)
+
+    bogo_sort(a)
+
+    puts(<span class="hljs-string">&quot;\n\nSorted&quot;</span>)
+    print(a)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
 </div></div></div>
 
 
@@ -1249,7 +1356,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-08-05T22:42:27.234Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-08-06T21:34:44.505Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-09-09T21:52:25.093Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-09-09T23:37:27.923Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
