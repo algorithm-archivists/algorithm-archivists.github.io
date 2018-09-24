@@ -7,7 +7,7 @@
         <title>Gaussian Elimination · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="generator" content="GitBook 3.2.3">
         
         
         
@@ -854,11 +854,11 @@ For this reason, we will be using the following definitions in this chapter:</p>
 <p>Here I should point out that Gaussian elimination makes sense from a purely analytical point of view.
 For small systems of equations, it&apos;s relatively straightforward to do this method by hand; however, for large systems, this (of course) become tedious and we will need to find an appropriate numerical solution.
 For this reason, I have split this section into two parts. One will cover the analytical framework, and the other will cover an algorithm you can write in your favorite programming language.</p>
-<p>In the end, reducing large systems of equations boils down to a game you play on a seemingly random matrix where you have the following moves available:</p>
+<p>In the end, reducing large systems of equations boils down to a game you play on a seemingly random matrix with 3 possible moves. You can:</p>
 <ol>
-<li>You can swap any two rows</li>
-<li>You can multiply any row by a non-zero scale value</li>
-<li>You can add any row to a multiple of any other row</li>
+<li>swap any two rows</li>
+<li>multiply any row by a non-zero scale value</li>
+<li>add any row to a multiple of any other row</li>
 </ol>
 <p>That&apos;s it.
 Before continuing, I suggest you try to recreate the row echelon matrix we made above.
@@ -1133,6 +1133,33 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 <span class="hljs-title">gaussianElimination</span> :: (<span class="hljs-type">Fractional</span> a, <span class="hljs-type">Ord</span> a) =&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
 <span class="hljs-title">gaussianElimination</span> mat = go (r1, c1) mat
 </code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gaussian_elimination</span><span class="hljs-params">(A)</span>:</span>
+
+    pivot_row = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Step 1: Go by column</span>
+    <span class="hljs-keyword">for</span> pivot_col <span class="hljs-keyword">in</span> range(min(A.shape[<span class="hljs-number">0</span>], A.shape[<span class="hljs-number">1</span>])):
+
+        <span class="hljs-comment"># Step 2: Swap row with highest element in col</span>
+        max_i = np.argmax(abs(A[pivot_row:, pivot_col])) + pivot_row
+
+        temp = A[pivot_row, :].copy()
+        A[pivot_row, :] = A[max_i, :]
+        A[max_i, :] = temp
+
+        <span class="hljs-comment"># Skip on singular matrix,  not actually a pivot</span>
+        <span class="hljs-keyword">if</span> A[pivot_row, pivot_col] == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">continue</span>
+
+        <span class="hljs-comment"># Steps 3 &amp; 4: Zero out elements below pivot</span>
+        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(pivot_row + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">0</span>]):
+            <span class="hljs-comment"># Step 3: Get fraction</span>
+            frac = -A[r, pivot_col] / A[pivot_row, pivot_col]
+            <span class="hljs-comment"># Step 4: Add rows</span>
+            A[r, :] += frac * A[pivot_row, :]
+
+        pivot_row += <span class="hljs-number">1</span>
+</code></pre>
 </div></div></div>
 
 <p>Now, to be clear: this algorithm creates an upper-triangular matrix.
@@ -1239,6 +1266,26 @@ Here it is in code:</p>
       maximumBy (compare `on` abs . snd) [(k, m ! (k, c)) | k &lt;- [r .. rn]]
     m&apos; = swapRows r target m
 </code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment"># Assumes A is already row echelon form</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gauss_jordan_elimination</span><span class="hljs-params">(A)</span>:</span>
+
+    col = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Scan for pivots</span>
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> range(A.shape[<span class="hljs-number">0</span>]):
+        <span class="hljs-keyword">while</span> col &lt; A.shape[<span class="hljs-number">1</span>] <span class="hljs-keyword">and</span> A[row, col] == <span class="hljs-number">0</span>:
+            col += <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">if</span> col &gt;= A.shape[<span class="hljs-number">1</span>]:
+            <span class="hljs-keyword">continue</span>
+
+        <span class="hljs-comment"># Set each pivot to one via row scaling</span>
+        A[row, :] /= A[row, col]
+
+        <span class="hljs-comment"># Zero out elements above pivot</span>
+        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(row):
+            A[r, :] -= A[r, col] * A[row, :]
+</code></pre>
 </div></div></div>
 
 <h2 id="back-substitution">Back-substitution</h2>
@@ -1314,6 +1361,20 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
     ((r1, c1), (rn, cn)) = bounds mat
     go (r, c) m
       | c == cn = m
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment"># Assumes A has a unique solution and A in row echelon form</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(A)</span>:</span>
+
+    sol = np.zeros(A.shape[<span class="hljs-number">0</span>]).T
+
+    <span class="hljs-comment"># Go by pivots along diagonal</span>
+    <span class="hljs-keyword">for</span> pivot_i <span class="hljs-keyword">in</span> range(A.shape[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>,  <span class="hljs-number">-1</span>,  <span class="hljs-number">-1</span>):
+        s = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(pivot_i + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>):
+            s += A[pivot_i, col] * sol[col]
+        sol[pivot_i] = (A[pivot_i, A.shape[<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>] - s) / A[pivot_i, pivot_i]
+
+    <span class="hljs-keyword">return</span> sol
 </code></pre>
 </div></div></div>
 
@@ -1754,6 +1815,95 @@ main()
   putStrLn <span class="hljs-string">&quot;Solution from back substitution&quot;</span>
   putStrLn $ printV $ backSubstitution $ gaussianElimination m
 </code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gaussian_elimination</span><span class="hljs-params">(A)</span>:</span>
+
+    pivot_row = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Step 1: Go by column</span>
+    <span class="hljs-keyword">for</span> pivot_col <span class="hljs-keyword">in</span> range(min(A.shape[<span class="hljs-number">0</span>], A.shape[<span class="hljs-number">1</span>])):
+
+        <span class="hljs-comment"># Step 2: Swap row with highest element in col</span>
+        max_i = np.argmax(abs(A[pivot_row:, pivot_col])) + pivot_row
+
+        temp = A[pivot_row, :].copy()
+        A[pivot_row, :] = A[max_i, :]
+        A[max_i, :] = temp
+
+        <span class="hljs-comment"># Skip on singular matrix,  not actually a pivot</span>
+        <span class="hljs-keyword">if</span> A[pivot_row, pivot_col] == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">continue</span>
+
+        <span class="hljs-comment"># Steps 3 &amp; 4: Zero out elements below pivot</span>
+        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(pivot_row + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">0</span>]):
+            <span class="hljs-comment"># Step 3: Get fraction</span>
+            frac = -A[r, pivot_col] / A[pivot_row, pivot_col]
+            <span class="hljs-comment"># Step 4: Add rows</span>
+            A[r, :] += frac * A[pivot_row, :]
+
+        pivot_row += <span class="hljs-number">1</span>
+
+
+<span class="hljs-comment"># Assumes A is already row echelon form</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gauss_jordan_elimination</span><span class="hljs-params">(A)</span>:</span>
+
+    col = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Scan for pivots</span>
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> range(A.shape[<span class="hljs-number">0</span>]):
+        <span class="hljs-keyword">while</span> col &lt; A.shape[<span class="hljs-number">1</span>] <span class="hljs-keyword">and</span> A[row, col] == <span class="hljs-number">0</span>:
+            col += <span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">if</span> col &gt;= A.shape[<span class="hljs-number">1</span>]:
+            <span class="hljs-keyword">continue</span>
+
+        <span class="hljs-comment"># Set each pivot to one via row scaling</span>
+        A[row, :] /= A[row, col]
+
+        <span class="hljs-comment"># Zero out elements above pivot</span>
+        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(row):
+            A[r, :] -= A[r, col] * A[row, :]
+
+
+<span class="hljs-comment"># Assumes A has a unique solution and A in row echelon form</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">back_substitution</span><span class="hljs-params">(A)</span>:</span>
+
+    sol = np.zeros(A.shape[<span class="hljs-number">0</span>]).T
+
+    <span class="hljs-comment"># Go by pivots along diagonal</span>
+    <span class="hljs-keyword">for</span> pivot_i <span class="hljs-keyword">in</span> range(A.shape[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>,  <span class="hljs-number">-1</span>,  <span class="hljs-number">-1</span>):
+        s = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(pivot_i + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>):
+            s += A[pivot_i, col] * sol[col]
+        sol[pivot_i] = (A[pivot_i, A.shape[<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>] - s) / A[pivot_i, pivot_i]
+
+    <span class="hljs-keyword">return</span> sol
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    A = np.array([[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>],
+                  [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>,],
+                  [<span class="hljs-number">3</span>, <span class="hljs-number">-4</span>, <span class="hljs-number">0</span>, <span class="hljs-number">10</span>]], dtype=float)
+
+    print(<span class="hljs-string">&quot;Original&quot;</span>)
+    print(A, <span class="hljs-string">&quot;\n&quot;</span>)
+
+    gaussian_elimination(A)
+    print(<span class="hljs-string">&quot;Gaussian elimination&quot;</span>)
+    print(A, <span class="hljs-string">&quot;\n&quot;</span>)
+
+    print(<span class="hljs-string">&quot;Back subsitution&quot;</span>)
+    print(back_substitution(A), <span class="hljs-string">&quot;\n&quot;</span>)
+
+    gauss_jordan_elimination(A)
+    print(<span class="hljs-string">&quot;Gauss-Jordan&quot;</span>)
+    print(A, <span class="hljs-string">&quot;\n&quot;</span>)
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()
+</code></pre>
 </div></div></div>
 
 
@@ -1803,7 +1953,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-08-05T23:07:55.067Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-09-09T23:37:27.923Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"f90","name":"Fortran"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-09-24T00:26:37.579Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-24T00:28:14.880Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

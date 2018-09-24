@@ -7,7 +7,7 @@
         <title>Bogo Sort · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="generator" content="GitBook 3.2.3">
         
         
         
@@ -760,7 +760,7 @@ In the best case, this algorithm runs with a complexity of <script type="math/te
 </code></pre>
 </div><div class="code-method-sample" data-lang="swift" data-name="Swift"><pre><code class="lang-swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bogoSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
     <span class="hljs-keyword">while</span>(!isSorted(inputArray: sortArray)) {
-        sortArray = shuffle(inputArray: &amp;sortArray)
+        sortArray.shuffle()
     }
 
     <span class="hljs-keyword">return</span> sortArray
@@ -789,9 +789,11 @@ In the best case, this algorithm runs with a complexity of <script type="math/te
 Ship it!
 We are done here!</p>
 <h2 id="example-code">Example Code</h2>
-<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> is_sorted(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">using</span> Random
+
+<span class="hljs-keyword">function</span> is_sorted(a<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>})
     <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:length(a)-<span class="hljs-number">1</span>
-        <span class="hljs-keyword">if</span> (a[i+<span class="hljs-number">1</span>] &gt; a[i])
+        <span class="hljs-keyword">if</span> (a[i] &gt; a[i + <span class="hljs-number">1</span>])
             <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
         <span class="hljs-keyword">end</span>
     <span class="hljs-keyword">end</span>
@@ -805,7 +807,7 @@ We are done here!</p>
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-keyword">function</span> main()
-    a = [<span class="hljs-number">1.</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>,<span class="hljs-number">4</span>]
+    a = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>]
     bogo_sort(a)
     println(a)
 <span class="hljs-keyword">end</span>
@@ -1131,7 +1133,7 @@ main()
 
   <span class="hljs-keyword">if</span> (first != last) {
     os &lt;&lt; *first;
-    <span class="hljs-built_in">std</span>::for_each(first + <span class="hljs-number">1</span>, last, [&amp;os] (<span class="hljs-keyword">double</span> d) { os &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; *it; });
+    <span class="hljs-built_in">std</span>::for_each(first + <span class="hljs-number">1</span>, last, [&amp;os] (<span class="hljs-keyword">double</span> d) { os &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; d; });
   }
 
   os &lt;&lt; <span class="hljs-string">&quot;}\n&quot;</span>;
@@ -1198,21 +1200,9 @@ main()
     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
 }
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">shuffle</span><span class="hljs-params">(inputArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
-    <span class="hljs-keyword">var</span> shuffledArray = [<span class="hljs-type">Int</span>]()
-
-    <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;inputArray.<span class="hljs-built_in">count</span> {
-        <span class="hljs-keyword">let</span> rand = <span class="hljs-type">Int</span>(arc4random_uniform(<span class="hljs-type">UInt32</span>(inputArray.<span class="hljs-built_in">count</span>)))
-        shuffledArray.append(inputArray[rand])
-        inputArray.remove(at: rand)
-    }
-
-    <span class="hljs-keyword">return</span> shuffledArray
-}
-
 <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">bogoSort</span><span class="hljs-params">(sortArray: <span class="hljs-keyword">inout</span> [Int])</span></span> -&gt; [<span class="hljs-type">Int</span>] {
     <span class="hljs-keyword">while</span>(!isSorted(inputArray: sortArray)) {
-        sortArray = shuffle(inputArray: &amp;sortArray)
+        sortArray.shuffle()
     }
 
     <span class="hljs-keyword">return</span> sortArray
@@ -1356,7 +1346,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-09-09T21:52:25.093Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-09-09T23:37:27.923Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"f90","name":"Fortran"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-09-24T00:26:37.567Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-24T00:28:14.880Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
