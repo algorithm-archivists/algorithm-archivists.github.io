@@ -1,0 +1,1674 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Split-Operator Method · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-bibtex-cite/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../data_compression/data_compression.html" />
+    
+    
+    <link rel="prev" href="../quantum_systems/quantum_systems.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Algorithm Archive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../introduction/introduction.html">
+            
+                <a href="../introduction/introduction.html">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../how_to_contribute/how_to_contribute.html">
+            
+                <a href="../how_to_contribute/how_to_contribute.html">
+            
+                    
+                    How To Contribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../git_and_version_control/git_and_version_control.html">
+            
+                <a href="../git_and_version_control/git_and_version_control.html">
+            
+                    
+                    Version Control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../data_structures/data_structures.html">
+            
+                <a href="../data_structures/data_structures.html">
+            
+                    
+                    Data Structures
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../stacks_and_queues/stacks_and_queues.html">
+            
+                <a href="../stacks_and_queues/stacks_and_queues.html">
+            
+                    
+                    Stacks and Queues
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../mathematical_background/mathematical_background.html">
+            
+                <a href="../mathematical_background/mathematical_background.html">
+            
+                    
+                    Mathematical Background
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../notation/notation.html">
+            
+                <a href="../notation/notation.html">
+            
+                    
+                    Complexity Notation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../bitlogic/bitlogic.html">
+            
+                <a href="../bitlogic/bitlogic.html">
+            
+                    
+                    Bit Logic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../convolutions/convolutions.html">
+            
+                <a href="../convolutions/convolutions.html">
+            
+                    
+                    Convolutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                <a href="../taylor_series_expansion/taylor_series_expansion.html">
+            
+                    
+                    Taylor Series
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../sorting_and_searching/sorting_and_searching.html">
+            
+                <a href="../sorting_and_searching/sorting_and_searching.html">
+            
+                    
+                    Sorting and Searching
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../bubble_sort/bubble_sort.html">
+            
+                <a href="../bubble_sort/bubble_sort.html">
+            
+                    
+                    Bubble Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../bogo_sort/bogo_sort.html">
+            
+                <a href="../bogo_sort/bogo_sort.html">
+            
+                    
+                    Bogo Sort
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../tree_traversal/tree_traversal.html">
+            
+                <a href="../tree_traversal/tree_traversal.html">
+            
+                    
+                    Tree Traversal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                <a href="../euclidean_algorithm/euclidean_algorithm.html">
+            
+                    
+                    Euclidean Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                <a href="../monte_carlo_integration/monte_carlo_integration.html">
+            
+                    
+                    Monte Carlo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../matrix_methods/matrix_methods.html">
+            
+                <a href="../matrix_methods/matrix_methods.html">
+            
+                    
+                    Matrix Methods
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../gaussian_elimination/gaussian_elimination.html">
+            
+                <a href="../gaussian_elimination/gaussian_elimination.html">
+            
+                    
+                    Gaussian Elimination
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../thomas_algorithm/thomas_algorithm.html">
+            
+                <a href="../thomas_algorithm/thomas_algorithm.html">
+            
+                    
+                    Thomas Algorithm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../computational_geometry/computational_geometry.html">
+            
+                <a href="../computational_geometry/computational_geometry.html">
+            
+                    
+                    Computational Geometry
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1" data-path="../gift_wrapping/gift_wrapping.html">
+            
+                <a href="../gift_wrapping/gift_wrapping.html">
+            
+                    
+                    Gift Wrapping
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1.1" data-path="../jarvis_march/jarvis_march.html">
+            
+                <a href="../jarvis_march/jarvis_march.html">
+            
+                    
+                    Jarvis March
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.1.2" data-path="../graham_scan/graham_scan.html">
+            
+                <a href="../graham_scan/graham_scan.html">
+            
+                    
+                    Graham Scan
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../cooley_tukey/cooley_tukey.html">
+            
+                <a href="../cooley_tukey/cooley_tukey.html">
+            
+                    
+                    FFT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../decision_problems/decision_problems.html">
+            
+                <a href="../decision_problems/decision_problems.html">
+            
+                    
+                    Decision Problems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                <a href="../stable_marriage_problem/stable_marriage_problem.html">
+            
+                    
+                    Stable Marriage Problem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../differential_equations/differential_equations.html">
+            
+                <a href="../differential_equations/differential_equations.html">
+            
+                    
+                    Differential Equation Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.15.1" data-path="../forward_euler_method/forward_euler_method.html">
+            
+                <a href="../forward_euler_method/forward_euler_method.html">
+            
+                    
+                    Forward Euler Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../physics_solvers/physics_solvers.html">
+            
+                <a href="../physics_solvers/physics_solvers.html">
+            
+                    
+                    Physics Solvers
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../verlet_integration/verlet_integration.html">
+            
+                <a href="../verlet_integration/verlet_integration.html">
+            
+                    
+                    Verlet Integration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.2" data-path="../quantum_systems/quantum_systems.html">
+            
+                <a href="../quantum_systems/quantum_systems.html">
+            
+                    
+                    Quantum Systems
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.16.2.1" data-path="split-operator_method.html">
+            
+                <a href="split-operator_method.html">
+            
+                    
+                    Split-Operator Method
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../data_compression/data_compression.html">
+            
+                <a href="../data_compression/data_compression.html">
+            
+                    
+                    Data Compression
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../huffman_encoding/huffman_encoding.html">
+            
+                <a href="../huffman_encoding/huffman_encoding.html">
+            
+                    
+                    Huffman Encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../quantum_information/quantum_information.html">
+            
+                <a href="../quantum_information/quantum_information.html">
+            
+                    
+                    Quantum Information
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Split-Operator Method</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="the-split-operator-method">The Split-Operator Method</h1>
+<p>The Split-Operator Method (also called the Split-Step Method), was actually the primary method I used to solve the Schr&#xF6;dinger equation during my PhD.
+It is one of the simplest and fastest methods for this purpose and is widely used throughout modern quantum research in the area, in particular when dealing with the Non-linear Schr&#xF6;dinger Equation (NLSE):</p>
+<p><script type="math/tex; mode=display">
+i \hbar \frac{\partial \Psi(\mathbf{r},t)}{\partial t} = \left[-\frac{\hbar^2}{2m}\nabla^2 + V(\mathbf{r}) + g|\Psi(\mathbf{r},t)|^2 \right] \Psi(\mathbf{r},t),
+</script></p>
+<p>which follows from the notation provided in the <a href="../quantum_systems/quantum_systems.html">quantum systems</a> chapter: <script type="math/tex; ">\Psi(\mathbf{r},t)</script> is a quantum wave-function with spatial (<script type="math/tex; ">\mathbf{r}</script>) and time (<script type="math/tex; ">t</script>) dependence, <script type="math/tex; ">\nabla^2</script> is a laplacian, and <script type="math/tex; ">V(\mathbf{r})</script> is a potential of some sort (like <script type="math/tex; ">\omega x^2</script> or something).
+In this case, we also add an interaction term <script type="math/tex; ">g</script> next to a nonlinear <script type="math/tex; ">|\Psi(\mathbf{r},t)|^2</script> term.
+This is the system I studied for most of my PhD (granted, we played a few tricks with parallelization and such, so it was <em>slightly</em> more complicated).</p>
+<p>At its heart, the split-op method is nothing more than a pseudo-spectral differential equation solver... That is to say, it solves the Schr&#xF6;dinger equation with <a href="../cooley_tukey/cooley_tukey.html">FFT&apos;s</a>.
+In fact, there is a large class of spectral and pseudo-spectral methods used to solve a number of different physical systems, and we&apos;ll definitely be covering those in the future.
+As mentioned in the <a href="../quantum_systems/quantum_systems.html">quantum systems</a> section, we can represent a quantum wavefunction in momentum space, which is parameterized with the wavevector <script type="math/tex; ">k</script>.
+In the Hamiltonian shown above, we can split our system into position space components, <script type="math/tex; ">\hat{H}_r = \left[V(\mathbf{r}) + g|\Psi(\mathbf{r},t)|^2 \right] \Psi(\mathbf{r},t)</script>, and momentum space components, <script type="math/tex; ">\hat{H}_k = \left[-\frac{\hbar^2}{2m}\nabla^2 \right]\Psi(\mathbf{r},t)</script>.
+I&apos;ll be honest, I didn&apos;t know what notation to use for <script type="math/tex; ">\hat H_r</script> because <script type="math/tex; ">p</script> is used to describe momentum.
+I settled on <script type="math/tex; ">r</script> for <em>real space</em>, but that is somewhat notationally ambiguous.
+In addition, <script type="math/tex; ">k</script> will indicate momentum space because it is a sum of all wavevectors, typically notated as <script type="math/tex; ">k</script>.
+Bad notation aside, let&apos;s continue.</p>
+<p>If we assume a somewhat general solution to our quantum system:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t + dt) = \left[e^{-\frac{i\hat{H}dt}{\hbar}}\right]\Psi(\mathbf{r},t) = \left[e^{-\frac{i(\hat{H}_r + \hat{H}_k)dt}{\hbar}}\right]\Psi(\mathbf{r},t)
+</script></p>
+<p>and assume we are simulating our system by a series of small timesteps (<script type="math/tex; ">dt</script>), we can perform similar splitting by using the Baker-Campbell-Housdorff formula:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t+dt) = \left[e^{-\frac{i\hat{H}_rdt}{\hbar}}e^{-\frac{i\hat{H}_kdt}{\hbar}}e^{-\frac{[i\hat{H}_r, i\hat{H}_k]dt^2}{2}}\right]\Psi(\mathbf{r},t)
+</script></p>
+<p>This accrues a small amount of error (<script type="math/tex; ">dt^2</script>) related to the commutation of the real and momentum-space components of the Hamiltonian.
+This is a relatively large error and that&apos;s not okay.
+In order to change the <script type="math/tex; ">dt^2</script> error to <script type="math/tex; ">dt^3</script>, we can split the system by performing a half-step in position space before doing a full-step in momentum space, through a process called <em>Strang Splitting</em> like so:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathbf{r},t+dt) = \left[e^{-\frac{i\hat{H}_rdt}{2\hbar}}e^{-\frac{i\hat{H}_kdt}{\hbar}}e^{-\frac{i\hat{H}_rdt}{2\hbar}} \right]\Psi(\mathbf{r},t) + \mathcal{O}(dt^3)
+</script></p>
+<p>We can then address each part of this solution in chunks, first in position space, then in momentum space, then in position space again by using <a href="../cooley_tukey/cooley_tukey.html">Fourier Transforms</a>.
+Which looks something like this:</p>
+<p><script type="math/tex; mode=display">
+\Psi(\mathcal{r}, t+dt) = \left[\hat{U}_r\left(\frac{dt}{2}\right)\mathcal{F}^{-1}\left[\hat{U}_k(dt) \mathcal{F} \left[\hat{U}_r\left(\frac{dt}{2}\right) \Psi(\mathbf{r},t) \right] \right] \right] + \mathcal{O}(dt^3)
+</script></p>
+<p>where <script type="math/tex; ">\hat{U}_r = e^{-\frac{i\hat{H}_rdt}{\hbar}}</script>, <script type="math/tex; ">\hat{U}_k = e^{-\frac{i\hat{H}_kdt}{\hbar}}</script>, and <script type="math/tex; ">\mathcal{F}</script> and <script type="math/tex; ">\mathcal{F}^{-1}</script> indicate forward and inverse Fourier Transforms.
+Here&apos;s a flowchart of what we are looking for every timestep:</p>
+<p>
+    <img class="center" src="res/split_op_method.svg" width="500">
+</p>
+
+
+<p>For the most part, that&apos;s it:</p>
+<ol>
+<li>Multiply the wavefunction in real space with the real-space operator. </li>
+<li>Flip to momentum space with a Fourier transform.</li>
+<li>Multiply the momentum-space wavefuntion by the momentum-space operator.</li>
+<li>Flip to position space with an inverse Fourier transform.</li>
+<li>Repeat 1-4 until satisfied.</li>
+</ol>
+<p>If we guess that our initial wavefunction is gaussian-like and is slightly offset from the center or the trap, this should allow us to see our wavefunction &quot;sloshing&quot; back and forth in our trap, like so:</p>
+<p>
+    <img class="center" src="res/real_time.gif" width="500">
+</p>
+
+<p>As a small concession, using this method enforces periodic boundary conditions, where the wavefunction will simply slide from one side of your simulation box to the other, but that&apos;s fine for most cases.
+In fact, for many cases (such as large-scale turbulence models) it&apos;s ideal.</p>
+<p>That said, there is more to the story.
+As we mentioned in the <a href="../quantum_systems/quantum_systems.html">quantum systems</a> section, many simulations of quantum systems desire to find the ground state of our system.
+The split-operator method can be used for that too!
+If we run this simulation in <em>imaginary time</em>, by simply setting <script type="math/tex; ">\tau = it</script> and stepping through <script type="math/tex; ">\tau</script> instead of <script type="math/tex; ">t</script>, we will no longer see an &quot;real-world&quot; example of how the atoms should behave, but will instead see an exponential decay of higher-energy states.
+If we run the simulation for long enough with a small enough timestep, all higher energy states will vanish.
+This means that we can find the ground state of our system by running the simulation in imaginary time, which is an incredibly useful feature!
+If we run the same simulation as above in imaginary time, we should see our wavefunction smoothly move to the center of our trap (the lowest energy position), like so:</p>
+<p>
+    <img class="center" src="res/imaginary_time.gif" width="500">
+</p>
+
+
+<h2 id="the-algorithm">The Algorithm</h2>
+<p>Luckily, the code in this case is pretty straightforward.
+As a note before starting, we will be using normalized units in this simulation where <script type="math/tex; ">\hbar = c = 1</script>.
+These units are often called <em>natural</em> units.
+Many of you (<em>cough</em> experimentalists <em>cough</em>) will probably think that these units are completely unphysical, and they are; however, they allow us to output fractions and whole numbers.
+For example, if we are trying to find the energy of the ground state of atoms in a simple harmonic oscillator, we know it should be <script type="math/tex; ">\frac{1}{2}\hbar \omega</script>, where <script type="math/tex; ">\omega</script> is the coefficient in front of the <script type="math/tex; ">x^2</script> term known as the <em>frequency</em> of the trap.
+If we were to calculate the energy in real units, our simulation would output <script type="math/tex; ">5.272859 \times 10^{-35}</script>, which is hard to interpret.
+By instead using natural units, we get precisely <script type="math/tex; ">\frac{1}{2}</script> and we know that those are in units of <script type="math/tex; ">\hbar\omega</script>.
+There is no doubt that it makes the simulation easier to understand (albeit a little misleading in the end).</p>
+<p>Regardless, we first need to set all the initial parameters, including the initial grids in real and momentum space:</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia">struct Param
+    xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dx<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    x<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+    dk<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    k<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+    im_time<span class="hljs-type">::</span><span class="hljs-built_in">Bool</span>
+
+    Param() = new(<span class="hljs-number">10.0</span>, <span class="hljs-number">512</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">2</span> * <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-<span class="hljs-number">10.0</span> + <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">20.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">10.0</span>),
+                  <span class="hljs-literal">pi</span> / <span class="hljs-number">10.0</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:<span class="hljs-number">512</span>/<span class="hljs-number">2</span> - <span class="hljs-number">1</span>, -<span class="hljs-number">512</span>/<span class="hljs-number">2</span> : -<span class="hljs-number">1</span>) * <span class="hljs-literal">pi</span>/<span class="hljs-number">10.0</span>),
+                  <span class="hljs-literal">false</span>)
+    Param(xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>,
+          im_val<span class="hljs-type">::</span><span class="hljs-built_in">Bool</span>) = new(
+              xmax, res, dt, timesteps,
+              <span class="hljs-number">2</span>*xmax/res, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-xmax+xmax/res:<span class="hljs-number">2</span>*xmax/res:xmax),
+              <span class="hljs-literal">pi</span>/xmax, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:res/<span class="hljs-number">2</span>-<span class="hljs-number">1</span>, -res/<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>)*<span class="hljs-literal">pi</span>/(xmax)),
+              im_val
+          )
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
+<span class="hljs-keyword">struct</span> params {
+    <span class="hljs-keyword">double</span> xmax;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> res;
+    <span class="hljs-keyword">double</span> dt;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> timesteps;
+    <span class="hljs-keyword">double</span> dx;
+    <span class="hljs-keyword">double</span> *x;
+    <span class="hljs-keyword">double</span> dk;
+    <span class="hljs-keyword">double</span> *k;
+    <span class="hljs-keyword">bool</span> im_time;
+</code></pre>
+<pre><code class="lang-cpp">
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init_params</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> params *par, <span class="hljs-keyword">double</span> xmax, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> res, <span class="hljs-keyword">double</span> dt,
+                 <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> timesteps, <span class="hljs-keyword">bool</span> im)</span> </span>{
+
+    par-&gt;xmax = xmax;
+    par-&gt;res = res;
+    par-&gt;dt = dt;
+    par-&gt;timesteps = timesteps;
+    par-&gt;dx = <span class="hljs-number">2.0</span> * xmax / res;
+    par-&gt;x = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">double</span>) * res);
+    par-&gt;dk = M_PI / xmax;
+    par-&gt;k = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">double</span>) * res);
+    par-&gt;im_time = im;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; res; ++i) {
+        par-&gt;x[i] = xmax / res - xmax + i * (<span class="hljs-number">2.0</span> * xmax / res);
+        <span class="hljs-keyword">if</span> (i &lt; res / <span class="hljs-number">2</span>) {
+            par-&gt;k[i] = i * M_PI / xmax;
+        } <span class="hljs-keyword">else</span> {
+            par-&gt;k[i] = ((<span class="hljs-keyword">double</span>)i - res) * M_PI / xmax;
+        }
+    }
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Param</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Container for holding all simulation parameters.&quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self,
+                 xmax: float,
+                 res: int,
+                 dt: float,
+                 timesteps: int,
+                 im_time: bool)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+
+        self.xmax = xmax
+        self.res = res
+        self.dt = dt
+        self.timesteps = timesteps
+        self.im_time = im_time
+
+        self.dx = <span class="hljs-number">2</span> * xmax / res
+        self.x = np.arange(-xmax + xmax / res, xmax, self.dx)
+        self.dk = pi / xmax
+        self.k = np.concatenate((np.arange(<span class="hljs-number">0</span>, res / <span class="hljs-number">2</span>),
+                                 np.arange(-res / <span class="hljs-number">2</span>, <span class="hljs-number">0</span>))) * self.dk
+</code></pre>
+</div></div></div>
+
+<p>As a note, when we generate our grid in momentum space <code>k</code>, we need to split the grid into two lines, one that is going from <code>0</code> to <code>-kmax</code> and is then discontinuous and goes from <code>kmax</code> to <code>0</code>.
+This is simply because the FFT will naturally assume that the <code>0</code> in our grid is at the left side of the simulation, so we shift k-space to match this expectation.
+Also, for this code we will be using notation to what we used above: <code>opr.R</code> will be the real space operators and <code>opr.K</code> will be the momentum space operators.
+There is another boolean value here called <code>im_time</code>, which is for imaginary time evolution.</p>
+<p>Afterwards, we turn them into operators:</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia">mutable struct Operators
+    V<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    R<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    K<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    wfc<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+
+    Operators(res) = new(zeros(res),
+                         zeros(res),
+                         zeros(res),
+                         zeros(res))
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function to initialize the wfc and potential</span>
+<span class="hljs-keyword">function</span> init(par<span class="hljs-type">::</span>Param, voffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, wfcoffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    opr = Operators(length(par.x))
+    opr.V = <span class="hljs-number">0.5</span> * (par.x .- voffset).^<span class="hljs-number">2</span>
+    opr.wfc = exp.(-(par.x .- wfcoffset).^<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
+    <span class="hljs-keyword">if</span> (par.im_time)
+        opr.K = exp.(-<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-number">0.5</span>*opr.V*par.dt)
+    <span class="hljs-keyword">else</span>
+        opr.K = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*opr.V*par.dt)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> opr
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
+<span class="hljs-keyword">struct</span> operators {
+    <span class="hljs-keyword">size_t</span> size;
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *v;
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *pe;
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *ke;
+    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *wfc;
+</code></pre>
+<pre><code class="lang-cpp">
+void init_operators(struct operators *opr, struct params par, double voffset,
+                    double wfcoffset) {
+
+    opr-&gt;size = par.res;
+    opr-&gt;v = malloc(sizeof(double complex) * par.res);
+    opr-&gt;pe = malloc(sizeof(double complex) * par.res);
+    opr-&gt;ke = malloc(sizeof(double complex) * par.res);
+    opr-&gt;wfc = malloc(sizeof(double complex) * par.res);
+
+    for (size_t i = 0; i &lt; par.res; ++i) {
+        opr-&gt;v[i] = 0.5 * cpow(par.x[i] - voffset, 2);
+        opr-&gt;wfc[i] = cexp(-cpow(par.x[i] - wfcoffset, 2) / 2.0);
+
+        if (par.im_time) {
+            opr-&gt;ke[i] = cexp(-0.5 * par.dt * cpow(par.k[i], 2));
+            opr-&gt;pe[i] = cexp(-0.5 * par.dt * opr-&gt;v[i]);
+        } else {
+            opr-&gt;ke[i] = cexp(-0.5 * par.dt * cpow(par.k[i], 2) * I);
+            opr-&gt;pe[i] = cexp(-0.5 * par.dt * opr-&gt;v[i] * I);
+        }
+    }
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Operators</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Container for holding operators and wavefunction coefficients.&quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, res: int)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+
+        self.V = np.empty(res, dtype=complex)
+        self.R = np.empty(res, dtype=complex)
+        self.K = np.empty(res, dtype=complex)
+        self.wfc = np.empty(res, dtype=complex)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">init</span><span class="hljs-params">(par: Param, voffset: float, wfcoffset: float)</span> -&gt; Operators:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Initialize the wavefunction coefficients and the potential.&quot;&quot;&quot;</span>
+    opr = Operators(len(par.x))
+    opr.V = <span class="hljs-number">0.5</span> * (par.x - voffset) ** <span class="hljs-number">2</span>
+    opr.wfc = np.exp(-((par.x - wfcoffset) ** <span class="hljs-number">2</span>) / <span class="hljs-number">2</span>, dtype=complex)
+    <span class="hljs-keyword">if</span> par.im_time:
+        opr.K = np.exp(<span class="hljs-number">-0.5</span> * (par.k ** <span class="hljs-number">2</span>) * par.dt)
+        opr.R = np.exp(<span class="hljs-number">-0.5</span> * opr.V * par.dt)
+    <span class="hljs-keyword">else</span>:
+        opr.K = np.exp(<span class="hljs-number">-0.5</span> * (par.k ** <span class="hljs-number">2</span>) * par.dt * <span class="hljs-number">1j</span>)
+        opr.R = np.exp(<span class="hljs-number">-0.5</span> * opr.V * par.dt * <span class="hljs-number">1j</span>)
+    <span class="hljs-keyword">return</span> opr
+</code></pre>
+</div></div></div>
+
+<p>Here, we use a standard harmonic potential for the atoms to sit in and a gaussian distribution for an initial guess for the probability distribution.
+If we give either the trap or the atoms a slight offset (so the gaussian distribution of atoms does not <em>quite</em> rest at the bottom of the <script type="math/tex; ">x^2</script> potential, we can see the atoms moving back and forth in the potential as we move the simulation forward in time.
+This means that we can easily see the dynamics of our quantum system!
+If we run the simulation in imaginary time, we will see the gaussian distribution of atoms move towards the center of the potential, which is the location with the lowest energy.
+Both of these have been shown in the figures above.</p>
+<p>The final step is to do the iteration, itself.</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> split_op(par<span class="hljs-type">::</span>Param, opr<span class="hljs-type">::</span>Operators)
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:par.timesteps
+        <span class="hljs-comment"># Half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.R
+
+        <span class="hljs-comment"># fft to momentum space</span>
+        opr.wfc = fft(opr.wfc)
+
+        <span class="hljs-comment"># Full step in momentum space</span>
+        opr.wfc = opr.wfc .* opr.K
+
+        <span class="hljs-comment"># ifft back</span>
+        opr.wfc = ifft(opr.wfc)
+
+        <span class="hljs-comment"># final half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.R
+
+        <span class="hljs-comment"># density for plotting and potential</span>
+        density = abs2.(opr.wfc)
+
+        <span class="hljs-comment"># renormalizing for imaginary time</span>
+        <span class="hljs-keyword">if</span> (par.im_time)
+            renorm_factor = sum(density) * par.dx
+
+            <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:length(opr.wfc)
+                opr.wfc[j] /= sqrt(renorm_factor)
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+
+        <span class="hljs-comment"># Outputting data to file. Plotting can also be done in a similar way</span>
+        <span class="hljs-comment"># This is set to output exactly 100 files, no matter how many timesteps</span>
+        <span class="hljs-keyword">if</span> ((i-<span class="hljs-number">1</span>) % div(par.timesteps, <span class="hljs-number">100</span>) == <span class="hljs-number">0</span>)
+            outfile = open(<span class="hljs-string">&quot;output&quot;</span> * string(lpad(string(i-<span class="hljs-number">1</span>), <span class="hljs-number">5</span>, string(<span class="hljs-number">0</span>)))
+                                    * <span class="hljs-string">&quot;.dat&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>)
+
+            <span class="hljs-comment"># Outputting for gnuplot. Any plotter will do.</span>
+            <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:length(density)
+                write(outfile, string(par.x[j]) * <span class="hljs-string">&quot;\t&quot;</span>
+                               * string(density[j]) * <span class="hljs-string">&quot;\t&quot;</span>
+                               * string(real(opr.V[j])) * <span class="hljs-string">&quot;\n&quot;</span>)
+            <span class="hljs-keyword">end</span>
+
+            close(outfile)
+            println(<span class="hljs-string">&quot;Outputting step: &quot;</span>, i)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">split_op</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> params par, <span class="hljs-keyword">struct</span> operators opr)</span> </span>{
+    <span class="hljs-keyword">double</span> density[opr.size];
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; par.timesteps; ++i) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        fft(opr.wfc, opr.size, <span class="hljs-literal">false</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.ke[j];
+        }
+
+        fft(opr.wfc, opr.size, <span class="hljs-literal">true</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            density[j] = <span class="hljs-built_in">pow</span>(cabs(opr.wfc[j]), <span class="hljs-number">2</span>);
+        }
+
+        <span class="hljs-keyword">if</span> (par.im_time) {
+            <span class="hljs-keyword">double</span> sum = <span class="hljs-number">0</span>;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+                sum += density[j];
+            }
+
+            sum *= par.dx;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+                opr.wfc[j] /= <span class="hljs-built_in">sqrt</span>(sum);
+            }
+        }
+
+        <span class="hljs-comment">// Writing data into a file in the format of:</span>
+        <span class="hljs-comment">// index, density, real potential.</span>
+        <span class="hljs-keyword">char</span> filename[<span class="hljs-number">256</span>];
+        <span class="hljs-built_in">sprintf</span>(filename, <span class="hljs-string">&quot;output%lu.dat&quot;</span>, i);
+        FILE *fp = fopen(filename, <span class="hljs-string">&quot;w&quot;</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; opr.size; ++i) {
+            <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;%d\t%f\t%f\n&quot;</span>, i, density[i], creal(opr.v[i]));
+        }
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">split_op</span><span class="hljs-params">(par: Param, opr: Operators)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(par.timesteps):
+
+        <span class="hljs-comment"># Half-step in real space</span>
+        opr.wfc *= opr.R
+
+        <span class="hljs-comment"># FFT to momentum space</span>
+        opr.wfc = np.fft.fft(opr.wfc)
+
+        <span class="hljs-comment"># Full step in momentum space</span>
+        opr.wfc *= opr.K
+
+        <span class="hljs-comment"># iFFT back</span>
+        opr.wfc = np.fft.ifft(opr.wfc)
+
+        <span class="hljs-comment"># Final half-step in real space</span>
+        opr.wfc *= opr.R
+
+        <span class="hljs-comment"># Density for plotting and potential</span>
+        density = np.abs(opr.wfc) ** <span class="hljs-number">2</span>
+
+        <span class="hljs-comment"># Renormalizing for imaginary time</span>
+        <span class="hljs-keyword">if</span> par.im_time:
+            renorm_factor = sum(density) * par.dx
+            opr.wfc /= sqrt(renorm_factor)
+
+        <span class="hljs-comment"># Outputting data to file. Plotting can also be done in a</span>
+        <span class="hljs-comment"># similar way. This is set to output exactly 100 files, no</span>
+        <span class="hljs-comment"># matter how many timesteps were specified.</span>
+        <span class="hljs-keyword">if</span> i % (par.timesteps // <span class="hljs-number">100</span>) == <span class="hljs-number">0</span>:
+            filename = <span class="hljs-string">&quot;output{}.dat&quot;</span>.format(str(i).rjust(<span class="hljs-number">5</span>, str(<span class="hljs-number">0</span>)))
+            <span class="hljs-keyword">with</span> open(filename, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> outfile:
+                <span class="hljs-comment"># Outputting for gnuplot. Any plotter will do.</span>
+                <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(density)):
+                    template = <span class="hljs-string">&quot;{}\t{}\t{}\n&quot;</span>.format
+                    line = template(par.x[j], density[j].real, opr.V[j].real)
+                    outfile.write(line)
+            print(<span class="hljs-string">&quot;Outputting step: &quot;</span>, i + <span class="hljs-number">1</span>)
+</code></pre>
+</div></div></div>
+
+<p>And that&apos;s it.</p>
+<p>There is something a bit odd about the simulation in imaginary time, though.
+Basically, in imaginary time, we see an exponential decay of all the higher energy states, which means we are technically losing a large amount of our wavefunction density every timestep!
+To solve this issue, we <em>renormalize</em> by enforcing that <script type="math/tex; ">\int_{-\infty}^{+\infty}\Psi^\ast\Psi dx = 1</script>.
+As you can see from the code, this involves summing the density, multiplying that sum by <code>dx</code>, and then dividing each element in the wavefunction by the <code>sqrt()</code> of that value.</p>
+<p>The Split-Operator method is one of the most commonly used quantum simulation algorithms because of how straightforward it is to code and how quickly you can start really digging into the physics of the simulation results!</p>
+<h2 id="example-code">Example Code</h2>
+<p>This example code is a simulation of a gaussian distribution of atoms slightly offset in a harmonic trap in imaginary time.
+So long as the code is written appropriately, this means that the atoms should move towards the center of the trap and the energy should decay to <script type="math/tex; ">\frac{1}{2}\hbar\omega</script>, which will be simply <script type="math/tex; ">\frac{1}{2}</script> in this simulation.
+Checking to make sure your code can output the correct energy for a harmonic trap is a good test to make sure it is all working under-the-hood before simulating systems with more complicated Hamiltonians.</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment">#------------split_op.jl-------------------------------------------------------#</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Plotting: to plot individual timesteps, use gnuplot like so:</span>
+<span class="hljs-comment">#               p &quot;output00000.dat&quot; u 1:2 w l</span>
+<span class="hljs-comment">#               rep &quot;output00000.dat&quot; u 1:3 w l</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#------------------------------------------------------------------------------#</span>
+
+<span class="hljs-keyword">using</span> FFTW
+
+struct Param
+    xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>
+    dx<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    x<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+    dk<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
+    k<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}
+    im_time<span class="hljs-type">::</span><span class="hljs-built_in">Bool</span>
+
+    Param() = new(<span class="hljs-number">10.0</span>, <span class="hljs-number">512</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">2</span> * <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-<span class="hljs-number">10.0</span> + <span class="hljs-number">10.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">20.0</span>/<span class="hljs-number">512</span> : <span class="hljs-number">10.0</span>),
+                  <span class="hljs-literal">pi</span> / <span class="hljs-number">10.0</span>,
+                  <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:<span class="hljs-number">512</span>/<span class="hljs-number">2</span> - <span class="hljs-number">1</span>, -<span class="hljs-number">512</span>/<span class="hljs-number">2</span> : -<span class="hljs-number">1</span>) * <span class="hljs-literal">pi</span>/<span class="hljs-number">10.0</span>),
+                  <span class="hljs-literal">false</span>)
+    Param(xmax<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, res<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>, dt<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, timesteps<span class="hljs-type">::</span><span class="hljs-built_in">Int64</span>,
+          im_val<span class="hljs-type">::</span><span class="hljs-built_in">Bool</span>) = new(
+              xmax, res, dt, timesteps,
+              <span class="hljs-number">2</span>*xmax/res, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(-xmax+xmax/res:<span class="hljs-number">2</span>*xmax/res:xmax),
+              <span class="hljs-literal">pi</span>/xmax, <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Float64</span>}(vcat(<span class="hljs-number">0</span>:res/<span class="hljs-number">2</span>-<span class="hljs-number">1</span>, -res/<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>)*<span class="hljs-literal">pi</span>/(xmax)),
+              im_val
+          )
+<span class="hljs-keyword">end</span>
+
+mutable struct Operators
+    V<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    R<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    K<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+    wfc<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>{<span class="hljs-built_in">Float64</span>}}
+
+    Operators(res) = new(zeros(res),
+                         zeros(res),
+                         zeros(res),
+                         zeros(res))
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function to initialize the wfc and potential</span>
+<span class="hljs-keyword">function</span> init(par<span class="hljs-type">::</span>Param, voffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>, wfcoffset<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>)
+    opr = Operators(length(par.x))
+    opr.V = <span class="hljs-number">0.5</span> * (par.x .- voffset).^<span class="hljs-number">2</span>
+    opr.wfc = exp.(-(par.x .- wfcoffset).^<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
+    <span class="hljs-keyword">if</span> (par.im_time)
+        opr.K = exp.(-<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-number">0.5</span>*opr.V*par.dt)
+    <span class="hljs-keyword">else</span>
+        opr.K = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*par.k.^<span class="hljs-number">2</span>*par.dt)
+        opr.R = exp.(-<span class="hljs-literal">im</span>*<span class="hljs-number">0.5</span>*opr.V*par.dt)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> opr
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># Function for the split-operator loop</span>
+<span class="hljs-keyword">function</span> split_op(par<span class="hljs-type">::</span>Param, opr<span class="hljs-type">::</span>Operators)
+
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:par.timesteps
+        <span class="hljs-comment"># Half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.R
+
+        <span class="hljs-comment"># fft to momentum space</span>
+        opr.wfc = fft(opr.wfc)
+
+        <span class="hljs-comment"># Full step in momentum space</span>
+        opr.wfc = opr.wfc .* opr.K
+
+        <span class="hljs-comment"># ifft back</span>
+        opr.wfc = ifft(opr.wfc)
+
+        <span class="hljs-comment"># final half-step in real space</span>
+        opr.wfc = opr.wfc .* opr.R
+
+        <span class="hljs-comment"># density for plotting and potential</span>
+        density = abs2.(opr.wfc)
+
+        <span class="hljs-comment"># renormalizing for imaginary time</span>
+        <span class="hljs-keyword">if</span> (par.im_time)
+            renorm_factor = sum(density) * par.dx
+
+            <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:length(opr.wfc)
+                opr.wfc[j] /= sqrt(renorm_factor)
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+
+        <span class="hljs-comment"># Outputting data to file. Plotting can also be done in a similar way</span>
+        <span class="hljs-comment"># This is set to output exactly 100 files, no matter how many timesteps</span>
+        <span class="hljs-keyword">if</span> ((i-<span class="hljs-number">1</span>) % div(par.timesteps, <span class="hljs-number">100</span>) == <span class="hljs-number">0</span>)
+            outfile = open(<span class="hljs-string">&quot;output&quot;</span> * string(lpad(string(i-<span class="hljs-number">1</span>), <span class="hljs-number">5</span>, string(<span class="hljs-number">0</span>)))
+                                    * <span class="hljs-string">&quot;.dat&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>)
+
+            <span class="hljs-comment"># Outputting for gnuplot. Any plotter will do.</span>
+            <span class="hljs-keyword">for</span> j = <span class="hljs-number">1</span>:length(density)
+                write(outfile, string(par.x[j]) * <span class="hljs-string">&quot;\t&quot;</span>
+                               * string(density[j]) * <span class="hljs-string">&quot;\t&quot;</span>
+                               * string(real(opr.V[j])) * <span class="hljs-string">&quot;\n&quot;</span>)
+            <span class="hljs-keyword">end</span>
+
+            close(outfile)
+            println(<span class="hljs-string">&quot;Outputting step: &quot;</span>, i)
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># We are calculating the energy to check &lt;Psi|H|Psi&gt;</span>
+<span class="hljs-keyword">function</span> calculate_energy(par, opr)
+    <span class="hljs-comment"># Creating real, momentum, and conjugate wavefunctions</span>
+    wfc_r = opr.wfc
+    wfc_k = fft(wfc_r)
+    wfc_c = conj(wfc_r)
+
+    <span class="hljs-comment"># Finding the momentum and real-space energy terms</span>
+    energy_k = <span class="hljs-number">0.5</span>*wfc_c.*ifft((par.k.^<span class="hljs-number">2</span>) .* wfc_k)
+    energy_r = wfc_c.*opr.V .* wfc_r
+
+    <span class="hljs-comment"># Integrating over all space</span>
+    energy_final = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:length(energy_k)
+        energy_final += real(energy_k[i] + energy_r[i])
+    <span class="hljs-keyword">end</span> 
+
+    <span class="hljs-keyword">return</span> energy_final*par.dx
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># main function</span>
+<span class="hljs-keyword">function</span> main()
+    par = Param(<span class="hljs-number">5.0</span>, <span class="hljs-number">256</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">100</span>, <span class="hljs-literal">true</span>)
+
+    <span class="hljs-comment"># Starting wavefunction slightly offset so we can see it change</span>
+    opr = init(par, <span class="hljs-number">0.0</span>, -<span class="hljs-number">1.00</span>)
+    split_op(par, opr)
+
+    energy = calculate_energy(par, opr)
+    println(<span class="hljs-string">&quot;Energy is: &quot;</span>, energy)
+<span class="hljs-keyword">end</span>
+
+main()
+</code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">#include &lt;complex.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+
+// Using fftw3 library.
+#include &lt;fftw3.h&gt;
+
+struct params {
+    double xmax;
+    unsigned int res;
+    double dt;
+    unsigned int timesteps;
+    double dx;
+    double *x;
+    double dk;
+    double *k;
+    bool im_time;
+};
+
+struct operators {
+    size_t size;
+    double complex *v;
+    double complex *pe;
+    double complex *ke;
+    double complex *wfc;
+};
+
+void fft(double complex *x, int n, bool inverse) {
+    double complex y[n];
+    memset(y, 0, sizeof(y));
+    fftw_plan p;
+
+    if (inverse) {
+        p = fftw_plan_dft_1d(n, (fftw_complex*)x, (fftw_complex*)y,
+                             FFTW_BACKWARD, FFTW_ESTIMATE);
+    } else {
+        p = fftw_plan_dft_1d(n, (fftw_complex*)x, (fftw_complex*)y,
+                             FFTW_FORWARD, FFTW_ESTIMATE);
+    }
+
+    fftw_execute(p);
+    fftw_destroy_plan(p);
+
+    for (size_t i = 0; i &lt; n; ++i) {
+        x[i] = y[i] / sqrt((double)n);
+    }
+}
+
+void init_params(struct params *par, double xmax, unsigned int res, double dt,
+                 unsigned int timesteps, bool im) {
+
+    par-&gt;xmax = xmax;
+    par-&gt;res = res;
+    par-&gt;dt = dt;
+    par-&gt;timesteps = timesteps;
+    par-&gt;dx = 2.0 * xmax / res;
+    par-&gt;x = malloc(sizeof(double) * res);
+    par-&gt;dk = M_PI / xmax;
+    par-&gt;k = malloc(sizeof(double) * res);
+    par-&gt;im_time = im;
+
+    for (size_t i = 0; i &lt; res; ++i) {
+        par-&gt;x[i] = xmax / res - xmax + i * (2.0 * xmax / res);
+        if (i &lt; res / 2) {
+            par-&gt;k[i] = i * M_PI / xmax;
+        } else {
+            par-&gt;k[i] = ((double)i - res) * M_PI / xmax;
+        }
+    }
+}
+
+void init_operators(struct operators *opr, struct params par, double voffset,
+                    double wfcoffset) {
+
+    opr-&gt;size = par.res;
+    opr-&gt;v = malloc(sizeof(double complex) * par.res);
+    opr-&gt;pe = malloc(sizeof(double complex) * par.res);
+    opr-&gt;ke = malloc(sizeof(double complex) * par.res);
+    opr-&gt;wfc = malloc(sizeof(double complex) * par.res);
+
+    for (size_t i = 0; i &lt; par.res; ++i) {
+        opr-&gt;v[i] = 0.5 * cpow(par.x[i] - voffset, 2);
+        opr-&gt;wfc[i] = cexp(-cpow(par.x[i] - wfcoffset, 2) / 2.0);
+
+        if (par.im_time) {
+            opr-&gt;ke[i] = cexp(-0.5 * par.dt * cpow(par.k[i], 2));
+            opr-&gt;pe[i] = cexp(-0.5 * par.dt * opr-&gt;v[i]);
+        } else {
+            opr-&gt;ke[i] = cexp(-0.5 * par.dt * cpow(par.k[i], 2) * I);
+            opr-&gt;pe[i] = cexp(-0.5 * par.dt * opr-&gt;v[i] * I);
+        }
+    }
+}
+
+void split_op(struct params par, struct operators opr) {
+    double density[opr.size];
+
+    for (size_t i = 0; i &lt; par.timesteps; ++i) {
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        fft(opr.wfc, opr.size, false);
+
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.ke[j];
+        }
+
+        fft(opr.wfc, opr.size, true);
+
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            density[j] = pow(cabs(opr.wfc[j]), 2);
+        }
+
+        if (par.im_time) {
+            double sum = 0;
+
+            for (size_t j = 0; j &lt; opr.size; ++j) {
+                sum += density[j];
+            }
+
+            sum *= par.dx;
+
+            for (size_t j = 0; j &lt; opr.size; ++j) {
+                opr.wfc[j] /= sqrt(sum);
+            }
+        }
+
+        // Writing data into a file in the format of:
+        // index, density, real potential.
+        char filename[256];
+        sprintf(filename, &quot;output%lu.dat&quot;, i);
+        FILE *fp = fopen(filename, &quot;w&quot;);
+
+        for (int i = 0; i &lt; opr.size; ++i) {
+            fprintf(fp, &quot;%d\t%f\t%f\n&quot;, i, density[i], creal(opr.v[i]));
+        }
+
+        fclose(fp);
+    }
+}
+
+double calculate_energy(struct params par, struct operators opr) {
+    double complex wfc_r[opr.size];
+    double complex wfc_k[opr.size];
+    double complex wfc_c[opr.size];
+    memcpy(wfc_r, opr.wfc, sizeof(wfc_r));
+
+    memcpy(wfc_k, opr.wfc, sizeof(wfc_k));
+    fft(wfc_k, opr.size, false);
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        wfc_c[i] = conj(wfc_r[i]);
+    }
+
+    double complex energy_k[opr.size];
+    double complex energy_r[opr.size];
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        energy_k[i] = wfc_k[i] * cpow(par.k[i] + 0.0*I, 2);
+    }
+
+    fft(energy_k, opr.size, true);
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        energy_k[i] *= 0.5 * wfc_c[i];
+        energy_r[i] = wfc_c[i] * opr.v[i] * wfc_r[i];
+    }
+
+    double energy_final = 0;
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        energy_final += creal(energy_k[i] + energy_r[i]);
+    }
+
+    return energy_final * par.dx;
+}
+
+void free_params(struct params par) {
+    free(par.x);
+    free(par.k);
+}
+
+void free_operators(struct operators opr) {
+    free(opr.v);
+    free(opr.pe);
+    free(opr.ke);
+    free(opr.wfc);
+}
+
+int main() {
+    struct params par;
+    struct operators opr;
+
+    init_params(&amp;par, 5.0, 256, 0.05, 100, true);
+    init_operators(&amp;opr, par, 0.0, -1.0);
+
+    split_op(par, opr);
+
+    printf(&quot;the energy is %f\n&quot;, calculate_energy(par, opr));
+
+    free_params(par);
+    free_operators(opr);
+
+    return 0;
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> pi
+<span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> sqrt
+
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Param</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Container for holding all simulation parameters.&quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self,
+                 xmax: float,
+                 res: int,
+                 dt: float,
+                 timesteps: int,
+                 im_time: bool)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+
+        self.xmax = xmax
+        self.res = res
+        self.dt = dt
+        self.timesteps = timesteps
+        self.im_time = im_time
+
+        self.dx = <span class="hljs-number">2</span> * xmax / res
+        self.x = np.arange(-xmax + xmax / res, xmax, self.dx)
+        self.dk = pi / xmax
+        self.k = np.concatenate((np.arange(<span class="hljs-number">0</span>, res / <span class="hljs-number">2</span>),
+                                 np.arange(-res / <span class="hljs-number">2</span>, <span class="hljs-number">0</span>))) * self.dk
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Operators</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Container for holding operators and wavefunction coefficients.&quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, res: int)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+
+        self.V = np.empty(res, dtype=complex)
+        self.R = np.empty(res, dtype=complex)
+        self.K = np.empty(res, dtype=complex)
+        self.wfc = np.empty(res, dtype=complex)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">init</span><span class="hljs-params">(par: Param, voffset: float, wfcoffset: float)</span> -&gt; Operators:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Initialize the wavefunction coefficients and the potential.&quot;&quot;&quot;</span>
+    opr = Operators(len(par.x))
+    opr.V = <span class="hljs-number">0.5</span> * (par.x - voffset) ** <span class="hljs-number">2</span>
+    opr.wfc = np.exp(-((par.x - wfcoffset) ** <span class="hljs-number">2</span>) / <span class="hljs-number">2</span>, dtype=complex)
+    <span class="hljs-keyword">if</span> par.im_time:
+        opr.K = np.exp(<span class="hljs-number">-0.5</span> * (par.k ** <span class="hljs-number">2</span>) * par.dt)
+        opr.R = np.exp(<span class="hljs-number">-0.5</span> * opr.V * par.dt)
+    <span class="hljs-keyword">else</span>:
+        opr.K = np.exp(<span class="hljs-number">-0.5</span> * (par.k ** <span class="hljs-number">2</span>) * par.dt * <span class="hljs-number">1j</span>)
+        opr.R = np.exp(<span class="hljs-number">-0.5</span> * opr.V * par.dt * <span class="hljs-number">1j</span>)
+    <span class="hljs-keyword">return</span> opr
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">split_op</span><span class="hljs-params">(par: Param, opr: Operators)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(par.timesteps):
+
+        <span class="hljs-comment"># Half-step in real space</span>
+        opr.wfc *= opr.R
+
+        <span class="hljs-comment"># FFT to momentum space</span>
+        opr.wfc = np.fft.fft(opr.wfc)
+
+        <span class="hljs-comment"># Full step in momentum space</span>
+        opr.wfc *= opr.K
+
+        <span class="hljs-comment"># iFFT back</span>
+        opr.wfc = np.fft.ifft(opr.wfc)
+
+        <span class="hljs-comment"># Final half-step in real space</span>
+        opr.wfc *= opr.R
+
+        <span class="hljs-comment"># Density for plotting and potential</span>
+        density = np.abs(opr.wfc) ** <span class="hljs-number">2</span>
+
+        <span class="hljs-comment"># Renormalizing for imaginary time</span>
+        <span class="hljs-keyword">if</span> par.im_time:
+            renorm_factor = sum(density) * par.dx
+            opr.wfc /= sqrt(renorm_factor)
+
+        <span class="hljs-comment"># Outputting data to file. Plotting can also be done in a</span>
+        <span class="hljs-comment"># similar way. This is set to output exactly 100 files, no</span>
+        <span class="hljs-comment"># matter how many timesteps were specified.</span>
+        <span class="hljs-keyword">if</span> i % (par.timesteps // <span class="hljs-number">100</span>) == <span class="hljs-number">0</span>:
+            filename = <span class="hljs-string">&quot;output{}.dat&quot;</span>.format(str(i).rjust(<span class="hljs-number">5</span>, str(<span class="hljs-number">0</span>)))
+            <span class="hljs-keyword">with</span> open(filename, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> outfile:
+                <span class="hljs-comment"># Outputting for gnuplot. Any plotter will do.</span>
+                <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(density)):
+                    template = <span class="hljs-string">&quot;{}\t{}\t{}\n&quot;</span>.format
+                    line = template(par.x[j], density[j].real, opr.V[j].real)
+                    outfile.write(line)
+            print(<span class="hljs-string">&quot;Outputting step: &quot;</span>, i + <span class="hljs-number">1</span>)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calculate_energy</span><span class="hljs-params">(par: Param, opr: Operators)</span> -&gt; float:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Calculate the energy &lt;Psi|H|Psi&gt;.&quot;&quot;&quot;</span>
+    <span class="hljs-comment"># Creating real, momentum, and conjugate wavefunctions.</span>
+    wfc_r = opr.wfc
+    wfc_k = np.fft.fft(wfc_r)
+    wfc_c = np.conj(wfc_r)
+
+    <span class="hljs-comment"># Finding the momentum and real-space energy terms</span>
+    energy_k = <span class="hljs-number">0.5</span> * wfc_c * np.fft.ifft((par.k ** <span class="hljs-number">2</span>) * wfc_k)
+    energy_r = wfc_c * opr.V * wfc_r
+
+    <span class="hljs-comment"># Integrating over all space</span>
+    energy_final = sum(energy_k + energy_r).real
+
+    <span class="hljs-keyword">return</span> energy_final * par.dx
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    par = Param(<span class="hljs-number">5.0</span>, <span class="hljs-number">256</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">100</span>, <span class="hljs-keyword">True</span>)
+
+    <span class="hljs-comment"># Starting wavefunction slightly offset so we can see it change</span>
+    opr = init(par, <span class="hljs-number">0.0</span>, <span class="hljs-number">-1.00</span>)
+    split_op(par, opr)
+
+    energy = calculate_energy(par, opr)
+    print(<span class="hljs-string">&quot;Energy is: &quot;</span>, energy)
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()
+</code></pre>
+</div></div></div>
+
+<script>
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../quantum_systems/quantum_systems.html" class="navigation navigation-prev " aria-label="Previous page: Quantum Systems">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../data_compression/data_compression.html" class="navigation navigation-next " aria-label="Next page: Data Compression">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"next":{"title":"Data Compression","level":"1.17","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.17.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"f90","name":"Fortran90"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-09-26T00:59:25.298Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-26T01:01:04.282Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-api-language-selector/api-language-selector.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
