@@ -723,7 +723,7 @@ Here&apos;s a flowchart of what we are looking for every timestep:</p>
 
 <p>For the most part, that&apos;s it:</p>
 <ol>
-<li>Multiply the wavefunction in real space with the real-space operator. </li>
+<li>Multiply the wavefunction in real space with the real-space operator.</li>
 <li>Flip to momentum space with a Fourier transform.</li>
 <li>Multiply the momentum-space wavefuntion by the momentum-space operator.</li>
 <li>Flip to position space with an inverse Fourier transform.</li>
@@ -783,8 +783,7 @@ There is no doubt that it makes the simulation easier to understand (albeit a li
           )
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
-<span class="hljs-keyword">struct</span> params {
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> params {
     <span class="hljs-keyword">double</span> xmax;
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> res;
     <span class="hljs-keyword">double</span> dt;
@@ -794,9 +793,9 @@ There is no doubt that it makes the simulation easier to understand (albeit a li
     <span class="hljs-keyword">double</span> dk;
     <span class="hljs-keyword">double</span> *k;
     <span class="hljs-keyword">bool</span> im_time;
+};
 </code></pre>
-<pre><code class="lang-cpp">
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init_params</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> params *par, <span class="hljs-keyword">double</span> xmax, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> res, <span class="hljs-keyword">double</span> dt,
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init_params</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> params *par, <span class="hljs-keyword">double</span> xmax, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> res, <span class="hljs-keyword">double</span> dt,
                  <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> timesteps, <span class="hljs-keyword">bool</span> im)</span> </span>{
 
     par-&gt;xmax = xmax;
@@ -817,6 +816,7 @@ There is no doubt that it makes the simulation easier to understand (albeit a li
             par-&gt;k[i] = ((<span class="hljs-keyword">double</span>)i - res) * M_PI / xmax;
         }
     }
+}
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Param</span>:</span>
     <span class="hljs-string">&quot;&quot;&quot;Container for holding all simulation parameters.&quot;&quot;&quot;</span>
@@ -838,6 +838,38 @@ There is no doubt that it makes the simulation easier to understand (albeit a li
         self.dk = pi / xmax
         self.k = np.concatenate((np.arange(<span class="hljs-number">0</span>, res / <span class="hljs-number">2</span>),
                                  np.arange(-res / <span class="hljs-number">2</span>, <span class="hljs-number">0</span>))) * self.dk
+</code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Parameters</span> = <span class="hljs-type">Parameters</span></span>
+  { xmax :: <span class="hljs-type">Double</span>
+  , res :: <span class="hljs-type">Int</span>
+  , dt :: <span class="hljs-type">Double</span>
+  , timesteps :: <span class="hljs-type">Int</span>
+  , dx :: <span class="hljs-type">Double</span>
+  , x :: <span class="hljs-type">Vector</span>
+  , dk :: <span class="hljs-type">Double</span>
+  , ks :: <span class="hljs-type">Vector</span>
+  , imTime :: <span class="hljs-type">Bool</span>
+  }
+
+<span class="hljs-title">defaultParameters</span> :: <span class="hljs-type">Parameters</span>
+<span class="hljs-title">defaultParameters</span> = makeParameters <span class="hljs-number">10</span> <span class="hljs-number">512</span> <span class="hljs-number">0.01</span> <span class="hljs-number">1000</span> <span class="hljs-type">True</span>
+
+<span class="hljs-title">makeParameters</span> :: <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Bool</span> -&gt; <span class="hljs-type">Parameters</span>
+<span class="hljs-title">makeParameters</span> xmax res dt timesteps imTime =
+  <span class="hljs-keyword">let</span> fi = fromIntegral
+      rng = (<span class="hljs-number">0</span>, res - <span class="hljs-number">1</span>)
+      ks = [<span class="hljs-number">0</span> .. div res <span class="hljs-number">2</span> - <span class="hljs-number">1</span>] ++ [-div res <span class="hljs-number">2</span> .. <span class="hljs-number">-1</span>]
+   <span class="hljs-keyword">in</span> <span class="hljs-type">Parameters</span>
+        xmax
+        res
+        dt
+        timesteps
+        (<span class="hljs-number">2</span> * xmax / fi res)
+        (listArray rng $
+         map (\n -&gt; xmax * (<span class="hljs-number">-1</span> + <span class="hljs-number">2</span> * fi n / fi res) :+ <span class="hljs-number">0</span>) [<span class="hljs-number">1</span> .. res])
+        (pi / xmax)
+        (listArray rng $ map ((:+ <span class="hljs-number">0</span>) . (pi / xmax *) . fi) ks)
+        imTime
 </code></pre>
 </div></div></div>
 
@@ -874,16 +906,15 @@ There is another boolean value here called <code>im_time</code>, which is for im
     <span class="hljs-keyword">return</span> opr
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
-<span class="hljs-keyword">struct</span> operators {
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> operators {
     <span class="hljs-keyword">size_t</span> size;
     <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *v;
     <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *pe;
     <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *ke;
     <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *wfc;
+};
 </code></pre>
-<pre><code class="lang-cpp">
-void init_operators(struct operators *opr, struct params par, double voffset,
+<pre><code class="lang-cpp">void init_operators(struct operators *opr, struct params par, double voffset,
                     double wfcoffset) {
 
     opr-&gt;size = par.res;
@@ -904,6 +935,7 @@ void init_operators(struct operators *opr, struct params par, double voffset,
             opr-&gt;pe[i] = cexp(-0.5 * par.dt * opr-&gt;v[i] * I);
         }
     }
+}
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Operators</span>:</span>
     <span class="hljs-string">&quot;&quot;&quot;Container for holding operators and wavefunction coefficients.&quot;&quot;&quot;</span>
@@ -927,6 +959,25 @@ void init_operators(struct operators *opr, struct params par, double voffset,
         opr.K = np.exp(<span class="hljs-number">-0.5</span> * (par.k ** <span class="hljs-number">2</span>) * par.dt * <span class="hljs-number">1j</span>)
         opr.R = np.exp(<span class="hljs-number">-0.5</span> * opr.V * par.dt * <span class="hljs-number">1j</span>)
     <span class="hljs-keyword">return</span> opr
+</code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Operators</span> = <span class="hljs-type">Operators</span></span>
+  { v :: <span class="hljs-type">Vector</span>
+  , rStep :: <span class="hljs-type">Vector</span>
+  , kStep :: <span class="hljs-type">Vector</span>
+  , wfc :: <span class="hljs-type">Vector</span>
+  }
+
+<span class="hljs-title">makeOperators</span> :: <span class="hljs-type">Parameters</span> -&gt; <span class="hljs-type">Complex</span> <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Complex</span> <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Operators</span>
+<span class="hljs-title">makeOperators</span> param v0 wfc0 =
+  <span class="hljs-keyword">let</span> rng = (<span class="hljs-number">0</span>, res param - <span class="hljs-number">1</span>)
+      time
+        | imTime param = dt param :+ <span class="hljs-number">0</span>
+        | otherwise = <span class="hljs-number">0</span> :+ dt param
+      v = liftArray (\x -&gt; <span class="hljs-number">0.5</span> * (x - v0) ^ <span class="hljs-number">2</span>) (x param)
+      rStep = liftArray (\x -&gt; exp (<span class="hljs-number">-0.5</span> * time * x)) v
+      kStep = liftArray (\k -&gt; exp (<span class="hljs-number">-0.5</span> * time * k ^ <span class="hljs-number">2</span>)) (ks param)
+      wfc = liftArray (\x -&gt; exp (-(x - wfc0) ^ <span class="hljs-number">2</span> / <span class="hljs-number">2</span>)) (x param)
+   <span class="hljs-keyword">in</span> <span class="hljs-type">Operators</span> v rStep kStep (normalize (dx param) wfc)
 </code></pre>
 </div></div></div>
 
@@ -985,8 +1036,7 @@ Both of these have been shown in the figures above.</p>
     <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp">
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">split_op</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> params par, <span class="hljs-keyword">struct</span> operators opr)</span> </span>{
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">split_op</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> params par, <span class="hljs-keyword">struct</span> operators opr)</span> </span>{
     <span class="hljs-keyword">double</span> density[opr.size];
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; par.timesteps; ++i) {
@@ -1033,6 +1083,10 @@ Both of these have been shown in the figures above.</p>
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; opr.size; ++i) {
             <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;%d\t%f\t%f\n&quot;</span>, i, density[i], creal(opr.v[i]));
         }
+
+        fclose(fp);
+    }
+}
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">split_op</span><span class="hljs-params">(par: Param, opr: Operators)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
 
@@ -1073,6 +1127,13 @@ Both of these have been shown in the figures above.</p>
                     line = template(par.x[j], density[j].real, opr.V[j].real)
                     outfile.write(line)
             print(<span class="hljs-string">&quot;Outputting step: &quot;</span>, i + <span class="hljs-number">1</span>)
+</code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">evolve</span> :: <span class="hljs-type">Parameters</span> -&gt; <span class="hljs-type">Operators</span> -&gt; [<span class="hljs-type">Operators</span>]
+<span class="hljs-title">evolve</span> param op@(<span class="hljs-type">Operators</span> _ rStep kStep _) = iterate splitop op
+  <span class="hljs-keyword">where</span>
+    splitop op = op {wfc = wfc&apos; op}
+    wfc&apos; = norm . (rStep .*) . idft . (kStep .*) . dft . (rStep .*) . wfc
+    norm = <span class="hljs-keyword">if</span> imTime param <span class="hljs-keyword">then</span> normalize (dx param) <span class="hljs-keyword">else</span> id
 </code></pre>
 </div></div></div>
 
@@ -1571,6 +1632,111 @@ int main() {
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     main()
 </code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Array.CArray
+<span class="hljs-keyword">import</span> Data.Complex
+<span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">intercalate</span>, <span class="hljs-title">transpose</span>)
+<span class="hljs-keyword">import</span> Math.FFT (<span class="hljs-title">dft</span>, <span class="hljs-title">idft</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Vector</span> = <span class="hljs-type">CArray</span> <span class="hljs-type">Int</span> (<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>)</span>
+
+(.*), (.+) :: <span class="hljs-type">Vector</span> -&gt; <span class="hljs-type">Vector</span> -&gt; <span class="hljs-type">Vector</span>
+<span class="hljs-title">a</span> .* b = liftArray2 (*) a b
+<span class="hljs-title">a</span> .+ b = liftArray2 (+) a b
+
+<span class="hljs-title">normalize</span> :: <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Vector</span> -&gt; <span class="hljs-type">Vector</span>
+<span class="hljs-title">normalize</span> dx v =
+  <span class="hljs-keyword">let</span> factor = <span class="hljs-number">1</span> / sqrt dx / norm2 v :+ <span class="hljs-number">0</span>
+   <span class="hljs-keyword">in</span> liftArray (factor *) v
+
+<span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Parameters</span> = <span class="hljs-type">Parameters</span></span>
+  { xmax :: <span class="hljs-type">Double</span>
+  , res :: <span class="hljs-type">Int</span>
+  , dt :: <span class="hljs-type">Double</span>
+  , timesteps :: <span class="hljs-type">Int</span>
+  , dx :: <span class="hljs-type">Double</span>
+  , x :: <span class="hljs-type">Vector</span>
+  , dk :: <span class="hljs-type">Double</span>
+  , ks :: <span class="hljs-type">Vector</span>
+  , imTime :: <span class="hljs-type">Bool</span>
+  }
+
+<span class="hljs-title">defaultParameters</span> :: <span class="hljs-type">Parameters</span>
+<span class="hljs-title">defaultParameters</span> = makeParameters <span class="hljs-number">10</span> <span class="hljs-number">512</span> <span class="hljs-number">0.01</span> <span class="hljs-number">1000</span> <span class="hljs-type">True</span>
+
+<span class="hljs-title">makeParameters</span> :: <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Bool</span> -&gt; <span class="hljs-type">Parameters</span>
+<span class="hljs-title">makeParameters</span> xmax res dt timesteps imTime =
+  <span class="hljs-keyword">let</span> fi = fromIntegral
+      rng = (<span class="hljs-number">0</span>, res - <span class="hljs-number">1</span>)
+      ks = [<span class="hljs-number">0</span> .. div res <span class="hljs-number">2</span> - <span class="hljs-number">1</span>] ++ [-div res <span class="hljs-number">2</span> .. <span class="hljs-number">-1</span>]
+   <span class="hljs-keyword">in</span> <span class="hljs-type">Parameters</span>
+        xmax
+        res
+        dt
+        timesteps
+        (<span class="hljs-number">2</span> * xmax / fi res)
+        (listArray rng $
+         map (\n -&gt; xmax * (<span class="hljs-number">-1</span> + <span class="hljs-number">2</span> * fi n / fi res) :+ <span class="hljs-number">0</span>) [<span class="hljs-number">1</span> .. res])
+        (pi / xmax)
+        (listArray rng $ map ((:+ <span class="hljs-number">0</span>) . (pi / xmax *) . fi) ks)
+        imTime
+
+<span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Operators</span> = <span class="hljs-type">Operators</span></span>
+  { v :: <span class="hljs-type">Vector</span>
+  , rStep :: <span class="hljs-type">Vector</span>
+  , kStep :: <span class="hljs-type">Vector</span>
+  , wfc :: <span class="hljs-type">Vector</span>
+  }
+
+<span class="hljs-title">makeOperators</span> :: <span class="hljs-type">Parameters</span> -&gt; <span class="hljs-type">Complex</span> <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Complex</span> <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Operators</span>
+<span class="hljs-title">makeOperators</span> param v0 wfc0 =
+  <span class="hljs-keyword">let</span> rng = (<span class="hljs-number">0</span>, res param - <span class="hljs-number">1</span>)
+      time
+        | imTime param = dt param :+ <span class="hljs-number">0</span>
+        | otherwise = <span class="hljs-number">0</span> :+ dt param
+      v = liftArray (\x -&gt; <span class="hljs-number">0.5</span> * (x - v0) ^ <span class="hljs-number">2</span>) (x param)
+      rStep = liftArray (\x -&gt; exp (<span class="hljs-number">-0.5</span> * time * x)) v
+      kStep = liftArray (\k -&gt; exp (<span class="hljs-number">-0.5</span> * time * k ^ <span class="hljs-number">2</span>)) (ks param)
+      wfc = liftArray (\x -&gt; exp (-(x - wfc0) ^ <span class="hljs-number">2</span> / <span class="hljs-number">2</span>)) (x param)
+   <span class="hljs-keyword">in</span> <span class="hljs-type">Operators</span> v rStep kStep (normalize (dx param) wfc)
+
+<span class="hljs-title">evolve</span> :: <span class="hljs-type">Parameters</span> -&gt; <span class="hljs-type">Operators</span> -&gt; [<span class="hljs-type">Operators</span>]
+<span class="hljs-title">evolve</span> param op@(<span class="hljs-type">Operators</span> _ rStep kStep _) = iterate splitop op
+  <span class="hljs-keyword">where</span>
+    splitop op = op {wfc = wfc&apos; op}
+    wfc&apos; = norm . (rStep .*) . idft . (kStep .*) . dft . (rStep .*) . wfc
+    norm = <span class="hljs-keyword">if</span> imTime param <span class="hljs-keyword">then</span> normalize (dx param) <span class="hljs-keyword">else</span> id
+
+<span class="hljs-title">calculateEnergy</span> :: <span class="hljs-type">Parameters</span> -&gt; <span class="hljs-type">Operators</span> -&gt; <span class="hljs-type">Double</span>
+<span class="hljs-title">calculateEnergy</span> param ops = (* dx param) . sum . map realPart $ elems totalE
+  <span class="hljs-keyword">where</span>
+    totalE = potentialE .+ kineticE
+    potentialE = wfcConj .* v ops .* wfc ops
+    kineticOp = liftArray ((/ <span class="hljs-number">2</span>) . (^ <span class="hljs-number">2</span>)) (ks param)
+    kineticE = wfcConj .* idft (kineticOp .* dft (wfc ops))
+    wfcConj = liftArray conjugate $ wfc ops
+
+<span class="hljs-comment">-- Use gnuplot to make an animated  GIF using ../gnuplot/plot_output.plt</span>
+<span class="hljs-comment">-- $ gnuplot -e &quot;folder=&apos;../haskell&apos;&quot; plot_output.plt</span>
+<span class="hljs-title">printEvolution</span> :: <span class="hljs-type">Parameters</span> -&gt; [<span class="hljs-type">Operators</span>] -&gt; <span class="hljs-type">IO</span> ()
+<span class="hljs-title">printEvolution</span> param =
+  mapM_ (<span class="hljs-keyword">export</span> . (format &lt;$&gt;)) . zip [<span class="hljs-number">0</span> ..] . take <span class="hljs-number">100</span> . skip
+  <span class="hljs-keyword">where</span>
+    skip (x:xs) = x : skip (drop (div (timesteps param) <span class="hljs-number">100</span> - <span class="hljs-number">1</span>) xs)
+    format (<span class="hljs-type">Operators</span> v _ _ wfc) =
+      <span class="hljs-keyword">let</span> density = liftArray ((^ <span class="hljs-number">2</span>) . abs) wfc
+          values = map (map (show . realPart) . elems) [x param, density, v]
+       <span class="hljs-keyword">in</span> intercalate <span class="hljs-string">&quot;\n&quot;</span> $ map (intercalate <span class="hljs-string">&quot;\t&quot;</span>) $ transpose values
+    <span class="hljs-keyword">export</span> (i, f) = writeFile (<span class="hljs-string">&quot;output&quot;</span> ++ pad (show i) ++ <span class="hljs-string">&quot;.dat&quot;</span>) f
+    pad n = replicate (<span class="hljs-number">5</span> - length n) &apos;<span class="hljs-number">0</span>&apos; ++ n
+
+<span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
+<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">let</span> p = defaultParameters
+      o = makeOperators p <span class="hljs-number">0</span> <span class="hljs-number">4</span>
+      evol = evolve p o
+  print $ calculateEnergy p (evol !! timesteps p)
+  printEvolution p evol
+</code></pre>
 </div></div></div>
 
 <script>
@@ -1619,7 +1785,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"next":{"title":"Data Compression","level":"1.17","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.17.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"f90","name":"Fortran90"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-10-02T22:03:19.416Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-02T22:05:12.183Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"next":{"title":"Data Compression","level":"1.17","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.17.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"f90","name":"Fortran90"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-10-03T00:30:18.371Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-03T00:32:19.253Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
