@@ -786,6 +786,11 @@
   <span class="hljs-keyword">end</span> 
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">type</span> node <span class="hljs-keyword">struct</span> {
+    id       <span class="hljs-keyword">int</span>
+    children []*node
+}
+</code></pre>
 </div></div></div>
 
 <p>Because of this, the most straightforward way to traverse the tree might be recursive. This naturally leads us to the Depth-First Search (DFS) method:</p>
@@ -882,6 +887,13 @@
   print node.id
   node.children.each{ |child| dfs_recursive child } 
 <span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> dfsRecursive(n *node) {
+    fmt.Println(n.id)
+    <span class="hljs-keyword">for</span> _, child := <span class="hljs-keyword">range</span> n.children {
+        dfsRecursive(child)
+    }
+}
 </code></pre>
 </div></div></div>
 
@@ -982,6 +994,13 @@
   node.children.each{ |child| dfs_recursive_postorder child }
   print node.id 
 <span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> dfsRecursivePostorder(n *node) {
+    <span class="hljs-keyword">for</span> _, child := <span class="hljs-keyword">range</span> n.children {
+        dfsRecursive(child)
+    }
+    fmt.Println(n.id)
+}
 </code></pre>
 </div></div></div>
 
@@ -1187,6 +1206,22 @@
   <span class="hljs-keyword">end</span> 
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> dfsRecursiveInorderBtree(n *node) {
+    <span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(n.children) {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+        dfsRecursiveInorderBtree(n.children[<span class="hljs-number">0</span>])
+        fmt.Println(n.id)
+        dfsRecursiveInorderBtree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+        dfsRecursiveInorderBtree(n.children[<span class="hljs-number">0</span>])
+        fmt.Println(n.id)
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+        fmt.Println(n.id)
+    <span class="hljs-keyword">default</span>:
+        fmt.Println(<span class="hljs-string">&quot;This is not a binary tree&quot;</span>)
+    }
+}
+</code></pre>
 </div></div></div>
 
 <p>
@@ -1358,6 +1393,17 @@
   <span class="hljs-keyword">end</span> 
 <span class="hljs-keyword">end</span>
 </code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> dfsStack(n *node) {
+    stack := []*node{n}
+
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">len</span>(stack) &gt; <span class="hljs-number">0</span> {
+        cur := stack[<span class="hljs-number">0</span>]
+        stack = stack[<span class="hljs-number">1</span>:]
+        fmt.Println(cur.id)
+        stack = <span class="hljs-built_in">append</span>(cur.children, stack...)
+    }
+}
+</code></pre>
 </div></div></div>
 
 <p>All this said, there are a few details about DFS that might not be idea, depending on the situation. For example, if we use DFS on an incredibly long tree, we will spend a lot of time going further and further down a single branch without searching the rest of the data structure. In addition, it is not the natural way humans would order a tree if asked to number all the nodes from top to bottom. I would argue a more natural traversal order would look something like this:</p>
@@ -1516,6 +1562,17 @@
     temp.children.each{ |child| queue.push child }
   <span class="hljs-keyword">end</span>  
 <span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">func</span> bfsQueue(n *node) {
+    queue := []*node{n}
+
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">len</span>(queue) &gt; <span class="hljs-number">0</span> {
+        cur := queue[<span class="hljs-number">0</span>]
+        queue = queue[<span class="hljs-number">1</span>:]
+        fmt.Println(cur.id)
+        queue = <span class="hljs-built_in">append</span>(queue, cur.children...)
+    }
+}
 </code></pre>
 </div></div></div>
 
@@ -2924,6 +2981,97 @@ TreeTraversal::dfs_recursive_inorder_binary($node);
 
 main
 </code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-golang"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-keyword">type</span> node <span class="hljs-keyword">struct</span> {
+    id       <span class="hljs-keyword">int</span>
+    children []*node
+}
+
+<span class="hljs-keyword">func</span> dfsRecursive(n *node) {
+    fmt.Println(n.id)
+    <span class="hljs-keyword">for</span> _, child := <span class="hljs-keyword">range</span> n.children {
+        dfsRecursive(child)
+    }
+}
+
+<span class="hljs-keyword">func</span> dfsRecursivePostorder(n *node) {
+    <span class="hljs-keyword">for</span> _, child := <span class="hljs-keyword">range</span> n.children {
+        dfsRecursive(child)
+    }
+    fmt.Println(n.id)
+}
+
+<span class="hljs-keyword">func</span> dfsRecursiveInorderBtree(n *node) {
+    <span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(n.children) {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+        dfsRecursiveInorderBtree(n.children[<span class="hljs-number">0</span>])
+        fmt.Println(n.id)
+        dfsRecursiveInorderBtree(n.children[<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+        dfsRecursiveInorderBtree(n.children[<span class="hljs-number">0</span>])
+        fmt.Println(n.id)
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+        fmt.Println(n.id)
+    <span class="hljs-keyword">default</span>:
+        fmt.Println(<span class="hljs-string">&quot;This is not a binary tree&quot;</span>)
+    }
+}
+
+<span class="hljs-keyword">func</span> dfsStack(n *node) {
+    stack := []*node{n}
+
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">len</span>(stack) &gt; <span class="hljs-number">0</span> {
+        cur := stack[<span class="hljs-number">0</span>]
+        stack = stack[<span class="hljs-number">1</span>:]
+        fmt.Println(cur.id)
+        stack = <span class="hljs-built_in">append</span>(cur.children, stack...)
+    }
+}
+
+<span class="hljs-keyword">func</span> bfsQueue(n *node) {
+    queue := []*node{n}
+
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">len</span>(queue) &gt; <span class="hljs-number">0</span> {
+        cur := queue[<span class="hljs-number">0</span>]
+        queue = queue[<span class="hljs-number">1</span>:]
+        fmt.Println(cur.id)
+        queue = <span class="hljs-built_in">append</span>(queue, cur.children...)
+    }
+}
+
+<span class="hljs-keyword">func</span> createTree(numRow, numChild <span class="hljs-keyword">int</span>) *node {
+    <span class="hljs-keyword">if</span> numRow == <span class="hljs-number">0</span> {
+        <span class="hljs-keyword">return</span> &amp;node{id: <span class="hljs-number">0</span>}
+    }
+
+    cur := <span class="hljs-built_in">new</span>(node)
+    cur.id = numRow
+
+    <span class="hljs-keyword">for</span> x := <span class="hljs-number">0</span>; x &lt; numChild; x++ {
+        cur.children = <span class="hljs-built_in">append</span>(cur.children, createTree(numRow<span class="hljs-number">-1</span>, numChild))
+    }
+    <span class="hljs-keyword">return</span> cur
+}
+
+<span class="hljs-keyword">func</span> main() {
+    root := createTree(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>)
+    binTree := createTree(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>)
+
+    fmt.Println(<span class="hljs-string">&quot;DFS recursive:&quot;</span>)
+    dfsRecursive(root)
+    fmt.Println(<span class="hljs-string">&quot;DFS post order recursive:&quot;</span>)
+    dfsRecursivePostorder(root)
+    fmt.Println(<span class="hljs-string">&quot;DFS inorder binary tree:&quot;</span>)
+    dfsRecursiveInorderBtree(binTree)
+    fmt.Println(<span class="hljs-string">&quot;DFS stack:&quot;</span>)
+    dfsStack(root)
+    fmt.Println(<span class="hljs-string">&quot;BFS queue:&quot;</span>)
+    bfsQueue(root)
+}
+</code></pre>
 </div></div></div>
 
 
@@ -2973,7 +3121,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.8","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.9","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/tree_traversal/tree_traversal.md","mtime":"2018-10-05T11:20:43.385Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T11:22:25.844Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.8","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.9","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/tree_traversal/tree_traversal.md","mtime":"2018-10-05T21:07:46.786Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T21:09:31.952Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
