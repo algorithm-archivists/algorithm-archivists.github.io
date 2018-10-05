@@ -958,6 +958,70 @@ This means that we need to go through the vector <script type="math/tex; ">\math
             <span class="hljs-keyword">if</span> a[j+<span class="hljs-number">1</span>] &lt; a[j]:
                 swap(a[j],a[j+<span class="hljs-number">1</span>])
 </code></pre>
+</div><div class="code-method-sample" data-lang="x64" data-name="X86-64 Assembly"><pre><code class="lang-x64">  xor    rcx, rcx                 # The outer loop counter
+  lea    rdx, [rdi + 4*rsi - 4]   # The end address for the inner loop
+
+outer_loop:
+  cmp    rcx, rsi                 # We first check if the outer loop is done
+  jge    bubble_sort_done         # And if it is, return
+  mov    rax, rdi                 # Otherwise we initialize the loop variable of the inner loop
+inner_loop:
+  mov    r8d, DWORD PTR [rax]     # Load array[j] and array[j+1] through a pointer
+  mov    r9d, DWORD PTR [rax + 4]
+  cmp    r8d, r9d                 # If array[j] &lt;= array[j+1]
+  jle    loop_counters            # Then we can skip this iteration
+  mov    DWORD PTR [rax], r9d     # Otherwise swap the values
+  mov    DWORD PTR [rax + 4], r8d
+loop_counters:
+  lea    rax, [rax + 4]           # First, advance the inner loop
+  cmp    rax, rdx
+  jl     inner_loop               # And in case it&apos;s not done, repeat
+  inc    rcx                      # If it is done, go back to doing the outer loop
+  jmp    outer_loop
+
+bubble_sort_done:
+  ret
+
+main:
+  # Set up our stack
+  sub    rsp, 40
+
+  # We load the array in chunks onto the stack
+  movaps xmm0, XMMWORD PTR [array]
+  movaps XMMWORD PTR [rsp], xmm0
+  movaps xmm0, XMMWORD PTR [array + 16]
+  movaps XMMWORD PTR [rsp + 16], xmm0
+  mov    rax, QWORD PTR [array + 32]
+  mov    QWORD PTR [rsp + 32], rax
+
+  # Print the unsorted array
+  mov    rdi, OFFSET unsorted
+  xor    rax, rax
+  call   printf
+
+  mov    rdi, rsp
+  mov    rsi, array_len
+  call   print_array
+
+  # Sort
+  mov    rdi, rsp
+  mov    rsi, array_len
+  call   bubble_sort
+
+  # Print the sorted array
+  mov    rdi, OFFSET sorted
+  xor    rax, rax
+  call   printf
+
+  mov    rdi, rsp
+  mov    rsi, array_len
+  call   print_array
+
+  # Restore the stack pointer, set return value to 0
+  add    rsp, 40
+  xor    rax, rax
+  ret
+</code></pre>
 </div><div class="code-method-sample" data-lang="f90" data-name="Fortran90"><pre><code class="lang-fortran"><span class="hljs-function"><span class="hljs-keyword">SUBROUTINE</span></span> bubblesort(array)
 
     <span class="hljs-keyword">IMPLICIT</span> <span class="hljs-keyword">NONE</span>
@@ -1550,6 +1614,113 @@ echo <span class="hljs-string">&quot;\nSorted:&quot;</span>
 bubble_sort(x)
 print_array(x)
 </code></pre>
+</div><div class="code-method-sample" data-lang="x64" data-name="X86-64 Assembly"><pre><code class="lang-x64">.intel_syntax noprefix
+
+.section .rodata
+  array:
+    .align  16
+    .int    1, 45, 756, 4569, 56, 3, 8, 5, -10, -4
+    .equ    array_len, (.-array) / 4
+  array_fmt: .string &quot;%d &quot;
+  lf:        .string &quot;\n&quot;
+  unsorted:  .string &quot;Unsorted array: &quot;
+  sorted:    .string &quot;Sorted array: &quot;
+
+.section .text
+  .global main
+  .extern printf
+
+print_array:
+  push   r12
+  push   r13
+
+  mov    r12, rdi                 # Loop variable
+  lea    r13, [rdi + 4*rsi]       # Pointer after the last element
+
+print_array_loop:
+  cmp    r12, r13                 # If we&apos;re done iterating over the array then bail
+  jge    print_array_done
+  mov    rdi, OFFSET array_fmt    # Otherwise print the current value
+  mov    esi, DWORD PTR [r12]
+  xor    rax, rax
+  call   printf
+  lea    r12, [r12 + 4]           # And increment the loop variable pointer
+  jmp    print_array_loop
+
+print_array_done:
+  mov    rdi, OFFSET lf           # Print a closing newline
+  xor    rax, rax
+  call   printf
+
+  pop    r13
+  pop    r12
+  ret
+
+bubble_sort:
+  xor    rcx, rcx                 # The outer loop counter
+  lea    rdx, [rdi + 4*rsi - 4]   # The end address for the inner loop
+
+outer_loop:
+  cmp    rcx, rsi                 # We first check if the outer loop is done
+  jge    bubble_sort_done         # And if it is, return
+  mov    rax, rdi                 # Otherwise we initialize the loop variable of the inner loop
+inner_loop:
+  mov    r8d, DWORD PTR [rax]     # Load array[j] and array[j+1] through a pointer
+  mov    r9d, DWORD PTR [rax + 4]
+  cmp    r8d, r9d                 # If array[j] &lt;= array[j+1]
+  jle    loop_counters            # Then we can skip this iteration
+  mov    DWORD PTR [rax], r9d     # Otherwise swap the values
+  mov    DWORD PTR [rax + 4], r8d
+loop_counters:
+  lea    rax, [rax + 4]           # First, advance the inner loop
+  cmp    rax, rdx
+  jl     inner_loop               # And in case it&apos;s not done, repeat
+  inc    rcx                      # If it is done, go back to doing the outer loop
+  jmp    outer_loop
+
+bubble_sort_done:
+  ret
+
+main:
+  # Set up our stack
+  sub    rsp, 40
+
+  # We load the array in chunks onto the stack
+  movaps xmm0, XMMWORD PTR [array]
+  movaps XMMWORD PTR [rsp], xmm0
+  movaps xmm0, XMMWORD PTR [array + 16]
+  movaps XMMWORD PTR [rsp + 16], xmm0
+  mov    rax, QWORD PTR [array + 32]
+  mov    QWORD PTR [rsp + 32], rax
+
+  # Print the unsorted array
+  mov    rdi, OFFSET unsorted
+  xor    rax, rax
+  call   printf
+
+  mov    rdi, rsp
+  mov    rsi, array_len
+  call   print_array
+
+  # Sort
+  mov    rdi, rsp
+  mov    rsi, array_len
+  call   bubble_sort
+
+  # Print the sorted array
+  mov    rdi, OFFSET sorted
+  xor    rax, rax
+  call   printf
+
+  mov    rdi, rsp
+  mov    rsi, array_len
+  call   print_array
+
+  # Restore the stack pointer, set return value to 0
+  add    rsp, 40
+  xor    rax, rax
+  ret
+</code></pre>
 </div><div class="code-method-sample" data-lang="f90" data-name="Fortran90"><pre><code class="lang-fortran"><span class="hljs-function"><span class="hljs-keyword">PROGRAM</span></span> main
 
     <span class="hljs-keyword">IMPLICIT</span> <span class="hljs-keyword">NONE</span>
@@ -1696,7 +1867,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.7.1","depth":2,"next":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.7","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"f90","name":"Fortran90"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-10-05T08:23:14.366Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T08:25:40.339Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.7.1","depth":2,"next":{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.7","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.7.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-10-05T10:21:28.105Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T10:23:59.146Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
