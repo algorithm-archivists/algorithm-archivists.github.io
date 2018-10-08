@@ -805,6 +805,12 @@ p a
 
 bogo_sort a
 </code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">&#x1F407; &#x2757;&#xFE0F; &#x1F500; numbers &#x1F368;&#x1F41A;&#x1F4AF;&#x1F346; &#x1F347;
+  &#x1F501; &#x274E; &#x1F4F6;&#x1F407;&#x1F947; numbers&#x2757;&#xFE0F;&#x2757;&#xFE0F; &#x1F347;
+    &#x1F439; numbers&#x2757;&#xFE0F;
+  &#x1F349;
+&#x1F349;
+</code></pre>
 </div><div class="code-method-sample" data-lang="factor" data-name="Factor"><pre><code class="lang-factor">USING: random ;
 : bogosort ( seq -- seq&apos; )
   ! `dup` duplicates the array, because `sorted?` pops its reference to it
@@ -1357,6 +1363,39 @@ bogo_sort a
 puts <span class="hljs-string">&quot;Sorted&quot;</span> 
 p a
 </code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">&#x1F407; &#x1F947; &#x1F347;
+  &#x1F407; &#x2757;&#xFE0F; &#x1F500; numbers &#x1F368;&#x1F41A;&#x1F4AF;&#x1F346; &#x1F347;
+    &#x1F501; &#x274E; &#x1F4F6;&#x1F407;&#x1F947; numbers&#x2757;&#xFE0F;&#x2757;&#xFE0F; &#x1F347;
+      &#x1F439; numbers&#x2757;&#xFE0F;
+    &#x1F349;
+  &#x1F349;
+
+  &#x1F407; &#x2757;&#xFE0F; &#x1F4F6; numbers &#x1F368;&#x1F41A;&#x1F4AF;&#x1F346; &#x27A1;&#xFE0F; &#x1F44C; &#x1F347;
+    &#x1F502; i &#x1F195;&#x23E9;&#x23E9;&#xFE0F; 1 &#x1F414; numbers&#x2757;&#xFE0F;&#x2757;&#xFE0F; &#x1F347;
+      &#x21AA;&#xFE0F; &#x1F43D; numbers i &#x2796; 1&#x2757;&#xFE0F; &#x25B6;&#xFE0F; &#x1F43D; numbers i&#x2757;&#xFE0F; &#x1F347;
+        &#x21A9;&#xFE0F; &#x1F44E;
+      &#x1F349;
+    &#x1F349;
+    &#x21A9;&#xFE0F; &#x1F44D;
+  &#x1F349;
+&#x1F349;
+
+&#x1F3C1; &#x1F347;
+  &#x1F368; 1.7 -3.0 2.5 2.0 7.0 1.5 -4.3 0.3 &#x1F346;  &#x27A1;&#xFE0F; numbers
+
+  &#x1F600; &#x1F524;unordered:&#x1F524;&#x2757;&#xFE0F;
+  &#x1F502; number numbers &#x1F347;
+    &#x1F600; &#x1F521; number 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+  &#x1F349;
+
+  &#x1F500;&#x1F407;&#x1F947; numbers&#x2757;&#xFE0F;
+
+  &#x1F600; &#x1F524;ordered:&#x1F524;&#x2757;&#xFE0F;
+  &#x1F502; number numbers &#x1F347;
+    &#x1F600; &#x1F521; number 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+  &#x1F349;
+&#x1F349;
+</code></pre>
 </div><div class="code-method-sample" data-lang="factor" data-name="Factor"><pre><code class="lang-factor">! There&apos;s no built-in &quot;is sorted&quot; function, so let&apos;s make one:
 USING: locals ;
 : sorted? ( seq -- ? )
@@ -1489,7 +1528,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-10-08T10:43:30.687Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-08T10:46:08.264Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bogo Sort","level":"1.7.2","depth":2,"next":{"title":"Tree Traversal","level":"1.8","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"previous":{"title":"Bubble Sort","level":"1.7.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bogo_sort/bogo_sort.md","mtime":"2018-10-08T10:46:58.937Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-08T10:48:35.849Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
