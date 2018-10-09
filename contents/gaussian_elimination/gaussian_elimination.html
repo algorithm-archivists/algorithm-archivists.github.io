@@ -1160,6 +1160,50 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 
         pivot_row += <span class="hljs-number">1</span>
 </code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">gaussianElimination</span><span class="hljs-params">(<span class="hljs-keyword">double</span>[][] a)</span> </span>{
+    <span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">int</span> rows = a.length;
+    <span class="hljs-keyword">int</span> cols = a[<span class="hljs-number">0</span>].length;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; col++) {
+        <span class="hljs-keyword">int</span> pivot = row;
+
+        <span class="hljs-comment">// Step 1: finding the maximum element</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; row; i++) {
+            <span class="hljs-keyword">if</span> (Math.abs(a[i][col]) &gt; Math.abs(a[pivot][col])) {
+                pivot = i;
+            }
+        }
+
+        <span class="hljs-keyword">if</span> (a[pivot][col] == <span class="hljs-number">0</span>) {
+            System.err.println(<span class="hljs-string">&quot;The matrix is singular&quot;</span>);
+            <span class="hljs-keyword">continue</span>;
+        }
+
+        <span class="hljs-keyword">if</span> (row != pivot) {
+            <span class="hljs-comment">// Step 2: Swap the row with the highest valued element</span>
+            <span class="hljs-comment">// with the current row</span>
+            swapRow(a, col, pivot);
+        }
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; i++) {
+            <span class="hljs-comment">// Step 3: finding the inverse</span>
+            <span class="hljs-keyword">double</span> scale = a[i][col] / a[row][col];
+            <span class="hljs-comment">// loop through all columns in current row</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; j++) {
+
+                <span class="hljs-comment">// Step 4: Subtract rows</span>
+                a[i][j] -= a[row][j] * scale;
+            }
+
+            <span class="hljs-comment">// Step 5: Set lower elements to 0</span>
+            a[i][col] = <span class="hljs-number">0</span>;
+        }
+        row++;
+    }
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">gaussianElimination</span>(<span class="hljs-params">a</span>) </span>{
   <span class="hljs-keyword">const</span> rows = a.length
   <span class="hljs-keyword">const</span> cols = a[<span class="hljs-number">0</span>].length
@@ -1325,6 +1369,29 @@ Here it is in code:</p>
         <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(row):
             A[r, :] -= A[r, col] * A[row, :]
 </code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">gaussJordan</span><span class="hljs-params">(<span class="hljs-keyword">double</span>[][] a)</span> </span>{
+    <span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">int</span> cols = a[<span class="hljs-number">0</span>].length;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; col++) {
+        <span class="hljs-keyword">if</span> (a[row][col] != <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = cols - <span class="hljs-number">1</span>; i &gt; col - <span class="hljs-number">1</span>; i--) {
+                <span class="hljs-comment">// divide row by pivot so the pivot is set to 1</span>
+                a[row][i] /= a[row][col];
+            }
+
+            <span class="hljs-comment">// subtract the value form above row and set values above pivot to 0</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; row; i++) {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = cols - <span class="hljs-number">1</span>; j &gt; col - <span class="hljs-number">1</span>; j--) {
+                    a[i][j] -= a[i][col] * a[row][j];
+                }
+            }
+            row++;
+        }
+    }
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">gaussJordan</span>(<span class="hljs-params">a</span>) </span>{
   <span class="hljs-keyword">const</span> cols = a[<span class="hljs-number">0</span>].length;
   <span class="hljs-keyword">let</span> row = <span class="hljs-number">0</span>;
@@ -1432,6 +1499,23 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
         sol[pivot_i] = (A[pivot_i, A.shape[<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>] - s) / A[pivot_i, pivot_i]
 
     <span class="hljs-keyword">return</span> sol
+</code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span>[] backSubstitution(<span class="hljs-keyword">double</span>[][] a) {
+    <span class="hljs-keyword">int</span> rows = a.length;
+    <span class="hljs-keyword">int</span> cols = a[<span class="hljs-number">0</span>].length;
+
+    <span class="hljs-keyword">double</span>[] solution = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>[rows];
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = rows - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+        <span class="hljs-keyword">double</span> sum = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = cols - <span class="hljs-number">2</span>; j &gt; i; j--) {
+            sum += solution[j] * a[i][j];
+        }
+        solution[i] = (a[i][cols - <span class="hljs-number">1</span>] - sum) / a[i][i];
+    }
+    <span class="hljs-keyword">return</span> solution;
+}
 </code></pre>
 </div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">backSubstitution</span>(<span class="hljs-params">a</span>) </span>{
   <span class="hljs-keyword">const</span> rows = a.length;
@@ -1978,6 +2062,120 @@ main()
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     main()
 </code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.Arrays;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GaussianElimination</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">gaussianElimination</span><span class="hljs-params">(<span class="hljs-keyword">double</span>[][] a)</span> </span>{
+        <span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">int</span> rows = a.length;
+        <span class="hljs-keyword">int</span> cols = a[<span class="hljs-number">0</span>].length;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; col++) {
+            <span class="hljs-keyword">int</span> pivot = row;
+
+            <span class="hljs-comment">// Step 1: finding the maximum element</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; row; i++) {
+                <span class="hljs-keyword">if</span> (Math.abs(a[i][col]) &gt; Math.abs(a[pivot][col])) {
+                    pivot = i;
+                }
+            }
+
+            <span class="hljs-keyword">if</span> (a[pivot][col] == <span class="hljs-number">0</span>) {
+                System.err.println(<span class="hljs-string">&quot;The matrix is singular&quot;</span>);
+                <span class="hljs-keyword">continue</span>;
+            }
+
+            <span class="hljs-keyword">if</span> (row != pivot) {
+                <span class="hljs-comment">// Step 2: Swap the row with the highest valued element</span>
+                <span class="hljs-comment">// with the current row</span>
+                swapRow(a, col, pivot);
+            }
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; i++) {
+                <span class="hljs-comment">// Step 3: finding the inverse</span>
+                <span class="hljs-keyword">double</span> scale = a[i][col] / a[row][col];
+                <span class="hljs-comment">// loop through all columns in current row</span>
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; j++) {
+
+                    <span class="hljs-comment">// Step 4: Subtract rows</span>
+                    a[i][j] -= a[row][j] * scale;
+                }
+
+                <span class="hljs-comment">// Step 5: Set lower elements to 0</span>
+                a[i][col] = <span class="hljs-number">0</span>;
+            }
+            row++;
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">gaussJordan</span><span class="hljs-params">(<span class="hljs-keyword">double</span>[][] a)</span> </span>{
+        <span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">int</span> cols = a[<span class="hljs-number">0</span>].length;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; col++) {
+            <span class="hljs-keyword">if</span> (a[row][col] != <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = cols - <span class="hljs-number">1</span>; i &gt; col - <span class="hljs-number">1</span>; i--) {
+                    <span class="hljs-comment">// divide row by pivot so the pivot is set to 1</span>
+                    a[row][i] /= a[row][col];
+                }
+
+                <span class="hljs-comment">// subtract the value form above row and set values above pivot to 0</span>
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; row; i++) {
+                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = cols - <span class="hljs-number">1</span>; j &gt; col - <span class="hljs-number">1</span>; j--) {
+                        a[i][j] -= a[i][col] * a[row][j];
+                    }
+                }
+                row++;
+            }
+        }
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span>[] backSubstitution(<span class="hljs-keyword">double</span>[][] a) {
+        <span class="hljs-keyword">int</span> rows = a.length;
+        <span class="hljs-keyword">int</span> cols = a[<span class="hljs-number">0</span>].length;
+
+        <span class="hljs-keyword">double</span>[] solution = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>[rows];
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = rows - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+            <span class="hljs-keyword">double</span> sum = <span class="hljs-number">0</span>;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = cols - <span class="hljs-number">2</span>; j &gt; i; j--) {
+                sum += solution[j] * a[i][j];
+            }
+            solution[i] = (a[i][cols - <span class="hljs-number">1</span>] - sum) / a[i][i];
+        }
+        <span class="hljs-keyword">return</span> solution;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">swapRow</span><span class="hljs-params">(<span class="hljs-keyword">double</span>[][] a, <span class="hljs-keyword">int</span> rowA, <span class="hljs-keyword">int</span> rowB)</span> </span>{
+        <span class="hljs-keyword">double</span>[] temp = a[rowA];
+        a[rowA] = a[rowB];
+        a[rowB] = temp;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">double</span>[][] a = {
+            { <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, -<span class="hljs-number">4</span>, <span class="hljs-number">3</span> },
+            { <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">15</span> },
+            { <span class="hljs-number">5</span>, -<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">14</span> }
+        };
+
+        gaussianElimination(a);
+        System.out.println(<span class="hljs-string">&quot;Gaussian elimination:&quot;</span>);
+        Arrays.stream(a).forEach(x -&gt; System.out.println(Arrays.toString(x)));
+
+        gaussJordan(a);
+        System.out.println(<span class="hljs-string">&quot;\nGauss-Jordan:&quot;</span>);
+        Arrays.stream(a).forEach(x -&gt; System.out.println(Arrays.toString(x)));
+
+        System.out.println(<span class="hljs-string">&quot;\nSolutions:&quot;</span>);
+        System.out.println(Arrays.toString(backSubstitution(a)));
+    }
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">gaussianElimination</span>(<span class="hljs-params">a</span>) </span>{
   <span class="hljs-keyword">const</span> rows = a.length
   <span class="hljs-keyword">const</span> cols = a[<span class="hljs-number">0</span>].length
@@ -2136,7 +2334,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-10-09T20:48:31.027Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-09T20:50:27.729Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.11","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.11.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.11.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-10-09T21:18:13.753Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-09T21:20:22.813Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
