@@ -707,6 +707,10 @@ We can find whether a rotation is counter-clockwise with trigonometric functions
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">counter_clockwise</span><span class="hljs-params">(p1, p2, p3)</span>:</span>
     <span class="hljs-keyword">return</span> (p3[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p2[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>]) &gt;= (p2[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p3[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>])
 </code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">ccw</span><span class="hljs-params">(Point a, Point b, Point c)</span> </span>{
+    <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+</code></pre>
 </div></div></div>
 
 <p>If the output of this function is 0, the points are collinear.
@@ -841,6 +845,43 @@ In the end, the code should look something like this:</p>
         <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> counter_clockwise(hull[<span class="hljs-number">-2</span>], hull[<span class="hljs-number">-1</span>], pt):
             <span class="hljs-keyword">del</span> hull[<span class="hljs-number">-1</span>]
         hull.append(pt)
+</code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> List&lt;Point&gt; <span class="hljs-title">grahamScan</span><span class="hljs-params">(List&lt;Point&gt; gift)</span> </span>{
+    gift = gift.stream()
+               .distinct()
+               .sorted(Comparator.comparingDouble(point -&gt; -point.y))
+               .collect(Collectors.toList());
+
+    Point pivot = gift.get(<span class="hljs-number">0</span>);
+
+    <span class="hljs-comment">// Sort the remaining Points based on the angle between the pivot and itself</span>
+    List&lt;Point&gt; hull = gift.subList(<span class="hljs-number">1</span>, gift.size());
+    hull.sort(Comparator.comparingDouble(point -&gt; polarAngle(point, pivot)));
+
+    <span class="hljs-comment">// The pivot is always on the hull</span>
+    hull.add(<span class="hljs-number">0</span>, pivot);
+
+    <span class="hljs-keyword">int</span> n = hull.size();
+    <span class="hljs-keyword">int</span> m = <span class="hljs-number">1</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+        <span class="hljs-keyword">while</span> (ccw(hull.get(m - <span class="hljs-number">1</span>), hull.get(m), hull.get(i)) &lt;= <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">if</span> (m &gt; <span class="hljs-number">1</span>) {
+                m--;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">break</span>;
+            } <span class="hljs-keyword">else</span> {
+                i++;
+            }
+        }
+        m++;
+
+        Point temp = hull.get(i);
+        hull.set(i, hull.get(m));
+        hull.set(m, temp);
+    }
+    <span class="hljs-keyword">return</span> hull.subList(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
+}
 </code></pre>
 </div></div></div>
 
@@ -1142,6 +1183,102 @@ convexHull.forEach(p =&gt; <span class="hljs-built_in">console</span>.log(<span 
 
 main()
 </code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Comparator;
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.stream.Collectors;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GrahamScan</span> </span>{
+
+    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span> </span>{
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> x;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> y;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Point</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>{
+            <span class="hljs-keyword">this</span>.x = x;
+            <span class="hljs-keyword">this</span>.y = y;
+        }
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object o)</span> </span>{
+            <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">this</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            <span class="hljs-keyword">if</span> (!(o <span class="hljs-keyword">instanceof</span> Point)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            Point p = (Point)o;
+            <span class="hljs-keyword">return</span> p.x == <span class="hljs-keyword">this</span>.x &amp;&amp; p.y == <span class="hljs-keyword">this</span>.y;
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">ccw</span><span class="hljs-params">(Point a, Point b, Point c)</span> </span>{
+        <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">polarAngle</span><span class="hljs-params">(Point origin, Point p)</span> </span>{
+        <span class="hljs-keyword">return</span> Math.atan2(p.y - origin.y, p.x - origin.x);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> List&lt;Point&gt; <span class="hljs-title">grahamScan</span><span class="hljs-params">(List&lt;Point&gt; gift)</span> </span>{
+        gift = gift.stream()
+                   .distinct()
+                   .sorted(Comparator.comparingDouble(point -&gt; -point.y))
+                   .collect(Collectors.toList());
+
+        Point pivot = gift.get(<span class="hljs-number">0</span>);
+
+        <span class="hljs-comment">// Sort the remaining Points based on the angle between the pivot and itself</span>
+        List&lt;Point&gt; hull = gift.subList(<span class="hljs-number">1</span>, gift.size());
+        hull.sort(Comparator.comparingDouble(point -&gt; polarAngle(point, pivot)));
+
+        <span class="hljs-comment">// The pivot is always on the hull</span>
+        hull.add(<span class="hljs-number">0</span>, pivot);
+
+        <span class="hljs-keyword">int</span> n = hull.size();
+        <span class="hljs-keyword">int</span> m = <span class="hljs-number">1</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+            <span class="hljs-keyword">while</span> (ccw(hull.get(m - <span class="hljs-number">1</span>), hull.get(m), hull.get(i)) &lt;= <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">if</span> (m &gt; <span class="hljs-number">1</span>) {
+                    m--;
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m == <span class="hljs-number">1</span>) {
+                    <span class="hljs-keyword">break</span>;
+                } <span class="hljs-keyword">else</span> {
+                    i++;
+                }
+            }
+            m++;
+
+            Point temp = hull.get(i);
+            hull.set(i, hull.get(m));
+            hull.set(m, temp);
+        }
+        <span class="hljs-keyword">return</span> hull.subList(<span class="hljs-number">0</span>, m + <span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        ArrayList&lt;Point&gt; points = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">5</span>, <span class="hljs-number">2</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">5</span>, <span class="hljs-number">7</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">6</span>, -<span class="hljs-number">12</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">14</span>, -<span class="hljs-number">14</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">9</span>, <span class="hljs-number">9</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">6</span>, <span class="hljs-number">15</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">6</span>, -<span class="hljs-number">8</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">15</span>, -<span class="hljs-number">9</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">7</span>, -<span class="hljs-number">7</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">2</span>, -<span class="hljs-number">9</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">6</span>, -<span class="hljs-number">5</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">14</span>));
+        points.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">8</span>));
+
+        List&lt;Point&gt; convexHull = grahamScan(points);
+
+        convexHull.forEach(p -&gt; System.out.printf(<span class="hljs-string">&quot;% 1.0f, % 1.0f\n&quot;</span>, p.x, p.y));
+    }
+}
+</code></pre>
 </div></div></div>
 
 <script>
@@ -1190,7 +1327,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-10-08T21:00:50.644Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-08T21:03:04.432Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-10-09T10:47:10.974Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-09T10:49:03.306Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
