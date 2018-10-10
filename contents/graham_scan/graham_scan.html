@@ -707,6 +707,10 @@ We can find whether a rotation is counter-clockwise with trigonometric functions
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">counter_clockwise</span><span class="hljs-params">(p1, p2, p3)</span>:</span>
     <span class="hljs-keyword">return</span> (p3[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p2[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>]) &gt;= (p2[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p3[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>])
 </code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-go"><span class="hljs-keyword">func</span> counterClockwise(p1, p2, p3 point) <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">return</span> (p3.y-p1.y)*(p2.x-p1.x) &gt;= (p2.y-p1.y)*(p3.x-p1.x)
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">ccw</span><span class="hljs-params">(Point a, Point b, Point c)</span> </span>{
     <span class="hljs-keyword">return</span> (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
@@ -845,6 +849,29 @@ In the end, the code should look something like this:</p>
         <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> counter_clockwise(hull[<span class="hljs-number">-2</span>], hull[<span class="hljs-number">-1</span>], pt):
             <span class="hljs-keyword">del</span> hull[<span class="hljs-number">-1</span>]
         hull.append(pt)
+</code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-go"><span class="hljs-keyword">func</span> grahamScan(points []point) []point {
+    sort.Slice(points, <span class="hljs-keyword">func</span>(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">bool</span> {
+        <span class="hljs-keyword">return</span> points[a].y &lt; points[b].y || (points[a].y == points[b].y &amp;&amp; points[a].x &lt; points[b].x)
+    })
+
+    start := points[<span class="hljs-number">0</span>]
+    points = points[<span class="hljs-number">1</span>:]
+
+    sort.Slice(points, <span class="hljs-keyword">func</span>(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">bool</span> {
+        <span class="hljs-keyword">return</span> polarAngle(start, points[a]) &lt; polarAngle(start, points[b])
+    })
+
+    hull := []point{start, points[<span class="hljs-number">0</span>], points[<span class="hljs-number">1</span>]}
+    <span class="hljs-keyword">for</span> _, p := <span class="hljs-keyword">range</span> points[<span class="hljs-number">2</span>:] {
+        <span class="hljs-keyword">for</span> !counterClockwise(hull[<span class="hljs-built_in">len</span>(hull)<span class="hljs-number">-2</span>], hull[<span class="hljs-built_in">len</span>(hull)<span class="hljs-number">-1</span>], p) {
+            hull = hull[:<span class="hljs-built_in">len</span>(hull)<span class="hljs-number">-1</span>]
+        }
+        hull = <span class="hljs-built_in">append</span>(hull, p)
+    }
+
+    <span class="hljs-keyword">return</span> hull
+}
 </code></pre>
 </div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> List&lt;Point&gt; <span class="hljs-title">grahamScan</span><span class="hljs-params">(List&lt;Point&gt; gift)</span> </span>{
     gift = gift.stream()
@@ -1183,6 +1210,61 @@ convexHull.forEach(p =&gt; <span class="hljs-built_in">console</span>.log(<span 
 
 main()
 </code></pre>
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">&quot;fmt&quot;</span>
+    <span class="hljs-string">&quot;math&quot;</span>
+    <span class="hljs-string">&quot;sort&quot;</span>
+)
+
+<span class="hljs-keyword">type</span> point <span class="hljs-keyword">struct</span> {
+    x, y <span class="hljs-keyword">int</span>
+}
+
+<span class="hljs-keyword">func</span> counterClockwise(p1, p2, p3 point) <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">return</span> (p3.y-p1.y)*(p2.x-p1.x) &gt;= (p2.y-p1.y)*(p3.x-p1.x)
+}
+
+<span class="hljs-keyword">func</span> polarAngle(ref, point point) <span class="hljs-keyword">float64</span> {
+    <span class="hljs-keyword">return</span> math.Atan2(<span class="hljs-keyword">float64</span>(point.y-ref.y), <span class="hljs-keyword">float64</span>(point.x-ref.x))
+}
+
+<span class="hljs-keyword">func</span> grahamScan(points []point) []point {
+    sort.Slice(points, <span class="hljs-keyword">func</span>(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">bool</span> {
+        <span class="hljs-keyword">return</span> points[a].y &lt; points[b].y || (points[a].y == points[b].y &amp;&amp; points[a].x &lt; points[b].x)
+    })
+
+    start := points[<span class="hljs-number">0</span>]
+    points = points[<span class="hljs-number">1</span>:]
+
+    sort.Slice(points, <span class="hljs-keyword">func</span>(a, b <span class="hljs-keyword">int</span>) <span class="hljs-keyword">bool</span> {
+        <span class="hljs-keyword">return</span> polarAngle(start, points[a]) &lt; polarAngle(start, points[b])
+    })
+
+    hull := []point{start, points[<span class="hljs-number">0</span>], points[<span class="hljs-number">1</span>]}
+    <span class="hljs-keyword">for</span> _, p := <span class="hljs-keyword">range</span> points[<span class="hljs-number">2</span>:] {
+        <span class="hljs-keyword">for</span> !counterClockwise(hull[<span class="hljs-built_in">len</span>(hull)<span class="hljs-number">-2</span>], hull[<span class="hljs-built_in">len</span>(hull)<span class="hljs-number">-1</span>], p) {
+            hull = hull[:<span class="hljs-built_in">len</span>(hull)<span class="hljs-number">-1</span>]
+        }
+        hull = <span class="hljs-built_in">append</span>(hull, p)
+    }
+
+    <span class="hljs-keyword">return</span> hull
+}
+
+<span class="hljs-keyword">func</span> main() {
+    points := []point{{<span class="hljs-number">-5</span>, <span class="hljs-number">2</span>}, {<span class="hljs-number">5</span>, <span class="hljs-number">7</span>}, {<span class="hljs-number">-6</span>, <span class="hljs-number">-12</span>}, {<span class="hljs-number">-14</span>, <span class="hljs-number">-14</span>}, {<span class="hljs-number">9</span>, <span class="hljs-number">9</span>},
+        {<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>}, {<span class="hljs-number">-10</span>, <span class="hljs-number">11</span>}, {<span class="hljs-number">-6</span>, <span class="hljs-number">15</span>}, {<span class="hljs-number">-6</span>, <span class="hljs-number">-8</span>}, {<span class="hljs-number">15</span>, <span class="hljs-number">-9</span>},
+        {<span class="hljs-number">7</span>, <span class="hljs-number">-7</span>}, {<span class="hljs-number">-2</span>, <span class="hljs-number">-9</span>}, {<span class="hljs-number">6</span>, <span class="hljs-number">-5</span>}, {<span class="hljs-number">0</span>, <span class="hljs-number">14</span>}, {<span class="hljs-number">2</span>, <span class="hljs-number">8</span>}}
+
+    fmt.Println(<span class="hljs-string">&quot;The points in the hull are:&quot;</span>)
+    hull := grahamScan(points)
+    <span class="hljs-keyword">for</span> _, p := <span class="hljs-keyword">range</span> hull {
+        fmt.Println(p)
+    }
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.ArrayList;
 <span class="hljs-keyword">import</span> java.util.Comparator;
 <span class="hljs-keyword">import</span> java.util.List;
@@ -1327,7 +1409,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-10-10T02:00:12.850Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-10T02:01:44.575Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Graham Scan","level":"1.12.1.2","depth":3,"next":{"title":"FFT","level":"1.13","depth":1,"path":"contents/cooley_tukey/cooley_tukey.md","ref":"contents/cooley_tukey/cooley_tukey.md","articles":[]},"previous":{"title":"Jarvis March","level":"1.12.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/graham_scan/graham_scan.md","mtime":"2018-10-10T08:08:04.322Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-10T08:09:44.365Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
