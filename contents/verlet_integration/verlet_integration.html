@@ -916,6 +916,32 @@ Here is what it looks like in code:</p>
     <span class="hljs-keyword">return</span>
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre><code class="lang-asm-x64"># xmm0 - pos
+# xmm1 - acc
+# xmm2 - dt
+# RET xmm0 - time
+verlet:
+  pxor   xmm7, xmm7                  # Holds 0 for comparisons
+  pxor   xmm3, xmm3                  # Holds time value
+  comisd xmm0, xmm7                  # Check if pos is greater then 0.0
+  jbe    verlet_return
+  movsd  xmm6, xmm1                  # xmm6 = acc * dt * dt
+  mulsd  xmm6, xmm2
+  mulsd  xmm6, xmm2
+  movsd  xmm5, xmm0                  # Holds previous position
+verlet_loop:
+  addsd  xmm3, xmm2                  # Adding dt to time
+  movsd  xmm4, xmm0                  # Hold old value of posistion
+  addsd  xmm0, xmm0                  # Calculating new position
+  subsd  xmm0, xmm5
+  addsd  xmm0, xmm6
+  movsd  xmm5, xmm4
+  comisd xmm0, xmm7                  # Check if position is greater then 0.0
+  ja     verlet_loop
+verlet_return:
+  movsd  xmm0, xmm3                  # Saving time value
+  ret
+</code></pre>
 </div></div></div>
 
 <p>Now, obviously this poses a problem; what if we want to calculate a term that requires velocity, like the kinetic energy, <script type="math/tex; ">\frac{1}{2}mv^2</script>? In this case, we certainly cannot get rid of the velocity! Well, we can find the velocity to <script type="math/tex; ">\mathcal{O}(\Delta t^2)</script> accuracy by using the Stormer-Verlet method, which is the same as before, but we calculate velocity like so</p>
@@ -1189,6 +1215,35 @@ v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
     <span class="hljs-keyword">return</span>
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre><code class="lang-asm-x64"># xmm0 - pos
+# xmm1 - acc
+# xmm2 - dt
+# RET xmm0 - time
+# RET xmm1 - velocity
+stormer_verlet:
+  pxor   xmm7, xmm7                  # Holds 0 for comparisons
+  pxor   xmm3, xmm3                  # Holds time value
+  comisd xmm0, xmm7                  # Check if pos is greater then 0.0
+  jbe    stormer_verlet_return
+  movsd  xmm6, xmm1                  # xmm6 = acc * dt * dt
+  mulsd  xmm6, xmm2
+  mulsd  xmm6, xmm2
+  movsd  xmm5, xmm0                  # Holds previous position
+stormer_verlet_loop:
+  addsd  xmm3, xmm2                  # Adding dt to time
+  movsd  xmm4, xmm0                  # Hold old value of posistion
+  addsd  xmm0, xmm0                  # Calculating new position
+  subsd  xmm0, xmm5
+  addsd  xmm0, xmm6
+  movsd  xmm5, xmm4
+  comisd xmm0, xmm7                  # Check if position is greater then 0.0
+  ja     stormer_verlet_loop
+stormer_verlet_return:
+  movsd  xmm0, xmm3                  # Saving time and velocity
+  mulsd  xmm3, xmm1
+  movsd  xmm1, xmm3
+  ret
+</code></pre>
 </div></div></div>
 
 
@@ -1414,6 +1469,36 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
 
     <span class="hljs-keyword">return</span>
 }
+</code></pre>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre><code class="lang-asm-x64"># xmm0 - pos
+# xmm1 - acc
+# xmm2 - dt
+# RET xmm0 - time
+# RET xmm1 - velocity
+velocity_verlet:
+  pxor   xmm7, xmm7                  # Holds 0 for comparisons
+  pxor   xmm3, xmm3                  # Holds the velocity value
+  pxor   xmm4, xmm4                  # Holds the time value
+  comisd xmm0, xmm7                  # Check if pos is greater then 0.0
+  jbe    velocity_verlet_return
+  movsd  xmm5, half                  # xmm5 = 0.5 * dt * dt * acc
+  mulsd  xmm5, xmm2
+  mulsd  xmm5, xmm2
+  mulsd  xmm5, xmm1
+velocity_verlet_loop:
+  movsd  xmm6, xmm3                  # Move velocity into register
+  mulsd  xmm6, xmm2                  # Calculate new position
+  addsd  xmm6, xmm5
+  addsd  xmm0, xmm6
+  addsd  xmm4, xmm2                  # Incrementing time
+  movsd  xmm3, xmm4                  # Updating velocity
+  mulsd  xmm3, xmm1
+  comisd xmm0, xmm7
+  ja     velocity_verlet_loop
+velocity_verlet_return:
+  movsd  xmm0, xmm4                  # Saving time and velocity
+  movsd  xmm1, xmm3
+  ret
 </code></pre>
 </div></div></div>
 
@@ -2265,6 +2350,134 @@ p velocity_verlet(<span class="hljs-number">5.0</span>, -<span class="hljs-numbe
     fmt.Println(<span class="hljs-string">&quot;Velocity:&quot;</span>, vel)
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre><code class="lang-asm-x64">.intel_syntax noprefix
+
+.section .rodata
+  zero:          .double 0.0
+  two:           .double 2.0
+  half:          .double 0.5
+  verlet_fmt:    .string &quot;Time for Verlet integration is: %lf\n&quot;
+  stormer_fmt:   .string &quot;Time and Velocity for Stormer Verlet Integration is: %lf, %lf\n&quot;
+  velocity_fmt:  .string &quot;Time and Velocity for Velocity Verlet Integration is: %lf, %lf\n&quot;
+  pos:           .double 5.0
+  acc:           .double -10.0
+  dt:            .double 0.01
+
+.section .text
+  .global main
+  .extern printf
+
+# xmm0 - pos
+# xmm1 - acc
+# xmm2 - dt
+# RET xmm0 - time
+verlet:
+  pxor   xmm7, xmm7                  # Holds 0 for comparisons
+  pxor   xmm3, xmm3                  # Holds time value
+  comisd xmm0, xmm7                  # Check if pos is greater then 0.0
+  jbe    verlet_return
+  movsd  xmm6, xmm1                  # xmm6 = acc * dt * dt
+  mulsd  xmm6, xmm2
+  mulsd  xmm6, xmm2
+  movsd  xmm5, xmm0                  # Holds previous position
+verlet_loop:
+  addsd  xmm3, xmm2                  # Adding dt to time
+  movsd  xmm4, xmm0                  # Hold old value of posistion
+  addsd  xmm0, xmm0                  # Calculating new position
+  subsd  xmm0, xmm5
+  addsd  xmm0, xmm6
+  movsd  xmm5, xmm4
+  comisd xmm0, xmm7                  # Check if position is greater then 0.0
+  ja     verlet_loop
+verlet_return:
+  movsd  xmm0, xmm3                  # Saving time value
+  ret
+
+# xmm0 - pos
+# xmm1 - acc
+# xmm2 - dt
+# RET xmm0 - time
+# RET xmm1 - velocity
+stormer_verlet:
+  pxor   xmm7, xmm7                  # Holds 0 for comparisons
+  pxor   xmm3, xmm3                  # Holds time value
+  comisd xmm0, xmm7                  # Check if pos is greater then 0.0
+  jbe    stormer_verlet_return
+  movsd  xmm6, xmm1                  # xmm6 = acc * dt * dt
+  mulsd  xmm6, xmm2
+  mulsd  xmm6, xmm2
+  movsd  xmm5, xmm0                  # Holds previous position
+stormer_verlet_loop:
+  addsd  xmm3, xmm2                  # Adding dt to time
+  movsd  xmm4, xmm0                  # Hold old value of posistion
+  addsd  xmm0, xmm0                  # Calculating new position
+  subsd  xmm0, xmm5
+  addsd  xmm0, xmm6
+  movsd  xmm5, xmm4
+  comisd xmm0, xmm7                  # Check if position is greater then 0.0
+  ja     stormer_verlet_loop
+stormer_verlet_return:
+  movsd  xmm0, xmm3                  # Saving time and velocity
+  mulsd  xmm3, xmm1
+  movsd  xmm1, xmm3
+  ret
+
+# xmm0 - pos
+# xmm1 - acc
+# xmm2 - dt
+# RET xmm0 - time
+# RET xmm1 - velocity
+velocity_verlet:
+  pxor   xmm7, xmm7                  # Holds 0 for comparisons
+  pxor   xmm3, xmm3                  # Holds the velocity value
+  pxor   xmm4, xmm4                  # Holds the time value
+  comisd xmm0, xmm7                  # Check if pos is greater then 0.0
+  jbe    velocity_verlet_return
+  movsd  xmm5, half                  # xmm5 = 0.5 * dt * dt * acc
+  mulsd  xmm5, xmm2
+  mulsd  xmm5, xmm2
+  mulsd  xmm5, xmm1
+velocity_verlet_loop:
+  movsd  xmm6, xmm3                  # Move velocity into register
+  mulsd  xmm6, xmm2                  # Calculate new position
+  addsd  xmm6, xmm5
+  addsd  xmm0, xmm6
+  addsd  xmm4, xmm2                  # Incrementing time
+  movsd  xmm3, xmm4                  # Updating velocity
+  mulsd  xmm3, xmm1
+  comisd xmm0, xmm7
+  ja     velocity_verlet_loop
+velocity_verlet_return:
+  movsd  xmm0, xmm4                  # Saving time and velocity
+  movsd  xmm1, xmm3
+  ret
+
+main:
+  push   rbp
+  movsd  xmm0, pos                   # Calling verlet
+  movsd  xmm1, acc
+  movsd  xmm2, dt
+  call   verlet
+  mov    rdi, OFFSET verlet_fmt      # Print output
+  mov    rax, 1
+  call   printf
+  movsd  xmm0, pos                   # Calling stormer_verlet
+  movsd  xmm1, acc
+  movsd  xmm2, dt
+  call   stormer_verlet
+  mov    rdi, OFFSET stormer_fmt     # Print output
+  mov    rax, 1
+  call   printf
+  movsd  xmm0, pos                   # Calling velocity_verlet
+  movsd  xmm1, acc
+  movsd  xmm2, dt
+  call   velocity_verlet
+  mov    rdi, OFFSET velocity_fmt    # Print output
+  mov    rax, 1
+  call   printf
+  pop    rbp
+  ret
+</code></pre>
 </div></div></div>
 
 
@@ -2314,7 +2527,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.16.1","depth":2,"next":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-10-19T13:19:11.511Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-19T13:20:59.755Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.16.1","depth":2,"next":{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.16","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.16.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.16.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.16.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-10-20T05:34:51.320Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-20T05:36:31.258Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
