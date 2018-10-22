@@ -805,6 +805,43 @@ There is no doubt that it makes the simulation easier to understand (albeit a li
     }
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">using</span> <span class="hljs-keyword">complex</span> = <span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;;
+<span class="hljs-keyword">using</span> vector_real = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;;
+<span class="hljs-keyword">using</span> vector_complex = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">complex</span>&gt;;
+
+<span class="hljs-keyword">struct</span> Params {
+    Params(<span class="hljs-keyword">double</span> _xmax, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> _res, <span class="hljs-keyword">double</span> _dt, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> _timesteps, <span class="hljs-keyword">bool</span> im) {
+        xmax = _xmax;
+        res = _res;
+        dt = _dt;
+        timesteps = _timesteps;
+        dx = <span class="hljs-number">2.0</span> * xmax / res;
+        x.reserve(res);
+        dk = M_PI / xmax;
+        k.reserve(res);
+        im_time = im;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; res; ++i) {
+            x.emplace_back(xmax / res - xmax + i * (<span class="hljs-number">2.0</span> * xmax / res));
+            <span class="hljs-keyword">if</span> (i &lt; res / <span class="hljs-number">2</span>) {
+                k.push_back(i * M_PI / xmax);
+            } <span class="hljs-keyword">else</span> {
+                k.push_back((<span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">double</span>&gt;(i) - res) * M_PI / xmax);
+            }
+        }
+    }
+
+    <span class="hljs-keyword">double</span> xmax;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> res;
+    <span class="hljs-keyword">double</span> dt;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> timesteps;
+    <span class="hljs-keyword">double</span> dx;
+    vector_real x;
+    <span class="hljs-keyword">double</span> dk;
+    vector_real k;
+    <span class="hljs-keyword">bool</span> im_time;
+};
+</code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Param</span>:</span>
     <span class="hljs-string">&quot;&quot;&quot;Container for holding all simulation parameters.&quot;&quot;&quot;</span>
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self,
@@ -923,6 +960,37 @@ There is another boolean value here called <code>im_time</code>, which is for im
         }
     }
 }
+</code></pre>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp">struct Operators {
+public:
+    Operators(Params &amp;par, double voffset,
+              double wfcoffset) {
+        size = par.res;
+        v.reserve(size);
+        pe.reserve(size);
+        ke.reserve(size);
+        wfc.reserve(size);
+
+        for (size_t i = 0; i &lt; size; ++i) {
+            v.push_back(0.5 * pow(par.x[i] - voffset, 2));
+            wfc.push_back(exp(-pow(par.x[i] - wfcoffset, 2) / 2.0));
+
+            if (par.im_time) {
+                ke.push_back(exp(-0.5 * par.dt * pow(par.k[i], 2)));
+                pe.push_back(exp(-0.5 * par.dt * v[i]));
+            } else {
+                ke.push_back(exp(-0.5 * par.dt * pow(par.k[i], 2) * complex(0.0, 1.0)));
+                pe.push_back(exp(-0.5 * par.dt * v[i] * complex(0.0, 1.0)));
+            }
+        }
+    }
+
+    size_t size;
+    vector_complex v;
+    vector_complex pe;
+    vector_complex ke;
+    vector_complex wfc;
+};
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Operators</span>:</span>
     <span class="hljs-string">&quot;&quot;&quot;Container for holding operators and wavefunction coefficients.&quot;&quot;&quot;</span>
@@ -1072,6 +1140,65 @@ Both of these have been shown in the figures above.</p>
         }
 
         fclose(fp);
+    }
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">split_op</span><span class="hljs-params">(Params &amp;par, Operators &amp;opr)</span> </span>{
+    <span class="hljs-keyword">double</span> density[opr.size];
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; par.timesteps; ++i) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        fft(opr.wfc, opr.size, <span class="hljs-literal">false</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.ke[j];
+        }
+
+        fft(opr.wfc, opr.size, <span class="hljs-literal">true</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+            density[j] = <span class="hljs-built_in">pow</span>(<span class="hljs-built_in">abs</span>(opr.wfc[j]), <span class="hljs-number">2</span>);
+        }
+
+        <span class="hljs-keyword">if</span> (par.im_time) {
+            <span class="hljs-keyword">double</span> sum = <span class="hljs-number">0</span>;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+                sum += density[j];
+            }
+
+            sum *= par.dx;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; opr.size; ++j) {
+                opr.wfc[j] /= <span class="hljs-built_in">sqrt</span>(sum);
+            }
+        }
+
+        <span class="hljs-comment">// Writing data into a file in the format of:</span>
+        <span class="hljs-comment">// index, density, real potential.</span>
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">stringstream</span> filename_stream;
+        filename_stream &lt;&lt; <span class="hljs-string">&quot;output&quot;</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot;.dat&quot;</span>;
+
+        <span class="hljs-built_in">std</span>::ofstream fstream = <span class="hljs-built_in">std</span>::ofstream(filename_stream.str());
+
+        <span class="hljs-keyword">if</span> (fstream) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; opr.size; ++i) {
+                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">stringstream</span> data_stream;
+
+                data_stream &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot;\t&quot;</span> &lt;&lt; density[i] &lt;&lt; <span class="hljs-string">&quot;\t&quot;</span> &lt;&lt; real(opr.v[i]) &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+
+                fstream.write(data_stream.str().c_str(), data_stream.str().length());
+            }
+        }
+
+        fstream.close();
     }
 }
 </code></pre>
@@ -1495,6 +1622,208 @@ int main() {
     return 0;
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp">#include &lt;complex&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;fstream&gt;
+
+// Using fftw3 library.
+#include &lt;fftw3.h&gt;
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+using complex = std::complex&lt;double&gt;;
+using vector_real = std::vector&lt;double&gt;;
+using vector_complex = std::vector&lt;complex&gt;;
+
+struct Params {
+    Params(double _xmax, unsigned int _res, double _dt, unsigned int _timesteps, bool im) {
+        xmax = _xmax;
+        res = _res;
+        dt = _dt;
+        timesteps = _timesteps;
+        dx = 2.0 * xmax / res;
+        x.reserve(res);
+        dk = M_PI / xmax;
+        k.reserve(res);
+        im_time = im;
+
+        for (size_t i = 0; i &lt; res; ++i) {
+            x.emplace_back(xmax / res - xmax + i * (2.0 * xmax / res));
+            if (i &lt; res / 2) {
+                k.push_back(i * M_PI / xmax);
+            } else {
+                k.push_back((static_cast&lt;double&gt;(i) - res) * M_PI / xmax);
+            }
+        }
+    }
+
+    double xmax;
+    unsigned int res;
+    double dt;
+    unsigned int timesteps;
+    double dx;
+    vector_real x;
+    double dk;
+    vector_real k;
+    bool im_time;
+};
+
+struct Operators {
+public:
+    Operators(Params &amp;par, double voffset,
+              double wfcoffset) {
+        size = par.res;
+        v.reserve(size);
+        pe.reserve(size);
+        ke.reserve(size);
+        wfc.reserve(size);
+
+        for (size_t i = 0; i &lt; size; ++i) {
+            v.push_back(0.5 * pow(par.x[i] - voffset, 2));
+            wfc.push_back(exp(-pow(par.x[i] - wfcoffset, 2) / 2.0));
+
+            if (par.im_time) {
+                ke.push_back(exp(-0.5 * par.dt * pow(par.k[i], 2)));
+                pe.push_back(exp(-0.5 * par.dt * v[i]));
+            } else {
+                ke.push_back(exp(-0.5 * par.dt * pow(par.k[i], 2) * complex(0.0, 1.0)));
+                pe.push_back(exp(-0.5 * par.dt * v[i] * complex(0.0, 1.0)));
+            }
+        }
+    }
+
+    size_t size;
+    vector_complex v;
+    vector_complex pe;
+    vector_complex ke;
+    vector_complex wfc;
+};
+
+void fft(vector_complex &amp;x, int n, bool inverse) {
+    complex y[n];
+    memset(y, 0, sizeof(y));
+    fftw_plan p;
+
+    fftw_complex *in = reinterpret_cast&lt;fftw_complex*&gt;(x.data());
+    fftw_complex *out = reinterpret_cast&lt;fftw_complex*&gt;(y);
+    p = fftw_plan_dft_1d(n, in, out,
+                         (inverse ? FFTW_BACKWARD : FFTW_FORWARD), FFTW_ESTIMATE);
+
+    fftw_execute(p);
+    fftw_destroy_plan(p);
+
+    for (size_t i = 0; i &lt; n; ++i) {
+        x[i] = y[i] / sqrt(static_cast&lt;double&gt;(n));
+    }
+}
+
+void split_op(Params &amp;par, Operators &amp;opr) {
+    double density[opr.size];
+
+    for (size_t i = 0; i &lt; par.timesteps; ++i) {
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        fft(opr.wfc, opr.size, false);
+
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.ke[j];
+        }
+
+        fft(opr.wfc, opr.size, true);
+
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            opr.wfc[j] *= opr.pe[j];
+        }
+
+        for (size_t j = 0; j &lt; opr.size; ++j) {
+            density[j] = pow(abs(opr.wfc[j]), 2);
+        }
+
+        if (par.im_time) {
+            double sum = 0;
+
+            for (size_t j = 0; j &lt; opr.size; ++j) {
+                sum += density[j];
+            }
+
+            sum *= par.dx;
+
+            for (size_t j = 0; j &lt; opr.size; ++j) {
+                opr.wfc[j] /= sqrt(sum);
+            }
+        }
+
+        // Writing data into a file in the format of:
+        // index, density, real potential.
+        std::stringstream filename_stream;
+        filename_stream &lt;&lt; &quot;output&quot; &lt;&lt; i &lt;&lt; &quot;.dat&quot;;
+
+        std::ofstream fstream = std::ofstream(filename_stream.str());
+
+        if (fstream) {
+            for (int i = 0; i &lt; opr.size; ++i) {
+                std::stringstream data_stream;
+
+                data_stream &lt;&lt; i &lt;&lt; &quot;\t&quot; &lt;&lt; density[i] &lt;&lt; &quot;\t&quot; &lt;&lt; real(opr.v[i]) &lt;&lt; &quot;\n&quot;;
+
+                fstream.write(data_stream.str().c_str(), data_stream.str().length());
+            }
+        }
+
+        fstream.close();
+    }
+}
+
+double calculate_energy(Params &amp;par, Operators &amp;opr) {
+    vector_complex wfc_r(opr.wfc);
+    vector_complex wfc_k(opr.wfc);
+    vector_complex wfc_c(opr.size);
+    fft(wfc_k, opr.size, false);
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        wfc_c[i] = conj(wfc_r[i]);
+    }
+
+    vector_complex energy_k(opr.size);
+    vector_complex energy_r(opr.size);
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        energy_k[i] = wfc_k[i] * pow(complex(par.k[i], 0.0), 2);
+    }
+
+    fft(energy_k, opr.size, true);
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        energy_k[i] *= 0.5 * wfc_c[i];
+        energy_r[i] = wfc_c[i] * opr.v[i] * wfc_r[i];
+    }
+
+    double energy_final = 0;
+
+    for (size_t i = 0; i &lt; opr.size; ++i) {
+        energy_final += real(energy_k[i] + energy_r[i]);
+    }
+
+    return energy_final * par.dx;
+}
+
+int main() {
+    Params par = Params(5.0, 256, 0.05, 100, true);
+    Operators opr = Operators(par, 0.0, -1.0);
+
+    split_op(par, opr);
+
+    std::cout &lt;&lt; &quot;The energy is &quot; &lt;&lt; calculate_energy(par, opr) &lt;&lt; &quot;\n&quot;;
+
+    return 0;
+}
+</code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> pi
 <span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> sqrt
 
@@ -1772,7 +2101,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"next":{"title":"Data Compression","level":"1.16","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.16.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-10-21T21:27:53.071Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-21T21:29:47.303Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"next":{"title":"Data Compression","level":"1.16","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.16.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"previous":{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/split-operator_method/split-operator_method.md","mtime":"2018-10-22T23:50:25.140Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-22T23:52:38.949Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
