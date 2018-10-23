@@ -2887,6 +2887,105 @@ free_tree_done:
   pop    rbx
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="scala" data-name="Scala"><pre><code class="lang-scala"><span class="hljs-keyword">import</span> scala.collection.mutable.{<span class="hljs-type">Map</span>, <span class="hljs-type">PriorityQueue</span>}
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">HuffmanEncoding</span> </span>{
+
+  <span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Node</span> </span>{
+    <span class="hljs-keyword">var</span> weight: <span class="hljs-type">Int</span>
+  }
+
+  <span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Leaf</span>(<span class="hljs-params">char: <span class="hljs-type">Char</span>, var weight: <span class="hljs-type">Int</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Node</span></span>
+
+  <span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Branch</span>(<span class="hljs-params">left: <span class="hljs-type">Node</span>, right: <span class="hljs-type">Node</span>, var weight: <span class="hljs-type">Int</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Node</span></span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">createTree</span></span>(phrase: <span class="hljs-type">String</span>): <span class="hljs-type">Option</span>[<span class="hljs-type">Node</span>] = {
+
+    <span class="hljs-keyword">val</span> tree = <span class="hljs-type">PriorityQueue</span>[<span class="hljs-type">Node</span>]()(<span class="hljs-type">Ordering</span>.by(-_.weight))
+    tree ++= phrase
+      .groupBy(identity)
+      .mapValues(_.length)
+      .map{
+        <span class="hljs-keyword">case</span> (char, count) =&gt; <span class="hljs-type">Leaf</span>(char, count)
+      }
+
+    <span class="hljs-keyword">while</span> (tree.size &gt; <span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">val</span> node1 = tree.dequeue()
+      <span class="hljs-keyword">val</span> node2 = tree.dequeue()
+      tree += <span class="hljs-type">Branch</span>(node1, node2, node1.weight + node2.weight)
+    }
+
+    tree.headOption
+  }
+
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">createCodeBook</span></span>(maybeRoot: <span class="hljs-type">Option</span>[<span class="hljs-type">Node</span>]): <span class="hljs-type">Map</span>[<span class="hljs-type">Char</span>, <span class="hljs-type">String</span>] = {
+    <span class="hljs-keyword">val</span> codeBook = <span class="hljs-type">Map</span>[<span class="hljs-type">Char</span>, <span class="hljs-type">String</span>]()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">codeBookRecurse</span></span>(node: <span class="hljs-type">Node</span>, code: <span class="hljs-type">String</span>): <span class="hljs-type">Unit</span> =
+      node <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Leaf</span>(symbol, _) =&gt; codeBook.put(symbol, code)
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Branch</span>(left, right, _) =&gt; {
+          codeBookRecurse(left, code + <span class="hljs-string">&quot;0&quot;</span>)
+          codeBookRecurse(right, code + <span class="hljs-string">&quot;1&quot;</span>)
+        }
+      }
+
+    maybeRoot.foreach(c =&gt; codeBookRecurse(c, <span class="hljs-string">&quot;&quot;</span>))
+
+    codeBook
+  }
+
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">encode</span></span>(phrase: <span class="hljs-type">String</span>, codeBook: <span class="hljs-type">Map</span>[<span class="hljs-type">Char</span>, <span class="hljs-type">String</span>]): <span class="hljs-type">String</span> = {
+    phrase.flatMap(c =&gt; codeBook.getOrElse(c, <span class="hljs-string">&quot;?&quot;</span>))
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode</span></span>(encoded: <span class="hljs-type">String</span>, maybeRoot: <span class="hljs-type">Option</span>[<span class="hljs-type">Node</span>]): <span class="hljs-type">String</span> = {
+    <span class="hljs-keyword">val</span> root = maybeRoot.getOrElse(<span class="hljs-type">Leaf</span>(&apos;?&apos;, <span class="hljs-number">0</span>))
+    <span class="hljs-keyword">var</span> currentNode = root
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">chooseTreeBranch</span></span>(bit: <span class="hljs-type">Char</span>) =
+      currentNode <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Branch</span>(left, right, _) =&gt;
+          currentNode = <span class="hljs-keyword">if</span> (bit == &apos;<span class="hljs-number">0</span>&apos;) left <span class="hljs-keyword">else</span> right
+        <span class="hljs-keyword">case</span> _ =&gt;
+      }
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maybeGetACharacter</span> </span>=
+      currentNode <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Leaf</span>(c, _) =&gt; {
+          currentNode = root
+          <span class="hljs-type">Some</span>(c)
+        }
+        <span class="hljs-keyword">case</span> _ =&gt; <span class="hljs-type">None</span>
+      }
+
+    encoded
+      .flatMap(bit =&gt; {
+        chooseTreeBranch(bit)
+        maybeGetACharacter
+      })
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span></span>(args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]): <span class="hljs-type">Unit</span> = {
+    <span class="hljs-keyword">val</span> originalText = <span class="hljs-string">&quot;bibbity_bobbity&quot;</span>
+    println(<span class="hljs-string">&quot;Original Text: &quot;</span> + originalText)
+
+    <span class="hljs-keyword">val</span> tree = createTree(originalText)
+    <span class="hljs-keyword">val</span> codeBook = createCodeBook(tree)
+    println(<span class="hljs-string">&quot;CodeBook is: &quot;</span> + codeBook)
+
+    <span class="hljs-keyword">val</span> encoded = encode(originalText, codeBook)
+    println(<span class="hljs-string">&quot;Encoded text: &quot;</span> + encoded)
+
+    <span class="hljs-keyword">val</span> decoded = decode(encoded, tree)
+    println(<span class="hljs-string">&quot;Decoded text: &quot;</span> + decoded)
+
+  }
+
+}
+</code></pre>
 </div></div></div>
 
 <script>
@@ -2935,7 +3034,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.16.1","depth":2,"next":{"title":"Quantum Information","level":"1.17","depth":1,"path":"contents/quantum_information/quantum_information.md","ref":"contents/quantum_information/quantum_information.md","articles":[]},"previous":{"title":"Data Compression","level":"1.16","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.16.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/huffman_encoding/huffman_encoding.md","mtime":"2018-10-22T23:59:01.954Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-23T00:01:12.994Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Huffman Encoding","level":"1.16.1","depth":2,"next":{"title":"Quantum Information","level":"1.17","depth":1,"path":"contents/quantum_information/quantum_information.md","ref":"contents/quantum_information/quantum_information.md","articles":[]},"previous":{"title":"Data Compression","level":"1.16","depth":1,"path":"contents/data_compression/data_compression.md","ref":"contents/data_compression/data_compression.md","articles":[{"title":"Huffman Encoding","level":"1.16.1","depth":2,"path":"contents/huffman_encoding/huffman_encoding.md","ref":"contents/huffman_encoding/huffman_encoding.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/huffman_encoding/huffman_encoding.md","mtime":"2018-10-23T00:13:22.723Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-23T00:15:07.226Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
