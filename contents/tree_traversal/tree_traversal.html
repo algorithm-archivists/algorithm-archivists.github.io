@@ -748,28 +748,37 @@
 </code></pre>
 </div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Tree</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">JsonSerializable</span>
 </span>{
-  <span class="hljs-keyword">private</span> $id;
-  <span class="hljs-keyword">private</span> $children = [];
+    <span class="hljs-keyword">private</span> $id;
+    <span class="hljs-keyword">private</span> $children = [];
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(int $id, array $children = [])</span>
-  </span>{
-    $this-&gt;id = $id;
-    $this-&gt;children = $children;
-  }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(int $id, array $children = [])</span>
+    </span>{
+        $this-&gt;id = $id;
+        $this-&gt;children = $children;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span>: <span class="hljs-title">int</span> </span>{ <span class="hljs-keyword">return</span> $this-&gt;id; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span>: <span class="hljs-title">int</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;id;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getChildren</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span> </span>{ <span class="hljs-keyword">return</span> $this-&gt;children; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getChildren</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;children;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addChild</span><span class="hljs-params">(Tree $child)</span>: <span class="hljs-title">void</span> </span>{ $this-&gt;children[] = $child; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addChild</span><span class="hljs-params">(Tree $child)</span>: <span class="hljs-title">void</span>
+    </span>{
+        $this-&gt;children[] = $child;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jsonSerialize</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span>
-  </span>{
-    <span class="hljs-keyword">return</span> [
-      <span class="hljs-string">&apos;id&apos;</span> =&gt; $this-&gt;id,
-      <span class="hljs-string">&apos;children&apos;</span> =&gt; $this-&gt;children
-    ];
-  }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jsonSerialize</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">&apos;id&apos;</span> =&gt; $this-&gt;id,
+            <span class="hljs-string">&apos;children&apos;</span> =&gt; $this-&gt;children,
+        ];
+    }
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> </span>
@@ -874,10 +883,14 @@
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSRecursive</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
 </span>{
-  <span class="hljs-keyword">if</span> ($tree-&gt;getId()) <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-  <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) <span class="hljs-keyword">static</span>::dfs_recursive($child);
+    <span class="hljs-keyword">if</span> ($tree-&gt;getId()) {
+        <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+    }
+    <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+        <span class="hljs-keyword">static</span>::DFSRecursive($child);
+    }
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs_recursive</span></span>(node) 
@@ -1007,10 +1020,12 @@ dfs_recursive_return:
     <span class="hljs-built_in">print</span>(node.value)
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_recursive_postorder</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSRecursivePostorder</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
 </span>{
-  <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) <span class="hljs-keyword">static</span>::dfs_recursive_postorder($child);
-  <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+    <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+        <span class="hljs-keyword">static</span>::DFSRecursivePostorder($child);
+    }
+    <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs_recursive_postorder</span></span>(node) 
@@ -1222,25 +1237,25 @@ dfs_recursive_po_return:
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_recursive_inorder_binary</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSRecursiveInorderBinary</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
 </span>{
-  <span class="hljs-keyword">switch</span> (count($tree-&gt;getChildren())) {
-    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
-      <span class="hljs-keyword">static</span>::dfs_recursive_inorder_binary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
-      <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-      <span class="hljs-keyword">static</span>::dfs_recursive_inorder_binary($tree-&gt;getChildren()[<span class="hljs-number">1</span>]);
-      <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
-      <span class="hljs-keyword">static</span>::dfs_recursive_inorder_binary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
-      <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-      <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
-      <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-      <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">default</span>:
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidArgumentException(<span class="hljs-string">&apos;Not a binary tree!&apos;</span>);
-      <span class="hljs-keyword">break</span>;
-  }
+    <span class="hljs-keyword">switch</span> (count($tree-&gt;getChildren())) {
+        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+            <span class="hljs-keyword">static</span>::DFSRecursiveInorderBinary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
+            <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+            <span class="hljs-keyword">static</span>::DFSRecursiveInorderBinary($tree-&gt;getChildren()[<span class="hljs-number">1</span>]);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">static</span>::DFSRecursiveInorderBinary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
+            <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidArgumentException(<span class="hljs-string">&apos;Not a binary tree!&apos;</span>);
+            <span class="hljs-keyword">break</span>;
+    }
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs_recursive_inorder_btree</span></span>(node) 
@@ -1477,15 +1492,17 @@ dfs_recursive_bt_return:
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSStack</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
 </span>{
-  $stack = [$tree];
-  $temp = <span class="hljs-keyword">null</span>;
+    $stack = [$tree];
+    $temp = <span class="hljs-keyword">null</span>;
 
-  <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_pop($stack))) {
-    <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
-    <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) $stack[] = $child;
-  }
+    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_pop($stack))) {
+        <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
+        <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+            $stack[] = $child;
+        }
+    }
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs_stack</span></span>(node) 
@@ -1697,14 +1714,17 @@ dfs_stack_return:
     }
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php">{
-  $stack = [$tree];
-  $temp = <span class="hljs-keyword">null</span>;
+</div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSQueue</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+</span>{
+    $stack = [$tree];
+    $temp = <span class="hljs-keyword">null</span>;
 
-  <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_pop($stack))) {
-    <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
-    <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) $stack[] = $child;
-  }
+    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_shift($stack))) {
+        <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
+        <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+            $stack[] = $child;
+        }
+    }
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bfs_queue</span></span>(node) 
@@ -2953,126 +2973,148 @@ bfs(root);
 main()
 </code></pre>
 </div><div class="code-method-sample" data-lang="php" data-name="PHP"><pre><code class="lang-php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">declare</span>(strict_types=<span class="hljs-number">1</span>);
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Tree</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">JsonSerializable</span>
 </span>{
-  <span class="hljs-keyword">private</span> $id;
-  <span class="hljs-keyword">private</span> $children = [];
+    <span class="hljs-keyword">private</span> $id;
+    <span class="hljs-keyword">private</span> $children = [];
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(int $id, array $children = [])</span>
-  </span>{
-    $this-&gt;id = $id;
-    $this-&gt;children = $children;
-  }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(int $id, array $children = [])</span>
+    </span>{
+        $this-&gt;id = $id;
+        $this-&gt;children = $children;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span>: <span class="hljs-title">int</span> </span>{ <span class="hljs-keyword">return</span> $this-&gt;id; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span>: <span class="hljs-title">int</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;id;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getChildren</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span> </span>{ <span class="hljs-keyword">return</span> $this-&gt;children; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getChildren</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;children;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addChild</span><span class="hljs-params">(Tree $child)</span>: <span class="hljs-title">void</span> </span>{ $this-&gt;children[] = $child; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addChild</span><span class="hljs-params">(Tree $child)</span>: <span class="hljs-title">void</span>
+    </span>{
+        $this-&gt;children[] = $child;
+    }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jsonSerialize</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span>
-  </span>{
-    <span class="hljs-keyword">return</span> [
-      <span class="hljs-string">&apos;id&apos;</span> =&gt; $this-&gt;id,
-      <span class="hljs-string">&apos;children&apos;</span> =&gt; $this-&gt;children
-    ];
-  }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jsonSerialize</span><span class="hljs-params">()</span>: <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">&apos;id&apos;</span> =&gt; $this-&gt;id,
+            <span class="hljs-string">&apos;children&apos;</span> =&gt; $this-&gt;children,
+        ];
+    }
 }
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeTraversal</span>
 </span>{
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
-  </span>{
-    <span class="hljs-keyword">if</span> ($tree-&gt;getId()) <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-    <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) <span class="hljs-keyword">static</span>::dfs_recursive($child);
-  }
-
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_recursive_postorder</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
-  </span>{
-    <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) <span class="hljs-keyword">static</span>::dfs_recursive_postorder($child);
-    <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-  }
-
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_recursive_inorder_binary</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
-  </span>{
-    <span class="hljs-keyword">switch</span> (count($tree-&gt;getChildren())) {
-      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
-        <span class="hljs-keyword">static</span>::dfs_recursive_inorder_binary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
-        <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-        <span class="hljs-keyword">static</span>::dfs_recursive_inorder_binary($tree-&gt;getChildren()[<span class="hljs-number">1</span>]);
-        <span class="hljs-keyword">break</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
-        <span class="hljs-keyword">static</span>::dfs_recursive_inorder_binary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
-        <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-        <span class="hljs-keyword">break</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
-        <span class="hljs-keyword">break</span>;
-      <span class="hljs-keyword">default</span>:
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidArgumentException(<span class="hljs-string">&apos;Not a binary tree!&apos;</span>);
-        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSRecursive</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-keyword">if</span> ($tree-&gt;getId()) {
+            <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+        }
+        <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+            <span class="hljs-keyword">static</span>::DFSRecursive($child);
+        }
     }
-  }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_stack</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
-  </span>{
-    $stack = [$tree];
-    $temp = <span class="hljs-keyword">null</span>;
-
-    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_pop($stack))) {
-      <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
-      <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) $stack[] = $child;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSRecursivePostorder</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-keyword">foreach</span> ($tree-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+            <span class="hljs-keyword">static</span>::DFSRecursivePostorder($child);
+        }
+        <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
     }
-  }
 
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dfs_queue</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
-  </span>{
-    $stack = [$tree];
-    $temp = <span class="hljs-keyword">null</span>;
-
-    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_shift($stack))) {
-      <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
-      <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) $stack[] = $child;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSRecursiveInorderBinary</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-keyword">switch</span> (count($tree-&gt;getChildren())) {
+            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+                <span class="hljs-keyword">static</span>::DFSRecursiveInorderBinary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
+                <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+                <span class="hljs-keyword">static</span>::DFSRecursiveInorderBinary($tree-&gt;getChildren()[<span class="hljs-number">1</span>]);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+                <span class="hljs-keyword">static</span>::DFSRecursiveInorderBinary($tree-&gt;getChildren()[<span class="hljs-number">0</span>]);
+                <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">echo</span> $tree-&gt;getId() . PHP_EOL;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidArgumentException(<span class="hljs-string">&apos;Not a binary tree!&apos;</span>);
+                <span class="hljs-keyword">break</span>;
+        }
     }
-  }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSStack</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+    </span>{
+        $stack = [$tree];
+        $temp = <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_pop($stack))) {
+            <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
+            <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+                $stack[] = $child;
+            }
+        }
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DFSQueue</span><span class="hljs-params">(Tree $tree)</span>: <span class="hljs-title">void</span>
+    </span>{
+        $stack = [$tree];
+        $temp = <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">null</span> !== ($temp = array_shift($stack))) {
+            <span class="hljs-keyword">echo</span> $temp-&gt;getId() . PHP_EOL;
+            <span class="hljs-keyword">foreach</span> ($temp-&gt;getChildren() <span class="hljs-keyword">as</span> $child) {
+                $stack[] = $child;
+            }
+        }
+    }
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generate_tree</span><span class="hljs-params">(int $num_of_rows, int $num_of_children, int $id = <span class="hljs-number">-1</span>)</span>: <span class="hljs-title">Tree</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generate_tree</span><span class="hljs-params">(int $numOfRows, int $numOfChildren, int $id = <span class="hljs-number">-1</span>)</span>: <span class="hljs-title">Tree</span>
 </span>{
-  <span class="hljs-keyword">if</span> ($id === <span class="hljs-number">-1</span>) $id = <span class="hljs-number">1</span>;
-  $node = <span class="hljs-keyword">new</span> Tree($id);
+    <span class="hljs-keyword">if</span> ($id === <span class="hljs-number">-1</span>) {
+        $id = <span class="hljs-number">1</span>;
+    }
+    $node = <span class="hljs-keyword">new</span> Tree($id);
 
-  <span class="hljs-keyword">if</span> ($num_of_rows &gt; <span class="hljs-number">1</span>)
-    <span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>; $i &lt; $num_of_children; $i++) {
-      $child = generate_tree($num_of_rows - <span class="hljs-number">1</span>, $num_of_children, $id * <span class="hljs-number">10</span> + $i + <span class="hljs-number">1</span>);
-      $node-&gt;addChild($child);
+    <span class="hljs-keyword">if</span> ($numOfRows &gt; <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">for</span> ($i = <span class="hljs-number">0</span>; $i &lt; $numOfChildren; $i++) {
+            $child = generate_tree($numOfRows - <span class="hljs-number">1</span>, $numOfChildren, $id * <span class="hljs-number">10</span> + $i + <span class="hljs-number">1</span>);
+            $node-&gt;addChild($child);
+        }
     }
 
-  <span class="hljs-keyword">return</span> $node;
+    <span class="hljs-keyword">return</span> $node;
 }
 
 $node = generate_tree(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
-<span class="hljs-keyword">echo</span> sprintf(<span class="hljs-string">&apos;TreeTraversal in JSON format: %s%s%s&apos;</span>, PHP_EOL, json_encode($node), PHP_EOL);
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&apos;DFS Recursive:&apos;</span> . PHP_EOL;
-TreeTraversal::dfs_recursive($node);
+TreeTraversal::DFSRecursive($node);
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&apos;DFS Recursive Postorder:&apos;</span> . PHP_EOL;
-TreeTraversal::dfs_recursive_postorder($node);
+TreeTraversal::DFSRecursivePostorder($node);
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&apos;DFS Stack:&apos;</span> . PHP_EOL;
-TreeTraversal::dfs_stack($node);
+TreeTraversal::DFSStack($node);
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&apos;DFS Queue:&apos;</span> . PHP_EOL;
-TreeTraversal::dfs_queue($node);
+TreeTraversal::DFSQueue($node);
 
-<span class="hljs-comment">// If you want try binary order non-binary tree</span>
-<span class="hljs-comment">// Comment generation of new tree bellow</span>
-<span class="hljs-comment">// If you do that, exception will be thrown</span>
+<span class="hljs-comment">// If you want to try to run binary order on a non-binary tree,</span>
+<span class="hljs-comment">// comment out the generation of the new tree below.</span>
+<span class="hljs-comment">// If you do that, an exception will be thrown</span>
 $node = generate_tree(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>);
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&apos;DFS Recursive Inorder Binary:&apos;</span> . PHP_EOL;
-TreeTraversal::dfs_recursive_inorder_binary($node);
+TreeTraversal::DFSRecursiveInorderBinary($node);
 </code></pre>
 </div><div class="code-method-sample" data-lang="crystal" data-name="Crystal"><pre><code class="lang-crystal"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> </span>
   property id, children 
@@ -3848,7 +3890,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.7","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.8","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/tree_traversal/tree_traversal.md","mtime":"2018-10-27T14:42:51.603Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-27T14:44:48.121Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.7","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.8","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/tree_traversal/tree_traversal.md","mtime":"2018-10-27T14:48:34.321Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-27T14:50:24.574Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
