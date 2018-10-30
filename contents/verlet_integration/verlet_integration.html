@@ -929,6 +929,20 @@ verlet_return:
   movsd  xmm0, xmm3                  # Saving time value
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="kotlin" data-name="KOTLIN"><pre><code class="lang-kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">verlet</span><span class="hljs-params">(_pos: <span class="hljs-type">Double, acc: Double, dt: Double</span>)</span>: <span class="hljs-keyword">Double</span> {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> pos</span> = _pos  <span class="hljs-comment">// Since function parameter are val and can&apos;t be modified</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> prevPos</span> = pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> time</span> = <span class="hljs-number">0.0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        <span class="hljs-variable"><span class="hljs-keyword">val</span> nextPos</span> = pos * <span class="hljs-number">2</span> - prevPos + acc * dt * dt
+        prevPos = pos
+        pos = nextPos
+    }
+    <span class="hljs-keyword">return</span> time
+}
+</code></pre>
 </div></div></div>
 
 <p>Now, obviously this poses a problem; what if we want to calculate a term that requires velocity, like the kinetic energy, <script type="math/tex; ">\frac{1}{2}mv^2</script>? In this case, we certainly cannot get rid of the velocity! Well, we can find the velocity to <script type="math/tex; ">\mathcal{O}(\Delta t^2)</script> accuracy by using the Stormer-Verlet method, which is the same as before, but we calculate velocity like so</p>
@@ -1231,6 +1245,21 @@ stormer_verlet_return:
   movsd  xmm1, xmm3
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="kotlin" data-name="KOTLIN"><pre><code class="lang-kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">stormerVerlet</span><span class="hljs-params">(_pos: <span class="hljs-type">Double, acc: Double, dt: Double</span>)</span>: VerletValues {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> pos</span> = _pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> prevPos</span> = pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> time</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> vel</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        <span class="hljs-variable"><span class="hljs-keyword">val</span> nextPos</span> = pos * <span class="hljs-number">2</span> - prevPos + acc * dt * dt
+        prevPos = pos
+        pos = nextPos
+        vel += acc * dt
+    }
+    <span class="hljs-keyword">return</span> VerletValues(time, vel)
+}
+</code></pre>
 </div></div></div>
 
 
@@ -1486,6 +1515,18 @@ velocity_verlet_return:
   movsd  xmm0, xmm4                  # Saving time and velocity
   movsd  xmm1, xmm3
   ret
+</code></pre>
+</div><div class="code-method-sample" data-lang="kotlin" data-name="KOTLIN"><pre><code class="lang-kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">velocityVerlet</span><span class="hljs-params">(_pos: <span class="hljs-type">Double, acc: Double, dt: Double</span>)</span>: VerletValues {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> pos</span> = _pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> time</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> vel</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        pos += vel * dt + <span class="hljs-number">0.5</span> * acc * dt * dt
+        vel += acc * dt
+    }
+    <span class="hljs-keyword">return</span> VerletValues(time, vel)
+}
 </code></pre>
 </div></div></div>
 
@@ -2465,6 +2506,62 @@ main:
   pop    rbp
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="kotlin" data-name="KOTLIN"><pre><code class="lang-kotlin">data <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VerletValues</span></span>(<span class="hljs-variable"><span class="hljs-keyword">val</span> time</span>: <span class="hljs-keyword">Double</span>, <span class="hljs-variable"><span class="hljs-keyword">val</span> vel</span>: <span class="hljs-keyword">Double</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">verlet</span><span class="hljs-params">(_pos: <span class="hljs-type">Double, acc: Double, dt: Double</span>)</span>: <span class="hljs-keyword">Double</span> {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> pos</span> = _pos  <span class="hljs-comment">// Since function parameter are val and can&apos;t be modified</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> prevPos</span> = pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> time</span> = <span class="hljs-number">0.0</span>
+
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        <span class="hljs-variable"><span class="hljs-keyword">val</span> nextPos</span> = pos * <span class="hljs-number">2</span> - prevPos + acc * dt * dt
+        prevPos = pos
+        pos = nextPos
+    }
+    <span class="hljs-keyword">return</span> time
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">stormerVerlet</span><span class="hljs-params">(_pos: <span class="hljs-type">Double, acc: Double, dt: Double</span>)</span>: VerletValues {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> pos</span> = _pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> prevPos</span> = pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> time</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> vel</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        <span class="hljs-variable"><span class="hljs-keyword">val</span> nextPos</span> = pos * <span class="hljs-number">2</span> - prevPos + acc * dt * dt
+        prevPos = pos
+        pos = nextPos
+        vel += acc * dt
+    }
+    <span class="hljs-keyword">return</span> VerletValues(time, vel)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">velocityVerlet</span><span class="hljs-params">(_pos: <span class="hljs-type">Double, acc: Double, dt: Double</span>)</span>: VerletValues {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> pos</span> = _pos
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> time</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-variable"><span class="hljs-keyword">var</span> vel</span> = <span class="hljs-number">0.0</span>
+    <span class="hljs-keyword">while</span> (pos &gt; <span class="hljs-number">0</span>) {
+        time += dt
+        pos += vel * dt + <span class="hljs-number">0.5</span> * acc * dt * dt
+        vel += acc * dt
+    }
+    <span class="hljs-keyword">return</span> VerletValues(time, vel)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">(args: <span class="hljs-type">Array&lt;String&gt;</span>)</span> {</span>
+    <span class="hljs-variable"><span class="hljs-keyword">val</span> verletTime</span> = verlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10.0</span>, <span class="hljs-number">0.01</span>)
+    println(<span class="hljs-string">&quot;Time for Verlet integration is: $verletTime&quot;</span>)
+
+    <span class="hljs-variable"><span class="hljs-keyword">val</span> stormerVerlet</span> = stormerVerlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10.0</span>, <span class="hljs-number">0.01</span>)
+    println(<span class="hljs-string">&quot;Time for Stormer Verlet integration is: $stormerVerlet.time&quot;</span>)
+    println(<span class="hljs-string">&quot;Velocity for Stormer Verlet integration is: $stormerVerlet.vel&quot;</span>)
+
+    <span class="hljs-variable"><span class="hljs-keyword">val</span> velocityVerlet</span> = velocityVerlet(<span class="hljs-number">5.0</span>, <span class="hljs-number">-10.0</span>, <span class="hljs-number">0.01</span>)
+    println(<span class="hljs-string">&quot;Time for Velocity Verlet integration is: $velocityVerlet.time&quot;</span>)
+    println(<span class="hljs-string">&quot;Velocity for Velocity Verlet integration is: $velocityVerlet.vel&quot;</span>)
+}
+</code></pre>
 </div></div></div>
 
 
@@ -2514,7 +2611,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.15.1","depth":2,"next":{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.15","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.15.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-10-27T14:50:46.558Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-27T14:52:43.992Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.15.1","depth":2,"next":{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.15","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.15.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2018-10-30T02:26:01.232Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-30T02:28:07.008Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
