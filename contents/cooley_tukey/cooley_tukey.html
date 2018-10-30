@@ -761,16 +761,13 @@ For some reason, though, putting code to this transformation really helped me fi
   <span class="hljs-built_in">std</span>::copy(<span class="hljs-built_in">std</span>::begin(tmp), <span class="hljs-built_in">std</span>::end(tmp), X);
 }
 </code></pre>
-</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> DFT(x)
-    N = length(x)
-
-    <span class="hljs-comment"># We want two vectors here for real space (n) and frequency space (k)</span>
-    n = <span class="hljs-number">0</span>:N-<span class="hljs-number">1</span>
-    k = n&apos;
-    transform_matrix = exp.(-<span class="hljs-number">2</span><span class="hljs-literal">im</span>*<span class="hljs-literal">pi</span>*n*k/N)
-    <span class="hljs-keyword">return</span> transform_matrix*x
-
-<span class="hljs-keyword">end</span>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">dft</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
+<span class="hljs-title">dft</span> x = matMult dftMat x
+  <span class="hljs-keyword">where</span>
+    n = length x
+    w = exp $ (<span class="hljs-number">-2</span>) * pi * (<span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>) / fromIntegral n
+    dftMat = [[w ^ (j * k) | j &lt;- [<span class="hljs-number">0</span> .. n - <span class="hljs-number">1</span>]] | k &lt;- [<span class="hljs-number">0</span> .. n - <span class="hljs-number">1</span>]]
+    matMult m x = map (sum . zipWith (*) x) m
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dft</span><span class="hljs-params">(X)</span>:</span>
     N = len(X)
@@ -916,19 +913,19 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">fft</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
-<span class="hljs-title">fft</span> x = <span class="hljs-keyword">let</span> n = length x
-            i = <span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>
-            w = <span class="hljs-type">M</span>.fromList [(k%n, exp ((<span class="hljs-number">-2</span>)*pi*i*(fromIntegral k)/(fromIntegral n)) ) | k&lt;-[<span class="hljs-number">0.</span>.n<span class="hljs-number">-1</span>]]
-            arr = fft&apos; n w (listArray (<span class="hljs-number">0</span>,n<span class="hljs-number">-1</span>) x)
-        <span class="hljs-keyword">in</span> [arr!k | k&lt;-[<span class="hljs-number">0.</span>.n<span class="hljs-number">-1</span>]]
+<span class="hljs-title">fft</span> x = fft&apos; x
   <span class="hljs-keyword">where</span>
-  fft&apos; <span class="hljs-number">1</span> _ x = x
-  fft&apos; n w x = <span class="hljs-keyword">let</span> n2 = div n <span class="hljs-number">2</span>
-                   e = fft&apos; n2 w (listArray (<span class="hljs-number">0</span>, n2<span class="hljs-number">-1</span>) [x!k | k&lt;-[<span class="hljs-number">0</span>,<span class="hljs-number">2.</span>.n<span class="hljs-number">-1</span>]])
-                   o = fft&apos; n2 w (listArray (<span class="hljs-number">0</span>, n2<span class="hljs-number">-1</span>) [x!k | k&lt;-[<span class="hljs-number">1</span>,<span class="hljs-number">3.</span>.n<span class="hljs-number">-1</span>]])
-               <span class="hljs-keyword">in</span> array (<span class="hljs-number">0</span>, n<span class="hljs-number">-1</span>) $ concat [[(k, e!k + o!k * w <span class="hljs-type">M</span>.!(k%n)),
-                                            (k + n2, e!k - o!k * w <span class="hljs-type">M</span>.!(k%n))]
-                                                               | k &lt;- [<span class="hljs-number">0.</span>.n2<span class="hljs-number">-1</span>]]
+    n = length x
+    w0 = exp ((<span class="hljs-number">-2</span>) * pi * (<span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>) / fromIntegral n)
+    w = <span class="hljs-type">M</span>.fromList [(k % n, w0 ^ k) | k &lt;- [<span class="hljs-number">0</span> .. n - <span class="hljs-number">1</span>]]
+    fft&apos; [x] = [x]
+    fft&apos; x =
+      <span class="hljs-keyword">let</span> (evens, odds) = partition (even . fst) $ zip [<span class="hljs-number">0</span> ..] x
+          e = fft&apos; $ map snd evens
+          o = fft&apos; $ map snd odds
+          x1 = zipWith3 (\e o k -&gt; e + o * w ! (k %n)) e o [<span class="hljs-number">0</span> ..]
+          x2 = zipWith3 (\e o k -&gt; e - o * w ! (k %n)) e o [<span class="hljs-number">0</span> ..]
+       <span class="hljs-keyword">in</span> x1 ++ x2
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cooley_tukey</span><span class="hljs-params">(X)</span>:</span>
     N = len(X)
@@ -1484,27 +1481,37 @@ int main() {
 }
 </code></pre>
 </div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Complex
-<span class="hljs-keyword">import</span> Data.Array
-<span class="hljs-keyword">import</span> Data.Ratio
+<span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">partition</span>)
+<span class="hljs-keyword">import</span> Data.Map ((!))
 <span class="hljs-keyword">import</span> <span class="hljs-keyword">qualified</span> Data.Map <span class="hljs-keyword">as</span> M
+<span class="hljs-keyword">import</span> Data.Ratio
+
+<span class="hljs-title">dft</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
+<span class="hljs-title">dft</span> x = matMult dftMat x
+  <span class="hljs-keyword">where</span>
+    n = length x
+    w = exp $ (<span class="hljs-number">-2</span>) * pi * (<span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>) / fromIntegral n
+    dftMat = [[w ^ (j * k) | j &lt;- [<span class="hljs-number">0</span> .. n - <span class="hljs-number">1</span>]] | k &lt;- [<span class="hljs-number">0</span> .. n - <span class="hljs-number">1</span>]]
+    matMult m x = map (sum . zipWith (*) x) m
 
 <span class="hljs-title">fft</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
-<span class="hljs-title">fft</span> x = <span class="hljs-keyword">let</span> n = length x
-            i = <span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>
-            w = <span class="hljs-type">M</span>.fromList [(k%n, exp ((<span class="hljs-number">-2</span>)*pi*i*(fromIntegral k)/(fromIntegral n)) ) | k&lt;-[<span class="hljs-number">0.</span>.n<span class="hljs-number">-1</span>]]
-            arr = fft&apos; n w (listArray (<span class="hljs-number">0</span>,n<span class="hljs-number">-1</span>) x)
-        <span class="hljs-keyword">in</span> [arr!k | k&lt;-[<span class="hljs-number">0.</span>.n<span class="hljs-number">-1</span>]]
+<span class="hljs-title">fft</span> x = fft&apos; x
   <span class="hljs-keyword">where</span>
-  fft&apos; <span class="hljs-number">1</span> _ x = x
-  fft&apos; n w x = <span class="hljs-keyword">let</span> n2 = div n <span class="hljs-number">2</span>
-                   e = fft&apos; n2 w (listArray (<span class="hljs-number">0</span>, n2<span class="hljs-number">-1</span>) [x!k | k&lt;-[<span class="hljs-number">0</span>,<span class="hljs-number">2.</span>.n<span class="hljs-number">-1</span>]])
-                   o = fft&apos; n2 w (listArray (<span class="hljs-number">0</span>, n2<span class="hljs-number">-1</span>) [x!k | k&lt;-[<span class="hljs-number">1</span>,<span class="hljs-number">3.</span>.n<span class="hljs-number">-1</span>]])
-               <span class="hljs-keyword">in</span> array (<span class="hljs-number">0</span>, n<span class="hljs-number">-1</span>) $ concat [[(k, e!k + o!k * w <span class="hljs-type">M</span>.!(k%n)),
-                                            (k + n2, e!k - o!k * w <span class="hljs-type">M</span>.!(k%n))]
-                                                               | k &lt;- [<span class="hljs-number">0.</span>.n2<span class="hljs-number">-1</span>]]
+    n = length x
+    w0 = exp ((<span class="hljs-number">-2</span>) * pi * (<span class="hljs-number">0</span> :+ <span class="hljs-number">1</span>) / fromIntegral n)
+    w = <span class="hljs-type">M</span>.fromList [(k % n, w0 ^ k) | k &lt;- [<span class="hljs-number">0</span> .. n - <span class="hljs-number">1</span>]]
+    fft&apos; [x] = [x]
+    fft&apos; x =
+      <span class="hljs-keyword">let</span> (evens, odds) = partition (even . fst) $ zip [<span class="hljs-number">0</span> ..] x
+          e = fft&apos; $ map snd evens
+          o = fft&apos; $ map snd odds
+          x1 = zipWith3 (\e o k -&gt; e + o * w ! (k %n)) e o [<span class="hljs-number">0</span> ..]
+          x2 = zipWith3 (\e o k -&gt; e - o * w ! (k %n)) e o [<span class="hljs-number">0</span> ..]
+       <span class="hljs-keyword">in</span> x1 ++ x2
 
 <span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
-  print $ fft [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+  print $ dft [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+  print $ fft [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
 </code></pre>
 </div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> random
 <span class="hljs-keyword">from</span> cmath <span class="hljs-keyword">import</span> exp, pi
@@ -1618,7 +1625,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.12","depth":1,"next":{"title":"Decision Problems","level":"1.13","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.13.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"previous":{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/cooley_tukey/cooley_tukey.md","mtime":"2018-10-30T02:41:32.538Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-30T02:43:33.204Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.12","depth":1,"next":{"title":"Decision Problems","level":"1.13","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.13.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"previous":{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/cooley_tukey/cooley_tukey.md","mtime":"2018-10-30T06:37:31.429Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-30T06:39:23.699Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
