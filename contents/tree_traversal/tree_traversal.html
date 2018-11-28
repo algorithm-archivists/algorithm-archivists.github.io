@@ -797,6 +797,9 @@
 .equ tree_value,        12
 .equ tree_size,         16
 </code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">&#x1F983; &#x23F9; &#x1F347;
+  &#x1F518; &#x23EB;
+</code></pre>
 </div></div></div>
 
 <p>Because of this, the most straightforward way to traverse the tree might be recursive. This naturally leads us to the Depth-First Search (DFS) method:</p>
@@ -930,6 +933,15 @@ dfs_recursive_return:
   pop    r13
   pop    r12
   ret
+</code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">  &#x1F30C;&#x1F415; depth_count children_count&#x2757;&#xFE0F;
+&#x1F349;
+
+&#x2757;&#xFE0F; &#x1F194; &#x27A1;&#xFE0F; &#x1F522; &#x1F347;
+  &#x21A9;&#xFE0F; id
+&#x1F349;
+
+&#x2757;&#xFE0F; &#x1F9D2; &#x27A1;&#xFE0F; &#x1F368;&#x1F41A;&#x1F332;&#x1F346; &#x1F347;
 </code></pre>
 </div></div></div>
 
@@ -1069,6 +1081,15 @@ dfs_recursive_po_return:
   pop    r13
   pop    r12
   ret
+</code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">&#x1F349;
+
+&#x1F4D7; Depth-First Search Recursive pre-order &#x1F4D7;
+&#x2757;&#xFE0F; &#x1F300; &#x1F347;
+  &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+
+  &#x1F502; child children &#x1F347;
+    &#x1F300; child&#x2757;&#xFE0F;
 </code></pre>
 </div></div></div>
 
@@ -1342,6 +1363,25 @@ dfs_recursive_bt_return:
   pop    r12
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">&#x1F349;
+
+&#x1F4D7; Depth-First Search Recursive post-order &#x1F4D7;
+&#x2757;&#xFE0F; &#x1F365; &#x1F347;
+  &#x1F502; child children &#x1F347;
+    &#x1F365; child&#x2757;&#xFE0F;
+  &#x1F349;
+
+  &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+&#x1F349;
+
+&#x1F4D7;
+  Depth-First Search Recursive Inorder Binary
+  This assumes only 2 children.
+&#x1F4D7;
+&#x2757;&#xFE0F; &#x1F36D; &#x27A1;&#xFE0F; &#x1F36C;&#x23F9; &#x1F347;
+  &#x21AA;&#xFE0F; &#x1F414; children&#x2757;&#xFE0F; &#x25B6;&#xFE0F; 2 &#x1F347;
+    &#x21A9;&#xFE0F; &#x1F195;&#x23F9;&#x23EB;&#x2757;&#xFE0F;
+</code></pre>
 </div></div></div>
 
 <p>
@@ -1575,6 +1615,22 @@ dfs_stack_return:
   pop    r12
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">
+  &#x21AA;&#xFE0F; &#x1F414; children&#x2757;&#xFE0F; &#x25B6;&#xFE0F; 0 &#x1F347;
+    &#x1F36D;&#x1F43D; children 0&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+    &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+    &#x1F36D;&#x1F43D; children 1&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+  &#x1F349;
+  &#x1F645; &#x1F347;
+    &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+  &#x1F349;
+  &#x21A9;&#xFE0F; &#x1F937;&#x200D;&#x2640;&#xFE0F;
+&#x1F349;
+
+&#x1F4D7; Depth-First Search Stack &#x1F4D7;
+&#x2757;&#xFE0F; &#x1F95E; &#x1F347;
+  &#x1F368; &#x1F415; &#x1F346; &#x27A1;&#xFE0F; stack
+</code></pre>
 </div></div></div>
 
 <p>All this said, there are a few details about DFS that might not be idea, depending on the situation. For example, if we use DFS on an incredibly long tree, we will spend a lot of time going further and further down a single branch without searching the rest of the data structure. In addition, it is not the natural way humans would order a tree if asked to number all the nodes from top to bottom. I would argue a more natural traversal order would look something like this:</p>
@@ -1800,6 +1856,22 @@ bfs_queue_return:
   pop    r13
   pop    r12
   ret
+</code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">    &#x1F43D; stack &#x1F414; stack&#x2757;&#xFE0F; &#x2796; 1&#x2757;&#xFE0F; &#x27A1;&#xFE0F; temp
+    &#x1F428; stack &#x1F414; stack&#x2757;&#xFE0F; &#x2796; 1&#x2757;&#xFE0F;
+
+    &#x1F600; &#x1F521; &#x1F194; temp&#x2757;&#xFE0F; 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+
+    &#x1F9D2; temp&#x2757;&#xFE0F; &#x27A1;&#xFE0F; temp_children
+    &#x1F502; child temp_children &#x1F347;
+      &#x1F43B; stack child&#x2757;&#xFE0F;
+    &#x1F349;
+  &#x1F349;
+&#x1F349;
+
+&#x1F4D7; Breadth-First Search Queue &#x1F4D7;
+&#x2757;&#xFE0F; &#x1F3E2; &#x1F347;
+  &#x1F368; &#x1F415; &#x1F346; &#x27A1;&#xFE0F; queue
 </code></pre>
 </div></div></div>
 
@@ -3841,6 +3913,150 @@ main:
   pop    r12
   ret
 </code></pre>
+</div><div class="code-method-sample" data-lang="emojic" data-name="Emojicode"><pre><code class="lang-emojicode">&#x1F983; &#x23F9; &#x1F347;
+  &#x1F518; &#x23EB;
+
+  &#x2757;&#xFE0F; &#x1F521; &#x27A1;&#xFE0F; &#x1F521; &#x1F347;
+    &#x21AA;&#xFE0F; &#x1F415; &#x1F64C; &#x1F195;&#x23F9;&#x23EB;&#x2757;&#xFE0F; &#x1F347;
+      &#x21A9;&#xFE0F; &#x1F524;The given tree is not binary!&#x1F524;
+    &#x1F349;
+    &#x21A9;&#xFE0F; &#x1F524;&#x1F524;
+  &#x1F349;
+&#x1F349;
+
+&#x1F407; &#x1F332; &#x1F347;
+  &#x1F58D;&#x1F195; id &#x1F522;
+  &#x1F58D;&#x1F195; children &#x1F368;&#x1F41A;&#x1F332;&#x1F346;
+
+  &#x1F195; depth_count &#x1F522; children_count &#x1F522; &#x1F347;
+    1 &#x27A1;&#xFE0F; &#x1F58D;id
+    &#x1F368;&#x1F346; &#x27A1;&#xFE0F; &#x1F58D;children
+
+    &#x1F30C;&#x1F415; depth_count children_count&#x2757;&#xFE0F;
+  &#x1F349;
+
+  &#x1F510; &#x1F195; &#x2B50;&#xFE0F; given_id &#x1F522; depth_count &#x1F522; children_count &#x1F522; &#x1F347;
+    given_id &#x27A1;&#xFE0F; &#x1F58D;id
+    &#x1F368;&#x1F346; &#x27A1;&#xFE0F; &#x1F58D;children
+
+    &#x1F30C;&#x1F415; depth_count children_count&#x2757;&#xFE0F;
+  &#x1F349;
+
+  &#x2757;&#xFE0F; &#x1F194; &#x27A1;&#xFE0F; &#x1F522; &#x1F347;
+    &#x21A9;&#xFE0F; id
+  &#x1F349;
+
+  &#x2757;&#xFE0F; &#x1F9D2; &#x27A1;&#xFE0F; &#x1F368;&#x1F41A;&#x1F332;&#x1F346; &#x1F347;
+    &#x21A9;&#xFE0F; children
+  &#x1F349;
+
+  &#x1F4D7; Depth-First Search Recursive pre-order &#x1F4D7;
+  &#x2757;&#xFE0F; &#x1F300; &#x1F347;
+    &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+
+    &#x1F502; child children &#x1F347;
+      &#x1F300; child&#x2757;&#xFE0F;
+    &#x1F349;
+  &#x1F349;
+
+  &#x1F4D7; Depth-First Search Recursive post-order &#x1F4D7;
+  &#x2757;&#xFE0F; &#x1F365; &#x1F347;
+    &#x1F502; child children &#x1F347;
+      &#x1F365; child&#x2757;&#xFE0F;
+    &#x1F349;
+
+    &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+  &#x1F349;
+
+  &#x1F4D7;
+    Depth-First Search Recursive Inorder Binary
+    This assumes only 2 children.
+  &#x1F4D7;
+  &#x2757;&#xFE0F; &#x1F36D; &#x27A1;&#xFE0F; &#x1F36C;&#x23F9; &#x1F347;
+    &#x21AA;&#xFE0F; &#x1F414; children&#x2757;&#xFE0F; &#x25B6;&#xFE0F; 2 &#x1F347;
+      &#x21A9;&#xFE0F; &#x1F195;&#x23F9;&#x23EB;&#x2757;&#xFE0F;
+    &#x1F349;
+
+    &#x21AA;&#xFE0F; &#x1F414; children&#x2757;&#xFE0F; &#x25B6;&#xFE0F; 0 &#x1F347;
+      &#x1F36D;&#x1F43D; children 0&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+      &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+      &#x1F36D;&#x1F43D; children 1&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+    &#x1F349;
+    &#x1F645; &#x1F347;
+      &#x1F600; &#x1F521; id 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+    &#x1F349;
+    &#x21A9;&#xFE0F; &#x1F937;&#x200D;&#x2640;&#xFE0F;
+  &#x1F349;
+
+  &#x1F4D7; Depth-First Search Stack &#x1F4D7;
+  &#x2757;&#xFE0F; &#x1F95E; &#x1F347;
+    &#x1F368; &#x1F415; &#x1F346; &#x27A1;&#xFE0F; stack
+
+    &#x1F501; &#x274E; &#x1F414; stack&#x2757;&#xFE0F; &#x1F64C;  0&#x2757;&#xFE0F; &#x1F347;
+      &#x1F43D; stack &#x1F414; stack&#x2757;&#xFE0F; &#x2796; 1&#x2757;&#xFE0F; &#x27A1;&#xFE0F; temp
+      &#x1F428; stack &#x1F414; stack&#x2757;&#xFE0F; &#x2796; 1&#x2757;&#xFE0F;
+
+      &#x1F600; &#x1F521; &#x1F194; temp&#x2757;&#xFE0F; 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+
+      &#x1F9D2; temp&#x2757;&#xFE0F; &#x27A1;&#xFE0F; temp_children
+      &#x1F502; child temp_children &#x1F347;
+        &#x1F43B; stack child&#x2757;&#xFE0F;
+      &#x1F349;
+    &#x1F349;
+  &#x1F349;
+
+  &#x1F4D7; Breadth-First Search Queue &#x1F4D7;
+  &#x2757;&#xFE0F; &#x1F3E2; &#x1F347;
+    &#x1F368; &#x1F415; &#x1F346; &#x27A1;&#xFE0F; queue
+
+    &#x1F501; &#x274E; &#x1F414; queue&#x2757;&#xFE0F; &#x1F64C;  0&#x2757;&#xFE0F; &#x1F347;
+      &#x1F43D; queue 0&#x2757;&#xFE0F; &#x27A1;&#xFE0F; temp
+      &#x1F428; queue 0&#x2757;&#xFE0F;
+
+      &#x1F600; &#x1F521; &#x1F194; temp&#x2757;&#xFE0F; 10&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+
+      &#x1F9D2; temp&#x2757;&#xFE0F; &#x27A1;&#xFE0F; temp_children
+      &#x1F502; child temp_children &#x1F347;
+        &#x1F43B; queue child&#x2757;&#xFE0F;
+      &#x1F349;
+    &#x1F349;
+  &#x1F349;
+
+  &#x1F510; &#x2757;&#xFE0F; &#x1F30C; depth_count &#x1F522; children_count &#x1F522; &#x1F347;
+    &#x21AA;&#xFE0F; &#x274E; depth_count &#x25C0;&#xFE0F;&#x1F64C; 1&#x2757;&#xFE0F; &#x1F347;
+      &#x1F502; i &#x1F195;&#x23E9;&#x23E9; 0 children_count&#x2757;&#xFE0F; &#x1F347;
+        &#x1F43B; children &#x1F195;&#x1F332;&#x2B50;&#xFE0F; &#x1F91C;id &#x2716;&#xFE0F; 10 &#x2795; i &#x2795; 1&#x1F91B; &#x1F91C;depth_count &#x2796; 1&#x1F91B; children_count&#x2757;&#xFE0F;&#x2757;&#xFE0F;
+      &#x1F349;
+    &#x1F349;
+  &#x1F349;
+&#x1F349;
+
+&#x1F3C1; &#x1F347;
+  &#x1F195;&#x1F332;&#x1F195; 3 3&#x2757;&#xFE0F; &#x27A1;&#xFE0F; tree
+  &#x1F600; &#x1F524;Tree Traversal&#x1F524;&#xFE0F;&#x2757;&#xFE0F;
+  &#x1F600; &#x1F524;&#x1F300;  - Depth-First Search Recursive pre-order&#x1F524;&#x2757;&#xFE0F;
+  &#x1F300;tree&#x2757;&#xFE0F;
+  &#x1F600; &#x1F524;&#x1F365;  - Depth-First Search Recursive post-order&#x1F524;&#x2757;&#xFE0F;
+  &#x1F365;tree&#x2757;&#xFE0F;
+  &#x1F600; &#x1F524;&#x1F95E;  - Depth-First Search Stack&#x1F524;&#x2757;&#xFE0F;
+  &#x1F95E;tree&#x2757;&#xFE0F;
+  &#x1F600; &#x1F524;&#x1F3E2;  - Breadth-First Search Queue&#x1F524;&#x2757;&#xFE0F;
+  &#x1F3E2;tree&#x2757;&#xFE0F;
+
+  &#x1F600; &#x1F524;&#x1F36D;  - Depth-First Search Recursive Inorder Binary - Error&#x1F524;&#x2757;&#xFE0F;
+  &#x1F4AD; Calling the Depth-First Search Recursive Inorder Binary method here does
+  &#x1F4AD; result in an error, since &quot;tree&quot; is not a binary tree.
+  &#xFE0F;&#x21AA;&#xFE0F; &#x1F36D;tree&#x2757;&#xFE0F; &#x27A1;&#xFE0F; return &#x1F347;
+    &#x1F600; &#x1F521;return&#x2757;&#x2757;&#xFE0F;&#xFE0F;
+  &#x1F349;
+
+  &#x1F195;&#x1F332;&#x1F195; 3 2&#x2757;&#xFE0F; &#x27A1;&#xFE0F; binary_tree
+  &#x1F600; &#x1F524;&#x1F36D;  - Depth-First Search Recursive Inorder Binary&#x1F524;&#x2757;&#xFE0F;
+  &#xFE0F;&#x21AA;&#xFE0F; &#x1F36D;binary_tree&#x2757;&#xFE0F; &#x27A1;&#xFE0F; return &#x1F347;
+    &#x1F600; &#x1F521;return&#x2757;&#x2757;&#xFE0F;&#xFE0F;
+  &#x1F349;
+&#x1F349;
+</code></pre>
 </div></div></div>
 
 
@@ -3890,7 +4106,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.7","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.8","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/tree_traversal/tree_traversal.md","mtime":"2018-11-09T03:20:26.874Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-09T03:22:23.690Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tree Traversal","level":"1.7","depth":1,"next":{"title":"Euclidean Algorithm","level":"1.8","depth":1,"path":"contents/euclidean_algorithm/euclidean_algorithm.md","ref":"contents/euclidean_algorithm/euclidean_algorithm.md","articles":[]},"previous":{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/tree_traversal/tree_traversal.md","mtime":"2018-11-28T20:59:20.486Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-28T21:02:13.588Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
