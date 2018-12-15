@@ -666,7 +666,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="gaussian-elimination">Gaussian Elimination</h1>
-<p>So, how exactly do we go about solving a system of linear equations? Well, one way is <em>Gaussian Elimination</em>, which you may have encountered before in a math class or two. The basic idea is that we take a system of equations,</p>
+<p>Let&apos;s say we have a system of equations,</p>
 <p><script type="math/tex; mode=display">
 \begin{align}
 2x + 3y + 4z &= 6 \\
@@ -674,7 +674,10 @@ x + 2y + 3z &= 4 \\
 3x - 4y &= 10
 \end{align}
 </script></p>
-<p>and turn it into a matrix by using the coefficients in front of each variable</p>
+<p>and we want to solve for <script type="math/tex; ">x</script>, <script type="math/tex; ">y</script>, and <script type="math/tex; ">z</script>.
+Well, one way to do this is with <em>Gaussian Elimination</em>, which you may have encountered before in a math class or two.</p>
+<p>The first step is to transform the system of equations into a matrix by using the coefficients in front of each variable, where each row corresponds to another equation and each column corresponds to an independent variable like <script type="math/tex; ">x</script>, <script type="math/tex; ">y</script>, or <script type="math/tex; ">z</script>.
+For the previous system of equations, this might look like this:</p>
 <p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc}
@@ -709,7 +712,9 @@ z
 \end{array}
 \right]
 </script></p>
-<p>Now, at first, this doesn&apos;t seem to help anything, so let&apos;s think of this in another way. Wouldn&apos;t it be great if the system of equations looked like this:</p>
+<p>At first, translating the set of equations into a matrix like this doesn&apos;t seem to help with anything, so let&apos;s think of this in another way.</p>
+<h4 id="row-echelon-form">Row Echelon Form</h4>
+<p>Instead of the complicated mess of equations shown above, imagine if the system looked like this:</p>
 <p><script type="math/tex; mode=display">
 \begin{align}
 2x + 3y + 4z &= 6 \\
@@ -717,7 +722,8 @@ y + 2z &= 2 \\
 11z &= 18
 \end{align}
 </script></p>
-<p>Then we could just solve for <script type="math/tex; ">z</script> and plug that value in to the top two equations to solve for <script type="math/tex; ">x</script> and <script type="math/tex; ">y</script>! In matrix form, it would look like this</p>
+<p>Then we could just solve for <script type="math/tex; ">z</script> and plug that value in to the top two equations to solve for <script type="math/tex; ">x</script> and <script type="math/tex; ">y</script> through a process known as back-substitution.
+In matrix form, this set of equations would look like this:</p>
 <p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
@@ -728,12 +734,9 @@ y + 2z &= 2 \\
 \right]
 </script></p>
 <p>This matrix form has a particular name: <em>Row Echelon Form</em>.
-Basically, any matrix can be considered in row echelon form if</p>
-<ol>
-<li>All non-zero rows are above rows of all zeros</li>
-<li>The leading coefficient or <em>pivot</em> (the first non-zero element in every row when reading from left to right) is right of the pivot of the row above it.</li>
-</ol>
-<p>All the following examples are in the row echelon form:</p>
+Basically, any matrix can be considered in row echelon form if the leading coefficient or <em>pivot</em> (the first non-zero element in every row when reading from left to right) is right of the pivot of the row above it.</p>
+<p>This creates a matrix that sometiems resembles an upper-triangular matrix; however, that doesn&apos;t mean that all row-echelon matrices are upper-triangular.
+For example, all of the following matrices are in row echelon form:</p>
 <p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
@@ -761,18 +764,19 @@ Basically, any matrix can be considered in row echelon form if</p>
 \;,\;
 \left[
 \begin{array}{cc}
-0 & 0 \\
-0 & 2 \\
-0 & 0
+1 &  2 \\
+2 &  0 \\
+0 &  0
 \end{array}
 \right]
 </script></p>
-<p>The first two are probably the ones we are interested in, at the very least they have the right dimensions to solve a system of equations.
-The last two systems are either under- or over-constrained; however, if you translate the last row of second matrix into a system, you get <script type="math/tex; ">0=1</script>, which is a contradiction.
-This is due to the fact that the matrix is singular, and there are no solutions to this particular system. Nevertheless, all of these matrices are in row echelon form.</p>
-<p>Now, it seems obvious to point out that if we ignore the last column, row echelon form is an upper triangular matrix.
-This might not be important now, but it will play an important role in future discussions, so keep it buzzing in the back of your brain.</p>
-<p>Now, row echelon form is nice, but wouldn&apos;t it be even better if our system of equations looked simply like this</p>
+<p>The first two of these have the right dimensions to find a solution to a system of equations; however, the last two matrices are respectively under- and over-constrained, meaning they do not provide an appropriate solution to a system of equations.
+That said, this doesn&apos;t mean that every matrix in the correct form can be solved either.
+For example, if you translate the second matrix into a system of equations again, the last row translates into <script type="math/tex; ">0x+0y+0z=1</script>, which is a contradiction.
+This is due to the fact that the matrix is singular, and there are no solutions to this particular system.
+Nevertheless, all of these matrices are in row echelon form.</p>
+<h4 id="reduced-row-echelon-form"><em>Reduced</em> Row Echelon Form</h4>
+<p>Row echelon form is nice, but wouldn&apos;t it be even better if our system of equations looked simply like this:</p>
 <p><script type="math/tex; mode=display">
 \begin{align}
 x &= \frac{18}{11} \\
@@ -780,7 +784,7 @@ y &= \frac{-14}{11} \\
 z &= \frac{18}{11}
 \end{align}
 </script></p>
-<p>Then we would know exactly what <script type="math/tex; ">x</script>, <script type="math/tex; ">y</script>, and <script type="math/tex; ">z</script> are without any fuss! In matrix form, it looks like</p>
+<p>Then we would know exactly what <script type="math/tex; ">x</script>, <script type="math/tex; ">y</script>, and <script type="math/tex; ">z</script> are without any fuss! In matrix form, it looks like this:</p>
 <p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
@@ -790,8 +794,7 @@ z &= \frac{18}{11}
 \end{array}
 \right]
 </script></p>
-<p>And that&apos;s where we really want to get to for obvious reasons.
-This introduces yet another matrix configuration: <em> <strong>Reduced</strong> Row Echelon Form</em>.
+<p>This introduces yet another matrix configuration: <em> <strong>Reduced</strong> Row Echelon Form</em>.
 A matrix is in reduced row echelon form if it satisfies the following conditions:</p>
 <ol>
 <li>It is in row echelon form.</li>
@@ -823,11 +826,11 @@ A matrix is in reduced row echelon form if it satisfies the following conditions
 \end{array}
 \right]
 </script></p>
-<p>Again, only the first one (the identity matrix looking guy) is desirable in the context of solving a system of equations, but transforming any matrix in this form gives us an immediate and definitive answer at the question: can I solve my system?</p>
-<p>Beyond solving a system, reshaping a matrix in this form makes it very easy to deduce other properties of the matrix, such as the rank.
-The rank of a matrix is the maximal number of linearly independent columns, in reduced row echelon form, the rank is simply the number of pivots.</p>
+<p>Again, only the first of these (the one that looks like an identity matrix) is desirable in the context of solving a system of equations, but transforming any matrix in this form gives us an immediate and definitive answer at the question: can I solve my system of equations?</p>
+<p>Beyond solving a system of equations, reshaping a matrix in this form makes it very easy to deduce other properties of the matrix, such as its rank &#x2014; the maximum number of linearly independent columns.
+In reduced row echelon form, the rank is simply the number of pivots.</p>
 <p>For now, I hope the motivation is clear: we want to convert a matrix into row echelon and then reduced row echelon form to make large systems of equations trivial to solve, so we need some method to do that.
-In general, the term <em>Gaussian Elimination</em> refers to the process of transforming a matrix into row echelon form, and the process of transforming a row echelon matrix into reduced row echelon is called <em>Gauss-Jordan Elimination</em>.
+In general, the term <em>Gaussian Elimination</em> refers to the process of transforming a matrix into row echelon form, and the process of transforming a row echelon matrix into reduced row echelon form is called <em>Gauss-Jordan Elimination</em>.
 That said, the notation here is sometimes inconsistent.
 Several authors use the term <em>Gaussian Elimination</em> to include Gauss-Jordan elimination as well.
 In addition, the process of Gauss-Jordan elimination is sometimes called <em>Back-substitution</em>, which is also confusing because the term can also be used to mean solving a system of equations from row echelon form, without simplifying to reduced row echelon form.
@@ -837,15 +840,14 @@ For this reason, we will be using the following definitions in this chapter:</p>
 <li><strong>Gauss-Jordan Elimination:</strong> The process of transforming a row echelon matrix into <em>reduced</em> row echelon form</li>
 <li><strong>Back-substitution:</strong> The process of directly solving a row echelon matrix, <em>without transforming into reduced row echelon form</em></li>
 </ul>
-<h2 id="the-method">The Method</h2>
-<p>Here I should point out that Gaussian elimination makes sense from a purely analytical point of view.
-For small systems of equations, it&apos;s relatively straightforward to do this method by hand; however, for large systems, this (of course) become tedious and we will need to find an appropriate numerical solution.
+<h2 id="the-analytical-method">The Analytical Method</h2>
+<p>Gaussian elimination is inherently analytical and can be done by hand for small systems of equations; however, for large systems, this (of course) become tedious and we will need to find an appropriate numerical solution.
 For this reason, I have split this section into two parts. One will cover the analytical framework, and the other will cover an algorithm you can write in your favorite programming language.</p>
 <p>In the end, reducing large systems of equations boils down to a game you play on a seemingly random matrix with 3 possible moves. You can:</p>
 <ol>
-<li>swap any two rows</li>
-<li>multiply any row by a non-zero scale value</li>
-<li>add any row to a multiple of any other row</li>
+<li>Swap any two rows.</li>
+<li>Multiply any row by a non-zero scale value.</li>
+<li>Add any row to a multiple of any other row.</li>
 </ol>
 <p>That&apos;s it.
 Before continuing, I suggest you try to recreate the row echelon matrix we made above.
@@ -868,9 +870,9 @@ That is, do the following:</p>
 \right]
 </script></p>
 <p>There are plenty of different strategies you could use to do this, and no one strategy is better than the rest.
-Personally, I usually try to multiply each row in the matrix by different values and add rows together until the first column is all the same value, and then I subtract the first row from all subsequent rows.
-I then do the same thing for the following columns.</p>
-<p>After you get an upper triangular matrix, the next step is diagonalizing to create the reduced row echelon form. In other words, we do the following:</p>
+One method is to subtract a multiple of the top row from subsequent rows below it such that all values beneath the pivot value are zero. 
+This process might be easier if you swap some rows around first and can be performed for each pivot.</p>
+<p>After you get a row echelon matrix, the next step is to find the reduced row echelon form. In other words, we do the following:</p>
 <p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
@@ -888,14 +890,18 @@ I then do the same thing for the following columns.</p>
 \end{array}
 \right]
 </script></p>
-<p>Here, the idea is similar to above.
-The strategy is the same as before, but starts from the right-most column and subtracts upwards instead of downwards.</p>
-<h2 id="the-algorithm">The Algorithm</h2>
-<p>Now, the analytical method may seem straightforward, but the algorithm does not obviously follow from the game we were playing before, so we&apos;ll go through it step-by-step.</p>
-<p>In general, do the following process:</p>
-<ol>
-<li><p>For each column <code>col</code>, find the highest value
-<script type="math/tex; mode=display">
+<p>Here, the idea is similar to above and the same rules apply.
+In this case, we might start from the right-most column and subtracts upwards instead of downwards.</p>
+<h2 id="the-computational-method">The Computational Method</h2>
+<p>The analytical method for Gaussian Elimination may seem straightforward, but the computational method does not obviously follow from the &quot;game&quot; we were playing before.
+Ultimately, the computational method boils down to two separate steps and has a complexity of <script type="math/tex; ">\mathcal{O}(n^3)</script>.</p>
+<p>As a note, this process iterates through all the rows in the provided matrix.
+When we say &quot;current row&quot; (<code>curr_row</code>), we mean the specific row iteration number we are on at that time, and as before, the &quot;pivot&quot; corresponds to the first non-zero element in that row.</p>
+<h4 id="step-1">Step 1</h4>
+<p>For each element in the pivot column under the current row, find the highest value and switch the row with the highest value with the current row.
+The <em>pivot</em> is then considered to be the first element in the highest swapped row.</p>
+<p>For example, in this case the highest value is <script type="math/tex; ">3</script>:</p>
+<p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
 2 & 3  & 4 & 6 \\
@@ -903,12 +909,9 @@ The strategy is the same as before, but starts from the right-most column and su
 \mathbf{3} & -4 & 0 & 10
 \end{array}
 \right]
-</script>
-If that value is <script type="math/tex; ">0</script>, the matrix is singular and the system has no solutions.
-Feel free to exit here, but if we want to be as general as possible the algorithm can continue even in that case.</p>
-</li>
-<li><p>Swap the row with the highest valued element with the current row.
-<script type="math/tex; mode=display">
+</script></p>
+<p>After finding this value, we simply switch the row with the <script type="math/tex; ">3</script> to the current row:</p>
+<p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
 \mathbf{2} & \mathbf{3}  & \mathbf{4} & \mathbf{6} \\
@@ -925,8 +928,137 @@ Feel free to exit here, but if we want to be as general as possible the algorith
 \end{array}
 \right]
 </script></p>
-</li>
-<li>For all remaining rows, find a fraction that corresponds to the ratio of the lower value in that column to the central pivot (the one you swapped to the top)
+<p>In this case, the new pivot is <script type="math/tex; ">3</script>.</p>
+<p>In code, this process might look like this:</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># finding the maximum element for each column</span>
+max_index = argmax(abs.(A[row:<span class="hljs-keyword">end</span>,col])) + row-<span class="hljs-number">1</span>
+
+<span class="hljs-comment"># Check to make sure matrix is good!</span>
+<span class="hljs-keyword">if</span> (A[max_index, col] == <span class="hljs-number">0</span>)
+    println(<span class="hljs-string">&quot;matrix is singular!&quot;</span>)
+    <span class="hljs-keyword">continue</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># swap row with highest value for that column to the top</span>
+temp_vector = A[max_index, :]
+A[max_index, :] = A[row, :]
+A[row, :] = temp_vector
+</code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-comment">// finding the maximum element</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; row; i++) {
+    <span class="hljs-keyword">if</span> (Math.abs(a[i][col]) &gt; Math.abs(a[pivot][col])) {
+        pivot = i;
+    }
+}
+
+<span class="hljs-keyword">if</span> (a[pivot][col] == <span class="hljs-number">0</span>) {
+    System.err.println(<span class="hljs-string">&quot;The matrix is singular&quot;</span>);
+    <span class="hljs-keyword">continue</span>;
+}
+
+<span class="hljs-keyword">if</span> (row != pivot) {
+    <span class="hljs-comment">// Swap the row with the highest valued element</span>
+    <span class="hljs-comment">// with the current row</span>
+    swapRow(a, col, pivot);
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap_rows</span><span class="hljs-params">(<span class="hljs-keyword">double</span> *a, <span class="hljs-keyword">const</span> size_t i, <span class="hljs-keyword">const</span> size_t pivot,
+               <span class="hljs-keyword">const</span> size_t cols)</span> </span>{
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; cols; ++j) {
+        <span class="hljs-keyword">double</span> tmp = a[i * cols + j];
+        a[i * cols + j] = a[pivot * cols + j];
+        a[pivot * cols + j] = tmp;
+    }
+}
+</code></pre>
+<pre><code class="lang-cpp"><span class="hljs-keyword">size_t</span> pivot = row;
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i * cols + col]) &gt; <span class="hljs-built_in">fabs</span>(a[pivot * cols + col])) {
+        pivot = i;
+    }
+}
+
+<span class="hljs-keyword">if</span> (a[pivot * cols + col] == <span class="hljs-number">0</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The matrix is singular.\n&quot;</span>);
+    <span class="hljs-keyword">continue</span>;
+}
+
+<span class="hljs-keyword">if</span> (col != pivot) {
+    swap_rows(a, col, pivot, cols);
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">swapRows</span> :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Matrix</span> a -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">swapRows</span> r1 r2 m
+  | r1 == r2 = m
+  | otherwise =
+    m //
+    concat [[((r2, c), m ! (r1, c)), ((r1, c), m ! (r2, c))] | c &lt;- [c1 .. cn]]
+  <span class="hljs-keyword">where</span>
+    ((_, c1), (_, cn)) = bounds m
+</code></pre>
+<pre><code class="lang-haskell">(target, pivot) =
+  maximumBy (compare `on` abs . snd) [(k, m ! (k, c)) | k &lt;- [r .. rn]]
+<span class="hljs-title">m&apos;</span> = swapRows r target m
+</code></pre>
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-keyword">let</span> pivot = row;
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(a[i][col]) &gt; <span class="hljs-built_in">Math</span>.abs(a[pivot][col])) {
+    pivot = i;
+  }
+}
+
+<span class="hljs-keyword">if</span> (a[pivot][col] === <span class="hljs-number">0</span>) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;The matrix is singular.&quot;</span>);
+  <span class="hljs-keyword">continue</span>;
+}
+
+<span class="hljs-keyword">if</span> (col !== pivot) {
+  <span class="hljs-keyword">const</span> t = a[col];
+  a[col] = a[pivot];
+  a[pivot] = t;
+}
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python">temp = A[pivot_row, :].copy()
+A[pivot_row, :] = A[max_i, :]
+A[max_i, :] = temp
+
+<span class="hljs-comment"># Skip on singular matrix,  not actually a pivot</span>
+<span class="hljs-keyword">if</span> A[pivot_row, pivot_col] == <span class="hljs-number">0</span>:
+    <span class="hljs-keyword">continue</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-comment">// find the maximum element for this column</span>
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_row = k;
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_value = a[(k, k)].abs();
+<span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.rows {
+    <span class="hljs-keyword">if</span> max_value &lt; a[(row, k)].abs() {
+        max_value = a[(row, k)].abs();
+        max_row = row;
+    }
+}
+
+<span class="hljs-comment">// Check to make sure the matrix is good</span>
+<span class="hljs-keyword">if</span> a[(max_row, k)] == <span class="hljs-number">0.0</span> {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Matrix is singular, aborting&quot;</span>);
+    <span class="hljs-keyword">return</span>;
+}
+
+<span class="hljs-comment">// swap the row with the highest value for this kumn to the top</span>
+a.swap_rows(k, max_row);
+</code></pre>
+</div></div></div>
+
+<p>As a note, if the highest value is <script type="math/tex; ">0</script>, the matrix is singular and the system has no single solution.
+This makes sense because if the highest value in a column is 0, the entire column must be 0, thus there can be no unique solution when we read the matrix as a set of equations.
+That said, Gaussian elimination is more general and allows us to continue, even if the matrix is not necessarily solvable as a set of equations.
+Feel free to exit after finding a <script type="math/tex; ">0</script> if your end-goal is to solve a system of equations.</p>
+<h4 id="step-2">Step 2</h4>
+<p>For the row beneath the current pivot row and within the pivot column, find a fraction that corresponds to the ratio of the value in that column to the pivot, itself.
+After this, subtract the current pivot row multiplied by the fraction from each corresponding row element.
+This process essentially subtracts an optimal multiple of the current row from each row underneath (similar to Step 3 from the above game).
+Ideally, this should always create a 0 under the current row&apos;s pivot value.</p>
+<p>For example, in this matrix, the next row is <script type="math/tex; ">1</script> and the pivot value is <script type="math/tex; ">3</script>, so the fraction is <script type="math/tex; ">\frac{1}{3}</script>.
 <script type="math/tex; mode=display">
 \rightarrow
 \left[
@@ -940,10 +1072,9 @@ Feel free to exit here, but if we want to be as general as possible the algorith
     f &= A(\text{pivot}_{\text{row}}, \text{pivot}_{\text{col}}) / A(\text{curr_row}_{\text{row}}, \text{pivot}_{\text{col}}) \\
       &= \frac{1}{3}
 \end{align}
-</script></li>
-<li>Set all values in the corresponding rows to be the value they were before <script type="math/tex; ">-</script> the top row <script type="math/tex; ">\times</script> the fraction. This is essentially performing move 3 from above, except with an optimal multiplicative factor.
-<script type="math/tex; mode=display">
-A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\text{pivot_row}_{\text{row}}, \text{pivot_row}_{\text{curr_col}} \times f) \\
+</script></p>
+<p>After finding the fraction, we simply subtract <script type="math/tex; ">\text{current_row} - \frac{1}{3}\times \text{pivot_row}</script>, like so:</p>
+<p><script type="math/tex; mode=display">
 \left[
 \begin{array}{ccc|c}
 3 & -4 & 0 & 10 \\
@@ -955,24 +1086,92 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 \left[
 \begin{array}{ccc|c}
 3 & -4 & 0 & 10 \\
-\mathbf{\frac{1}{3}} & \mathbf{\frac{2}{3}} & \mathbf{1} & \mathbf{\frac{4}{3}} \\
+0 & \mathbf{\frac{10}{3}} & \mathbf{3} & \mathbf{\frac{2}{3}} 
+\\
 2 & 3  & 4 & 6
 \end{array}
 \right]
-</script></li>
-<li>Set the value of that row&apos;s pivot column to 0.
-<script type="math/tex; mode=display">
-\left[
-\begin{array}{ccc|c}
-3 & -4 & 0 & 10 \\
-0 & 2 & 3 & 4 \\
-2 & 3  & 4 & 6
-\end{array}
-\right]
+</script></p>
+<p>After this, repeat the process for all other rows.</p>
+<p>Here is what it might look like in code:</p>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># Loop for all remaining rows</span>
+<span class="hljs-keyword">for</span> i = (row+<span class="hljs-number">1</span>):rows
 
-</script></li>
-</ol>
-<p>In code, this looks like:</p>
+    <span class="hljs-comment"># finding fraction</span>
+    fraction = A[i,col]/A[row,col]
+
+    <span class="hljs-comment"># loop through all columns for that row</span>
+    <span class="hljs-keyword">for</span> j = (col+<span class="hljs-number">1</span>):cols
+
+         <span class="hljs-comment"># re-evaluate each element</span>
+         A[i,j] -= A[row,j]*fraction
+
+    <span class="hljs-keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; i++) {
+    <span class="hljs-comment">// finding the inverse</span>
+    <span class="hljs-keyword">double</span> scale = a[i][col] / a[row][col];
+    <span class="hljs-comment">// loop through all columns in current row</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; j++) {
+
+        <span class="hljs-comment">// Subtract rows</span>
+        a[i][j] -= a[row][j] * scale;
+    }
+</code></pre>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+    <span class="hljs-keyword">double</span> scale = a[i * cols + col] / a[row * cols + col];
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; ++j) {
+        a[i * cols + j] -= a[row * cols + j] * scale;
+    }
+</code></pre>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">subRows</span> ::
+     <span class="hljs-type">Fractional</span> a
+  =&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- pivot location</span>
+  -&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- rows to cover</span>
+  -&gt; (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) <span class="hljs-comment">-- columns to cover</span>
+  -&gt; <span class="hljs-type">Matrix</span> a
+  -&gt; <span class="hljs-type">Matrix</span> a
+<span class="hljs-title">subRows</span> (r, c) (r1, rn) (c1, cn) m =
+  accum
+    (-)
+    m
+    [ ((i, j), m ! (i, c) * m ! (r, j) / m ! (r, c))
+    | i &lt;- [r1 .. rn]
+    , j &lt;- [c1 .. cn]
+    ]
+</code></pre>
+<pre><code class="lang-haskell">| otherwise = go (r + <span class="hljs-number">1</span>, c + <span class="hljs-number">1</span>) $ subRows (r, c) (r + <span class="hljs-number">1</span>, rn) (c, cn) m&apos;
+</code></pre>
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; ++i) {
+  <span class="hljs-keyword">const</span> scale = a[i][col] / a[row][col];
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; ++j) {
+    a[i][j] -= a[row][j] * scale;
+  }
+</code></pre>
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment"># Zero out elements below pivot</span>
+<span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(pivot_row + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">0</span>]):
+    <span class="hljs-comment"># Get fraction</span>
+    frac = -A[r, pivot_col] / A[pivot_row, pivot_col]
+    <span class="hljs-comment"># Add rows</span>
+    A[r, :] += frac * A[pivot_row, :]
+</code></pre>
+</div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-comment">// Loop over all remaining rows</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> k + <span class="hljs-number">1</span>..a.rows {
+    <span class="hljs-comment">// find the fraction</span>
+    <span class="hljs-keyword">let</span> fraction = a[(i, k)] / a[(k, k)];
+
+    <span class="hljs-comment">// Loop through all columns for that row</span>
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.cols {
+        <span class="hljs-comment">// re-evaluate each element</span>
+        a[(i, j)] -= a[(k, j)] * fraction;
+    }
+</code></pre>
+</div></div></div>
+
+<h4 id="all-together">All together</h4>
+<p>When we put everything together, it looks like this:</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gaussian_elimination!(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
@@ -984,7 +1183,7 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
     <span class="hljs-comment"># Main loop going through all columns</span>
     <span class="hljs-keyword">for</span> col = <span class="hljs-number">1</span>:(cols-<span class="hljs-number">1</span>)
 
-        <span class="hljs-comment"># Step 1: finding the maximum element for each column</span>
+        <span class="hljs-comment"># finding the maximum element for each column</span>
         max_index = argmax(abs.(A[row:<span class="hljs-keyword">end</span>,col])) + row-<span class="hljs-number">1</span>
 
         <span class="hljs-comment"># Check to make sure matrix is good!</span>
@@ -993,7 +1192,7 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
             <span class="hljs-keyword">continue</span>
         <span class="hljs-keyword">end</span>
 
-        <span class="hljs-comment"># Step 2: swap row with highest value for that column to the top</span>
+        <span class="hljs-comment"># swap row with highest value for that column to the top</span>
         temp_vector = A[max_index, :]
         A[max_index, :] = A[row, :]
         A[row, :] = temp_vector
@@ -1001,18 +1200,18 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
         <span class="hljs-comment"># Loop for all remaining rows</span>
         <span class="hljs-keyword">for</span> i = (row+<span class="hljs-number">1</span>):rows
 
-            <span class="hljs-comment"># Step 3: finding fraction</span>
+            <span class="hljs-comment"># finding fraction</span>
             fraction = A[i,col]/A[row,col]
 
             <span class="hljs-comment"># loop through all columns for that row</span>
             <span class="hljs-keyword">for</span> j = (col+<span class="hljs-number">1</span>):cols
 
-                 <span class="hljs-comment"># Step 4: re-evaluate each element</span>
+                 <span class="hljs-comment"># re-evaluate each element</span>
                  A[i,j] -= A[row,j]*fraction
 
             <span class="hljs-keyword">end</span>
 
-            <span class="hljs-comment"># Step 5: Set lower elements to 0</span>
+            <span class="hljs-comment"># Set lower elements to 0</span>
             A[i,col] = <span class="hljs-number">0</span>
         <span class="hljs-keyword">end</span>
         row += <span class="hljs-number">1</span>
@@ -1056,7 +1255,7 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 </code></pre>
 </div><div class="code-method-sample" data-lang="rs" data-name="Rust"><pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">gaussian_elimination</span></span>(a: &amp;<span class="hljs-keyword">mut</span> Matrix) {
     <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..min(a.cols, a.rows) {
-        <span class="hljs-comment">// Step 1: find the maximum element for this column</span>
+        <span class="hljs-comment">// find the maximum element for this column</span>
         <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_row = k;
         <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_value = a[(k, k)].abs();
         <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.rows {
@@ -1072,21 +1271,21 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
             <span class="hljs-keyword">return</span>;
         }
 
-        <span class="hljs-comment">// Step 2: swap the row with the highest value for this kumn to the top</span>
+        <span class="hljs-comment">// swap the row with the highest value for this kumn to the top</span>
         a.swap_rows(k, max_row);
 
         <span class="hljs-comment">// Loop over all remaining rows</span>
         <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> k + <span class="hljs-number">1</span>..a.rows {
-            <span class="hljs-comment">// Step 3: find the fraction</span>
+            <span class="hljs-comment">// find the fraction</span>
             <span class="hljs-keyword">let</span> fraction = a[(i, k)] / a[(k, k)];
 
             <span class="hljs-comment">// Loop through all columns for that row</span>
             <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.cols {
-                <span class="hljs-comment">// Step 4: re-evaluate each element</span>
+                <span class="hljs-comment">// re-evaluate each element</span>
                 a[(i, j)] -= a[(k, j)] * fraction;
             }
 
-            <span class="hljs-comment">// Step 5: set lower elements to 0</span>
+            <span class="hljs-comment">// set lower elements to 0</span>
             a[(i, k)] = <span class="hljs-number">0.0</span>;
         }
     }
@@ -1124,10 +1323,10 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 
     pivot_row = <span class="hljs-number">0</span>
 
-    <span class="hljs-comment"># Step 1: Go by column</span>
+    <span class="hljs-comment"># Go by column</span>
     <span class="hljs-keyword">for</span> pivot_col <span class="hljs-keyword">in</span> range(min(A.shape[<span class="hljs-number">0</span>], A.shape[<span class="hljs-number">1</span>])):
 
-        <span class="hljs-comment"># Step 2: Swap row with highest element in col</span>
+        <span class="hljs-comment"># Swap row with highest element in col</span>
         max_i = np.argmax(abs(A[pivot_row:, pivot_col])) + pivot_row
 
         temp = A[pivot_row, :].copy()
@@ -1138,11 +1337,11 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
         <span class="hljs-keyword">if</span> A[pivot_row, pivot_col] == <span class="hljs-number">0</span>:
             <span class="hljs-keyword">continue</span>
 
-        <span class="hljs-comment"># Steps 3 &amp; 4: Zero out elements below pivot</span>
+        <span class="hljs-comment"># Zero out elements below pivot</span>
         <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(pivot_row + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">0</span>]):
-            <span class="hljs-comment"># Step 3: Get fraction</span>
+            <span class="hljs-comment"># Get fraction</span>
             frac = -A[r, pivot_col] / A[pivot_row, pivot_col]
-            <span class="hljs-comment"># Step 4: Add rows</span>
+            <span class="hljs-comment"># Add rows</span>
             A[r, :] += frac * A[pivot_row, :]
 
         pivot_row += <span class="hljs-number">1</span>
@@ -1156,7 +1355,7 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; col++) {
         <span class="hljs-keyword">int</span> pivot = row;
 
-        <span class="hljs-comment">// Step 1: finding the maximum element</span>
+        <span class="hljs-comment">// finding the maximum element</span>
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; row; i++) {
             <span class="hljs-keyword">if</span> (Math.abs(a[i][col]) &gt; Math.abs(a[pivot][col])) {
                 pivot = i;
@@ -1169,22 +1368,22 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
         }
 
         <span class="hljs-keyword">if</span> (row != pivot) {
-            <span class="hljs-comment">// Step 2: Swap the row with the highest valued element</span>
+            <span class="hljs-comment">// Swap the row with the highest valued element</span>
             <span class="hljs-comment">// with the current row</span>
             swapRow(a, col, pivot);
         }
 
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; i++) {
-            <span class="hljs-comment">// Step 3: finding the inverse</span>
+            <span class="hljs-comment">// finding the inverse</span>
             <span class="hljs-keyword">double</span> scale = a[i][col] / a[row][col];
             <span class="hljs-comment">// loop through all columns in current row</span>
             <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; j++) {
 
-                <span class="hljs-comment">// Step 4: Subtract rows</span>
+                <span class="hljs-comment">// Subtract rows</span>
                 a[i][j] -= a[row][j] * scale;
             }
 
-            <span class="hljs-comment">// Step 5: Set lower elements to 0</span>
+            <span class="hljs-comment">// Set lower elements to 0</span>
             a[i][col] = <span class="hljs-number">0</span>;
         }
         row++;
@@ -1232,22 +1431,21 @@ A(\text{curr_row}_{\text{row}}, \text{curr_col}_{\text{col}}) \mathrel{+}= A(\te
 </code></pre>
 </div></div></div>
 
-<p>Now, to be clear: this algorithm creates an upper-triangular matrix.
-In other words, it only creates a matrix in <em>row echelon form</em>, not <em> <strong>reduced</strong> row echelon form</em>.
-If the matrix is found to be singular during this process, the system of equations is either over or under-determined and no general solution exists.
-For this reason, many implementations of this method will stop the moment the matrix is found to be singular.
+<p>To be clear: if the matrix is found to be singular during this process, the system of equations is either over- or under-determined and no general solution exists.
+For this reason, many implementations of this method will stop the moment the matrix is found to have no unique solutions.
 In this implementation, we allowed for the more general case and opted to simply output when the matrix is singular instead.
-If you intend to solve a system of equations, then it makes sense to stop the method the moment you know there is no general solution, so some small modification might be necessary!</p>
-<p>So what do we do from here? Well, we continue further reducing the matrix; however, there are two ways to do this:</p>
+If you intend to solve a system of equations, then it makes sense to stop the method the moment you know there is no unique solution, so some small modification of this code might be necessary!</p>
+<p>So what do we do from here?
+Well, we continue reducing the matrix; however, there are two ways to do this:</p>
 <ol>
 <li>Reduce the matrix further into <em>reduced</em> row echelon form with Gauss-Jordan elimination</li>
-<li>Solve the system directly with <em>back-substitution</em> if the matrix is allows for such solutions</li>
+<li>Solve the system directly with <em>back-substitution</em> if the matrix allows for such solutions</li>
 </ol>
 <p>Let&apos;s start with Gauss-Jordan Elimination and then back-substitution</p>
 <h2 id="gauss-jordan-elimination">Gauss-Jordan Elimination</h2>
-<p>Gauss-Jordan Elimination is precisely what we said above.
-We basically need to find the pivot of every row and set that value to 1.
-Afterwards, we subtract upwards until all values above the pivot are 0 before moving on to the next column.
+<p>Gauss-Jordan Elimination is precisely what we said above; however, in this case, we often work from the bottom-up instead of the top-down.
+We basically need to find the pivot of every row and set that value to 1 by dividing the entire row by the pivot value.
+Afterwards, we subtract upwards until all values above the pivot are 0 before moving on to the next column from right to left (instead of left to right, like before).
 Here it is in code:</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gauss_jordan_elimination!(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
@@ -1402,6 +1600,8 @@ Here it is in code:</p>
 </code></pre>
 </div></div></div>
 
+<p>As a note: Gauss-Jordan elimination can also be used to find the inverse of a matrix by following the same procedure to generate a reduced row echelon matrix, but with an identity matrix on the other side instead of the right-hand side of each equation.
+This process is straightforward but will not be covered here, simply because there are much faster numerical methods to find an inverse matrix; however, if you would like to see this, let me know and I can add it in for completeness.</p>
 <h2 id="back-substitution">Back-substitution</h2>
 <p>The idea of back-substitution is straightforward: we create a matrix of solutions and iteratively solve for each variable by plugging in all variables before it.
 For example, if our matrix looks like this:</p>
@@ -1416,7 +1616,8 @@ For example, if our matrix looks like this:</p>
 </script></p>
 <p>We can quickly solve <script type="math/tex; ">11z = 18</script> for <script type="math/tex; ">z</script>, and then use that to solve <script type="math/tex; ">y + 2z = 2</script> for <script type="math/tex; ">y</script> by plugging in for <script type="math/tex; ">z</script>.
 After that, we simply need to solve <script type="math/tex; ">2x + 3y + 4z = 6</script> for <script type="math/tex; ">x</script> in a similar fashion.
-In code, this involves keeping a rolling sum of all the values we substitute in like so:</p>
+In code, this involves keeping a rolling sum of all the values we substitute, subtracting that sum from the solution column and then dividing by the coefficient variable.
+In code, it looks like this:</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> back_substitution(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
     rows = size(A,<span class="hljs-number">1</span>)
@@ -1523,12 +1724,33 @@ In code, this involves keeping a rolling sum of all the values we substitute in 
 </code></pre>
 </div></div></div>
 
+<h2 id="visual-representation">Visual Representation</h2>
+<p>We have thus far used Gaussian elimination as a method to solve a system of equations; however, there is often a much easier way to find a similar solution simply by plotting each row in our matrix. 
+For the case of 2 equations and 2 unknowns, we would plot the two lines corresponding to each equation and the <script type="math/tex; ">(x, y)</script> location of their point of intersection would be the solution for <script type="math/tex; ">x</script> and <script type="math/tex; ">y</script>.
+Similarly, for the case of 3 equations and 3 unknowns, we would plot 3 planes and the <script type="math/tex; ">(x, y, z)</script> location of their point of intersection would be the solution for <script type="math/tex; ">x</script>, <script type="math/tex; ">y</script>, and <script type="math/tex; ">z</script>.</p>
+<p>What, then, is the point of Gaussian elimination if we can simply plot our set of equations to find a solution?
+Well, this analogy breaks down quickly when we start moving beyond 3D, so it is obvious we need some method to deal with higher-dimensional systems.
+That said, it is particularly interesting to see what happens as we plot our matrix during Gaussian elimination for the 3D case.</p>
+<div style="text-align:center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ox6FjmooQDA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+<p>As we can see in the above visualization, the planes wobble about in 3D until they reach row echelon form, where one plane is parallel to the <script type="math/tex; ">x</script> and <script type="math/tex; ">y</script> axes.
+At this point, it&apos;s trivial to find the <script type="math/tex; ">z</script>-coordinate for the solution because it&apos;s simply the <script type="math/tex; ">z</script> intercept of the parallel plane.
+From there, the matrices become even easier to interpret as they move to the reduced row echelon form.
+In this form, the solution is simply the <script type="math/tex; ">x</script>, <script type="math/tex; ">y</script>, and <script type="math/tex; ">z</script> intercepts of the appropriate planes.</p>
+<p>This visualization might have been obvious for some readers, but I found it particularly enlightening at first.
+By performing Gaussian elimination, we are manipulating our planes such that they can be interpreted at a glance -- which is precisely the same thing we are doing with the matrix interpretation!</p>
 <h2 id="conclusions">Conclusions</h2>
-<p>And with that, we have two possible ways to reduce our system of equations.
+<p>And with that, we have two possible ways to reduce our system of equations and find a solution.
 If we are sure our matrix is not singular and that a solution exists, it&apos;s fastest to use back-substitution to find our solution.
 If no solution exists or we are trying to find a reduced row echelon matrix, then Gauss-Jordan elimination is best.
 As we said at the start, the notation for Gaussian Elimination is rather ambiguous in the literature, so we are hoping that the definitions provided here are clear and consistent enough to cover all the bases.</p>
-<p>As for what&apos;s next... Well, we are in for a treat! The above algorithm clearly has 3 <code>for</code> loops, and will thus have a complexity of <script type="math/tex; ">\sim O(n^3)</script>, which is abysmal! If we can reduce the matrix to a specifically <strong>tridiagonal</strong> matrix, we can actually solve the system in <script type="math/tex; ">\sim O(n)</script>! How? Well, we can use an algorithm known as the <em>Tri-Diagonal Matrix Algorithm</em> (TDMA) also known as the <em>Thomas Algorithm</em>.</p>
+<p>As for what&apos;s next... Well, we are in for a treat!
+The above algorithm clearly has 3 <code>for</code> loops and has a complexity of <script type="math/tex; ">\sim O(n^3)</script>, which is abysmal!
+If we can reduce the matrix to a specifically <strong>tridiagonal</strong> matrix, we can actually solve the system in <script type="math/tex; ">\sim O(n)</script>!
+How? Well, we can use an algorithm known as the <em>Tri-Diagonal Matrix Algorithm</em> (TDMA) also known as the <a href="../thomas_algorithm/thomas_algorithm.html"><em>Thomas Algorithm</em></a>.</p>
+<p>There are also plenty of other solvers that do similar things that we will get to in due time.</p>
 <h2 id="example-code">Example Code</h2>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> gaussian_elimination!(A<span class="hljs-type">::</span><span class="hljs-built_in">Array</span>{<span class="hljs-built_in">Float64</span>,<span class="hljs-number">2</span>})
 
@@ -1541,7 +1763,7 @@ As we said at the start, the notation for Gaussian Elimination is rather ambiguo
     <span class="hljs-comment"># Main loop going through all columns</span>
     <span class="hljs-keyword">for</span> col = <span class="hljs-number">1</span>:(cols-<span class="hljs-number">1</span>)
 
-        <span class="hljs-comment"># Step 1: finding the maximum element for each column</span>
+        <span class="hljs-comment"># finding the maximum element for each column</span>
         max_index = argmax(abs.(A[row:<span class="hljs-keyword">end</span>,col])) + row-<span class="hljs-number">1</span>
 
         <span class="hljs-comment"># Check to make sure matrix is good!</span>
@@ -1550,7 +1772,7 @@ As we said at the start, the notation for Gaussian Elimination is rather ambiguo
             <span class="hljs-keyword">continue</span>
         <span class="hljs-keyword">end</span>
 
-        <span class="hljs-comment"># Step 2: swap row with highest value for that column to the top</span>
+        <span class="hljs-comment"># swap row with highest value for that column to the top</span>
         temp_vector = A[max_index, :]
         A[max_index, :] = A[row, :]
         A[row, :] = temp_vector
@@ -1558,18 +1780,18 @@ As we said at the start, the notation for Gaussian Elimination is rather ambiguo
         <span class="hljs-comment"># Loop for all remaining rows</span>
         <span class="hljs-keyword">for</span> i = (row+<span class="hljs-number">1</span>):rows
 
-            <span class="hljs-comment"># Step 3: finding fraction</span>
+            <span class="hljs-comment"># finding fraction</span>
             fraction = A[i,col]/A[row,col]
 
             <span class="hljs-comment"># loop through all columns for that row</span>
             <span class="hljs-keyword">for</span> j = (col+<span class="hljs-number">1</span>):cols
 
-                 <span class="hljs-comment"># Step 4: re-evaluate each element</span>
+                 <span class="hljs-comment"># re-evaluate each element</span>
                  A[i,j] -= A[row,j]*fraction
 
             <span class="hljs-keyword">end</span>
 
-            <span class="hljs-comment"># Step 5: Set lower elements to 0</span>
+            <span class="hljs-comment"># Set lower elements to 0</span>
             A[i,col] = <span class="hljs-number">0</span>
         <span class="hljs-keyword">end</span>
         row += <span class="hljs-number">1</span>
@@ -1805,7 +2027,7 @@ main()
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">gaussian_elimination</span></span>(a: &amp;<span class="hljs-keyword">mut</span> Matrix) {
     <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..min(a.cols, a.rows) {
-        <span class="hljs-comment">// Step 1: find the maximum element for this column</span>
+        <span class="hljs-comment">// find the maximum element for this column</span>
         <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_row = k;
         <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> max_value = a[(k, k)].abs();
         <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.rows {
@@ -1821,21 +2043,21 @@ main()
             <span class="hljs-keyword">return</span>;
         }
 
-        <span class="hljs-comment">// Step 2: swap the row with the highest value for this kumn to the top</span>
+        <span class="hljs-comment">// swap the row with the highest value for this kumn to the top</span>
         a.swap_rows(k, max_row);
 
         <span class="hljs-comment">// Loop over all remaining rows</span>
         <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> k + <span class="hljs-number">1</span>..a.rows {
-            <span class="hljs-comment">// Step 3: find the fraction</span>
+            <span class="hljs-comment">// find the fraction</span>
             <span class="hljs-keyword">let</span> fraction = a[(i, k)] / a[(k, k)];
 
             <span class="hljs-comment">// Loop through all columns for that row</span>
             <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> (k + <span class="hljs-number">1</span>)..a.cols {
-                <span class="hljs-comment">// Step 4: re-evaluate each element</span>
+                <span class="hljs-comment">// re-evaluate each element</span>
                 a[(i, j)] -= a[(k, j)] * fraction;
             }
 
-            <span class="hljs-comment">// Step 5: set lower elements to 0</span>
+            <span class="hljs-comment">// set lower elements to 0</span>
             a[(i, k)] = <span class="hljs-number">0.0</span>;
         }
     }
@@ -1966,10 +2188,10 @@ main()
 
     pivot_row = <span class="hljs-number">0</span>
 
-    <span class="hljs-comment"># Step 1: Go by column</span>
+    <span class="hljs-comment"># Go by column</span>
     <span class="hljs-keyword">for</span> pivot_col <span class="hljs-keyword">in</span> range(min(A.shape[<span class="hljs-number">0</span>], A.shape[<span class="hljs-number">1</span>])):
 
-        <span class="hljs-comment"># Step 2: Swap row with highest element in col</span>
+        <span class="hljs-comment"># Swap row with highest element in col</span>
         max_i = np.argmax(abs(A[pivot_row:, pivot_col])) + pivot_row
 
         temp = A[pivot_row, :].copy()
@@ -1980,11 +2202,11 @@ main()
         <span class="hljs-keyword">if</span> A[pivot_row, pivot_col] == <span class="hljs-number">0</span>:
             <span class="hljs-keyword">continue</span>
 
-        <span class="hljs-comment"># Steps 3 &amp; 4: Zero out elements below pivot</span>
+        <span class="hljs-comment"># Zero out elements below pivot</span>
         <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(pivot_row + <span class="hljs-number">1</span>,  A.shape[<span class="hljs-number">0</span>]):
-            <span class="hljs-comment"># Step 3: Get fraction</span>
+            <span class="hljs-comment"># Get fraction</span>
             frac = -A[r, pivot_col] / A[pivot_row, pivot_col]
-            <span class="hljs-comment"># Step 4: Add rows</span>
+            <span class="hljs-comment"># Add rows</span>
             A[r, :] += frac * A[pivot_row, :]
 
         pivot_row += <span class="hljs-number">1</span>
@@ -2062,7 +2284,7 @@ main()
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> col = <span class="hljs-number">0</span>; col &lt; cols - <span class="hljs-number">1</span>; col++) {
             <span class="hljs-keyword">int</span> pivot = row;
 
-            <span class="hljs-comment">// Step 1: finding the maximum element</span>
+            <span class="hljs-comment">// finding the maximum element</span>
             <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; row; i++) {
                 <span class="hljs-keyword">if</span> (Math.abs(a[i][col]) &gt; Math.abs(a[pivot][col])) {
                     pivot = i;
@@ -2075,22 +2297,22 @@ main()
             }
 
             <span class="hljs-keyword">if</span> (row != pivot) {
-                <span class="hljs-comment">// Step 2: Swap the row with the highest valued element</span>
+                <span class="hljs-comment">// Swap the row with the highest valued element</span>
                 <span class="hljs-comment">// with the current row</span>
                 swapRow(a, col, pivot);
             }
 
             <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = row + <span class="hljs-number">1</span>; i &lt; rows; i++) {
-                <span class="hljs-comment">// Step 3: finding the inverse</span>
+                <span class="hljs-comment">// finding the inverse</span>
                 <span class="hljs-keyword">double</span> scale = a[i][col] / a[row][col];
                 <span class="hljs-comment">// loop through all columns in current row</span>
                 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = col + <span class="hljs-number">1</span>; j &lt; cols; j++) {
 
-                    <span class="hljs-comment">// Step 4: Subtract rows</span>
+                    <span class="hljs-comment">// Subtract rows</span>
                     a[i][j] -= a[row][j] * scale;
                 }
 
-                <span class="hljs-comment">// Step 5: Set lower elements to 0</span>
+                <span class="hljs-comment">// Set lower elements to 0</span>
                 a[i][col] = <span class="hljs-number">0</span>;
             }
             row++;
@@ -2321,7 +2543,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.10.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.10.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.10","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.10.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.10.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-11-28T20:59:20.406Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-28T21:02:13.588Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gaussian Elimination","level":"1.10.1","depth":2,"next":{"title":"Thomas Algorithm","level":"1.10.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]},"previous":{"title":"Matrix Methods","level":"1.10","depth":1,"path":"contents/matrix_methods/matrix_methods.md","ref":"contents/matrix_methods/matrix_methods.md","articles":[{"title":"Gaussian Elimination","level":"1.10.1","depth":2,"path":"contents/gaussian_elimination/gaussian_elimination.md","ref":"contents/gaussian_elimination/gaussian_elimination.md","articles":[]},{"title":"Thomas Algorithm","level":"1.10.2","depth":2,"path":"contents/thomas_algorithm/thomas_algorithm.md","ref":"contents/thomas_algorithm/thomas_algorithm.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/gaussian_elimination/gaussian_elimination.md","mtime":"2018-12-15T21:43:52.008Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-15T21:45:29.334Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
