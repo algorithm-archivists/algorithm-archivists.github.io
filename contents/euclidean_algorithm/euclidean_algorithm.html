@@ -1104,6 +1104,9 @@ IF U SAY SO
     <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;%s&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$a</span>&quot;</span>
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="piet" data-name="Piet"><blockquote>
+<p><img src="code/piet/subtract/euclidian_algorithm_subtract_large.png" alt=""> <img src="code/piet/subtract/euclidian_algorithm_subtract.png" alt=""></p>
+</blockquote>
 </div></div></div>
 
 <p>Here, we simply line the two numbers up every step and subtract the lower value from the higher one every timestep. Once the two values are equal, we call that value the greatest common divisor. A graph of <code>a</code> and <code>b</code> as they change every step would look something like this:</p>
@@ -1466,6 +1469,9 @@ IF U SAY SO
     <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;%s&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$a</span>&quot;</span>
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="piet" data-name="Piet"><blockquote>
+<p><img src="code/piet/mod/euclidian_algorithm_mod_large.png" alt=""> <img src="code/piet/mod/euclidian_algorithm_mod.png" alt=""></p>
+</blockquote>
 </div></div></div>
 
 <p>Here, we set <code>b</code> to be the remainder of <code>a%b</code> and <code>a</code> to be whatever <code>b</code> was last timestep. Because of how the modulus operator works, this will provide the same information as the subtraction-based implementation, but when we show <code>a</code> and <code>b</code> as they change with time, we can see that it might take many fewer steps:</p>
@@ -2574,7 +2580,122 @@ result=$(euclid_mod $((64 * 67)) $((64 * 81)))
 result=$(euclid_sub $((128 * 12)) $((128 * 77)))
 <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$result</span>&quot;</span>
 </code></pre>
-</div></div></div>
+</div><div class="code-method-sample" data-lang="piet" data-name="Piet"><p>A text version of the program is provided for both versions.</p>
+<h4 id="subtraction">Subtraction</h4>
+<blockquote>
+<p><img src="code/piet/subtract/euclidian_algorithm_subtract_large.png" alt=""> <img src="code/piet/subtract/euclidian_algorithm_subtract.png" alt=""></p>
+</blockquote>
+<pre><code>COMMAND                 STATE OF STACK
+in(number)              A           // Take A as an input
+duplicate               AA          // Start to take the absolute value of A
+push 1                  1AA
+duplicate               11AA
+subtract                0AA
+greater                 0/1A        // 1 if A &gt; 0, 0 if A &lt;= 0
+not                     1/0A        // 0 if A &gt; 0, 1 if A &lt;= 0
+push 1                  1 1/0 A
+push 3                  31 1/0 A
+subtract                -2 1/0 A
+multiply                -2/0 A
+push 1                  1 -2/0 A
+add                     -1/1 A
+multiply                A           // A should now be an absolute value
+
+in(number)              BA          // Take B as an input
+duplicate               BBA         // Start to take the absolute value of B
+push 1                  1BBA
+duplicate               11BBA
+subtract                0BBA
+greater                 0/1BA        // 1 if B &gt; 0, 0 if B &lt;= 0
+not                     1/0BA        // 0 if B &gt; 0, 1 if B &lt;= 0
+push 1                  1 1/0 BA
+push 3                  31 1/0 BA
+subtract                -2 1/0 BA
+multiply                -2/0 BA
+push 1                  1 -2/0 BA
+add                     -1/1 BA
+multiply                BA          // B should now be an absolute value
+
+// Start of the main loop while a &#x2260; b 
+duplicate               BBA
+push 3                  3BBA
+push 2                  23BBA
+roll                    ABB
+duplicate               AABB
+push 4                  4AABB
+push 1                  14AABB
+roll                    ABBA
+subtract                0/x BA
+not                     1/0 BA      // 1 if a = b and 0 if a &#x2260; b
+not                     0/1 BA      // 1 if a &#x2260; b and 0 if a = b
+pointer                 BA          // If a &#x2260; b, the DP should change one clockwise, otherwise, go straight ahead.
+
+    // Go left if a &#x2260; b (DP changed one clockwise)
+    duplicate               BBA
+    push 3                  3BBA
+    push 2                  23BBA
+    roll                    ABB
+    duplicate               AABB
+    push 4                  4AABB
+    push 1                  14AABB
+    roll                    ABBA
+    push 2                  2ABBA
+    push 1                  12ABBA
+    roll                    BABA
+    greater                 0/1 BA          // A &gt; B; 1 if true; 0 if false
+    pointer                 BA              // If A &gt; B, DP goes one clockwise, otherwise, DP stays the same. 
+
+        // If A &gt; B (DP has changed 1 clockwise)
+        duplicate               BBA
+        push 3                  3BBA
+        push 1                  13BBA
+        roll                    BAB
+        subtract                AB              // A = A - B
+        push 2                  2AB
+        push 1                  12AB
+        roll                    BA
+        // Go back to start of loop
+
+        // If B &gt; A (DP stayed the same)
+        push 2                  2BA
+        push 1                  12BA
+        roll                    AB
+        duplicate               AAB
+        push 3                  3AAB
+        push 1                  13AAB
+        roll                    ABA
+        subtract                BA              // B = B - A
+        // Go back to start of loop
+
+// Go down if a = b (end of while loop)
+pop                     A
+out(number)             -               // Print out A when done.
+</code></pre><h4 id="modulo">Modulo</h4>
+<blockquote>
+<p><img src="code/piet/mod/euclidian_algorithm_mod_large.png" alt=""> <img src="code/piet/mod/euclidian_algorithm_mod.png" alt=""></p>
+</blockquote>
+<pre><code>COMMAND                 STATE OF STACK
+in(number)              A
+in(number)              BA
+
+//  Start of loop
+duplicate               BBA
+not                     0/1 BA
+not                     1/0 BA
+pointer                 BA
+
+    // Go down if b &#x2260; 0
+    duplicate               TBA
+    push 3                  3TBA                  
+    push 1                  13TBA
+    roll                    BAT
+    mod                     BA          // b = a mod b; a = t
+    // Go back to the start of the loop
+
+// Go right if b = 0
+pop                     A
+out(number)             -               // Print out A when done.
+</code></pre></div></div></div>
 
 <script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
@@ -2623,7 +2744,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.8","depth":1,"next":{"title":"Monte Carlo","level":"1.9","depth":1,"path":"contents/monte_carlo_integration/monte_carlo_integration.md","ref":"contents/monte_carlo_integration/monte_carlo_integration.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.7","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/euclidean_algorithm/euclidean_algorithm.md","mtime":"2018-12-18T03:12:42.059Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-18T03:14:24.945Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Euclidean Algorithm","level":"1.8","depth":1,"next":{"title":"Monte Carlo","level":"1.9","depth":1,"path":"contents/monte_carlo_integration/monte_carlo_integration.md","ref":"contents/monte_carlo_integration/monte_carlo_integration.md","articles":[]},"previous":{"title":"Tree Traversal","level":"1.7","depth":1,"path":"contents/tree_traversal/tree_traversal.md","ref":"contents/tree_traversal/tree_traversal.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/euclidean_algorithm/euclidean_algorithm.md","mtime":"2018-12-23T23:59:56.189Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-24T00:01:28.260Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
