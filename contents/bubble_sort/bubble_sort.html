@@ -715,6 +715,32 @@ This means that we need to go through the vector <script type="math/tex; ">\math
     }
 }
 </code></pre>
+</div><div class="code-method-sample" data-lang="c8" data-name="chip-8"><pre><code class="lang-chip-8">BUBBLESORT
+SETUP
+    LD V4, 0 ;no swap has been performed
+    LD V3, 0 ;we are starting at the beginning of the array
+CHECKLOOP
+    LD I, ARRAY ;load array pointer
+    ADD I, V3 ;load array index
+    LD V1, [I] ;load 2 bytes from arraypos
+    LD V2, V1 ;temp = b
+    SUB V2, V0 ;temp -= a
+    SE VF, 0 ;if b &lt; a
+    JP GRTHAN ;jump here
+LSTHAN
+    LD V2, V1 ;temp = b
+    LD V1, V0 ;b = a
+    LD V0, V2 ;a = temp
+    LD [I], V1 ;store back swapped values
+    LD V4, 1 ;swap = true
+GRTHAN 
+    ADD V3, 1 ;increment array index
+    SE V3, 12 ;if not end of array
+    JP CHECKLOOP ;step
+CHECKDONE ;if end of array
+    SE V4, 0 ;if a swap was done
+    JP SETUP ;iterate through array again
+</code></pre>
 </div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> r = arr.length - <span class="hljs-number">1</span>; r &gt; <span class="hljs-number">0</span>; r--) {
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; r; i++) {
@@ -1237,6 +1263,77 @@ main()
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
+</code></pre>
+</div><div class="code-method-sample" data-lang="c8" data-name="chip-8"><pre><code class="lang-chip-8">;chip 8 bubble sort
+;by codingwithethanol
+
+
+    LD V2, 1 ;index increment
+    LD I, ARRAY ;get array pointer
+    LD V3, 12 ;our array will be 12 bytes long
+
+FILL
+    RND V0, #0F ;get random byte value from 0-F
+    LD [I], V0 ;load it to current array index
+    ADD I, V2 ;increment i
+    ADD V3, -1 ;decrement counter
+    SE V3, #0 ;check if counter has reached zero
+    JP FILL ;if it hasnt, loop
+    LD V3, 2 ;x position to print array to
+    LD V4, 4 ;y position to print array to
+    CALL DISPLAY ;display array
+    CALL BUBBLESORT ;sort array
+HERE
+    JP HERE ;block
+
+DISPLAY
+    LD V5, V3 ;save original x offset
+    ADD V5, 60 ;add length of array times char width
+    LD V2, 0 ;array index
+DRAWLOOP
+    LD I, ARRAY ;get array pointer
+    ADD I, V2 ;add index
+    ADD V2, 1 ;increment index
+    LD V0, [I] ;load element of array
+    LD F, V0 ;get address of corresponding hex sprite
+    DRW V3, V4, 5 ;draw it at (V3, V4)
+    ADD V3, 5 ;increment x by char width
+    SE V3, V5 ;if we arent at the end of the array
+    JP DRAWLOOP ;draw another char
+    RET
+
+BUBBLESORT
+SETUP
+    LD V4, 0 ;no swap has been performed
+    LD V3, 0 ;we are starting at the beginning of the array
+CHECKLOOP
+    LD I, ARRAY ;load array pointer
+    ADD I, V3 ;load array index
+    LD V1, [I] ;load 2 bytes from arraypos
+    LD V2, V1 ;temp = b
+    SUB V2, V0 ;temp -= a
+    SE VF, 0 ;if b &lt; a
+    JP GRTHAN ;jump here
+LSTHAN
+    LD V2, V1 ;temp = b
+    LD V1, V0 ;b = a
+    LD V0, V2 ;a = temp
+    LD [I], V1 ;store back swapped values
+    LD V4, 1 ;swap = true
+GRTHAN 
+    ADD V3, 1 ;increment array index
+    SE V3, 12 ;if not end of array
+    JP CHECKLOOP ;step
+CHECKDONE ;if end of array
+    SE V4, 0 ;if a swap was done
+    JP SETUP ;iterate through array again
+    ;otherwise
+    LD V3, 2 ;x position to print array to
+    LD V4, 12 ;y position to print array to
+    CALL DISPLAY ;display sorted array
+    RET
+
+ARRAY
 </code></pre>
 </div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bubble</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>{
@@ -2056,7 +2153,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.6.1","depth":2,"next":{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.6","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.6.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-12-24T20:29:52.497Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-24T20:31:25.432Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bubble Sort","level":"1.6.1","depth":2,"next":{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]},"previous":{"title":"Sorting and Searching","level":"1.6","depth":1,"path":"contents/sorting_and_searching/sorting_and_searching.md","ref":"contents/sorting_and_searching/sorting_and_searching.md","articles":[{"title":"Bubble Sort","level":"1.6.1","depth":2,"path":"contents/bubble_sort/bubble_sort.md","ref":"contents/bubble_sort/bubble_sort.md","articles":[]},{"title":"Bogo Sort","level":"1.6.2","depth":2,"path":"contents/bogo_sort/bogo_sort.md","ref":"contents/bogo_sort/bogo_sort.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/bubble_sort/bubble_sort.md","mtime":"2018-12-24T20:39:03.941Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-24T20:40:43.647Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
