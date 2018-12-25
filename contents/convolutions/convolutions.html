@@ -29,7 +29,7 @@
                 
             
                 
-                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
                 
             
                 
@@ -690,82 +690,82 @@ This means we basically just need to keep one array steady, flip the second arra
 <!---This can be seen in the following animation:--->
 <!---ADD ANIMATION--->
 <p>In code, this looks something like:</p>
-<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
-    n = length(signal1) + length(signal2)
-    out = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}(n)
-    sum = <span class="hljs-number">0</span>
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre class="language-"><code class="lang-julia"><span class="token keyword">function</span> conv<span class="token punctuation">(</span>signal1<span class="token punctuation">:</span><span class="token punctuation">:</span>Vector<span class="token punctuation">{</span>Complex<span class="token punctuation">}</span><span class="token punctuation">,</span> signal2<span class="token punctuation">:</span><span class="token punctuation">:</span>Vector<span class="token punctuation">{</span>Complex<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    n <span class="token operator">=</span> length<span class="token punctuation">(</span>signal1<span class="token punctuation">)</span> <span class="token operator">+</span> length<span class="token punctuation">(</span>signal2<span class="token punctuation">)</span>
+    out <span class="token operator">=</span> Vector<span class="token punctuation">{</span>Complex<span class="token punctuation">}</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    sum <span class="token operator">=</span> <span class="token number">0</span>
 
-    <span class="hljs-keyword">for</span> i = <span class="hljs-number">0</span>:n
-        <span class="hljs-keyword">for</span> j = <span class="hljs-number">0</span>:i
-            <span class="hljs-keyword">if</span>(j &lt; length(signal1))
-                sum += signal1[j] * signal2[i-j]
-            <span class="hljs-keyword">end</span>
-        <span class="hljs-keyword">end</span>
-        out[i] = sum
-        sum = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">end</span>
+    <span class="token keyword">for</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">:</span>n
+        <span class="token keyword">for</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">:</span>i
+            <span class="token keyword">if</span><span class="token punctuation">(</span>j <span class="token operator">&lt;</span> length<span class="token punctuation">(</span>signal1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                sum <span class="token operator">+=</span> signal1<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> signal2<span class="token punctuation">[</span>i<span class="token operator">-</span>j<span class="token punctuation">]</span>
+            <span class="token keyword">end</span>
+        <span class="token keyword">end</span>
+        out<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> sum
+        sum <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">end</span>
 
-    <span class="hljs-keyword">return</span> out
-<span class="hljs-keyword">end</span>
+    <span class="token keyword">return</span> out
+<span class="token keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">convolution</span> :: (<span class="hljs-type">Num</span> a) =&gt; [a] -&gt; [a] -&gt; [a]
-<span class="hljs-title">convolution</span> x = map (sum . zipWith (*) (reverse x)) . spread
-  <span class="hljs-keyword">where</span>
-    spread = init . tails . (replicate (length x - <span class="hljs-number">1</span>) <span class="hljs-number">0</span> ++)
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre class="language-"><code class="lang-haskell"><span class="token hvariable">convolution</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token constant">Num</span> <span class="token hvariable">a</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span> <span class="token operator">-&gt;</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span> <span class="token operator">-&gt;</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span>
+<span class="token hvariable">convolution</span> <span class="token hvariable">x</span> <span class="token operator">=</span> <span class="token builtin">map</span> <span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token operator"> . </span><span class="token builtin">zipWith</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">reverse</span> <span class="token hvariable">x</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator"> . </span><span class="token hvariable">spread</span>
+  <span class="token keyword">where</span>
+    <span class="token hvariable">spread</span> <span class="token operator">=</span> <span class="token builtin">init</span><span class="token operator"> . </span><span class="token hvariable">tails</span><span class="token operator"> . </span><span class="token punctuation">(</span><span class="token builtin">replicate</span> <span class="token punctuation">(</span><span class="token builtin">length</span> <span class="token hvariable">x</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token number">0</span> <span class="token operator">++</span><span class="token punctuation">)</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out,
-          size_t n1, size_t n2)</span> </span>{
-    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> sum = <span class="hljs-number">0</span>;
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre class="language-"><code class="lang-c"><span class="token keyword">void</span> <span class="token function">conv</span><span class="token punctuation">(</span><span class="token keyword">double</span> complex <span class="token operator">*</span>signal1<span class="token punctuation">,</span> <span class="token keyword">double</span> complex <span class="token operator">*</span>signal2<span class="token punctuation">,</span> <span class="token keyword">double</span> complex<span class="token operator">*</span> out<span class="token punctuation">,</span>
+          size_t n1<span class="token punctuation">,</span> size_t n2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">double</span> complex sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; (n1 &lt; n2? n2 : n1); ++i) {
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; i; ++j) {
-            <span class="hljs-keyword">if</span> (j &lt; n1) {
-                sum += signal1[j] * signal2[i-j];
-            }
-        }
-        out[i] = sum;
-        sum = <span class="hljs-number">0</span>;
-    }
-}
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token punctuation">(</span>n1 <span class="token operator">&lt;</span> n2<span class="token operator">?</span> n2 <span class="token punctuation">:</span> n1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> i<span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> n1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                sum <span class="token operator">+</span><span class="token operator">=</span> signal1<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> signal2<span class="token punctuation">[</span>i<span class="token operator">-</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        out<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+        sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv</span><span class="hljs-params">(
-    S1 <span class="hljs-keyword">const</span> s1,
-    S1 <span class="hljs-keyword">const</span> s1_last,
-    S2 <span class="hljs-keyword">const</span> s2,
-    S2 <span class="hljs-keyword">const</span> s2_last,
-    Out <span class="hljs-keyword">const</span> out)</span> </span>{
-  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size1 = s1_last - s1;
-  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size2 = s2_last - s2;
-  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size = size1 + size2;
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre class="language-"><code class="lang-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> S1<span class="token punctuation">,</span> <span class="token keyword">typename</span> S2<span class="token punctuation">,</span> <span class="token keyword">typename</span> Out<span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">conv</span><span class="token punctuation">(</span>
+    S1 <span class="token keyword">const</span> s1<span class="token punctuation">,</span>
+    S1 <span class="token keyword">const</span> s1_last<span class="token punctuation">,</span>
+    S2 <span class="token keyword">const</span> s2<span class="token punctuation">,</span>
+    S2 <span class="token keyword">const</span> s2_last<span class="token punctuation">,</span>
+    Out <span class="token keyword">const</span> out<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">auto</span> <span class="token keyword">const</span> size1 <span class="token operator">=</span> s1_last <span class="token operator">-</span> s1<span class="token punctuation">;</span>
+  <span class="token keyword">auto</span> <span class="token keyword">const</span> size2 <span class="token operator">=</span> s2_last <span class="token operator">-</span> s2<span class="token punctuation">;</span>
+  <span class="token keyword">auto</span> <span class="token keyword">const</span> size <span class="token operator">=</span> size1 <span class="token operator">+</span> size2<span class="token punctuation">;</span>
 
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">ptrdiff_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-    c64 sum = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">ptrdiff_t</span> j = <span class="hljs-number">0</span>; j &lt; i; ++j) {
-      <span class="hljs-keyword">if</span> (j &lt; size1) {
-        sum += s1[j] * s2[i - j];
-      }
-    }
-    out[i] = sum;
-  }
-}
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>ptrdiff_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    c64 sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>ptrdiff_t j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> i<span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> size1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        sum <span class="token operator">+</span><span class="token operator">=</span> s1<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> s2<span class="token punctuation">[</span>i <span class="token operator">-</span> j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    out<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="python" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">conv</span><span class="hljs-params">(signal1, signal2)</span>:</span>
-    <span class="hljs-string">&quot;&quot;&quot;Discrete convolution by definition&quot;&quot;&quot;</span>
+</div><div class="code-method-sample" data-lang="python" data-name="Python"><pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">conv</span><span class="token punctuation">(</span>signal1<span class="token punctuation">,</span> signal2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;Discrete convolution by definition&quot;&quot;&quot;</span>
 
-    n = len(signal1) + len(signal2) - <span class="hljs-number">1</span>
-    out = []
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal1<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal2<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+    out <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
 
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):
-        s = <span class="hljs-number">0</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        s <span class="token operator">=</span> <span class="token number">0</span>
 
-        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(i + <span class="hljs-number">1</span>):
-            <span class="hljs-keyword">if</span> j &lt; len(signal1) <span class="hljs-keyword">and</span> i - j  &lt; len(signal2):
-                s += signal1[j] * signal2[i - j]
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> j <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal1<span class="token punctuation">)</span> <span class="token operator">and</span> i <span class="token operator">-</span> j  <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                s <span class="token operator">+=</span> signal1<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> signal2<span class="token punctuation">[</span>i <span class="token operator">-</span> j<span class="token punctuation">]</span>
 
-        out.append(s)
+        out<span class="token punctuation">.</span>append<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
 
-    <span class="hljs-keyword">return</span> out
+    <span class="token keyword">return</span> out
 </code></pre>
 </div></div></div>
 
@@ -795,68 +795,68 @@ This means that the convolution theorem is fundamental to creating fast convolut
 That said, it is debatable whether the convolution theorem will be faster when the filter size is small.
 Also: depending on the language used, we might need to read in a separate library for FFT&apos;s.</p>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><p>That said, Julia has an in-built fft routine, so the code for this method could not be simpler:</p>
-<pre><code class="lang-julia"><span class="hljs-keyword">function</span> conv_fft(signal1<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>}, signal2<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Complex</span>})
-    <span class="hljs-keyword">return</span> ifft(fft(signal1).*fft(signal2))
-<span class="hljs-keyword">end</span>
+<pre class="language-"><code class="lang-julia"><span class="token keyword">function</span> conv_fft<span class="token punctuation">(</span>signal1<span class="token punctuation">:</span><span class="token punctuation">:</span>Vector<span class="token punctuation">{</span>Complex<span class="token punctuation">}</span><span class="token punctuation">,</span> signal2<span class="token punctuation">:</span><span class="token punctuation">:</span>Vector<span class="token punctuation">{</span>Complex<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> ifft<span class="token punctuation">(</span>fft<span class="token punctuation">(</span>signal1<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token operator">*</span>fft<span class="token punctuation">(</span>signal2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
 </code></pre>
 <p>Where the <code>.*</code> operator is an element-wise multiplication.</p>
-</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-title">convolutionFFT</span> :: [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>] -&gt; [<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>]
-<span class="hljs-title">convolutionFFT</span> x y = elems $ idft $ liftArray2 (*) (fft x) (fft y)
-  <span class="hljs-keyword">where</span>
-    fft a = dft $ listArray (<span class="hljs-number">1</span>, length a) a
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre class="language-"><code class="lang-haskell"><span class="token hvariable">convolutionFFT</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token constant">Complex</span> <span class="token constant">Double</span><span class="token punctuation">]</span> <span class="token operator">-&gt;</span> <span class="token punctuation">[</span><span class="token constant">Complex</span> <span class="token constant">Double</span><span class="token punctuation">]</span> <span class="token operator">-&gt;</span> <span class="token punctuation">[</span><span class="token constant">Complex</span> <span class="token constant">Double</span><span class="token punctuation">]</span>
+<span class="token hvariable">convolutionFFT</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token hvariable">elems</span> <span class="token operator">$</span> <span class="token hvariable">idft</span> <span class="token operator">$</span> <span class="token hvariable">liftArray2</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">fft</span> <span class="token hvariable">x</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">fft</span> <span class="token hvariable">y</span><span class="token punctuation">)</span>
+  <span class="token keyword">where</span>
+    <span class="token hvariable">fft</span> <span class="token hvariable">a</span> <span class="token operator">=</span> <span class="token hvariable">dft</span> <span class="token operator">$</span> <span class="token hvariable">listArray</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">length</span> <span class="token hvariable">a</span><span class="token punctuation">)</span> <span class="token hvariable">a</span>
 </code></pre>
 <p>Where the <code>.*</code> operator is an element-wise multiplication.</p>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal1, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *signal2,
-              <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span>* out, size_t n)</span> </span>{
-    fft(signal1, n);
-    fft(signal2, n);
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre class="language-"><code class="lang-c"><span class="token keyword">void</span> <span class="token function">conv_fft</span><span class="token punctuation">(</span><span class="token keyword">double</span> complex <span class="token operator">*</span>signal1<span class="token punctuation">,</span> <span class="token keyword">double</span> complex <span class="token operator">*</span>signal2<span class="token punctuation">,</span>
+              <span class="token keyword">double</span> complex<span class="token operator">*</span> out<span class="token punctuation">,</span> size_t n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">fft</span><span class="token punctuation">(</span>signal1<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fft</span><span class="token punctuation">(</span>signal2<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
-        out[i] = signal1[i] * signal2[i];
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        out<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> signal1<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> signal2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    ifft(out, n);
-}
+    <span class="token function">ifft</span><span class="token punctuation">(</span>out<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> S1, <span class="hljs-keyword">typename</span> S2, <span class="hljs-keyword">typename</span> Out&gt;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(S1 <span class="hljs-keyword">const</span> s1, S1 <span class="hljs-keyword">const</span> s1_last, S2 <span class="hljs-keyword">const</span> s2, Out <span class="hljs-keyword">const</span> out)</span> </span>{
-  <span class="hljs-keyword">auto</span> <span class="hljs-keyword">const</span> size = s1_last - s1;
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre class="language-"><code class="lang-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> S1<span class="token punctuation">,</span> <span class="token keyword">typename</span> S2<span class="token punctuation">,</span> <span class="token keyword">typename</span> Out<span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">conv_fft</span><span class="token punctuation">(</span>S1 <span class="token keyword">const</span> s1<span class="token punctuation">,</span> S1 <span class="token keyword">const</span> s1_last<span class="token punctuation">,</span> S2 <span class="token keyword">const</span> s2<span class="token punctuation">,</span> Out <span class="token keyword">const</span> out<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">auto</span> <span class="token keyword">const</span> size <span class="token operator">=</span> s1_last <span class="token operator">-</span> s1<span class="token punctuation">;</span>
 
-  fft(s1, s1_last);
-  fft(s2, s2 + size);
+  <span class="token function">fft</span><span class="token punctuation">(</span>s1<span class="token punctuation">,</span> s1_last<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">fft</span><span class="token punctuation">(</span>s2<span class="token punctuation">,</span> s2 <span class="token operator">+</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="hljs-keyword">auto</span> s1_it = s1;
-  <span class="hljs-keyword">auto</span> s2_it = s2;
-  <span class="hljs-keyword">auto</span> out_it = out;
-  <span class="hljs-keyword">for</span> (; s1_it != s1_last; ++s1_it, ++s2_it, ++out_it) {
-    *out_it = *s1_it * *s2_it;
-  }
+  <span class="token keyword">auto</span> s1_it <span class="token operator">=</span> s1<span class="token punctuation">;</span>
+  <span class="token keyword">auto</span> s2_it <span class="token operator">=</span> s2<span class="token punctuation">;</span>
+  <span class="token keyword">auto</span> out_it <span class="token operator">=</span> out<span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> s1_it <span class="token operator">!=</span> s1_last<span class="token punctuation">;</span> <span class="token operator">++</span>s1_it<span class="token punctuation">,</span> <span class="token operator">++</span>s2_it<span class="token punctuation">,</span> <span class="token operator">++</span>out_it<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token operator">*</span>out_it <span class="token operator">=</span> <span class="token operator">*</span>s1_it <span class="token operator">*</span> <span class="token operator">*</span>s2_it<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-  inverse_fft(out, out_it);
-}
+  <span class="token function">inverse_fft</span><span class="token punctuation">(</span>out<span class="token punctuation">,</span> out_it<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="python" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">conv_fft</span><span class="hljs-params">(signal1, signal2)</span>:</span>
-    <span class="hljs-string">&quot;&quot;&quot;Convolution using fft and convolutional theorem&quot;&quot;&quot;</span>
+</div><div class="code-method-sample" data-lang="python" data-name="Python"><pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">conv_fft</span><span class="token punctuation">(</span>signal1<span class="token punctuation">,</span> signal2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;Convolution using fft and convolutional theorem&quot;&quot;&quot;</span>
 
-    signal1 = signal1.copy()
-    signal2 = signal2.copy()
+    signal1 <span class="token operator">=</span> signal1<span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    signal2 <span class="token operator">=</span> signal2<span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-    <span class="hljs-comment"># pad signals to same len</span>
-    max_len = max(len(signal1), len(signal2))
+    <span class="token comment"># pad signals to same len</span>
+    max_len <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>signal1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal2<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(max_len - len(signal1)):
-        signal1.append(<span class="hljs-number">0</span>)
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(max_len - len(signal2)):
-        signal2.append(<span class="hljs-number">0</span>)
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>max_len <span class="token operator">-</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        signal1<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>max_len <span class="token operator">-</span> <span class="token builtin">len</span><span class="token punctuation">(</span>signal2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        signal2<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
 
-    fft_s1 = fft(signal1)
-    fft_s2 = fft(signal2)
-    out = []
+    fft_s1 <span class="token operator">=</span> fft<span class="token punctuation">(</span>signal1<span class="token punctuation">)</span>
+    fft_s2 <span class="token operator">=</span> fft<span class="token punctuation">(</span>signal2<span class="token punctuation">)</span>
+    out <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
 
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(signal1)):
-        out.append(fft_s1[i] * fft_s2[i])
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>signal1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        out<span class="token punctuation">.</span>append<span class="token punctuation">(</span>fft_s1<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> fft_s2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-    <span class="hljs-keyword">return</span> list(ifft(out))
+    <span class="token keyword">return</span> <span class="token builtin">list</span><span class="token punctuation">(</span>ifft<span class="token punctuation">(</span>out<span class="token punctuation">)</span><span class="token punctuation">)</span>
 </code></pre>
 </div></div></div>
 
@@ -917,7 +917,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Convolutions","level":"1.5.3","depth":2,"next":{"title":"Taylor Series","level":"1.5.4","depth":2,"path":"contents/taylor_series_expansion/taylor_series_expansion.md","ref":"contents/taylor_series_expansion/taylor_series_expansion.md","articles":[]},"previous":{"title":"Bit Logic","level":"1.5.2","depth":2,"path":"contents/bitlogic/bitlogic.md","ref":"contents/bitlogic/bitlogic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/convolutions/convolutions.md","mtime":"2018-12-24T20:39:03.941Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-24T20:40:43.647Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Convolutions","level":"1.5.3","depth":2,"next":{"title":"Taylor Series","level":"1.5.4","depth":2,"path":"contents/taylor_series_expansion/taylor_series_expansion.md","ref":"contents/taylor_series_expansion/taylor_series_expansion.md","articles":[]},"previous":{"title":"Bit Logic","level":"1.5.2","depth":2,"path":"contents/bitlogic/bitlogic.md","ref":"contents/bitlogic/bitlogic.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/convolutions/convolutions.md","mtime":"2018-12-25T20:41:11.464Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-25T20:42:51.285Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

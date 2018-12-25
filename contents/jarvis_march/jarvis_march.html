@@ -29,7 +29,7 @@
                 
             
                 
-                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
                 
             
                 
@@ -683,640 +683,640 @@ Since this algorithm, there have been many other algorithms that have advanced t
 <p><table class="references"><tr><td><span class="citation-number" id="cite-1">1</span></td><td>Jarvis, Ray A, On the identification of the convex hull of a finite set of points in the plane, <i>Elsevier</i>, 1973.</td></tr></table></p>
 <h2 id="example-code">Example Code</h2>
 <div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="cs" data-name="C#"><h5 id="jarvismarchcs">JarvisMarch.cs</h5>
-<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
-<span class="hljs-keyword">using</span> System;
-<span class="hljs-keyword">using</span> System.Collections.Generic;
-<span class="hljs-keyword">using</span> System.Linq;
+<pre class="language-"><code class="lang-csharp"><span class="token comment">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
+<span class="token keyword">using</span> System<span class="token punctuation">;</span>
+<span class="token keyword">using</span> System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic<span class="token punctuation">;</span>
+<span class="token keyword">using</span> System<span class="token punctuation">.</span>Linq<span class="token punctuation">;</span>
 
-<span class="hljs-keyword">namespace</span> <span class="hljs-title">JarvisMarch</span>
-{
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> Vector
-    {
-        <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">int</span> x;
-        <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">int</span> y;
+<span class="token keyword">namespace</span> JarvisMarch
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">struct</span> Vector
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token keyword">readonly</span> <span class="token keyword">int</span> x<span class="token punctuation">;</span>
+        <span class="token keyword">public</span> <span class="token keyword">readonly</span> <span class="token keyword">int</span> y<span class="token punctuation">;</span>
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Vector</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> xValue, <span class="hljs-keyword">int</span> yValue</span>)
-        </span>{
-            <span class="hljs-keyword">this</span>.x = xValue;
-            <span class="hljs-keyword">this</span>.y = yValue;
-        }
+        <span class="token keyword">public</span> <span class="token function">Vector</span><span class="token punctuation">(</span><span class="token keyword">int</span> xValue<span class="token punctuation">,</span> <span class="token keyword">int</span> yValue<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> xValue<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">=</span> yValue<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">Equals</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> obj</span>) </span>=&gt; obj <span class="hljs-keyword">is</span> Vector v &amp;&amp; <span class="hljs-keyword">this</span>.x == v.x &amp;&amp; <span class="hljs-keyword">this</span>.y == v.y;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">int</span> <span class="hljs-title">GetHashCode</span>(<span class="hljs-params"></span>) </span>=&gt; (<span class="hljs-number">17</span> * <span class="hljs-number">23</span> + <span class="hljs-keyword">this</span>.x) * <span class="hljs-number">23</span> + <span class="hljs-keyword">this</span>.y;
+        <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token keyword">bool</span> <span class="token function">Equals</span><span class="token punctuation">(</span><span class="token keyword">object</span> obj<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> obj <span class="token keyword">is</span> <span class="token class-name">Vector</span> v <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">==</span> v<span class="token punctuation">.</span>x <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">==</span> v<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+        <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token keyword">int</span> <span class="token function">GetHashCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span><span class="token number">17</span> <span class="token operator">*</span> <span class="token number">23</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">23</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">;</span>
 
-        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>==(Vector a, Vector b) =&gt; a.Equals(b);
-        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>!=(Vector a, Vector b) =&gt; !(a == b);
-    }
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token operator">==</span><span class="token punctuation">(</span><span class="token class-name">Vector</span> a<span class="token punctuation">,</span> <span class="token class-name">Vector</span> b<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> a<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token operator">!=</span><span class="token punctuation">(</span><span class="token class-name">Vector</span> a<span class="token punctuation">,</span> <span class="token class-name">Vector</span> b<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token operator">!</span><span class="token punctuation">(</span>a <span class="token operator">==</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">JarvisMarch</span>
-    {
-        <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Vector&gt; <span class="hljs-title">Run</span>(<span class="hljs-params">List&lt;Vector&gt; points</span>)
-        </span>{
-            <span class="hljs-keyword">var</span> convexHull = <span class="hljs-keyword">new</span> List&lt;Vector&gt;();
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JarvisMarch</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Vector<span class="token operator">&gt;</span> <span class="token function">Run</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Vector<span class="token operator">&gt;</span> points<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> convexHull <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token generic-method"><span class="token function">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Vector</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-            <span class="hljs-comment">// Set the intial pointOnHull to the point of the list, where the x-position is the lowest.</span>
-            <span class="hljs-keyword">var</span> pointOnHull = points.Aggregate((leftmost, current) =&gt; leftmost.x &lt; current.x ? leftmost : current);
+            <span class="token comment">// Set the intial pointOnHull to the point of the list, where the x-position is the lowest.</span>
+            <span class="token keyword">var</span> pointOnHull <span class="token operator">=</span> points<span class="token punctuation">.</span><span class="token function">Aggregate</span><span class="token punctuation">(</span><span class="token punctuation">(</span>leftmost<span class="token punctuation">,</span> current<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> leftmost<span class="token punctuation">.</span>x <span class="token operator">&lt;</span> current<span class="token punctuation">.</span>x <span class="token operator">?</span> leftmost <span class="token punctuation">:</span> current<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-            <span class="hljs-comment">// Continue searching for the next pointOnHull until the next pointOnHull is equal to the first point of the convex hull.</span>
-            <span class="hljs-keyword">do</span>
-            {
-                convexHull.Add(pointOnHull);
+            <span class="token comment">// Continue searching for the next pointOnHull until the next pointOnHull is equal to the first point of the convex hull.</span>
+            <span class="token keyword">do</span>
+            <span class="token punctuation">{</span>
+                convexHull<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-                <span class="hljs-comment">// Search for the next pointOnHull by looking which of the points is the next most outer point.</span>
-                pointOnHull = points.Aggregate((potentialNextPointOnHull, current) =&gt;
-                {
-                    <span class="hljs-comment">// Returns true, if potentialNextPointOnHull is equal to the current pointOnHull or if the current point is left of the line defined by pointOnHull and potentialNextPointOnHull.</span>
-                    <span class="hljs-keyword">if</span> (potentialNextPointOnHull == pointOnHull || IsLeftOf(pointOnHull, potentialNextPointOnHull, current))
-                        <span class="hljs-keyword">return</span> current;
-                    <span class="hljs-keyword">return</span> potentialNextPointOnHull;
-                });
+                <span class="token comment">// Search for the next pointOnHull by looking which of the points is the next most outer point.</span>
+                pointOnHull <span class="token operator">=</span> points<span class="token punctuation">.</span><span class="token function">Aggregate</span><span class="token punctuation">(</span><span class="token punctuation">(</span>potentialNextPointOnHull<span class="token punctuation">,</span> current<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span>
+                <span class="token punctuation">{</span>
+                    <span class="token comment">// Returns true, if potentialNextPointOnHull is equal to the current pointOnHull or if the current point is left of the line defined by pointOnHull and potentialNextPointOnHull.</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>potentialNextPointOnHull <span class="token operator">==</span> pointOnHull <span class="token operator">||</span> <span class="token function">IsLeftOf</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">,</span> potentialNextPointOnHull<span class="token punctuation">,</span> current<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token keyword">return</span> current<span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> potentialNextPointOnHull<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-                <span class="hljs-comment">// Check if the gift wrap is completed.</span>
-            } <span class="hljs-keyword">while</span> (pointOnHull != convexHull[<span class="hljs-number">0</span>]);
+                <span class="token comment">// Check if the gift wrap is completed.</span>
+            <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>pointOnHull <span class="token operator">!=</span> convexHull<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-            <span class="hljs-keyword">return</span> convexHull;
-        }
+            <span class="token keyword">return</span> convexHull<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-comment">// Returns true, if p is left of the line defined by a and b.</span>
-        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">IsLeftOf</span>(<span class="hljs-params">Vector a, Vector b, Vector p</span>) </span>=&gt; (b.x - a.x) * (p.y - a.y) &gt; (p.x - a.x) * (b.y - a.y);
-    }
-}
+        <span class="token comment">// Returns true, if p is left of the line defined by a and b.</span>
+        <span class="token keyword">private</span> <span class="token keyword">bool</span> <span class="token function">IsLeftOf</span><span class="token punctuation">(</span><span class="token class-name">Vector</span> a<span class="token punctuation">,</span> <span class="token class-name">Vector</span> b<span class="token punctuation">,</span> <span class="token class-name">Vector</span> p<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span>b<span class="token punctuation">.</span>x <span class="token operator">-</span> a<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>y <span class="token operator">-</span> a<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>x <span class="token operator">-</span> a<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>b<span class="token punctuation">.</span>y <span class="token operator">-</span> a<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <h5 id="programcs">Program.cs</h5>
-<pre><code class="lang-csharp"><span class="hljs-comment">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
-<span class="hljs-keyword">using</span> System;
-<span class="hljs-keyword">using</span> System.Collections.Generic;
+<pre class="language-"><code class="lang-csharp"><span class="token comment">// submitted by Julian Schacher (jspp) with great help by gustorn</span>
+<span class="token keyword">using</span> System<span class="token punctuation">;</span>
+<span class="token keyword">using</span> System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic<span class="token punctuation">;</span>
 
-<span class="hljs-keyword">namespace</span> <span class="hljs-title">JarvisMarch</span>
-{
-    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
-    {
-        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
-        </span>{
-            System.Console.WriteLine(<span class="hljs-string">&quot;JarvisMarch&quot;</span>);
-            <span class="hljs-comment">// Example list of points.</span>
-            <span class="hljs-comment">// The points are represented by vectors here, but that doesn&apos;t really matter.</span>
-            <span class="hljs-keyword">var</span> points = <span class="hljs-keyword">new</span> List&lt;Vector&gt;()
-            {
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">4</span>, <span class="hljs-number">0</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>),
-                <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>),
-            };
-            <span class="hljs-keyword">var</span> jarvisMarch = <span class="hljs-keyword">new</span> JarvisMarch();
-            <span class="hljs-keyword">var</span> giftWrap = jarvisMarch.Run(points);
+<span class="token keyword">namespace</span> JarvisMarch
+<span class="token punctuation">{</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;JarvisMarch&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Example list of points.</span>
+            <span class="token comment">// The points are represented by vectors here, but that doesn&apos;t really matter.</span>
+            <span class="token keyword">var</span> points <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token generic-method"><span class="token function">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Vector</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">Vector</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> jarvisMarch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JarvisMarch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> giftWrap <span class="token operator">=</span> jarvisMarch<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span>points<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-            <span class="hljs-comment">// Print the points of the gift wrap.</span>
-            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> point <span class="hljs-keyword">in</span> giftWrap)
-                System.Console.WriteLine($<span class="hljs-string">&quot;{point.x}, {point.y}&quot;</span>);
-        }
-    }
-}
+            <span class="token comment">// Print the points of the gift wrap.</span>
+            <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token keyword">var</span> point <span class="token keyword">in</span> giftWrap<span class="token punctuation">)</span>
+                System<span class="token punctuation">.</span>Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>$<span class="token string">&quot;{point.x}, {point.y}&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia">struct Pos
-    x<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
-    y<span class="hljs-type">::</span><span class="hljs-built_in">Float64</span>
-<span class="hljs-keyword">end</span>
+</div><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre class="language-"><code class="lang-julia">struct Pos
+    x<span class="token punctuation">:</span><span class="token punctuation">:</span>Float64
+    y<span class="token punctuation">:</span><span class="token punctuation">:</span>Float64
+<span class="token keyword">end</span>
 
-<span class="hljs-keyword">function</span> jarvis_cross(point1<span class="hljs-type">::</span>Pos, point2<span class="hljs-type">::</span>Pos, point3<span class="hljs-type">::</span>Pos)
-    vec1 = Pos(point2.x - point1.x, point2.y - point1.y)
-    vec2 = Pos(point3.x - point2.x, point3.y - point2.y)
-    ret_cross = vec1.x*vec2.y - vec1.y*vec2.x
-    <span class="hljs-keyword">return</span> ret_cross*ret_cross
-<span class="hljs-keyword">end</span>
+<span class="token keyword">function</span> jarvis_cross<span class="token punctuation">(</span>point1<span class="token punctuation">:</span><span class="token punctuation">:</span>Pos<span class="token punctuation">,</span> point2<span class="token punctuation">:</span><span class="token punctuation">:</span>Pos<span class="token punctuation">,</span> point3<span class="token punctuation">:</span><span class="token punctuation">:</span>Pos<span class="token punctuation">)</span>
+    vec1 <span class="token operator">=</span> Pos<span class="token punctuation">(</span>point2<span class="token punctuation">.</span>x <span class="token operator">-</span> point1<span class="token punctuation">.</span>x<span class="token punctuation">,</span> point2<span class="token punctuation">.</span>y <span class="token operator">-</span> point1<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+    vec2 <span class="token operator">=</span> Pos<span class="token punctuation">(</span>point3<span class="token punctuation">.</span>x <span class="token operator">-</span> point2<span class="token punctuation">.</span>x<span class="token punctuation">,</span> point3<span class="token punctuation">.</span>y <span class="token operator">-</span> point2<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+    ret_cross <span class="token operator">=</span> vec1<span class="token punctuation">.</span>x<span class="token operator">*</span>vec2<span class="token punctuation">.</span>y <span class="token operator">-</span> vec1<span class="token punctuation">.</span>y<span class="token operator">*</span>vec2<span class="token punctuation">.</span>x
+    <span class="token keyword">return</span> ret_cross<span class="token operator">*</span>ret_cross
+<span class="token keyword">end</span>
 
-<span class="hljs-keyword">function</span> jarvis_march(points<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{Pos})
-    hull = <span class="hljs-built_in">Vector</span>{Pos}()
+<span class="token keyword">function</span> jarvis_march<span class="token punctuation">(</span>points<span class="token punctuation">:</span><span class="token punctuation">:</span>Vector<span class="token punctuation">{</span>Pos<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    hull <span class="token operator">=</span> Vector<span class="token punctuation">{</span>Pos<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-    <span class="hljs-comment"># sorting array based on leftmost point</span>
-    sort!(points, by = item -&gt; item.x)
-    push!(hull, points[<span class="hljs-number">1</span>])
+    <span class="token comment"># sorting array based on leftmost point</span>
+    sort<span class="token operator">!</span><span class="token punctuation">(</span>points<span class="token punctuation">,</span> by <span class="token operator">=</span> item <span class="token operator">-</span><span class="token operator">&gt;</span> item<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
+    push<span class="token operator">!</span><span class="token punctuation">(</span>hull<span class="token punctuation">,</span> points<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-    i = <span class="hljs-number">1</span>
-    curr_point = points[<span class="hljs-number">2</span>]
+    i <span class="token operator">=</span> <span class="token number">1</span>
+    curr_point <span class="token operator">=</span> points<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
 
-    <span class="hljs-comment"># Find cross product between points</span>
-    curr_product = jarvis_cross(Pos(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), hull[<span class="hljs-number">1</span>], curr_point)
-    <span class="hljs-keyword">while</span> (curr_point != hull[<span class="hljs-number">1</span>])
-        <span class="hljs-keyword">for</span> point <span class="hljs-keyword">in</span> points
-                product = <span class="hljs-number">0.0</span>
-            <span class="hljs-keyword">if</span> (i == <span class="hljs-number">1</span>)
-                <span class="hljs-keyword">if</span> (hull[i] != point)
-                    product = jarvis_cross(Pos(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), hull[i], point)
-                <span class="hljs-keyword">end</span>
-            <span class="hljs-keyword">else</span>
-                <span class="hljs-keyword">if</span> (hull[i] != point &amp;&amp; hull[i-<span class="hljs-number">1</span>] != point)
-                    product = jarvis_cross(hull[i-<span class="hljs-number">1</span>], hull[i], point)
-                <span class="hljs-keyword">end</span>
-            <span class="hljs-keyword">end</span>
-            <span class="hljs-keyword">if</span> (product &gt; curr_product)
-                curr_point = point
-                curr_product = product
-            <span class="hljs-keyword">end</span>
-        <span class="hljs-keyword">end</span>
-        push!(hull, curr_point)
-        curr_product = <span class="hljs-number">0</span>
-        i += <span class="hljs-number">1</span>
-    <span class="hljs-keyword">end</span>
+    <span class="token comment"># Find cross product between points</span>
+    curr_product <span class="token operator">=</span> jarvis_cross<span class="token punctuation">(</span>Pos<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> hull<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> curr_point<span class="token punctuation">)</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>curr_point <span class="token operator">!=</span> hull<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> point in points
+                product <span class="token operator">=</span> <span class="token number">0.0</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>hull<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> point<span class="token punctuation">)</span>
+                    product <span class="token operator">=</span> jarvis_cross<span class="token punctuation">(</span>Pos<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> hull<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> point<span class="token punctuation">)</span>
+                <span class="token keyword">end</span>
+            <span class="token keyword">else</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>hull<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> point <span class="token operator">&amp;</span><span class="token operator">&amp;</span> hull<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">!=</span> point<span class="token punctuation">)</span>
+                    product <span class="token operator">=</span> jarvis_cross<span class="token punctuation">(</span>hull<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> hull<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> point<span class="token punctuation">)</span>
+                <span class="token keyword">end</span>
+            <span class="token keyword">end</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>product <span class="token operator">&gt;</span> curr_product<span class="token punctuation">)</span>
+                curr_point <span class="token operator">=</span> point
+                curr_product <span class="token operator">=</span> product
+            <span class="token keyword">end</span>
+        <span class="token keyword">end</span>
+        push<span class="token operator">!</span><span class="token punctuation">(</span>hull<span class="token punctuation">,</span> curr_point<span class="token punctuation">)</span>
+        curr_product <span class="token operator">=</span> <span class="token number">0</span>
+        i <span class="token operator">+=</span> <span class="token number">1</span>
+    <span class="token keyword">end</span>
 
-    <span class="hljs-keyword">return</span> hull
-<span class="hljs-keyword">end</span>
+    <span class="token keyword">return</span> hull
+<span class="token keyword">end</span>
 
-<span class="hljs-keyword">function</span> main()
+<span class="token keyword">function</span> main<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-    points = [Pos(<span class="hljs-number">2</span>,<span class="hljs-number">1.5</span>), Pos(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), Pos(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>), Pos(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>)]
-    hull = jarvis_march(points)
-    println(hull)
-<span class="hljs-keyword">end</span>
+    points <span class="token operator">=</span> <span class="token punctuation">[</span>Pos<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1.5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Pos<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Pos<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Pos<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+    hull <span class="token operator">=</span> jarvis_march<span class="token punctuation">(</span>points<span class="token punctuation">)</span>
+    <span class="token keyword">println</span><span class="token punctuation">(</span>hull<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
 
-main()
+main<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.List (<span class="hljs-title">sort</span>, <span class="hljs-title">maximumBy</span>)
-<span class="hljs-keyword">import</span> Data.Function (<span class="hljs-title">on</span>)
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre class="language-"><code class="lang-haskell"><span class="token import_statement"><span class="token keyword">import</span> Data.List</span> <span class="token punctuation">(</span><span class="token builtin">sort</span><span class="token punctuation">,</span> <span class="token hvariable">maximumBy</span><span class="token punctuation">)</span>
+<span class="token import_statement"><span class="token keyword">import</span> Data.Function</span> <span class="token punctuation">(</span><span class="token hvariable">on</span><span class="token punctuation">)</span>
 
-<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Point</span> = (<span class="hljs-type">Double</span>, <span class="hljs-type">Double</span>)</span>
+<span class="token keyword">type</span> <span class="token constant">Point</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token constant">Double</span><span class="token punctuation">,</span> <span class="token constant">Double</span><span class="token punctuation">)</span>
 
-<span class="hljs-title">angle</span> :: <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Point</span> -&gt; <span class="hljs-type">Double</span>
-<span class="hljs-title">angle</span> a@(xa, ya) b@(xb, yb) c@(xc, yc)
-  | a==b || c==b = <span class="hljs-number">0</span>
-  | theta&lt;<span class="hljs-number">0</span>      = theta+<span class="hljs-number">2</span>*pi
-  | otherwise    = theta
-  <span class="hljs-keyword">where</span> thetaA = atan2 (ya-yb) (xa-xb)
-        thetaC = atan2 (yc-yb) (xc-xb)
-        theta = thetaC - thetaA
+<span class="token hvariable">angle</span> <span class="token operator">::</span> <span class="token constant">Point</span> <span class="token operator">-&gt;</span> <span class="token constant">Point</span> <span class="token operator">-&gt;</span> <span class="token constant">Point</span> <span class="token operator">-&gt;</span> <span class="token constant">Double</span>
+<span class="token hvariable">angle</span> <span class="token hvariable">a</span><span class="token operator">@</span><span class="token punctuation">(</span><span class="token hvariable">xa</span><span class="token punctuation">,</span> <span class="token hvariable">ya</span><span class="token punctuation">)</span> <span class="token hvariable">b</span><span class="token operator">@</span><span class="token punctuation">(</span><span class="token hvariable">xb</span><span class="token punctuation">,</span> <span class="token hvariable">yb</span><span class="token punctuation">)</span> <span class="token hvariable">c</span><span class="token operator">@</span><span class="token punctuation">(</span><span class="token hvariable">xc</span><span class="token punctuation">,</span> <span class="token hvariable">yc</span><span class="token punctuation">)</span>
+  <span class="token operator">|</span> <span class="token hvariable">a</span><span class="token operator">==</span><span class="token hvariable">b</span> <span class="token operator">||</span> <span class="token hvariable">c</span><span class="token operator">==</span><span class="token hvariable">b</span> <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token operator">|</span> <span class="token hvariable">theta</span><span class="token operator">&lt;</span><span class="token number">0</span>      <span class="token operator">=</span> <span class="token hvariable">theta</span><span class="token operator">+</span><span class="token number">2</span><span class="token operator">*</span><span class="token builtin">pi</span>
+  <span class="token operator">|</span> <span class="token builtin">otherwise</span>    <span class="token operator">=</span> <span class="token hvariable">theta</span>
+  <span class="token keyword">where</span> <span class="token hvariable">thetaA</span> <span class="token operator">=</span> <span class="token builtin">atan2</span> <span class="token punctuation">(</span><span class="token hvariable">ya</span><span class="token operator">-</span><span class="token hvariable">yb</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">xa</span><span class="token operator">-</span><span class="token hvariable">xb</span><span class="token punctuation">)</span>
+        <span class="token hvariable">thetaC</span> <span class="token operator">=</span> <span class="token builtin">atan2</span> <span class="token punctuation">(</span><span class="token hvariable">yc</span><span class="token operator">-</span><span class="token hvariable">yb</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">xc</span><span class="token operator">-</span><span class="token hvariable">xb</span><span class="token punctuation">)</span>
+        <span class="token hvariable">theta</span> <span class="token operator">=</span> <span class="token hvariable">thetaC</span> <span class="token operator">-</span> <span class="token hvariable">thetaA</span>
 
-<span class="hljs-title">jarvisMarch</span> :: [<span class="hljs-type">Point</span>] -&gt; [<span class="hljs-type">Point</span>]
-<span class="hljs-title">jarvisMarch</span> [] = []
-<span class="hljs-title">jarvisMarch</span> pts = p0 : wrap (x, y<span class="hljs-number">-1</span>) p0
-  <span class="hljs-keyword">where</span> p0@(x, y)= minimum pts
-        wrap p1 p2
-          | pm == p0  = []
-          | otherwise = pm : wrap p2 pm
-          <span class="hljs-keyword">where</span> pm = maximumBy (compare `on` angle p1 p2) pts
+<span class="token hvariable">jarvisMarch</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token constant">Point</span><span class="token punctuation">]</span> <span class="token operator">-&gt;</span> <span class="token punctuation">[</span><span class="token constant">Point</span><span class="token punctuation">]</span>
+<span class="token hvariable">jarvisMarch</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token hvariable">jarvisMarch</span> <span class="token hvariable">pts</span> <span class="token operator">=</span> <span class="token hvariable">p0</span> <span class="token operator">:</span> <span class="token hvariable">wrap</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token punctuation">,</span> <span class="token hvariable">y</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token hvariable">p0</span>
+  <span class="token keyword">where</span> <span class="token hvariable">p0</span><span class="token operator">@</span><span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token punctuation">,</span> <span class="token hvariable">y</span><span class="token punctuation">)</span><span class="token operator">=</span> <span class="token builtin">minimum</span> <span class="token hvariable">pts</span>
+        <span class="token hvariable">wrap</span> <span class="token hvariable">p1</span> <span class="token hvariable">p2</span>
+          <span class="token operator">|</span> <span class="token hvariable">pm</span> <span class="token operator">==</span> <span class="token hvariable">p0</span>  <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+          <span class="token operator">|</span> <span class="token builtin">otherwise</span> <span class="token operator">=</span> <span class="token hvariable">pm</span> <span class="token operator">:</span> <span class="token hvariable">wrap</span> <span class="token hvariable">p2</span> <span class="token hvariable">pm</span>
+          <span class="token keyword">where</span> <span class="token hvariable">pm</span> <span class="token operator">=</span> <span class="token hvariable">maximumBy</span> <span class="token punctuation">(</span><span class="token builtin">compare</span> <span class="token operator">`on`</span> <span class="token hvariable">angle</span> <span class="token hvariable">p1</span> <span class="token hvariable">p2</span><span class="token punctuation">)</span> <span class="token hvariable">pts</span>
 
-<span class="hljs-title">main</span> = <span class="hljs-keyword">do</span>
-  <span class="hljs-keyword">let</span> pts = filter (\(x,y) -&gt; x^<span class="hljs-number">2</span>+y^<span class="hljs-number">2</span>&lt;=<span class="hljs-number">5</span>^<span class="hljs-number">2</span>) [(x,y)|x&lt;-[<span class="hljs-number">-5.</span><span class="hljs-number">.5</span>], y&lt;-[<span class="hljs-number">-5.</span><span class="hljs-number">.5</span>]]
-  print $ jarvisMarch pts
+<span class="token hvariable">main</span> <span class="token operator">=</span> <span class="token keyword">do</span>
+  <span class="token keyword">let</span> <span class="token hvariable">pts</span> <span class="token operator">=</span> <span class="token builtin">filter</span> <span class="token punctuation">(</span><span class="token operator">\</span><span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token punctuation">,</span><span class="token hvariable">y</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token hvariable">x</span><span class="token operator">^</span><span class="token number">2</span><span class="token operator">+</span><span class="token hvariable">y</span><span class="token operator">^</span><span class="token number">2</span><span class="token operator">&lt;=</span><span class="token number">5</span><span class="token operator">^</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token punctuation">,</span><span class="token hvariable">y</span><span class="token punctuation">)</span><span class="token operator">|</span><span class="token hvariable">x</span><span class="token operator">&lt;-</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">5</span><span class="token operator">..</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token hvariable">y</span><span class="token operator">&lt;-</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">5</span><span class="token operator">..</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+  <span class="token builtin">print</span> <span class="token operator">$</span> <span class="token hvariable">jarvisMarch</span> <span class="token hvariable">pts</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stddef.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdbool.h&gt;</span></span>
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre class="language-"><code class="lang-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stddef.h&gt;</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdbool.h&gt;</span></span>
 
-<span class="hljs-keyword">struct</span> point {
-    <span class="hljs-keyword">double</span> x,y;
-};
+<span class="token keyword">struct</span> point <span class="token punctuation">{</span>
+    <span class="token keyword">double</span> x<span class="token punctuation">,</span>y<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="hljs-function"><span class="hljs-keyword">struct</span> point <span class="hljs-title">left_most_point</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point *points, size_t num_points)</span> </span>{
-    <span class="hljs-keyword">struct</span> point ret = points[<span class="hljs-number">0</span>];
+<span class="token keyword">struct</span> point <span class="token function">left_most_point</span><span class="token punctuation">(</span><span class="token keyword">struct</span> point <span class="token operator">*</span>points<span class="token punctuation">,</span> size_t num_points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> point ret <span class="token operator">=</span> points<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; num_points; ++i) {
-        <span class="hljs-keyword">if</span> (points[i].x &lt; ret.x) {
-            ret = points[i];
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(points[i].x == ret.x) {
-            <span class="hljs-keyword">if</span> (points[i].y &lt; ret.y) {
-                ret = points[i];
-            }
-        }
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> num_points<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>x <span class="token operator">&lt;</span> ret<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            ret <span class="token operator">=</span> points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>x <span class="token operator">==</span> ret<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>y <span class="token operator">&lt;</span> ret<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ret <span class="token operator">=</span> points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">return</span> ret;
-}
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">equal</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point a, <span class="hljs-keyword">struct</span> point b)</span> </span>{
-    <span class="hljs-keyword">return</span> a.x == b.x &amp;&amp; a.y == b.y;
-}
+bool <span class="token function">equal</span><span class="token punctuation">(</span><span class="token keyword">struct</span> point a<span class="token punctuation">,</span> <span class="token keyword">struct</span> point b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> a<span class="token punctuation">.</span>x <span class="token operator">==</span> b<span class="token punctuation">.</span>x <span class="token operator">&amp;&amp;</span> a<span class="token punctuation">.</span>y <span class="token operator">==</span> b<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">winding</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> point p, <span class="hljs-keyword">struct</span> point q, <span class="hljs-keyword">struct</span> point r)</span> </span>{
-    <span class="hljs-keyword">return</span> (q.x - p.x)*(r.y - p.y) - (q.y - p.y)*(r.x - p.x);
-}
+<span class="token keyword">double</span> <span class="token function">winding</span><span class="token punctuation">(</span><span class="token keyword">struct</span> point p<span class="token punctuation">,</span> <span class="token keyword">struct</span> point q<span class="token punctuation">,</span> <span class="token keyword">struct</span> point r<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>q<span class="token punctuation">.</span>x <span class="token operator">-</span> p<span class="token punctuation">.</span>x<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>y <span class="token operator">-</span> p<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span>q<span class="token punctuation">.</span>y <span class="token operator">-</span> p<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>x <span class="token operator">-</span> p<span class="token punctuation">.</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">size_t</span> jarvis_march(<span class="hljs-keyword">struct</span> point *points, <span class="hljs-keyword">struct</span> point *hull_points,
-                    <span class="hljs-keyword">size_t</span> num_points) {
-    <span class="hljs-keyword">struct</span> point hull_point = left_most_point(points, num_points);
-    <span class="hljs-keyword">struct</span> point end_point;
+size_t <span class="token function">jarvis_march</span><span class="token punctuation">(</span><span class="token keyword">struct</span> point <span class="token operator">*</span>points<span class="token punctuation">,</span> <span class="token keyword">struct</span> point <span class="token operator">*</span>hull_points<span class="token punctuation">,</span>
+                    size_t num_points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> point hull_point <span class="token operator">=</span> <span class="token function">left_most_point</span><span class="token punctuation">(</span>points<span class="token punctuation">,</span> num_points<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> point end_point<span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">do</span> {
-        hull_points[i] = hull_point;
-        end_point = points[<span class="hljs-number">0</span>];
+    size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">do</span> <span class="token punctuation">{</span>
+        hull_points<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> hull_point<span class="token punctuation">;</span>
+        end_point <span class="token operator">=</span> points<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">1</span>; j &lt; num_points; ++j) {
-            <span class="hljs-keyword">if</span> (equal(end_point, hull_point) ||
-                    winding(hull_points[i], end_point, points[j]) &gt; <span class="hljs-number">0.0</span>) {
-                end_point = points[j];
-            }
-        }
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> num_points<span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">equal</span><span class="token punctuation">(</span>end_point<span class="token punctuation">,</span> hull_point<span class="token punctuation">)</span> <span class="token operator">||</span>
+                    <span class="token function">winding</span><span class="token punctuation">(</span>hull_points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> end_point<span class="token punctuation">,</span> points<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0.0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                end_point <span class="token operator">=</span> points<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
 
-        i++;
-        hull_point = end_point;
-    } <span class="hljs-keyword">while</span> (!equal(end_point, hull_points[<span class="hljs-number">0</span>]));
+        i<span class="token operator">++</span><span class="token punctuation">;</span>
+        hull_point <span class="token operator">=</span> end_point<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">equal</span><span class="token punctuation">(</span>end_point<span class="token punctuation">,</span> hull_points<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">return</span> i;
-}
+    <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">struct</span> point points[] = {{<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>}, {<span class="hljs-number">-1.0</span>, <span class="hljs-number">-1.0</span>}, {<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>}, {<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>},
-                                {<span class="hljs-number">0.0</span>, <span class="hljs-number">-1.0</span>}, {<span class="hljs-number">2.0</span>, <span class="hljs-number">2.0</span>}};
-    <span class="hljs-keyword">struct</span> point hull_points[<span class="hljs-number">6</span>];
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> point points<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+                                <span class="token punctuation">{</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> point hull_points<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">size_t</span> num_hull_points = jarvis_march(points, hull_points, <span class="hljs-number">6</span>);
+    size_t num_hull_points <span class="token operator">=</span> <span class="token function">jarvis_march</span><span class="token punctuation">(</span>points<span class="token punctuation">,</span> hull_points<span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The Hull points are:\n&quot;</span>);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; num_hull_points; ++i) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x=%f y=%f\n&quot;</span>, hull_points[i].x, hull_points[i].y);
-    }
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;The Hull points are:\n&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> num_hull_points<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;x=%f y=%f\n&quot;</span><span class="token punctuation">,</span> hull_points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> hull_points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jarvisMarch</span>(<span class="hljs-params">points</span>) </span>{
-  <span class="hljs-keyword">const</span> hull = [];
+</div><div class="code-method-sample" data-lang="js" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> hull <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-  <span class="hljs-keyword">let</span> pointOnHull = points.reduce((leftmost, current) =&gt; leftmost.x &lt; current.x ? leftmost : current);
-  <span class="hljs-keyword">do</span> {
-    hull.push(pointOnHull);
-    pointOnHull = points.reduce(chooseNextPointOnHull(pointOnHull));
-  } <span class="hljs-keyword">while</span> (pointOnHull !== hull[<span class="hljs-number">0</span>]);
+  <span class="token keyword">let</span> pointOnHull <span class="token operator">=</span> points<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>leftmost<span class="token punctuation">,</span> current<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> leftmost<span class="token punctuation">.</span>x <span class="token operator">&lt;</span> current<span class="token punctuation">.</span>x <span class="token operator">?</span> leftmost <span class="token punctuation">:</span> current<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">do</span> <span class="token punctuation">{</span>
+    hull<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    pointOnHull <span class="token operator">=</span> points<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token function">chooseNextPointOnHull</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>pointOnHull <span class="token operator">!==</span> hull<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="hljs-keyword">return</span> hull;
-}
+  <span class="token keyword">return</span> hull<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chooseNextPointOnHull</span>(<span class="hljs-params">currentPoint</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nextPoint, candidate</span>) </span>{
-      <span class="hljs-keyword">if</span> (nextPoint === currentPoint || isLeftOf({ a: currentPoint, b: nextPoint }, candidate)) {
-        <span class="hljs-keyword">return</span> candidate;
-      }
-      <span class="hljs-keyword">return</span> nextPoint;
-  }
-}
+<span class="token keyword">function</span> <span class="token function">chooseNextPointOnHull</span><span class="token punctuation">(</span>currentPoint<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>nextPoint<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>nextPoint <span class="token operator">===</span> currentPoint <span class="token operator">||</span> <span class="token function">isLeftOf</span><span class="token punctuation">(</span><span class="token punctuation">{</span> a<span class="token punctuation">:</span> currentPoint<span class="token punctuation">,</span> b<span class="token punctuation">:</span> nextPoint <span class="token punctuation">}</span><span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> candidate<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> nextPoint<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isLeftOf</span>(<span class="hljs-params">{ a, b }, p</span>) </span>{
-  <span class="hljs-keyword">return</span> (b.x - a.x) * (p.y - a.y) &gt; (p.x - a.x) * (b.y - a.y);
-}
+<span class="token keyword">function</span> <span class="token function">isLeftOf</span><span class="token punctuation">(</span><span class="token punctuation">{</span> a<span class="token punctuation">,</span> b <span class="token punctuation">}</span><span class="token punctuation">,</span> p<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>b<span class="token punctuation">.</span>x <span class="token operator">-</span> a<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>y <span class="token operator">-</span> a<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>x <span class="token operator">-</span> a<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>b<span class="token punctuation">.</span>y <span class="token operator">-</span> a<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">const</span> points = [
-  { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">3</span> },
-  { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">4</span> },
-  { x: <span class="hljs-number">4</span>, y: <span class="hljs-number">0</span> },
-  { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">0</span> },
-  { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">2</span> },
-  { x: <span class="hljs-number">2</span>, y: <span class="hljs-number">2</span> },
-  { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">4</span> },
-  { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">1</span> },
-];
+<span class="token keyword">const</span> points <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">3</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">4</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">4</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">const</span> convexHull = jarvisMarch(points);
-convexHull.forEach(p =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`(<span class="hljs-subst">${p.x}</span>, <span class="hljs-subst">${p.y}</span>)`</span>));
+<span class="token keyword">const</span> convexHull <span class="token operator">=</span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>points<span class="token punctuation">)</span><span class="token punctuation">;</span>
+convexHull<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>p <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>p<span class="token punctuation">.</span>x<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>p<span class="token punctuation">.</span>y<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-comment"># Is the turn counter clockwise?</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CCW</span><span class="hljs-params">(p1, p2, p3)</span>:</span>
-    <span class="hljs-keyword">return</span> (p3[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p2[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>]) &gt;= (p2[<span class="hljs-number">1</span>]-p1[<span class="hljs-number">1</span>])*(p3[<span class="hljs-number">0</span>]-p1[<span class="hljs-number">0</span>])
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre class="language-"><code class="lang-python"><span class="token comment"># Is the turn counter clockwise?</span>
+<span class="token keyword">def</span> <span class="token function">CCW</span><span class="token punctuation">(</span>p1<span class="token punctuation">,</span> p2<span class="token punctuation">,</span> p3<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>p3<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">-</span>p1<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>p2<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span>p1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token punctuation">(</span>p2<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">-</span>p1<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>p3<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span>p1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">jarvisMarch</span><span class="hljs-params">(gift)</span>:</span>
-    n = len(gift)  <span class="hljs-comment">#Number of points in list</span>
-    pointOnHull = min(gift) <span class="hljs-comment">#leftmost point in gift</span>
-    hull = [pointOnHull] <span class="hljs-comment">#leftmost point guaranteed to be in hull</span>
+<span class="token keyword">def</span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>gift<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>gift<span class="token punctuation">)</span>  <span class="token comment">#Number of points in list</span>
+    pointOnHull <span class="token operator">=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>gift<span class="token punctuation">)</span> <span class="token comment">#leftmost point in gift</span>
+    hull <span class="token operator">=</span> <span class="token punctuation">[</span>pointOnHull<span class="token punctuation">]</span> <span class="token comment">#leftmost point guaranteed to be in hull</span>
 
-    <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
-        endpoint = gift[<span class="hljs-number">0</span>]  <span class="hljs-comment">#Candidate for next point in hull</span>
-        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,n):
-            <span class="hljs-keyword">if</span> endpoint==pointOnHull <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> CCW(gift[j],hull[<span class="hljs-number">-1</span>],endpoint):
-                endpoint = gift[j]
+    <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        endpoint <span class="token operator">=</span> gift<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>  <span class="token comment">#Candidate for next point in hull</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> endpoint<span class="token operator">==</span>pointOnHull <span class="token operator">or</span> <span class="token operator">not</span> CCW<span class="token punctuation">(</span>gift<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>hull<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>endpoint<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                endpoint <span class="token operator">=</span> gift<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
 
-        pointOnHull = endpoint        
+        pointOnHull <span class="token operator">=</span> endpoint        
 
-        <span class="hljs-comment">#Check if we have completely wrapped gift</span>
-        <span class="hljs-keyword">if</span> hull[<span class="hljs-number">0</span>]==endpoint:
-            <span class="hljs-keyword">break</span>
-        <span class="hljs-keyword">else</span>:
-            hull.append(pointOnHull)
+        <span class="token comment">#Check if we have completely wrapped gift</span>
+        <span class="token keyword">if</span> hull<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">==</span>endpoint<span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            hull<span class="token punctuation">.</span>append<span class="token punctuation">(</span>pointOnHull<span class="token punctuation">)</span>
 
-    <span class="hljs-keyword">return</span> hull
+    <span class="token keyword">return</span> hull
 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
-    testGift = [(<span class="hljs-number">-5</span>, <span class="hljs-number">2</span>), (<span class="hljs-number">5</span>, <span class="hljs-number">7</span>), (<span class="hljs-number">-6</span>, <span class="hljs-number">-12</span>), (<span class="hljs-number">-14</span>, <span class="hljs-number">-14</span>), (<span class="hljs-number">9</span>, <span class="hljs-number">9</span>), 
-                (<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>), (<span class="hljs-number">-10</span>, <span class="hljs-number">11</span>), (<span class="hljs-number">-6</span>, <span class="hljs-number">15</span>), (<span class="hljs-number">-6</span>, <span class="hljs-number">-8</span>), (<span class="hljs-number">15</span>, <span class="hljs-number">-9</span>),
-                (<span class="hljs-number">7</span>, <span class="hljs-number">-7</span>), (<span class="hljs-number">-2</span>, <span class="hljs-number">-9</span>), (<span class="hljs-number">6</span>, <span class="hljs-number">-5</span>), (<span class="hljs-number">0</span>, <span class="hljs-number">14</span>), (<span class="hljs-number">2</span>, <span class="hljs-number">8</span>)]
-    hull = jarvisMarch(testGift)
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    testGift <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">14</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+    hull <span class="token operator">=</span> jarvisMarch<span class="token punctuation">(</span>testGift<span class="token punctuation">)</span>
 
-    print(<span class="hljs-string">&quot;The points in the hull are:&quot;</span>)
-    <span class="hljs-keyword">for</span> point <span class="hljs-keyword">in</span> hull:
-        print(point)
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;The points in the hull are:&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> point <span class="token keyword">in</span> hull<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>point<span class="token punctuation">)</span>
 
-main()
+main<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre class="language-"><code class="lang-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span></span>
 
-<span class="hljs-keyword">struct</span> Point
-{
-    <span class="hljs-keyword">double</span> x, y;
+<span class="token keyword">struct</span> Point
+<span class="token punctuation">{</span>
+    <span class="token keyword">double</span> x<span class="token punctuation">,</span> y<span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>==(<span class="hljs-keyword">const</span> Point&amp; b) <span class="hljs-keyword">const</span>
-    {
-        <span class="hljs-keyword">return</span> x == b.x &amp;&amp; y == b.y;
-    }
+    <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token operator">==</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point<span class="token operator">&amp;</span> b<span class="token punctuation">)</span> <span class="token keyword">const</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> x <span class="token operator">==</span> b<span class="token punctuation">.</span>x <span class="token operator">&amp;&amp;</span> y <span class="token operator">==</span> b<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>!=(<span class="hljs-keyword">const</span> Point&amp; b) <span class="hljs-keyword">const</span>
-    {
-        <span class="hljs-keyword">return</span> !(*<span class="hljs-keyword">this</span> == b);
-    }
-};
+    <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token operator">!=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point<span class="token operator">&amp;</span> b<span class="token punctuation">)</span> <span class="token keyword">const</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token keyword">this</span> <span class="token operator">==</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Point&gt; jarvis_march(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Point&gt;&amp; points)
-{
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Point&gt; hull_points;
+std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>Point<span class="token operator">&gt;</span> <span class="token function">jarvis_march</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>Point<span class="token operator">&gt;</span><span class="token operator">&amp;</span> points<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>Point<span class="token operator">&gt;</span> hull_points<span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">if</span>(points.empty())
-        <span class="hljs-keyword">return</span> hull_points;
+    <span class="token keyword">if</span><span class="token punctuation">(</span>points<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> hull_points<span class="token punctuation">;</span>
 
-    <span class="hljs-comment">// Left most point</span>
-    <span class="hljs-keyword">auto</span> first_point_it = <span class="hljs-built_in">std</span>::min_element(points.begin(), points.end(), [](<span class="hljs-keyword">const</span> Point&amp; a, <span class="hljs-keyword">const</span> Point&amp; b){ <span class="hljs-keyword">return</span> a.x &lt; b.x; });
+    <span class="token comment">// Left most point</span>
+    <span class="token keyword">auto</span> first_point_it <span class="token operator">=</span> std<span class="token operator">::</span><span class="token function">min_element</span><span class="token punctuation">(</span>points<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> points<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point<span class="token operator">&amp;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> Point<span class="token operator">&amp;</span> b<span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token keyword">return</span> a<span class="token punctuation">.</span>x <span class="token operator">&lt;</span> b<span class="token punctuation">.</span>x<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">auto</span> next_point_it = first_point_it;
-    <span class="hljs-keyword">do</span>
-    {
-        hull_points.push_back(*next_point_it);
+    <span class="token keyword">auto</span> next_point_it <span class="token operator">=</span> first_point_it<span class="token punctuation">;</span>
+    <span class="token keyword">do</span>
+    <span class="token punctuation">{</span>
+        hull_points<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token operator">*</span>next_point_it<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-keyword">const</span> Point&amp; p1 = hull_points.back();
+        <span class="token keyword">const</span> Point<span class="token operator">&amp;</span> p1 <span class="token operator">=</span> hull_points<span class="token punctuation">.</span><span class="token function">back</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-comment">// Largest internal angle</span>
-        next_point_it = <span class="hljs-built_in">std</span>::max_element(
-            points.begin(),
-            points.end(),
-            [p1](<span class="hljs-keyword">const</span> Point&amp; p2, <span class="hljs-keyword">const</span> Point&amp; p3){
-                <span class="hljs-keyword">return</span> (p1 == p2) || (p2.x - p1.x) * (p3.y - p1.y) &gt; (p3.x - p1.x) * (p2.y - p1.y);
-            }
-        );
-    }
-    <span class="hljs-keyword">while</span>(*next_point_it != *first_point_it);
+        <span class="token comment">// Largest internal angle</span>
+        next_point_it <span class="token operator">=</span> std<span class="token operator">::</span><span class="token function">max_element</span><span class="token punctuation">(</span>
+            points<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            points<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span>p1<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point<span class="token operator">&amp;</span> p2<span class="token punctuation">,</span> <span class="token keyword">const</span> Point<span class="token operator">&amp;</span> p3<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token punctuation">(</span>p1 <span class="token operator">==</span> p2<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>p2<span class="token punctuation">.</span>x <span class="token operator">-</span> p1<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>p3<span class="token punctuation">.</span>y <span class="token operator">-</span> p1<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token punctuation">(</span>p3<span class="token punctuation">.</span>x <span class="token operator">-</span> p1<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>p2<span class="token punctuation">.</span>y <span class="token operator">-</span> p1<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">*</span>next_point_it <span class="token operator">!=</span> <span class="token operator">*</span>first_point_it<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">return</span> hull_points;
-}
+    <span class="token keyword">return</span> hull_points<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Point&gt; points = {
-        { <span class="hljs-number">1.0</span>, <span class="hljs-number">3.0</span> },
-        { <span class="hljs-number">1.0</span>, <span class="hljs-number">3.0</span> },
-        { <span class="hljs-number">2.0</span>, <span class="hljs-number">4.0</span> },
-        { <span class="hljs-number">4.0</span>, <span class="hljs-number">0.0</span> },
-        { <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span> },
-        { <span class="hljs-number">0.0</span>, <span class="hljs-number">2.0</span> },
-        { <span class="hljs-number">2.0</span>, <span class="hljs-number">2.0</span> },
-        { <span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span> },
-        { <span class="hljs-number">3.0</span>, <span class="hljs-number">1.0</span> },
-    };
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>Point<span class="token operator">&gt;</span> points <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">{</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">4.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">4.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">3.0</span><span class="token punctuation">,</span> <span class="token number">4.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token number">3.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">auto</span> hull_points = jarvis_march(points);
+    <span class="token keyword">auto</span> hull_points <span class="token operator">=</span> <span class="token function">jarvis_march</span><span class="token punctuation">(</span>points<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Hull points are:&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;Hull points are:&quot;</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> Point&amp; point : hull_points) {
-        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&apos;(&apos;</span> &lt;&lt; point.x &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; point.y &lt;&lt; <span class="hljs-string">&apos;)&apos;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
-    }
-}
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point<span class="token operator">&amp;</span> point <span class="token operator">:</span> hull_points<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">&apos;(&apos;</span> <span class="token operator">&lt;&lt;</span> point<span class="token punctuation">.</span>x <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;, &quot;</span> <span class="token operator">&lt;&lt;</span> point<span class="token punctuation">.</span>y <span class="token operator">&lt;&lt;</span> <span class="token string">&apos;)&apos;</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="lisp" data-name="Common Lisp"><pre><code class="lang-lisp"><span class="hljs-comment">;;;; Jarvis March implementation</span>
+</div><div class="code-method-sample" data-lang="lisp" data-name="Common Lisp"><pre class="language-"><code class="lang-lisp"><span class="token heading comment title">;;;; Jarvis March implementation</span>
 
-(<span class="hljs-name">defstruct</span> (<span class="hljs-name">point</span> (<span class="hljs-symbol">:constructor</span> make-point (<span class="hljs-name">x</span> y))) x y)
+<span class="token punctuation">(</span><span class="token car">defstruct</span> <span class="token punctuation">(</span><span class="token car">point</span> <span class="token punctuation">(</span><span class="token lisp-property property">:constructor</span> make-point <span class="token punctuation">(</span><span class="token car">x</span> y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> x y<span class="token punctuation">)</span>
 
-(<span class="hljs-name">defun</span> is-left-p (<span class="hljs-name">p1</span> p2 p3)
-  <span class="hljs-string">&quot;Checks if the point p3 is to the left of the line p1 -&gt; p2&quot;</span>
-  (<span class="hljs-name">&gt;</span>
-    (<span class="hljs-name">*</span>
-      (<span class="hljs-name">-</span> (<span class="hljs-name">point-y</span> p3) (<span class="hljs-name">point-y</span> p1))
-      (<span class="hljs-name">-</span> (<span class="hljs-name">point-x</span> p2) (<span class="hljs-name">point-x</span> p1)))
-    (<span class="hljs-name">*</span>
-      (<span class="hljs-name">-</span> (<span class="hljs-name">point-y</span> p2) (<span class="hljs-name">point-y</span> p1))
-      (<span class="hljs-name">-</span> (<span class="hljs-name">point-x</span> p3) (<span class="hljs-name">point-x</span> p1)))))
+<span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">is-left-p</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">p1</span> <span class="token argument variable">p2</span> <span class="token argument variable">p3</span></span><span class="token punctuation">)</span></span>
+  <span class="token string">&quot;Checks if the point p3 is to the left of the line p1 -&gt; p2&quot;</span>
+  <span class="token punctuation">(</span><span class="token car">&gt;</span>
+    <span class="token punctuation">(</span><span class="token car">*</span>
+      <span class="token punctuation">(</span><span class="token car">-</span> <span class="token punctuation">(</span><span class="token car">point-y</span> p3<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">point-y</span> p1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">-</span> <span class="token punctuation">(</span><span class="token car">point-x</span> p2<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">point-x</span> p1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">(</span><span class="token car">*</span>
+      <span class="token punctuation">(</span><span class="token car">-</span> <span class="token punctuation">(</span><span class="token car">point-y</span> p2<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">point-y</span> p1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">-</span> <span class="token punctuation">(</span><span class="token car">point-x</span> p3<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">point-x</span> p1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-(<span class="hljs-name">defun</span> next-point-on-hull (<span class="hljs-name">p1</span> p2 gift)
-  <span class="hljs-string">&quot;Finds the next point on the convex hull of a gift&quot;</span>
-  (<span class="hljs-name">if</span> (<span class="hljs-name">null</span> gift)
+<span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">next-point-on-hull</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">p1</span> <span class="token argument variable">p2</span> <span class="token argument variable">gift</span></span><span class="token punctuation">)</span></span>
+  <span class="token string">&quot;Finds the next point on the convex hull of a gift&quot;</span>
+  <span class="token punctuation">(</span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">null</span> gift<span class="token punctuation">)</span>
       p2
-      (<span class="hljs-name">if</span> (<span class="hljs-name">is-left-p</span> p1 p2 (<span class="hljs-name">first</span> gift))
-          (<span class="hljs-name">next-point-on-hull</span> p1 (<span class="hljs-name">first</span> gift) (<span class="hljs-name">rest</span> gift))
-          (<span class="hljs-name">next-point-on-hull</span> p1 p2 (<span class="hljs-name">rest</span> gift)))))
+      <span class="token punctuation">(</span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token car">is-left-p</span> p1 p2 <span class="token punctuation">(</span><span class="token car">first</span> gift<span class="token punctuation">)</span><span class="token punctuation">)</span>
+          <span class="token punctuation">(</span><span class="token car">next-point-on-hull</span> p1 <span class="token punctuation">(</span><span class="token car">first</span> gift<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">rest</span> gift<span class="token punctuation">)</span><span class="token punctuation">)</span>
+          <span class="token punctuation">(</span><span class="token car">next-point-on-hull</span> p1 p2 <span class="token punctuation">(</span><span class="token car">rest</span> gift<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-(<span class="hljs-name">defun</span> leftmost-point (<span class="hljs-name">gift</span>)
-  <span class="hljs-string">&quot;Returns the lefmost point of a gift&quot;</span>
-  (<span class="hljs-name">reduce</span> 
-    (<span class="hljs-name">lambda</span> (<span class="hljs-name">p1</span> p2)
-      (<span class="hljs-name">if</span> (<span class="hljs-name">&lt;</span> (<span class="hljs-name">point-x</span> p1) (<span class="hljs-name">point-x</span> p2)) p1 p2))
-    gift))
+<span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">leftmost-point</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">gift</span></span><span class="token punctuation">)</span></span>
+  <span class="token string">&quot;Returns the lefmost point of a gift&quot;</span>
+  <span class="token punctuation">(</span><span class="token car">reduce</span> 
+    <span class="token punctuation">(</span><span class="token lambda"><span class="token keyword">lambda</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">p1</span> <span class="token argument variable">p2</span></span><span class="token punctuation">)</span></span>
+      <span class="token punctuation">(</span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token car">&lt;</span> <span class="token punctuation">(</span><span class="token car">point-x</span> p1<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">point-x</span> p2<span class="token punctuation">)</span><span class="token punctuation">)</span> p1 p2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    gift<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-(<span class="hljs-name">defun</span> jarvis-march (<span class="hljs-name">gift</span>)
-  <span class="hljs-string">&quot;finds the convex hull of any distribution of points&quot;</span>
-  <span class="hljs-comment">;deals with the edge cases</span>
-  (<span class="hljs-name">if</span> (<span class="hljs-name">&lt;</span> (<span class="hljs-name">length</span> gift) <span class="hljs-number">3</span>)
+<span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">jarvis-march</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">gift</span></span><span class="token punctuation">)</span></span>
+  <span class="token string">&quot;finds the convex hull of any distribution of points&quot;</span>
+  <span class="token comment">;deals with the edge cases</span>
+  <span class="token punctuation">(</span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token car">&lt;</span> <span class="token punctuation">(</span><span class="token car">length</span> gift<span class="token punctuation">)</span> <span class="token number">3</span><span class="token punctuation">)</span>
     gift
-    (<span class="hljs-name">loop</span>
-      with start = (<span class="hljs-name">leftmost-point</span> gift)
-      with hull = (<span class="hljs-name">list</span> start (<span class="hljs-name">make-point</span> (<span class="hljs-name">point-x</span> start) (<span class="hljs-name">-</span> (<span class="hljs-name">point-y</span> start) <span class="hljs-number">1</span>)))
+    <span class="token punctuation">(</span><span class="token car">loop</span>
+      with start = <span class="token punctuation">(</span><span class="token car">leftmost-point</span> gift<span class="token punctuation">)</span>
+      with hull = <span class="token punctuation">(</span><span class="token car">list</span> start <span class="token punctuation">(</span><span class="token car">make-point</span> <span class="token punctuation">(</span><span class="token car">point-x</span> start<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">-</span> <span class="token punctuation">(</span><span class="token car">point-y</span> start<span class="token punctuation">)</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
       do 
-        (<span class="hljs-name">setq</span> hull
-          (<span class="hljs-name">cons</span> 
-            (<span class="hljs-name">next-point-on-hull</span> (<span class="hljs-name">first</span> hull) (<span class="hljs-name">second</span> hull) gift)
-            hull))
-      until (<span class="hljs-name">equalp</span> (<span class="hljs-name">first</span> hull) start)
-      <span class="hljs-comment">;deletes extra points</span>
-      finally (<span class="hljs-name">return</span> (<span class="hljs-name">rest</span> (<span class="hljs-name">butlast</span> hull))))))
+        <span class="token punctuation">(</span><span class="token keyword">setq</span> hull
+          <span class="token punctuation">(</span><span class="token keyword">cons</span> 
+            <span class="token punctuation">(</span><span class="token car">next-point-on-hull</span> <span class="token punctuation">(</span><span class="token car">first</span> hull<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token car">second</span> hull<span class="token punctuation">)</span> gift<span class="token punctuation">)</span>
+            hull<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      until <span class="token punctuation">(</span><span class="token car">equalp</span> <span class="token punctuation">(</span><span class="token car">first</span> hull<span class="token punctuation">)</span> start<span class="token punctuation">)</span>
+      <span class="token comment">;deletes extra points</span>
+      finally <span class="token punctuation">(</span><span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token car">rest</span> <span class="token punctuation">(</span><span class="token car">butlast</span> hull<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-(<span class="hljs-name">defvar</span> gift
-  (<span class="hljs-name">map</span> 
-    &apos;list
-    (<span class="hljs-name">lambda</span> (<span class="hljs-name">e</span>) (<span class="hljs-name">apply</span> #&apos;make-point e))
-    &apos;((<span class="hljs-number">2</span> <span class="hljs-number">1.5</span>) (<span class="hljs-number">1</span> <span class="hljs-number">1</span>) (<span class="hljs-number">2</span> <span class="hljs-number">4</span>) (<span class="hljs-number">3</span> <span class="hljs-number">1</span>))))
+<span class="token punctuation">(</span><span class="token defvar"><span class="token keyword">defvar</span> <span class="token variable">gift</span></span>
+  <span class="token punctuation">(</span><span class="token car">map</span> 
+    <span class="token quoted-symbol variable symbol">&apos;list</span>
+    <span class="token punctuation">(</span><span class="token lambda"><span class="token keyword">lambda</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">e</span></span><span class="token punctuation">)</span></span> <span class="token punctuation">(</span><span class="token car">apply</span> <span class="token quoted-symbol variable symbol">#&apos;make-point</span> e<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&apos;(</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token number">1.5</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token number">2</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token number">3</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-(<span class="hljs-name">print</span> (<span class="hljs-name">jarvis-march</span> gift))
+<span class="token punctuation">(</span><span class="token car">print</span> <span class="token punctuation">(</span><span class="token car">jarvis-march</span> gift<span class="token punctuation">)</span><span class="token punctuation">)</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre><code class="lang-java"><span class="hljs-keyword">import</span> java.util.*;
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre class="language-"><code class="lang-java"><span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>*<span class="token punctuation">;</span>
 
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JarvisMarch</span> </span>{
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JarvisMarch</span> <span class="token punctuation">{</span>
 
-    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span> </span>{
-        <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> x;
-        <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> y;
+    <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Point</span> <span class="token punctuation">{</span>
+        <span class="token keyword">private</span> <span class="token keyword">double</span> x<span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">double</span> y<span class="token punctuation">;</span>
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Point</span><span class="hljs-params">(<span class="hljs-keyword">double</span> a, <span class="hljs-keyword">double</span> b)</span> </span>{
-            x = a;
-            y = b;
-        }
+        <span class="token keyword">public</span> <span class="token function">Point</span><span class="token punctuation">(</span><span class="token keyword">double</span> a<span class="token punctuation">,</span> <span class="token keyword">double</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            x <span class="token operator">=</span> a<span class="token punctuation">;</span>
+            y <span class="token operator">=</span> b<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getX</span><span class="hljs-params">()</span> </span>{
-            <span class="hljs-keyword">return</span> x;
-        }
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getY</span><span class="hljs-params">()</span> </span>{
-            <span class="hljs-keyword">return</span> y;
-        }
+        <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> y<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Point p)</span> </span>{
-            <span class="hljs-keyword">if</span> (p.getX() == x &amp;&amp; p.getY() == y) {
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-            }
-        }
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">magnitude</span><span class="hljs-params">()</span> </span>{
-            <span class="hljs-keyword">return</span> Math.sqrt(Math.pow(x, <span class="hljs-number">2</span>) + Math.pow(y, <span class="hljs-number">2</span>));
-        }
-    }
+        <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">equals</span><span class="token punctuation">(</span>Point p<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> x <span class="token operator">&amp;&amp;</span> p<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">magnitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">sqrt</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span>y<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-comment">//find the angle by creating two vectors and then using a property of dot products</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">angle</span><span class="hljs-params">(Point a, Point b, Point c)</span> </span>{
-        Point ab = <span class="hljs-keyword">new</span> Point(b.getX() - a.getX(), b.getY() - a.getY());
-        Point bc = <span class="hljs-keyword">new</span> Point(c.getX() - b.getX(), c.getY() - b.getY());
-        <span class="hljs-keyword">return</span> Math.acos(-<span class="hljs-number">1</span> * ((ab.getX() * bc.getX()) + (ab.getY() * bc.getY())) /
-                               (ab.magnitude() * bc.magnitude()));
-    }
+    <span class="token comment">//find the angle by creating two vectors and then using a property of dot products</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">angle</span><span class="token punctuation">(</span>Point a<span class="token punctuation">,</span> Point b<span class="token punctuation">,</span> Point c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Point ab <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> a<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> b<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> a<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Point bc <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> b<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> b<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">acos</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ab<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> bc<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>ab<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> bc<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span>
+                               <span class="token punctuation">(</span>ab<span class="token punctuation">.</span><span class="token function">magnitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> bc<span class="token punctuation">.</span><span class="token function">magnitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ArrayList&lt;Point&gt; <span class="hljs-title">jarvisMarch</span><span class="hljs-params">(ArrayList&lt;Point&gt; arr)</span> </span>{
-        ArrayList&lt;Point&gt; hull = <span class="hljs-keyword">new</span> ArrayList&lt;Point&gt;();
-        Point pointOnHull = <span class="hljs-keyword">new</span> Point(Double.MAX_VALUE, <span class="hljs-number">0</span>);
+    <span class="token keyword">public</span> <span class="token keyword">static</span> ArrayList<span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>ArrayList<span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ArrayList<span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span> hull <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Point pointOnHull <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span>Double<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-comment">//find leftmost point</span>
-        <span class="hljs-keyword">for</span> (Point p: arr) {
-            <span class="hljs-keyword">if</span> (p.getX() &lt; pointOnHull.getX()) {
-                pointOnHull = p;
-            }
-        }
-        hull.add(pointOnHull);
+        <span class="token comment">//find leftmost point</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Point p<span class="token operator">:</span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> pointOnHull<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                pointOnHull <span class="token operator">=</span> p<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        hull<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-comment">//look for the rest of the points on the hull</span>
-        Point ref;
-        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {
-            <span class="hljs-keyword">if</span> (hull.size() == <span class="hljs-number">1</span>) {
-                ref = <span class="hljs-keyword">new</span> Point(pointOnHull.getX(), pointOnHull.getY() + <span class="hljs-number">1</span>); <span class="hljs-comment">//finds a third point to use in calculating the angle</span>
-            } <span class="hljs-keyword">else</span> {
-                ref = hull.get(hull.size() - <span class="hljs-number">2</span>);
-            }
-            Point endpoint = arr.get(<span class="hljs-number">0</span>); <span class="hljs-comment">//initial canidate for next point in hull</span>
-            <span class="hljs-keyword">for</span> (Point p: arr) {
-                <span class="hljs-keyword">if</span> (angle(p, pointOnHull, ref) &gt; angle(endpoint, pointOnHull, ref)) { <span class="hljs-comment">//found a point that makes a greater angle</span>
-                    endpoint = p;
-                }
-            }
-            pointOnHull = endpoint;
-            <span class="hljs-keyword">if</span> (pointOnHull.equals(hull.get(<span class="hljs-number">0</span>))) { <span class="hljs-comment">//add next point to hull if not equal to the leftmost point</span>
-                <span class="hljs-keyword">break</span>;
-            } <span class="hljs-keyword">else</span> {
-                hull.add(pointOnHull);
-            }
-        }
-        <span class="hljs-keyword">return</span> hull;
-    }
+        <span class="token comment">//look for the rest of the points on the hull</span>
+        Point ref<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>hull<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ref <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> pointOnHull<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//finds a third point to use in calculating the angle</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                ref <span class="token operator">=</span> hull<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>hull<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            Point endpoint <span class="token operator">=</span> arr<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//initial canidate for next point in hull</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>Point p<span class="token operator">:</span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">angle</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> pointOnHull<span class="token punctuation">,</span> ref<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token function">angle</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">,</span> pointOnHull<span class="token punctuation">,</span> ref<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">//found a point that makes a greater angle</span>
+                    endpoint <span class="token operator">=</span> p<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            pointOnHull <span class="token operator">=</span> endpoint<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>pointOnHull<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>hull<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">//add next point to hull if not equal to the leftmost point</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                hull<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>pointOnHull<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> hull<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-        <span class="hljs-comment">//test array setup</span>
-        ArrayList&lt;Point&gt; gift = <span class="hljs-keyword">new</span> ArrayList&lt;Point&gt;();
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">5</span>, <span class="hljs-number">2</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">5</span>, <span class="hljs-number">7</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">6</span>, -<span class="hljs-number">12</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">14</span>, -<span class="hljs-number">14</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">9</span>, <span class="hljs-number">9</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">6</span>, <span class="hljs-number">15</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">6</span>, -<span class="hljs-number">8</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">15</span>, -<span class="hljs-number">9</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">7</span>, -<span class="hljs-number">7</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(-<span class="hljs-number">2</span>, -<span class="hljs-number">9</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">6</span>, -<span class="hljs-number">5</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">14</span>));
-        gift.add(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">8</span>));
+        <span class="token comment">//test array setup</span>
+        ArrayList<span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span> gift <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">14</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gift<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Point</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-comment">//print initial array of points</span>
-        System.out.println(<span class="hljs-string">&quot;Gift:&quot;</span>);
-        <span class="hljs-keyword">for</span> (Point p: gift) {
-            System.out.println(<span class="hljs-string">&quot;[&quot;</span> + p.getX() + <span class="hljs-string">&quot;, &quot;</span> + p.getY() + <span class="hljs-string">&quot;]&quot;</span>);
-        }
+        <span class="token comment">//print initial array of points</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Gift:&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Point p<span class="token operator">:</span> gift<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;[&quot;</span> <span class="token operator">+</span> p<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot;, &quot;</span> <span class="token operator">+</span> p<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot;]&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-comment">//find and print the array of points in the hull</span>
-        ArrayList&lt;Point&gt; hull = jarvisMarch(gift);
-        System.out.println(<span class="hljs-string">&quot;Wrapping:&quot;</span>);
-        <span class="hljs-keyword">for</span> (Point p: hull) {
-            System.out.println(<span class="hljs-string">&quot;[&quot;</span> + p.getX() + <span class="hljs-string">&quot;, &quot;</span> + p.getY() + <span class="hljs-string">&quot;]&quot;</span>);
-        }
-    }
+        <span class="token comment">//find and print the array of points in the hull</span>
+        ArrayList<span class="token generics function"><span class="token punctuation">&lt;</span>Point<span class="token punctuation">&gt;</span></span> hull <span class="token operator">=</span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>gift<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Wrapping:&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Point p<span class="token operator">:</span> hull<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;[&quot;</span> <span class="token operator">+</span> p<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot;, &quot;</span> <span class="token operator">+</span> p<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot;]&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-}
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre><code class="lang-go"><span class="hljs-keyword">package</span> main
+</div><div class="code-method-sample" data-lang="go" data-name="Go"><pre class="language-"><code class="lang-go"><span class="token keyword">package</span> main
 
-<span class="hljs-keyword">import</span> (
-    <span class="hljs-string">&quot;fmt&quot;</span>
-)
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">&quot;fmt&quot;</span>
+<span class="token punctuation">)</span>
 
-<span class="hljs-keyword">type</span> point <span class="hljs-keyword">struct</span> {
-    x, y <span class="hljs-keyword">float64</span>
-}
+<span class="token keyword">type</span> point <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    x<span class="token punctuation">,</span> y <span class="token builtin">float64</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">func</span> leftMostPoint(points []point) point {
-    ret := points[<span class="hljs-number">0</span>]
+<span class="token keyword">func</span> <span class="token function">leftMostPoint</span><span class="token punctuation">(</span>points <span class="token punctuation">[</span><span class="token punctuation">]</span>point<span class="token punctuation">)</span> point <span class="token punctuation">{</span>
+    ret <span class="token operator">:=</span> points<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
 
-    <span class="hljs-keyword">for</span> _, p := <span class="hljs-keyword">range</span> points {
-        <span class="hljs-keyword">if</span> (p.x &lt; ret.x) || (p.x == ret.x &amp;&amp; p.y &lt; ret.y) {
-            ret = p
-        }
-    }
+    <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> p <span class="token operator">:=</span> <span class="token keyword">range</span> points <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>x <span class="token operator">&lt;</span> ret<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>x <span class="token operator">==</span> ret<span class="token punctuation">.</span>x <span class="token operator">&amp;&amp;</span> p<span class="token punctuation">.</span>y <span class="token operator">&lt;</span> ret<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            ret <span class="token operator">=</span> p
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">return</span> ret
-}
+    <span class="token keyword">return</span> ret
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">func</span> (p point) equal(o point) <span class="hljs-keyword">bool</span> {
-    <span class="hljs-keyword">return</span> p.x == o.x &amp;&amp; p.y == o.x
-}
+<span class="token keyword">func</span> <span class="token punctuation">(</span>p point<span class="token punctuation">)</span> <span class="token function">equal</span><span class="token punctuation">(</span>o point<span class="token punctuation">)</span> <span class="token builtin">bool</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> p<span class="token punctuation">.</span>x <span class="token operator">==</span> o<span class="token punctuation">.</span>x <span class="token operator">&amp;&amp;</span> p<span class="token punctuation">.</span>y <span class="token operator">==</span> o<span class="token punctuation">.</span>x
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">func</span> counterClockWise(p1, p2, p3 point) <span class="hljs-keyword">bool</span> {
-    <span class="hljs-keyword">return</span> (p3.y-p1.y)*(p2.x-p1.x) &gt;= (p2.y-p1.y)*(p3.x-p1.x)
-}
+<span class="token keyword">func</span> <span class="token function">counterClockWise</span><span class="token punctuation">(</span>p1<span class="token punctuation">,</span> p2<span class="token punctuation">,</span> p3 point<span class="token punctuation">)</span> <span class="token builtin">bool</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>p3<span class="token punctuation">.</span>y<span class="token operator">-</span>p1<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>x<span class="token operator">-</span>p1<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token punctuation">(</span>p2<span class="token punctuation">.</span>y<span class="token operator">-</span>p1<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>p3<span class="token punctuation">.</span>x<span class="token operator">-</span>p1<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">func</span> jarvisMarch(points []point) []point {
-    hullPoints := <span class="hljs-built_in">make</span>([]point, <span class="hljs-number">0</span>)
-    hullPoint := leftMostPoint(points)
-    hullPoints = <span class="hljs-built_in">append</span>(hullPoints, hullPoint)
+<span class="token keyword">func</span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>points <span class="token punctuation">[</span><span class="token punctuation">]</span>point<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>point <span class="token punctuation">{</span>
+    hullPoints <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>point<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    hullPoint <span class="token operator">:=</span> <span class="token function">leftMostPoint</span><span class="token punctuation">(</span>points<span class="token punctuation">)</span>
+    hullPoints <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>hullPoints<span class="token punctuation">,</span> hullPoint<span class="token punctuation">)</span>
 
-    <span class="hljs-keyword">for</span> {
-        endPoint := points[<span class="hljs-number">0</span>]
+    <span class="token keyword">for</span> <span class="token punctuation">{</span>
+        endPoint <span class="token operator">:=</span> points<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
 
-        <span class="hljs-keyword">for</span> _, p := <span class="hljs-keyword">range</span> points[<span class="hljs-number">1</span>:] {
-            <span class="hljs-keyword">if</span> endPoint.equal(hullPoint) || !counterClockWise(p, hullPoints[<span class="hljs-built_in">len</span>(hullPoints)<span class="hljs-number">-1</span>], endPoint) {
-                endPoint = p
-            }
-        }
+        <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> p <span class="token operator">:=</span> <span class="token keyword">range</span> points<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> endPoint<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>hullPoint<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span><span class="token function">counterClockWise</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> hullPoints<span class="token punctuation">[</span><span class="token function">len</span><span class="token punctuation">(</span>hullPoints<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> endPoint<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                endPoint <span class="token operator">=</span> p
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
 
-        hullPoint = endPoint
+        hullPoint <span class="token operator">=</span> endPoint
 
-        <span class="hljs-keyword">if</span> endPoint.equal(hullPoints[<span class="hljs-number">0</span>]) {
-            <span class="hljs-keyword">break</span>
-        }
+        <span class="token keyword">if</span> endPoint<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>hullPoints<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">break</span>
+        <span class="token punctuation">}</span>
 
-        hullPoints = <span class="hljs-built_in">append</span>(hullPoints, hullPoint)
-    }
-    <span class="hljs-keyword">return</span> hullPoints
-}
+        hullPoints <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>hullPoints<span class="token punctuation">,</span> hullPoint<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> hullPoints
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">func</span> main() {
-    points := []point{{<span class="hljs-number">-5</span>, <span class="hljs-number">2</span>}, {<span class="hljs-number">5</span>, <span class="hljs-number">7</span>}, {<span class="hljs-number">-6</span>, <span class="hljs-number">-12</span>}, {<span class="hljs-number">-14</span>, <span class="hljs-number">-14</span>}, {<span class="hljs-number">9</span>, <span class="hljs-number">9</span>},
-        {<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>}, {<span class="hljs-number">-10</span>, <span class="hljs-number">11</span>}, {<span class="hljs-number">-6</span>, <span class="hljs-number">15</span>}, {<span class="hljs-number">-6</span>, <span class="hljs-number">-8</span>}, {<span class="hljs-number">15</span>, <span class="hljs-number">-9</span>},
-        {<span class="hljs-number">7</span>, <span class="hljs-number">-7</span>}, {<span class="hljs-number">-2</span>, <span class="hljs-number">-9</span>}, {<span class="hljs-number">6</span>, <span class="hljs-number">-5</span>}, {<span class="hljs-number">0</span>, <span class="hljs-number">14</span>}, {<span class="hljs-number">2</span>, <span class="hljs-number">8</span>},
-    }
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    points <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>point<span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">12</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">14</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">14</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">7</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
 
-    hullPoints := jarvisMarch(points)
-    fmt.Println(<span class="hljs-string">&quot;The hull points are:&quot;</span>)
+    hullPoints <span class="token operator">:=</span> <span class="token function">jarvisMarch</span><span class="token punctuation">(</span>points<span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">&quot;The hull points are:&quot;</span><span class="token punctuation">)</span>
 
-    <span class="hljs-keyword">for</span> _, p := <span class="hljs-keyword">range</span> hullPoints {
-        fmt.Printf(<span class="hljs-string">&quot;x=%f y=%f\n&quot;</span>, p.x, p.y)
-    }
-}
+    <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> p <span class="token operator">:=</span> <span class="token keyword">range</span> hullPoints <span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">&quot;x=%f y=%f\n&quot;</span><span class="token punctuation">,</span> p<span class="token punctuation">.</span>x<span class="token punctuation">,</span> p<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 </div></div></div>
 
@@ -1366,7 +1366,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Jarvis March","level":"1.11.1.1","depth":3,"next":{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"previous":{"title":"Gift Wrapping","level":"1.11.1","depth":2,"path":"contents/gift_wrapping/gift_wrapping.md","ref":"contents/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.11.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/jarvis_march/jarvis_march.md","mtime":"2018-12-24T20:39:03.953Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-24T20:40:43.647Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Jarvis March","level":"1.11.1.1","depth":3,"next":{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"previous":{"title":"Gift Wrapping","level":"1.11.1","depth":2,"path":"contents/gift_wrapping/gift_wrapping.md","ref":"contents/gift_wrapping/gift_wrapping.md","articles":[{"title":"Jarvis March","level":"1.11.1.1","depth":3,"path":"contents/jarvis_march/jarvis_march.md","ref":"contents/jarvis_march/jarvis_march.md","articles":[]},{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/jarvis_march/jarvis_march.md","mtime":"2018-12-25T20:41:11.476Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-25T20:42:51.285Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -29,7 +29,7 @@
                 
             
                 
-                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
                 
             
                 
@@ -832,123 +832,123 @@ E = \langle \Psi \lvert \hat H \lvert \Psi \rangle
 </script></p>
 <p>Which can be done rather trivially in code by finding the conjugate of the wavefunction and multiplying it with another wavefunction after operation in position and momentum space.
 This ultimately looks like this:</p>
-<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre><code class="lang-julia"><span class="hljs-comment"># We are calculating the energy to check &lt;Psi|H|Psi&gt;</span>
-<span class="hljs-keyword">function</span> calculate_energy(wfc, H_k, H_r, dx)
-    <span class="hljs-comment"># Creating momentum and conjugate wavefunctions</span>
-    wfc_k = fft(wfc)
-    wfc_c = conj(wfc)
+<div class="code-method"><div class="code-method-definition"></div><div class="code-method-code"><div class="code-method-sample" data-lang="jl" data-name="Julia"><pre class="language-"><code class="lang-julia"><span class="token comment"># We are calculating the energy to check &lt;Psi|H|Psi&gt;</span>
+<span class="token keyword">function</span> calculate_energy<span class="token punctuation">(</span>wfc<span class="token punctuation">,</span> H_k<span class="token punctuation">,</span> H_r<span class="token punctuation">,</span> dx<span class="token punctuation">)</span>
+    <span class="token comment"># Creating momentum and conjugate wavefunctions</span>
+    wfc_k <span class="token operator">=</span> fft<span class="token punctuation">(</span>wfc<span class="token punctuation">)</span>
+    wfc_c <span class="token operator">=</span> conj<span class="token punctuation">(</span>wfc<span class="token punctuation">)</span>
 
-    <span class="hljs-comment"># Finding the momentum and real-space energy terms</span>
-    energy_k = wfc_c.*ifft((H_k) .* wfc_k)
-    energy_r = wfc_c.* H_r .* wfc
+    <span class="token comment"># Finding the momentum and real-space energy terms</span>
+    energy_k <span class="token operator">=</span> wfc_c<span class="token punctuation">.</span><span class="token operator">*</span>ifft<span class="token punctuation">(</span><span class="token punctuation">(</span>H_k<span class="token punctuation">)</span> <span class="token punctuation">.</span><span class="token operator">*</span> wfc_k<span class="token punctuation">)</span>
+    energy_r <span class="token operator">=</span> wfc_c<span class="token punctuation">.</span><span class="token operator">*</span> H_r <span class="token punctuation">.</span><span class="token operator">*</span> wfc
 
-    <span class="hljs-comment"># Integrating over all space</span>
-    energy_final = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>:length(energy_k)
-        energy_final += real(energy_k[i] + energy_r[i])
-    <span class="hljs-keyword">end</span> 
+    <span class="token comment"># Integrating over all space</span>
+    energy_final <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">:</span>length<span class="token punctuation">(</span>energy_k<span class="token punctuation">)</span>
+        energy_final <span class="token operator">+=</span> real<span class="token punctuation">(</span>energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> energy_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">end</span> 
 
-    <span class="hljs-keyword">return</span> energy_final*dx
-<span class="hljs-keyword">end</span>
+    <span class="token keyword">return</span> energy_final<span class="token operator">*</span>dx
+<span class="token keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre><code class="lang-haskell"><span class="hljs-keyword">import</span> Data.Array.CArray
-<span class="hljs-keyword">import</span> Data.Complex
-<span class="hljs-keyword">import</span> Math.FFT (<span class="hljs-title">dft</span>, <span class="hljs-title">idft</span>) <span class="hljs-comment">-- Binding to fftw</span>
+</div><div class="code-method-sample" data-lang="hs" data-name="Haskell"><pre class="language-"><code class="lang-haskell"><span class="token import_statement"><span class="token keyword">import</span> Data.Array.CArray</span>
+<span class="token import_statement"><span class="token keyword">import</span> Data.Complex</span>
+<span class="token import_statement"><span class="token keyword">import</span> Math.FFT</span> <span class="token punctuation">(</span><span class="token hvariable">dft</span><span class="token punctuation">,</span> <span class="token hvariable">idft</span><span class="token punctuation">)</span> <span class="token comment">-- Binding to fftw</span>
 
-<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Vector</span> = <span class="hljs-type">CArray</span> <span class="hljs-type">Int</span> (<span class="hljs-type">Complex</span> <span class="hljs-type">Double</span>)</span>
+<span class="token keyword">type</span> <span class="token constant">Vector</span> <span class="token operator">=</span> <span class="token constant">CArray</span> <span class="token constant">Int</span> <span class="token punctuation">(</span><span class="token constant">Complex</span> <span class="token constant">Double</span><span class="token punctuation">)</span>
 
-<span class="hljs-title">calculateEnergy</span> :: <span class="hljs-type">Double</span> -&gt; <span class="hljs-type">Vector</span> -&gt; <span class="hljs-type">Vector</span> -&gt; <span class="hljs-type">Vector</span> -&gt; <span class="hljs-type">Double</span>
-<span class="hljs-title">calculateEnergy</span> dx kin pot wfc = (* dx) . sum . map realPart $ elems total
-  <span class="hljs-keyword">where</span>
-    total = liftArray2 (+) kineticE potentialE
-    potentialE = wfcConj .* pot .* wfc
-    kineticE = wfcConj .* idft (kin .* dft wfc)
-    wfcConj = liftArray conjugate wfc
-    a .* b = liftArray2 (*) a b
+<span class="token hvariable">calculateEnergy</span> <span class="token operator">::</span> <span class="token constant">Double</span> <span class="token operator">-&gt;</span> <span class="token constant">Vector</span> <span class="token operator">-&gt;</span> <span class="token constant">Vector</span> <span class="token operator">-&gt;</span> <span class="token constant">Vector</span> <span class="token operator">-&gt;</span> <span class="token constant">Double</span>
+<span class="token hvariable">calculateEnergy</span> <span class="token hvariable">dx</span> <span class="token hvariable">kin</span> <span class="token hvariable">pot</span> <span class="token hvariable">wfc</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span> <span class="token hvariable">dx</span><span class="token punctuation">)</span><span class="token operator"> . </span><span class="token builtin">sum</span><span class="token operator"> . </span><span class="token builtin">map</span> <span class="token hvariable">realPart</span> <span class="token operator">$</span> <span class="token hvariable">elems</span> <span class="token hvariable">total</span>
+  <span class="token keyword">where</span>
+    <span class="token hvariable">total</span> <span class="token operator">=</span> <span class="token hvariable">liftArray2</span> <span class="token punctuation">(</span><span class="token operator">+</span><span class="token punctuation">)</span> <span class="token hvariable">kineticE</span> <span class="token hvariable">potentialE</span>
+    <span class="token hvariable">potentialE</span> <span class="token operator">=</span> <span class="token hvariable">wfcConj</span> <span class="token operator">.*</span> <span class="token hvariable">pot</span> <span class="token operator">.*</span> <span class="token hvariable">wfc</span>
+    <span class="token hvariable">kineticE</span> <span class="token operator">=</span> <span class="token hvariable">wfcConj</span> <span class="token operator">.*</span> <span class="token hvariable">idft</span> <span class="token punctuation">(</span><span class="token hvariable">kin</span> <span class="token operator">.*</span> <span class="token hvariable">dft</span> <span class="token hvariable">wfc</span><span class="token punctuation">)</span>
+    <span class="token hvariable">wfcConj</span> <span class="token operator">=</span> <span class="token hvariable">liftArray</span> <span class="token hvariable">conjugate</span> <span class="token hvariable">wfc</span>
+    <span class="token hvariable">a</span> <span class="token operator">.*</span> <span class="token hvariable">b</span> <span class="token operator">=</span> <span class="token hvariable">liftArray2</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token hvariable">a</span> <span class="token hvariable">b</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="c" data-name="C"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">calculate_energy</span><span class="hljs-params">(<span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *wfc, <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *h_r,
-                        <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> *h_k, <span class="hljs-keyword">double</span> dx, size_t size)</span> </span>{
-    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> wfc_k[size];
-    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> wfc_c[size];
-    <span class="hljs-built_in">memcpy</span>(wfc_k, wfc, <span class="hljs-keyword">sizeof</span>(wfc_k));
-    fft(wfc_k, size, <span class="hljs-literal">false</span>);
+</div><div class="code-method-sample" data-lang="c" data-name="C"><pre class="language-"><code class="lang-c"><span class="token keyword">double</span> <span class="token function">calculate_energy</span><span class="token punctuation">(</span><span class="token keyword">double</span> complex <span class="token operator">*</span>wfc<span class="token punctuation">,</span> <span class="token keyword">double</span> complex <span class="token operator">*</span>h_r<span class="token punctuation">,</span>
+                        <span class="token keyword">double</span> complex <span class="token operator">*</span>h_k<span class="token punctuation">,</span> <span class="token keyword">double</span> dx<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">double</span> complex wfc_k<span class="token punctuation">[</span>size<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> complex wfc_c<span class="token punctuation">[</span>size<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token function">memcpy</span><span class="token punctuation">(</span>wfc_k<span class="token punctuation">,</span> wfc<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>wfc_k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fft</span><span class="token punctuation">(</span>wfc_k<span class="token punctuation">,</span> size<span class="token punctuation">,</span> false<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        wfc_c[i] = conj(wfc[i]);
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        wfc_c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">conj</span><span class="token punctuation">(</span>wfc<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> energy_k[size];
-    <span class="hljs-keyword">double</span> <span class="hljs-keyword">complex</span> energy_r[size];
+    <span class="token keyword">double</span> complex energy_k<span class="token punctuation">[</span>size<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> complex energy_r<span class="token punctuation">[</span>size<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        energy_k[i] = wfc_k[i] * h_k[i];
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> wfc_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> h_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    fft(energy_k, size, <span class="hljs-literal">true</span>);
+    <span class="token function">fft</span><span class="token punctuation">(</span>energy_k<span class="token punctuation">,</span> size<span class="token punctuation">,</span> true<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        energy_k[i] *= wfc_c[i];
-        energy_r[i] = wfc_c[i] * h_r[i] * wfc[i];
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span><span class="token operator">=</span> wfc_c<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        energy_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> wfc_c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> h_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> wfc<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">double</span> energy_final = <span class="hljs-number">0</span>;
+    <span class="token keyword">double</span> energy_final <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        energy_final += creal(energy_k[i] + energy_r[i]);
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        energy_final <span class="token operator">+</span><span class="token operator">=</span> <span class="token function">creal</span><span class="token punctuation">(</span>energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> energy_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">return</span> energy_final * dx;
-}
+    <span class="token keyword">return</span> energy_final <span class="token operator">*</span> dx<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">calculate_energy</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; wfc,
-                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; h_r,
-                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; h_k,
-                        <span class="hljs-keyword">double</span> dx, size_t size)</span> </span>{
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; wfc_k(wfc);
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; wfc_c(size);
-    fft(wfc_k, <span class="hljs-literal">false</span>);
+</div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre class="language-"><code class="lang-cpp"><span class="token keyword">double</span> <span class="token function">calculate_energy</span><span class="token punctuation">(</span>std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> wfc<span class="token punctuation">,</span>
+                        std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> h_r<span class="token punctuation">,</span>
+                        std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> h_k<span class="token punctuation">,</span>
+                        <span class="token keyword">double</span> dx<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> <span class="token function">wfc_k</span><span class="token punctuation">(</span>wfc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> <span class="token function">wfc_c</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fft</span><span class="token punctuation">(</span>wfc_k<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        wfc_c[i] = conj(wfc[i]);
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        wfc_c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">conj</span><span class="token punctuation">(</span>wfc<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; energy_k(size);
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-keyword">complex</span>&lt;<span class="hljs-keyword">double</span>&gt;&gt; energy_r(size);
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> <span class="token function">energy_k</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>complex<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">&gt;&gt;</span> <span class="token function">energy_r</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        energy_k[i] = wfc_k[i] * <span class="hljs-built_in">pow</span>(h_k[i], <span class="hljs-number">2</span>);
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> wfc_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token function">pow</span><span class="token punctuation">(</span>h_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    fft(energy_k, <span class="hljs-literal">true</span>);
+    <span class="token function">fft</span><span class="token punctuation">(</span>energy_k<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        energy_k[i] *= <span class="hljs-number">0.5</span> * wfc_c[i];
-        energy_r[i] = wfc_c[i] * h_r[i] * wfc[i];
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span><span class="token operator">=</span> <span class="token number">0.5</span> <span class="token operator">*</span> wfc_c<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        energy_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> wfc_c<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> h_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> wfc<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">double</span> energy_final = <span class="hljs-number">0</span>;
+    <span class="token keyword">double</span> energy_final <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i) {
-        energy_final += real(energy_k[i] + energy_r[i]);
-    }
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        energy_final <span class="token operator">+</span><span class="token operator">=</span> <span class="token function">real</span><span class="token punctuation">(</span>energy_k<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> energy_r<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    <span class="hljs-keyword">return</span> energy_final * dx;
-}
+    <span class="token keyword">return</span> energy_final <span class="token operator">*</span> dx<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calculate_energy</span><span class="hljs-params">(wfc, H_k, H_r, dx)</span>:</span>
-    <span class="hljs-string">&quot;&quot;&quot;Calculate the energy &lt;Psi|H|Psi&gt;.&quot;&quot;&quot;</span>
-    <span class="hljs-comment"># Creating momentum conjugate wavefunctions</span>
-    wfc_k = np.fft.fft(wfc)
-    wfc_c = np.conj(wfc)
+</div><div class="code-method-sample" data-lang="py" data-name="Python"><pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">calculate_energy</span><span class="token punctuation">(</span>wfc<span class="token punctuation">,</span> H_k<span class="token punctuation">,</span> H_r<span class="token punctuation">,</span> dx<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;Calculate the energy &lt;Psi|H|Psi&gt;.&quot;&quot;&quot;</span>
+    <span class="token comment"># Creating momentum conjugate wavefunctions</span>
+    wfc_k <span class="token operator">=</span> np<span class="token punctuation">.</span>fft<span class="token punctuation">.</span>fft<span class="token punctuation">(</span>wfc<span class="token punctuation">)</span>
+    wfc_c <span class="token operator">=</span> np<span class="token punctuation">.</span>conj<span class="token punctuation">(</span>wfc<span class="token punctuation">)</span>
 
-    <span class="hljs-comment"># Finding the momentum and real-space energy terms</span>
-    energy_k = <span class="hljs-number">0.5</span> * wfc_c * np.fft.ifft((H_k ** <span class="hljs-number">2</span>) * wfc_k)
-    energy_r = wfc_c * H_r * wfc
+    <span class="token comment"># Finding the momentum and real-space energy terms</span>
+    energy_k <span class="token operator">=</span> <span class="token number">0.5</span> <span class="token operator">*</span> wfc_c <span class="token operator">*</span> np<span class="token punctuation">.</span>fft<span class="token punctuation">.</span>ifft<span class="token punctuation">(</span><span class="token punctuation">(</span>H_k <span class="token operator">**</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">*</span> wfc_k<span class="token punctuation">)</span>
+    energy_r <span class="token operator">=</span> wfc_c <span class="token operator">*</span> H_r <span class="token operator">*</span> wfc
 
-    <span class="hljs-comment"># Integrating over all space</span>
-    energy_final = sum(energy_k + energy_r).real
+    <span class="token comment"># Integrating over all space</span>
+    energy_final <span class="token operator">=</span> <span class="token builtin">sum</span><span class="token punctuation">(</span>energy_k <span class="token operator">+</span> energy_r<span class="token punctuation">)</span><span class="token punctuation">.</span>real
 
-    <span class="hljs-keyword">return</span> energy_final * dx
+    <span class="token keyword">return</span> energy_final <span class="token operator">*</span> dx
 </code></pre>
 </div></div></div>
 
@@ -1008,7 +1008,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Quantum Systems","level":"1.15.2","depth":2,"next":{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]},"previous":{"title":"Verlet Integration","level":"1.15.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/quantum_systems/quantum_systems.md","mtime":"2018-12-24T20:39:03.969Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-24T20:40:43.647Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Quantum Systems","level":"1.15.2","depth":2,"next":{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]},"previous":{"title":"Verlet Integration","level":"1.15.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","creativecommons","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"creativecommons":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/quantum_systems/quantum_systems.md","mtime":"2018-12-25T20:41:11.492Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-25T20:42:51.285Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
