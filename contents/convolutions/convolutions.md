@@ -35,19 +35,6 @@ This means we basically just need to keep one array steady, flip the second arra
 
 In code, this looks something like:
 
-{% method %}
-{% sample lang="jl" %}
-[import:1-17, lang:"julia"](code/julia/conv.jl)
-{% sample lang="hs" %}
-[import:6-9, lang:"haskell"](code/haskell/convolution.hs)
-{% sample lang="c"%}
-[import:5-18, lang:"c"](code/c/convolutions.c)
-{% sample lang="cpp"%}
-[import:68-88, lang:"cpp"](code/c++/convolutions.cpp)
-{% sample lang="python"%}
-[import:4-19, lang:"python"](code/python/conv.py)
-{% endmethod %}
-
 Note that in this case, the output array will be the size of `f[n]` and `g[n]` put together.
 Sometimes, though, we have an large size for `f[n]` and a small size for `g[n]`.
 In this case `g[n]` is often called a *filter*, and often times when we are using a filter on an array (that might represent an image or some form of data), we want the output array to be the same size as the input.
@@ -82,22 +69,6 @@ This means that the convolution theorem is fundamental to creating fast convolut
 That said, it is debatable whether the convolution theorem will be faster when the filter size is small.
 Also: depending on the language used, we might need to read in a separate library for FFT's.
 
-{% method %}
-{% sample lang="jl" %}
-That said, Julia has an in-built fft routine, so the code for this method could not be simpler:
-[import:19-22, lang:"julia"](code/julia/conv.jl)
-Where the `.*` operator is an element-wise multiplication.
-{% sample lang="hs" %}
-[import:11-14, lang:"haskell"](code/haskell/convolution.hs)
-Where the `.*` operator is an element-wise multiplication.
-{% sample lang="c"%}
-[import:20-30, lang:"c"](code/c/convolutions.c)
-{% sample lang="cpp"%}
-[import:90-105, lang:"cpp"](code/c++/convolutions.cpp)
-{% sample lang="python"%}
-[import:22-43, lang:"python"](code/python/conv.py)
-{% endmethod %}
-
 This method also has the added advantage that it will *always output an array of the size of your signal*; however, if your signals are not of equal size, we need to pad the smaller signal with zeros.
 Also note that the Fourier Transform is a periodic or cyclical operation, so there are no real edges in this method, instead the arrays "wrap around" to the other side.
 For this reason, this convolution is often called a *cyclic convolution* instead of a *linear convolution* like above.
@@ -114,20 +85,3 @@ Remember that each element of the frequency-space array is a different waveform 
 <script>
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
-
-## License
-
-##### Code Examples
-
-The code examples are licensed under the MIT license (found in [LICENSE.md](https://github.com/algorithm-archivists/algorithm-archive/blob/master/LICENSE.md)).
-
-##### Text
-
-The text of this chapter was written by [James Schloss](https://github.com/leios) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
-
-[<p><img  class="center" src="../cc/CC-BY-SA_icon.svg" /></p>](https://creativecommons.org/licenses/by-sa/4.0/)
-
-##### Pull Requests
-
-After initial licensing ([#560](https://github.com/algorithm-archivists/algorithm-archive/pull/560)), the following pull requests have modified the text or graphics of this chapter:
-- none
