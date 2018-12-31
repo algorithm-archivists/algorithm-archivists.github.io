@@ -775,6 +775,67 @@ For some reason, though, putting code to this transformation really helped me fi
 
 <span class="token keyword">end</span>
 </code></pre>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre class="language-"><code class="lang-asm-x64"># <span class="token register variable">rdi</span> <span class="token operator">-</span> array ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array size
+<span class="token label function">dft:</span>
+  push   <span class="token register variable">rbx</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>                    # Save parameters
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token register variable">r13</span>                    # Make a double complex array
+  xor    <span class="token register variable">r14</span>, <span class="token register variable">r14</span>                    # Set index to <span class="token number">0</span>
+<span class="token label function">dft_loop_i:</span>
+  cmp    <span class="token register variable">r14</span>, <span class="token register variable">r13</span>                    # Check if index is equal to array size
+  je     dft_end_i
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>            # Set tmp array to zero at <span class="token register variable">r14</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>, <span class="token number">0</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token number">0</span>
+  xor    <span class="token register variable">r15</span>, <span class="token register variable">r15</span>                    # Set second index to <span class="token number">0</span>
+<span class="token label function">dft_loop_j:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">r13</span>                    # Check if the index is equal to array size
+  je     dft_end_j
+  movsd  <span class="token register variable">xmm1</span>, two_pi                # Calculate <span class="token register variable">xmm1</span> <span class="token operator">=</span> <span class="token operator">-</span>2pi <span class="token operator">*</span> i <span class="token operator">*</span> j <span class="token operator">/</span> N
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">r14</span>
+  imul   <span class="token register variable">rax</span>, <span class="token register variable">r15</span>
+  shr    <span class="token register variable">rax</span>, <span class="token number">4</span>
+  cvtsi2sdq <span class="token register variable">xmm2</span>, <span class="token register variable">rax</span>
+  mulsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm2</span>
+  cvtsi2sdq <span class="token register variable">xmm2</span>, <span class="token register variable">r13</span>
+  divsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm2</span>
+  pxor   <span class="token register variable">xmm0</span>, <span class="token register variable">xmm0</span>                  # Set <span class="token register variable">xmm0</span> to <span class="token number">0</span>
+  call   cexp
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r15</span><span class="token operator">]</span>            # Calculate X<span class="token operator">[</span>i<span class="token operator">]</span> <span class="token operator">*</span> cexp(<span class="token operator">-</span>2pi <span class="token operator">*</span> i <span class="token operator">*</span> j <span class="token operator">/</span> N)
+  movsd  <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  call   __muldc3
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm6</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>       # Sum to tmp array
+  movsd  <span class="token register variable">xmm7</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  addsd  <span class="token register variable">xmm6</span>, <span class="token register variable">xmm0</span>
+  addsd  <span class="token register variable">xmm7</span>, <span class="token register variable">xmm1</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>, <span class="token register variable">xmm6</span>       # Save to tmp array
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm7</span>
+  add    <span class="token register variable">r15</span>, <span class="token number">16</span>
+  jmp    dft_loop_j
+<span class="token label function">dft_end_j:</span>
+  add    <span class="token register variable">r14</span>, <span class="token number">16</span>
+  jmp    dft_loop_i
+<span class="token label function">dft_end_i:</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token register variable">r12</span>                    # Move tmp array to array ptr
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">rsp</span>
+  mov    <span class="token register variable">rdx</span>, <span class="token register variable">r13</span>
+  call   memcpy
+  add    <span class="token register variable">rsp</span>, <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  pop    <span class="token register variable">rbx</span>
+  ret
+</code></pre>
 </div></div></div>
 
 <p>In this function, we define <code>n</code> to be a set of integers from <script type="math/tex; ">0 \rightarrow N-1</script> and arrange them to be a column.
@@ -944,6 +1005,97 @@ With recursion, we can reduce the complexity to <script type="math/tex; ">\sim \
                 x_odd <span class="token punctuation">.</span><span class="token operator">-</span> x_even <span class="token punctuation">.</span><span class="token operator">*</span> factor<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span>half<span class="token punctuation">]</span><span class="token punctuation">)</span>
 
 <span class="token keyword">end</span>
+</code></pre>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre class="language-"><code class="lang-asm-x64"># <span class="token register variable">rdi</span> <span class="token operator">-</span> array ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array size
+<span class="token label function">cooley_tukey:</span>
+  cmp    <span class="token register variable">rsi</span>, <span class="token number">16</span>                     # Check if size if greater then <span class="token number">1</span>
+  jle    cooley_tukey_return
+  push   <span class="token register variable">rbx</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>                    # Save parameters
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  mov    <span class="token register variable">r14</span>, <span class="token register variable">rsi</span>                    # Save N <span class="token operator">/</span> <span class="token number">2</span>
+  shr    <span class="token register variable">r14</span>, <span class="token number">1</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token register variable">r14</span>                    # Make a tmp array
+  xor    <span class="token register variable">r15</span>, <span class="token register variable">r15</span>
+  mov    <span class="token register variable">rbx</span>, <span class="token register variable">r12</span>
+<span class="token label function">cooley_tukey_spliting:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">r14</span>
+  je     cooley_tukey_split
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token register variable">r15</span><span class="token operator">]</span>        # Moving all odd entries to the front of the array
+  movaps <span class="token register variable">xmm0</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">16</span><span class="token operator">]</span>
+  movaps <span class="token register variable">xmm1</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token register variable">r15</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rbx</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  add    <span class="token register variable">rbx</span>, <span class="token number">16</span>
+  add    <span class="token register variable">r15</span>, <span class="token number">16</span>
+  jmp    cooley_tukey_spliting
+<span class="token label function">cooley_tukey_split:</span>
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">rsp</span>
+  lea    <span class="token register variable">rdi</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r13</span><span class="token operator">]</span>
+<span class="token label function">cooley_tukey_mov_data:</span>
+  cmp    <span class="token register variable">rbx</span>, <span class="token register variable">rdi</span>
+  je     cooley_tukey_moved
+  movaps <span class="token register variable">xmm0</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rbx</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  add    <span class="token register variable">rbx</span>, <span class="token number">16</span>
+  add    <span class="token register variable">rax</span>, <span class="token number">16</span>
+  jmp    cooley_tukey_mov_data
+<span class="token label function">cooley_tukey_moved:</span>
+  add    <span class="token register variable">rsp</span>, <span class="token register variable">r14</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token register variable">r12</span>                   # Makking a recursive call
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">r14</span>
+  call   cooley_tukey
+  lea    <span class="token register variable">rdi</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>           # Makking a recursive call
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">r14</span>
+  call   cooley_tukey
+  lea    <span class="token register variable">rbx</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>
+  mov    <span class="token register variable">r14</span>, <span class="token register variable">rbx</span>
+  mov    <span class="token register variable">r15</span>, <span class="token register variable">r12</span>
+<span class="token label function">cooley_tukey_loop:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">rbx</span>
+  je     cooley_tukey_end
+  pxor   <span class="token register variable">xmm0</span>, <span class="token register variable">xmm0</span>                 # Calculate cexp(<span class="token operator">-</span><span class="token number">2.0</span> <span class="token operator">*</span> I <span class="token operator">*</span> M_PI <span class="token operator">*</span> i <span class="token operator">/</span> N)
+  movsd  <span class="token register variable">xmm1</span>, two_pi
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">r14</span>
+  sub    <span class="token register variable">rax</span>, <span class="token register variable">rbx</span>
+  cvtsi2sdq <span class="token register variable">xmm2</span>, <span class="token register variable">rax</span>
+  cvtsi2sdq <span class="token register variable">xmm3</span>, <span class="token register variable">r13</span>
+  divsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm3</span>
+  mulsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm2</span>
+  call   cexp
+  movq   <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span><span class="token operator">]</span>      # Calculating X<span class="token operator">[</span>i<span class="token operator">]</span> <span class="token operator">-</span> cexp() <span class="token operator">*</span> X<span class="token operator">[</span>i <span class="token operator">+</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span>
+  movq   <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  call   __muldc3
+  movq   <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span><span class="token operator">]</span>
+  movq   <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm0</span>
+  subsd  <span class="token register variable">xmm3</span>, <span class="token register variable">xmm1</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span><span class="token operator">]</span>, <span class="token register variable">xmm2</span>      # Save value in X<span class="token operator">[</span>i <span class="token operator">+</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm3</span>
+  movq   <span class="token register variable">xmm0</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span><span class="token operator">]</span>      # Calculating X<span class="token operator">[</span>i<span class="token operator">]</span> <span class="token operator">-</span><span class="token operator">=</span> X<span class="token operator">[</span>i <span class="token operator">+</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span> <span class="token operator">-</span> X<span class="token operator">[</span>i<span class="token operator">]</span>
+  movq   <span class="token register variable">xmm1</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm0</span>
+  subsd  <span class="token register variable">xmm3</span>, <span class="token register variable">xmm1</span>
+  subsd  <span class="token register variable">xmm0</span>, <span class="token register variable">xmm2</span>
+  subsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm3</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  add    <span class="token register variable">r14</span>, <span class="token number">16</span>
+  add    <span class="token register variable">r15</span>, <span class="token number">16</span>
+  jmp    cooley_tukey_loop
+<span class="token label function">cooley_tukey_end:</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  pop    <span class="token register variable">rbx</span>
+<span class="token label function">cooley_tukey_return:</span>
+  ret
 </code></pre>
 </div></div></div>
 
@@ -1563,6 +1715,404 @@ T <span class="token operator">=</span> dft<span class="token punctuation">(</sp
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">all</span><span class="token punctuation">(</span><span class="token builtin">abs</span><span class="token punctuation">(</span><span class="token punctuation">[</span>Y<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> T<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">1</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 </code></pre>
 </div><div class="code-method-sample" data-lang="scratch" data-name="Scratch"><p>Some rather impressive scratch code was submitted by Jie and can be found here: <a href="https://scratch.mit.edu/projects/37759604/#editor" target="_blank">https://scratch.mit.edu/projects/37759604/#editor</a></p>
+</div><div class="code-method-sample" data-lang="asm-x64" data-name="X86-64 Assembly"><pre class="language-"><code class="lang-asm-x64">.intel_syntax noprefix
+
+.section .rodata
+  <span class="token label function">two:</span>           .double <span class="token number">2.0</span>
+  <span class="token label function">one:</span>           .double <span class="token number">1.0</span>
+  <span class="token label function">two_pi:</span>        .double <span class="token operator">-</span><span class="token number">6.28318530718</span>
+  <span class="token label function">rand_max:</span>      .long <span class="token number">4290772992</span>
+                 .long <span class="token number">1105199103</span>
+  <span class="token label function">fmt:</span>           .string <span class="token string">&quot;%g\n&quot;</span>
+
+.section .text
+  .<span class="token keyword">global main</span>
+  .<span class="token keyword">extern printf, memset, memcpy, srand, rand, time, cexp, __muldc3, cabs, log2</span>
+
+# <span class="token register variable">rdi</span> <span class="token operator">-</span> array ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array size
+<span class="token label function">dft:</span>
+  push   <span class="token register variable">rbx</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>                    # Save parameters
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token register variable">r13</span>                    # Make a double complex array
+  xor    <span class="token register variable">r14</span>, <span class="token register variable">r14</span>                    # Set index to <span class="token number">0</span>
+<span class="token label function">dft_loop_i:</span>
+  cmp    <span class="token register variable">r14</span>, <span class="token register variable">r13</span>                    # Check if index is equal to array size
+  je     dft_end_i
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>            # Set tmp array to zero at <span class="token register variable">r14</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>, <span class="token number">0</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token number">0</span>
+  xor    <span class="token register variable">r15</span>, <span class="token register variable">r15</span>                    # Set second index to <span class="token number">0</span>
+<span class="token label function">dft_loop_j:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">r13</span>                    # Check if the index is equal to array size
+  je     dft_end_j
+  movsd  <span class="token register variable">xmm1</span>, two_pi                # Calculate <span class="token register variable">xmm1</span> <span class="token operator">=</span> <span class="token operator">-</span>2pi <span class="token operator">*</span> i <span class="token operator">*</span> j <span class="token operator">/</span> N
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">r14</span>
+  imul   <span class="token register variable">rax</span>, <span class="token register variable">r15</span>
+  shr    <span class="token register variable">rax</span>, <span class="token number">4</span>
+  cvtsi2sdq <span class="token register variable">xmm2</span>, <span class="token register variable">rax</span>
+  mulsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm2</span>
+  cvtsi2sdq <span class="token register variable">xmm2</span>, <span class="token register variable">r13</span>
+  divsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm2</span>
+  pxor   <span class="token register variable">xmm0</span>, <span class="token register variable">xmm0</span>                  # Set <span class="token register variable">xmm0</span> to <span class="token number">0</span>
+  call   cexp
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r15</span><span class="token operator">]</span>            # Calculate X<span class="token operator">[</span>i<span class="token operator">]</span> <span class="token operator">*</span> cexp(<span class="token operator">-</span>2pi <span class="token operator">*</span> i <span class="token operator">*</span> j <span class="token operator">/</span> N)
+  movsd  <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  call   __muldc3
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm6</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>       # Sum to tmp array
+  movsd  <span class="token register variable">xmm7</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  addsd  <span class="token register variable">xmm6</span>, <span class="token register variable">xmm0</span>
+  addsd  <span class="token register variable">xmm7</span>, <span class="token register variable">xmm1</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>, <span class="token register variable">xmm6</span>       # Save to tmp array
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm7</span>
+  add    <span class="token register variable">r15</span>, <span class="token number">16</span>
+  jmp    dft_loop_j
+<span class="token label function">dft_end_j:</span>
+  add    <span class="token register variable">r14</span>, <span class="token number">16</span>
+  jmp    dft_loop_i
+<span class="token label function">dft_end_i:</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token register variable">r12</span>                    # Move tmp array to array ptr
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">rsp</span>
+  mov    <span class="token register variable">rdx</span>, <span class="token register variable">r13</span>
+  call   memcpy
+  add    <span class="token register variable">rsp</span>, <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  pop    <span class="token register variable">rbx</span>
+  ret
+
+# <span class="token register variable">rdi</span> <span class="token operator">-</span> array ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array size
+<span class="token label function">cooley_tukey:</span>
+  cmp    <span class="token register variable">rsi</span>, <span class="token number">16</span>                     # Check if size if greater then <span class="token number">1</span>
+  jle    cooley_tukey_return
+  push   <span class="token register variable">rbx</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>                    # Save parameters
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  mov    <span class="token register variable">r14</span>, <span class="token register variable">rsi</span>                    # Save N <span class="token operator">/</span> <span class="token number">2</span>
+  shr    <span class="token register variable">r14</span>, <span class="token number">1</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token register variable">r14</span>                    # Make a tmp array
+  xor    <span class="token register variable">r15</span>, <span class="token register variable">r15</span>
+  mov    <span class="token register variable">rbx</span>, <span class="token register variable">r12</span>
+<span class="token label function">cooley_tukey_spliting:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">r14</span>
+  je     cooley_tukey_split
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token register variable">r15</span><span class="token operator">]</span>        # Moving all odd entries to the front of the array
+  movaps <span class="token register variable">xmm0</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">16</span><span class="token operator">]</span>
+  movaps <span class="token register variable">xmm1</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token register variable">r15</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rbx</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  add    <span class="token register variable">rbx</span>, <span class="token number">16</span>
+  add    <span class="token register variable">r15</span>, <span class="token number">16</span>
+  jmp    cooley_tukey_spliting
+<span class="token label function">cooley_tukey_split:</span>
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">rsp</span>
+  lea    <span class="token register variable">rdi</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r13</span><span class="token operator">]</span>
+<span class="token label function">cooley_tukey_mov_data:</span>
+  cmp    <span class="token register variable">rbx</span>, <span class="token register variable">rdi</span>
+  je     cooley_tukey_moved
+  movaps <span class="token register variable">xmm0</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">rbx</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  add    <span class="token register variable">rbx</span>, <span class="token number">16</span>
+  add    <span class="token register variable">rax</span>, <span class="token number">16</span>
+  jmp    cooley_tukey_mov_data
+<span class="token label function">cooley_tukey_moved:</span>
+  add    <span class="token register variable">rsp</span>, <span class="token register variable">r14</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token register variable">r12</span>                   # Makking a recursive call
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">r14</span>
+  call   cooley_tukey
+  lea    <span class="token register variable">rdi</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>           # Makking a recursive call
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">r14</span>
+  call   cooley_tukey
+  lea    <span class="token register variable">rbx</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>
+  mov    <span class="token register variable">r14</span>, <span class="token register variable">rbx</span>
+  mov    <span class="token register variable">r15</span>, <span class="token register variable">r12</span>
+<span class="token label function">cooley_tukey_loop:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">rbx</span>
+  je     cooley_tukey_end
+  pxor   <span class="token register variable">xmm0</span>, <span class="token register variable">xmm0</span>                 # Calculate cexp(<span class="token operator">-</span><span class="token number">2.0</span> <span class="token operator">*</span> I <span class="token operator">*</span> M_PI <span class="token operator">*</span> i <span class="token operator">/</span> N)
+  movsd  <span class="token register variable">xmm1</span>, two_pi
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">r14</span>
+  sub    <span class="token register variable">rax</span>, <span class="token register variable">rbx</span>
+  cvtsi2sdq <span class="token register variable">xmm2</span>, <span class="token register variable">rax</span>
+  cvtsi2sdq <span class="token register variable">xmm3</span>, <span class="token register variable">r13</span>
+  divsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm3</span>
+  mulsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm2</span>
+  call   cexp
+  movq   <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span><span class="token operator">]</span>      # Calculating X<span class="token operator">[</span>i<span class="token operator">]</span> <span class="token operator">-</span> cexp() <span class="token operator">*</span> X<span class="token operator">[</span>i <span class="token operator">+</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span>
+  movq   <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  call   __muldc3
+  movq   <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span><span class="token operator">]</span>
+  movq   <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm0</span>
+  subsd  <span class="token register variable">xmm3</span>, <span class="token register variable">xmm1</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span><span class="token operator">]</span>, <span class="token register variable">xmm2</span>      # Save value in X<span class="token operator">[</span>i <span class="token operator">+</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r14</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm3</span>
+  movq   <span class="token register variable">xmm0</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span><span class="token operator">]</span>      # Calculating X<span class="token operator">[</span>i<span class="token operator">]</span> <span class="token operator">-</span><span class="token operator">=</span> X<span class="token operator">[</span>i <span class="token operator">+</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span> <span class="token operator">-</span> X<span class="token operator">[</span>i<span class="token operator">]</span>
+  movq   <span class="token register variable">xmm1</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm0</span>
+  subsd  <span class="token register variable">xmm3</span>, <span class="token register variable">xmm1</span>
+  subsd  <span class="token register variable">xmm0</span>, <span class="token register variable">xmm2</span>
+  subsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm3</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">r15</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  add    <span class="token register variable">r14</span>, <span class="token number">16</span>
+  add    <span class="token register variable">r15</span>, <span class="token number">16</span>
+  jmp    cooley_tukey_loop
+<span class="token label function">cooley_tukey_end:</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  pop    <span class="token register variable">rbx</span>
+<span class="token label function">cooley_tukey_return:</span>
+  ret
+
+# <span class="token register variable">rdi</span> <span class="token operator">-</span> array ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array size
+<span class="token label function">bit_reverse:</span>
+  push   <span class="token register variable">rbx</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>                  # Save parameters
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  shr    <span class="token register variable">r13</span>, <span class="token number">4</span>
+  xor    <span class="token register variable">r14</span>, <span class="token register variable">r14</span>                  # Loop through all entries
+<span class="token label function">bit_reverse_entries:</span>
+  cmp    <span class="token register variable">r14</span>, <span class="token register variable">r13</span>
+  je     bit_reverse_return
+  cvtsi2sdq <span class="token register variable">xmm0</span>, <span class="token register variable">r13</span>              # Calculating the number of bit in N
+  call   log2
+  cvttsd2si <span class="token register variable">rcx</span>, <span class="token register variable">xmm0</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token number">1</span>                    # Calculating (<span class="token number">1</span> <span class="token operator">&lt;</span><span class="token operator">&lt;</span> log2(N)) <span class="token operator">-</span> <span class="token number">1</span>
+  sal    <span class="token register variable">edi</span>, <span class="token register variable">cl</span>
+  sub    <span class="token register variable">edi</span>, <span class="token number">1</span>
+  sub    <span class="token register variable">ecx</span>, <span class="token number">1</span>
+  mov    <span class="token register variable">rax</span>, <span class="token register variable">r14</span>
+  mov    <span class="token register variable">r15</span>, <span class="token register variable">r14</span>
+<span class="token label function">bit_reverse_loop:</span>
+  sar    <span class="token register variable">r15</span>                       # Check if <span class="token register variable">r15</span> is <span class="token number">0</span>
+  je     bit_reverse_reversed
+  sal    <span class="token register variable">rax</span>, <span class="token number">1</span>                    # Calculating (<span class="token register variable">rax</span> <span class="token operator">&lt;</span><span class="token operator">&lt;</span> <span class="token number">1</span>) <span class="token operator">|</span> (<span class="token register variable">r15</span> <span class="token operator">&amp;</span> <span class="token number">1</span>)
+  mov    <span class="token register variable">rsi</span>, <span class="token register variable">r15</span>
+  and    <span class="token register variable">rsi</span>, <span class="token number">1</span>
+  or     <span class="token register variable">rax</span>, <span class="token register variable">rsi</span>
+  sub    <span class="token register variable">ecx</span>, <span class="token number">1</span>                    # Decrement bit count
+  jmp    bit_reverse_loop
+<span class="token label function">bit_reverse_reversed:</span>
+  sal    <span class="token register variable">eax</span>, <span class="token register variable">cl</span>                   # Calculate (<span class="token register variable">rax</span> <span class="token operator">&lt;</span><span class="token operator">&lt;</span> <span class="token register variable">rcx</span>) <span class="token operator">&amp;</span> (<span class="token number">1</span> <span class="token operator">&lt;</span><span class="token operator">&lt;</span> bit count)
+  and    <span class="token register variable">rax</span>, <span class="token register variable">rdi</span>
+  cmp    <span class="token register variable">rax</span>, <span class="token register variable">r14</span>                  # Check if <span class="token register variable">rax</span> is greater then <span class="token register variable">r14</span>
+  jle    bit_reverse_no_swap       # If so then swap entries
+  shl    <span class="token register variable">rax</span>, <span class="token number">4</span>                    # Times index by <span class="token number">16</span> to get bytes to entry
+  shl    <span class="token register variable">r14</span>, <span class="token number">4</span>
+  movaps <span class="token register variable">xmm0</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">rax</span><span class="token operator">]</span>
+  movaps <span class="token register variable">xmm1</span>, XMMWORD PTR <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">rax</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  movaps XMMWORD PTR <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r14</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  shr    <span class="token register variable">r14</span>, <span class="token number">4</span>
+<span class="token label function">bit_reverse_no_swap:</span>
+  add    <span class="token register variable">r14</span>, <span class="token number">1</span>
+  jmp    bit_reverse_entries
+<span class="token label function">bit_reverse_return:</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  pop    <span class="token register variable">rbx</span>
+  ret
+
+# <span class="token register variable">rdi</span> <span class="token operator">-</span> array ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array size
+<span class="token label function">iterative_cooley_tukey:</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  push   <span class="token register variable">rbx</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token number">48</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  call   bit_reverse              # Bit reversing array
+  sar    <span class="token register variable">r13</span>, <span class="token number">4</span>                   # Calculate log2(N)
+  cvtsi2sdq <span class="token register variable">xmm0</span>, <span class="token register variable">r13</span>
+  call   log2
+  cvttsd2si <span class="token register variable">rax</span>, <span class="token register variable">xmm0</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>, <span class="token register variable">rax</span>     # Save it to the stack
+  mov    <span class="token register variable">r14</span>, <span class="token number">1</span>
+<span class="token label function">iter_ct_loop_i:</span>
+  cmp    <span class="token register variable">r14</span>, <span class="token register variable">rax</span>                 # Check if <span class="token register variable">r14</span> is greater then log2(N)
+  jg     iter_ct_end_i
+  movsd  <span class="token register variable">xmm0</span>, two                # Calculate stride <span class="token operator">=</span> <span class="token number">2</span>^(<span class="token register variable">r14</span>)
+  cvtsi2sdq <span class="token register variable">xmm1</span>, <span class="token register variable">r14</span>
+  call   pow
+  cvttsd2si <span class="token register variable">r10</span>, <span class="token register variable">xmm0</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">40</span><span class="token operator">]</span>, <span class="token register variable">r10</span># move stride to stack
+  movsd  <span class="token register variable">xmm1</span>, two_pi             # Calculating cexp(<span class="token operator">-</span>2pi <span class="token operator">*</span> I <span class="token operator">/</span> stride)
+  divsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm0</span>
+  pxor   <span class="token register variable">xmm0</span>, <span class="token register variable">xmm0</span>
+  call   cexp
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>  # Save it to stack
+  movq   QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">16</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  xor    <span class="token register variable">r15</span>, <span class="token register variable">r15</span>
+<span class="token label function">iter_ct_loop_j:</span>
+  cmp    <span class="token register variable">r15</span>, <span class="token register variable">r13</span>                 # Check if <span class="token register variable">r15</span> is less then array size
+  je     iter_ct_end_j
+  movsd  <span class="token register variable">xmm4</span>, one                # Save <span class="token number">1</span> <span class="token operator">+</span> 0i to stack
+  pxor   <span class="token register variable">xmm5</span>, <span class="token register variable">xmm5</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">24</span><span class="token operator">]</span>, <span class="token register variable">xmm4</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">32</span><span class="token operator">]</span>, <span class="token register variable">xmm5</span>
+  xor    <span class="token register variable">rbx</span>, <span class="token register variable">rbx</span>
+  mov    <span class="token register variable">rax</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">40</span><span class="token operator">]</span># Calculate stride <span class="token operator">/</span> <span class="token number">2</span>
+  sar    <span class="token register variable">rax</span>, <span class="token number">1</span>
+<span class="token label function">iter_ct_loop_k:</span>
+  cmp    <span class="token register variable">rbx</span>, <span class="token register variable">rax</span>                 # Check if <span class="token register variable">rbx</span> is less then stride <span class="token operator">/</span> <span class="token number">2</span>
+  je     iter_ct_end_k
+  mov    <span class="token register variable">r8</span>, <span class="token register variable">r15</span>                  # Saving pointers to X<span class="token operator">[</span>k <span class="token operator">+</span> j <span class="token operator">+</span> stride <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span> and X<span class="token operator">[</span>k <span class="token operator">+</span> j<span class="token operator">]</span>
+  add    <span class="token register variable">r8</span>, <span class="token register variable">rbx</span>
+  sal    <span class="token register variable">r8</span>, <span class="token number">4</span>
+  mov    <span class="token register variable">r9</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">40</span><span class="token operator">]</span>
+  sal    <span class="token register variable">r9</span>, <span class="token number">3</span>
+  add    <span class="token register variable">r9</span>, <span class="token register variable">r8</span>
+  lea    <span class="token register variable">r9</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r9</span><span class="token operator">]</span>
+  lea    <span class="token register variable">r8</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token register variable">r8</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm0</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r9</span><span class="token operator">]</span>     # Calculate X<span class="token operator">[</span>k <span class="token operator">+</span> j<span class="token operator">]</span> <span class="token operator">-</span> v <span class="token operator">*</span> X<span class="token operator">[</span>k <span class="token operator">+</span> j <span class="token operator">+</span> stride <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm1</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r9</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">24</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">32</span><span class="token operator">]</span>
+  call   __muldc3
+  movsd  <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r8</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r8</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm0</span>
+  subsd  <span class="token register variable">xmm3</span>, <span class="token register variable">xmm1</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">r9</span><span class="token operator">]</span>, <span class="token register variable">xmm2</span>     # Saving answer
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">r9</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm3</span>
+  movsd  <span class="token register variable">xmm0</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r8</span><span class="token operator">]</span>     # Calculating X<span class="token operator">[</span>k <span class="token operator">+</span> j<span class="token operator">]</span> <span class="token operator">-</span> (X<span class="token operator">[</span>k <span class="token operator">+</span> j <span class="token operator">+</span> stride <span class="token operator">/</span> <span class="token number">2</span><span class="token operator">]</span> <span class="token operator">-</span> X<span class="token operator">[</span>k <span class="token operator">+</span> j<span class="token operator">]</span>)
+  movsd  <span class="token register variable">xmm1</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">r8</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm2</span>, <span class="token register variable">xmm0</span>
+  subsd  <span class="token register variable">xmm3</span>, <span class="token register variable">xmm1</span>
+  subsd  <span class="token register variable">xmm0</span>, <span class="token register variable">xmm2</span>
+  subsd  <span class="token register variable">xmm1</span>, <span class="token register variable">xmm3</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">r8</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>     # Saving answer
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">r8</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  movsd  <span class="token register variable">xmm0</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">24</span><span class="token operator">]</span> # Calculating v <span class="token operator">*</span> w
+  movsd  <span class="token register variable">xmm1</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">32</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm2</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm3</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">16</span><span class="token operator">]</span>
+  call   __muldc3
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">24</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span> # Saving answer
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">32</span><span class="token operator">]</span>, <span class="token register variable">xmm1</span>
+  add    <span class="token register variable">rbx</span>, <span class="token number">1</span>
+  mov    <span class="token register variable">rax</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">40</span><span class="token operator">]</span>
+  sar    <span class="token register variable">rax</span>, <span class="token number">1</span>
+  jmp    iter_ct_loop_k
+<span class="token label function">iter_ct_end_k:</span>
+  add    <span class="token register variable">r15</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">40</span><span class="token operator">]</span>
+  jmp    iter_ct_loop_j
+<span class="token label function">iter_ct_end_j:</span>
+  add    <span class="token register variable">r14</span>, <span class="token number">1</span>
+  mov    <span class="token register variable">rax</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+  jmp    iter_ct_loop_i
+<span class="token label function">iter_ct_end_i:</span>
+  add    <span class="token register variable">rsp</span>, <span class="token number">48</span>
+  pop    <span class="token register variable">rbx</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  ret
+
+# <span class="token register variable">rdi</span> <span class="token operator">-</span> array a ptr
+# <span class="token register variable">rsi</span> <span class="token operator">-</span> array b ptr
+# <span class="token register variable">rdx</span> <span class="token operator">-</span> array size
+<span class="token label function">approx:</span>
+  push   <span class="token register variable">r12</span>
+  push   <span class="token register variable">r13</span>
+  push   <span class="token register variable">r14</span>
+  push   <span class="token register variable">r15</span>
+  mov    <span class="token register variable">r12</span>, <span class="token register variable">rdi</span>
+  mov    <span class="token register variable">r13</span>, <span class="token register variable">rsi</span>
+  mov    <span class="token register variable">r14</span>, <span class="token register variable">rdx</span>
+  lea    <span class="token register variable">r15</span>, <span class="token operator">[</span><span class="token register variable">rdi</span> <span class="token operator">+</span> <span class="token register variable">rdx</span><span class="token operator">]</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token number">8</span>
+<span class="token label function">approx_loop:</span>
+  cmp    <span class="token register variable">r12</span>, <span class="token register variable">r15</span>
+  je     approx_return
+  movsd  <span class="token register variable">xmm0</span>, QWORD PTR<span class="token operator">[</span><span class="token register variable">r13</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm1</span>, QWORD PTR<span class="token operator">[</span><span class="token register variable">r13</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  call   cabs
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  movsd  <span class="token register variable">xmm0</span>, QWORD PTR<span class="token operator">[</span><span class="token register variable">r12</span><span class="token operator">]</span>
+  movsd  <span class="token register variable">xmm1</span>, QWORD PTR<span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>
+  call   cabs
+  movsd  <span class="token register variable">xmm1</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+  subsd  <span class="token register variable">xmm0</span>, <span class="token register variable">xmm1</span>
+  mov    <span class="token register variable">rdi</span>, OFFSET fmt
+  mov    <span class="token register variable">rax</span>, <span class="token number">1</span>
+  call   printf
+  add    <span class="token register variable">r12</span>, <span class="token number">16</span>
+  add    <span class="token register variable">r13</span>, <span class="token number">16</span>
+  jmp    approx_loop
+<span class="token label function">approx_return:</span>
+  add    <span class="token register variable">rsp</span>, <span class="token number">8</span>
+  pop    <span class="token register variable">r15</span>
+  pop    <span class="token register variable">r14</span>
+  pop    <span class="token register variable">r13</span>
+  pop    <span class="token register variable">r12</span>
+  ret
+
+<span class="token label function">main:</span>
+  push   <span class="token register variable">r12</span>
+  sub    <span class="token register variable">rsp</span>, <span class="token number">2048</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token number">0</span>
+  call   time
+  mov    <span class="token register variable">edi</span>, <span class="token register variable">eax</span>
+  call   srand
+  lea    <span class="token register variable">r12</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">1024</span><span class="token operator">]</span>
+<span class="token label function">loop:</span>
+  cmp    <span class="token register variable">r12</span>, <span class="token register variable">rsp</span>
+  je     end_loop
+  sub    <span class="token register variable">r12</span>, <span class="token number">16</span>
+  call   rand
+  cvtsi2sd <span class="token register variable">xmm0</span>, <span class="token register variable">rax</span>
+  divsd  <span class="token register variable">xmm0</span>, rand_max
+  lea    <span class="token register variable">rax</span>, <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token number">1024</span><span class="token operator">]</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">r12</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  movsd  QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">r12</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token number">0</span>
+  mov    QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span> <span class="token operator">+</span> <span class="token number">8</span><span class="token operator">]</span>, <span class="token number">0</span>
+  jmp    loop
+<span class="token label function">end_loop:</span>
+  mov    <span class="token register variable">rdi</span>, <span class="token register variable">rsp</span>
+  mov    <span class="token register variable">rsi</span>, <span class="token number">1024</span>
+  call   iterative_cooley_tukey
+  lea    <span class="token register variable">rdi</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">1024</span><span class="token operator">]</span>
+  mov    <span class="token register variable">rsi</span>, <span class="token number">1024</span>
+  call   cooley_tukey
+  mov    <span class="token register variable">rdi</span>, <span class="token register variable">rsp</span>
+  lea    <span class="token register variable">rsi</span>, <span class="token operator">[</span><span class="token register variable">rsp</span> <span class="token operator">+</span> <span class="token number">1024</span><span class="token operator">]</span>
+  mov    <span class="token register variable">rdx</span>, <span class="token number">1024</span>
+  call   approx
+  xor    <span class="token register variable">rax</span>, <span class="token register variable">rax</span>
+  add    <span class="token register variable">rsp</span>, <span class="token number">2048</span>
+  pop    <span class="token register variable">r12</span>
+  ret
+</code></pre>
 </div></div></div>
 
 
@@ -1632,7 +2182,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.12","depth":1,"next":{"title":"Decision Problems","level":"1.13","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.13.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"previous":{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"],"css":["prismjs/themes/prism-tomorrow.css"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/cooley_tukey/cooley_tukey.md","mtime":"2018-12-30T00:00:14.372Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-30T00:01:47.745Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"FFT","level":"1.12","depth":1,"next":{"title":"Decision Problems","level":"1.13","depth":1,"path":"contents/decision_problems/decision_problems.md","ref":"contents/decision_problems/decision_problems.md","articles":[{"title":"Stable Marriage Problem","level":"1.13.1","depth":2,"path":"contents/stable_marriage_problem/stable_marriage_problem.md","ref":"contents/stable_marriage_problem/stable_marriage_problem.md","articles":[]}]},"previous":{"title":"Graham Scan","level":"1.11.1.2","depth":3,"path":"contents/graham_scan/graham_scan.md","ref":"contents/graham_scan/graham_scan.md","articles":[]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"],"css":["prismjs/themes/prism-tomorrow.css"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/cooley_tukey/cooley_tukey.md","mtime":"2018-12-31T18:10:19.875Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-31T18:11:59.460Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
