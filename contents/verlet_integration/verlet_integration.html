@@ -692,7 +692,7 @@ Here is what it looks like in code:</p>
   <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
   <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+    time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
     <span class="token keyword">double</span> next_pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     prev_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
     pos <span class="token operator">=</span> next_pos<span class="token punctuation">;</span>
@@ -707,7 +707,7 @@ Here is what it looks like in code:</p>
     <span class="token operator">*</span>time <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
 
     <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">*</span>time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
         temp_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
         pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
         prev_pos <span class="token operator">=</span> temp_pos<span class="token punctuation">;</span>
@@ -796,7 +796,7 @@ Here is what it looks like in code:</p>
     <span class="token keyword">return</span> time
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">verlet</span><span class="token punctuation">(</span><span class="token parameter">pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> prevPos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
   <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">let</span> tempPos<span class="token punctuation">;</span>
@@ -862,7 +862,7 @@ Here is what it looks like in code:</p>
     <span class="token keyword">END DO</span>
 <span class="token keyword">END SUBROUTINE</span> verlet
 </code></pre>
-</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token function">verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token method-definition"><span class="token function">verlet</span></span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
 
     prev_pos <span class="token operator">=</span> pos
     time <span class="token operator">=</span> <span class="token number">0</span>
@@ -965,14 +965,14 @@ v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
   <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">double</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+    time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
     <span class="token keyword">double</span> next_pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     prev_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
     pos <span class="token operator">=</span> next_pos<span class="token punctuation">;</span>
 
     <span class="token comment">// The acceleration is constant, so the velocity is</span>
     <span class="token comment">// straightforward</span>
-    vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+    vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token keyword">return</span> timestep <span class="token punctuation">{</span> time<span class="token punctuation">,</span> vel <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -986,16 +986,16 @@ v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
     <span class="token operator">*</span>time <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
 
     <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">*</span>time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
         temp_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
         pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
         prev_pos <span class="token operator">=</span> temp_pos<span class="token punctuation">;</span>
 
-        <span class="token operator">*</span>vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre class="language-"><code class="lang-java"><span class="token keyword">static</span> VerletValues <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre class="language-"><code class="lang-java"><span class="token keyword">static</span> <span class="token class-name">VerletValues</span> <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
     <span class="token comment">// Note that we are using a temp variable for the previous position</span>
     <span class="token keyword">double</span> prev_pos<span class="token punctuation">,</span> temp_pos<span class="token punctuation">,</span> time<span class="token punctuation">,</span> vel<span class="token punctuation">;</span>
@@ -1092,7 +1092,7 @@ v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
     <span class="token keyword">return</span> time<span class="token punctuation">,</span> vel
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">stormerVerlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">stormerVerlet</span><span class="token punctuation">(</span><span class="token parameter">pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> prevPos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
   <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">let</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
@@ -1170,7 +1170,7 @@ v(t+\Delta t) = \frac{x(t+\Delta t) - x(t)}{\Delta t} + \mathcal{O}(\Delta t)
     <span class="token keyword">END DO</span>
 <span class="token keyword">END SUBROUTINE</span> stormer_verlet
 </code></pre>
-</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token function">stormer_verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token method-definition"><span class="token function">stormer_verlet</span></span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
 
     prev_pos <span class="token operator">=</span> pos
     vel <span class="token operator">=</span> <span class="token number">0</span>
@@ -1288,9 +1288,9 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
   <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">double</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
-    pos <span class="token operator">+</span><span class="token operator">=</span> vel <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
-    vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+    time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
+    pos <span class="token operator">+=</span> vel <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+    vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token keyword">return</span> timestep <span class="token punctuation">{</span> time<span class="token punctuation">,</span> vel <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -1302,13 +1302,13 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="token operator">*</span>time <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
 
     <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">*</span>time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
-        pos <span class="token operator">+</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>vel<span class="token punctuation">)</span> <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
-        <span class="token operator">*</span>vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
+        pos <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token operator">*</span>vel<span class="token punctuation">)</span> <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre class="language-"><code class="lang-java"><span class="token keyword">static</span> VerletValues <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</div><div class="code-method-sample" data-lang="java" data-name="Java"><pre class="language-"><code class="lang-java"><span class="token keyword">static</span> <span class="token class-name">VerletValues</span> <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
     <span class="token comment">// Note that we are using a temp variable for the previous position</span>
     <span class="token keyword">double</span> time<span class="token punctuation">,</span> vel<span class="token punctuation">;</span>
@@ -1385,7 +1385,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="token keyword">return</span> time<span class="token punctuation">,</span> vel
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">velocityVerlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">velocityVerlet</span><span class="token punctuation">(</span><span class="token parameter">pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">let</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
@@ -1444,7 +1444,7 @@ v(t+\Delta t) &= v(t+\frac{1}{2}\Delta t) + \frac{1}{2}a(t+\Delta t)\Delta t
     <span class="token keyword">END DO</span>
 <span class="token keyword">END SUBROUTINE</span> velocity_verlet
 </code></pre>
-</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token function">velocity_verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token method-definition"><span class="token function">velocity_verlet</span></span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
 
     vel <span class="token operator">=</span> <span class="token number">0</span>
     time <span class="token operator">=</span> <span class="token number">0</span>
@@ -1587,7 +1587,7 @@ main<span class="token punctuation">(</span><span class="token punctuation">)</s
 </div><div class="code-method-sample" data-lang="cpp" data-name="C++"><pre class="language-"><code class="lang-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iomanip&gt;</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
 
-<span class="token keyword">struct</span> timestep <span class="token punctuation">{</span>
+<span class="token keyword">struct</span> <span class="token class-name">timestep</span> <span class="token punctuation">{</span>
   <span class="token keyword">double</span> time<span class="token punctuation">;</span>
   <span class="token keyword">double</span> vel<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -1598,7 +1598,7 @@ main<span class="token punctuation">(</span><span class="token punctuation">)</s
   <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
   <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+    time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
     <span class="token keyword">double</span> next_pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     prev_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
     pos <span class="token operator">=</span> next_pos<span class="token punctuation">;</span>
@@ -1613,14 +1613,14 @@ timestep <span class="token function">stormer_verlet</span><span class="token pu
   <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">double</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+    time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
     <span class="token keyword">double</span> next_pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     prev_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
     pos <span class="token operator">=</span> next_pos<span class="token punctuation">;</span>
 
     <span class="token comment">// The acceleration is constant, so the velocity is</span>
     <span class="token comment">// straightforward</span>
-    vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+    vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token keyword">return</span> timestep <span class="token punctuation">{</span> time<span class="token punctuation">,</span> vel <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -1631,9 +1631,9 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
   <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">double</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
-    pos <span class="token operator">+</span><span class="token operator">=</span> vel <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
-    vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+    time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
+    pos <span class="token operator">+=</span> vel <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+    vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token keyword">return</span> timestep <span class="token punctuation">{</span> time<span class="token punctuation">,</span> vel <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -1677,7 +1677,7 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
     <span class="token operator">*</span>time <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
 
     <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">*</span>time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
         temp_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
         pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
         prev_pos <span class="token operator">=</span> temp_pos<span class="token punctuation">;</span>
@@ -1692,12 +1692,12 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
     <span class="token operator">*</span>time <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
 
     <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">*</span>time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
         temp_pos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
         pos <span class="token operator">=</span> pos <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">-</span> prev_pos <span class="token operator">+</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
         prev_pos <span class="token operator">=</span> temp_pos<span class="token punctuation">;</span>
 
-        <span class="token operator">*</span>vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
@@ -1707,9 +1707,9 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
     <span class="token operator">*</span>time <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
 
     <span class="token keyword">while</span> <span class="token punctuation">(</span>pos <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">*</span>time <span class="token operator">+</span><span class="token operator">=</span> dt<span class="token punctuation">;</span>
-        pos <span class="token operator">+</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>vel<span class="token punctuation">)</span> <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
-        <span class="token operator">*</span>vel <span class="token operator">+</span><span class="token operator">=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>time <span class="token operator">+=</span> dt<span class="token punctuation">;</span>
+        pos <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token operator">*</span>vel<span class="token punctuation">)</span> <span class="token operator">*</span> dt <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> acc <span class="token operator">*</span> dt <span class="token operator">*</span> dt<span class="token punctuation">;</span>
+        <span class="token operator">*</span>vel <span class="token operator">+=</span> acc <span class="token operator">*</span> dt<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
@@ -1735,7 +1735,7 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
     <span class="token keyword">public</span> <span class="token keyword">double</span> time<span class="token punctuation">;</span>
     <span class="token keyword">public</span> <span class="token keyword">double</span> vel<span class="token punctuation">;</span>
 
-    <span class="token keyword">public</span> <span class="token function">VerletValues</span><span class="token punctuation">(</span><span class="token keyword">double</span> time<span class="token punctuation">,</span> <span class="token keyword">double</span> vel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">VerletValues</span><span class="token punctuation">(</span><span class="token keyword">double</span> time<span class="token punctuation">,</span> <span class="token keyword">double</span> vel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>time <span class="token operator">=</span> time<span class="token punctuation">;</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>vel <span class="token operator">=</span> vel<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
@@ -1759,7 +1759,7 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
         <span class="token keyword">return</span> time<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">static</span> VerletValues <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token class-name">VerletValues</span> <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
         <span class="token comment">// Note that we are using a temp variable for the previous position</span>
         <span class="token keyword">double</span> prev_pos<span class="token punctuation">,</span> temp_pos<span class="token punctuation">,</span> time<span class="token punctuation">,</span> vel<span class="token punctuation">;</span>
@@ -1779,7 +1779,7 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">VerletValues</span><span class="token punctuation">(</span>time<span class="token punctuation">,</span> vel<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">static</span> VerletValues <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token class-name">VerletValues</span> <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token keyword">double</span> pos<span class="token punctuation">,</span> <span class="token keyword">double</span> acc<span class="token punctuation">,</span> <span class="token keyword">double</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
         <span class="token comment">// Note that we are using a temp variable for the previous position</span>
         <span class="token keyword">double</span> time<span class="token punctuation">,</span> vel<span class="token punctuation">;</span>
@@ -1793,18 +1793,18 @@ timestep <span class="token function">velocity_verlet</span><span class="token p
         <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">VerletValues</span><span class="token punctuation">(</span>time<span class="token punctuation">,</span> vel<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
         <span class="token keyword">double</span> verletTime <span class="token operator">=</span> <span class="token function">verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Time for Verlet integration is: &quot;</span> <span class="token operator">+</span> verletTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Time for Verlet integration is: &quot;</span> <span class="token operator">+</span> verletTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        VerletValues stormerVerlet <span class="token operator">=</span> <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Time for Stormer Verlet integration is: &quot;</span> <span class="token operator">+</span> stormerVerlet<span class="token punctuation">.</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Velocity for Stormer Verlet integration is: &quot;</span> <span class="token operator">+</span> stormerVerlet<span class="token punctuation">.</span>vel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">VerletValues</span> stormerVerlet <span class="token operator">=</span> <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Time for Stormer Verlet integration is: &quot;</span> <span class="token operator">+</span> stormerVerlet<span class="token punctuation">.</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Velocity for Stormer Verlet integration is: &quot;</span> <span class="token operator">+</span> stormerVerlet<span class="token punctuation">.</span>vel<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        VerletValues velocityVerlet <span class="token operator">=</span> <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Time for velocity Verlet integration is: &quot;</span> <span class="token operator">+</span> velocityVerlet<span class="token punctuation">.</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Velocity for velocity Verlet integration is: &quot;</span> <span class="token operator">+</span> velocityVerlet<span class="token punctuation">.</span>vel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">VerletValues</span> velocityVerlet <span class="token operator">=</span> <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Time for velocity Verlet integration is: &quot;</span> <span class="token operator">+</span> velocityVerlet<span class="token punctuation">.</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Velocity for velocity Verlet integration is: &quot;</span> <span class="token operator">+</span> velocityVerlet<span class="token punctuation">.</span>vel<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -1965,7 +1965,7 @@ t <span class="token operator">=</span> <span class="token number">0</span><span
 </div><div class="code-method-sample" data-lang="LabVIEW" data-name="LabVIEW"><p>Submitted by P. Mekhail</p>
 <p>
     <img class="center" src="code/labview/verlet_labview.png">
-</p></div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</p></div><div class="code-method-sample" data-lang="javascript" data-name="JavaScript"><pre class="language-"><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">verlet</span><span class="token punctuation">(</span><span class="token parameter">pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> prevPos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
   <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">let</span> tempPos<span class="token punctuation">;</span>
@@ -1980,7 +1980,7 @@ t <span class="token operator">=</span> <span class="token number">0</span><span
   <span class="token keyword">return</span> time<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">function</span> <span class="token function">stormerVerlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">function</span> <span class="token function">stormerVerlet</span><span class="token punctuation">(</span><span class="token parameter">pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> prevPos <span class="token operator">=</span> pos<span class="token punctuation">;</span>
   <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">let</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
@@ -1998,7 +1998,7 @@ t <span class="token operator">=</span> <span class="token number">0</span><span
   <span class="token keyword">return</span> <span class="token punctuation">{</span> time<span class="token punctuation">,</span> vel <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">function</span> <span class="token function">velocityVerlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">function</span> <span class="token function">velocityVerlet</span><span class="token punctuation">(</span><span class="token parameter">pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
   <span class="token keyword">let</span> vel <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
@@ -2258,7 +2258,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <span class="token keyword">END PROGRAM</span> verlet_integration
 </code></pre>
-</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token function">verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
+</div><div class="code-method-sample" data-lang="ruby" data-name="Ruby"><pre class="language-"><code class="lang-ruby"><span class="token keyword">def</span> <span class="token method-definition"><span class="token function">verlet</span></span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
 
     prev_pos <span class="token operator">=</span> pos
     time <span class="token operator">=</span> <span class="token number">0</span>
@@ -2273,7 +2273,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <span class="token keyword">end</span>
 
-<span class="token keyword">def</span> <span class="token function">stormer_verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token method-definition"><span class="token function">stormer_verlet</span></span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
 
     prev_pos <span class="token operator">=</span> pos
     vel <span class="token operator">=</span> <span class="token number">0</span>
@@ -2291,7 +2291,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <span class="token keyword">end</span>
 
-<span class="token keyword">def</span> <span class="token function">velocity_verlet</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token method-definition"><span class="token function">velocity_verlet</span></span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> acc<span class="token punctuation">,</span> dt<span class="token punctuation">)</span>
 
     vel <span class="token operator">=</span> <span class="token number">0</span>
     time <span class="token operator">=</span> <span class="token number">0</span>
@@ -2305,9 +2305,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <span class="token keyword">end</span>
 
-p <span class="token function">verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
-p <span class="token function">stormer_verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
-p <span class="token function">velocity_verlet</span><span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
+p verlet<span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
+p stormer_verlet<span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
+p velocity_verlet<span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
 </code></pre>
 </div><div class="code-method-sample" data-lang="go" data-name="Go"><pre class="language-"><code class="lang-go"><span class="token keyword">package</span> main
 
@@ -2615,7 +2615,7 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.15.1","depth":2,"next":{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.15","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.15.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"},{"lang":"ss","name":"Scheme"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"],"css":["prismjs/themes/prism-tomorrow.css"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2019-03-25T00:50:48.394Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-25T00:52:28.766Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Verlet Integration","level":"1.15.1","depth":2,"next":{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]},"previous":{"title":"Physics Solvers","level":"1.15","depth":1,"path":"contents/physics_solvers/physics_solvers.md","ref":"contents/physics_solvers/physics_solvers.md","articles":[{"title":"Verlet Integration","level":"1.15.1","depth":2,"path":"contents/verlet_integration/verlet_integration.md","ref":"contents/verlet_integration/verlet_integration.md","articles":[]},{"title":"Quantum Systems","level":"1.15.2","depth":2,"path":"contents/quantum_systems/quantum_systems.md","ref":"contents/quantum_systems/quantum_systems.md","articles":[{"title":"Split-Operator Method","level":"1.15.2.1","depth":3,"path":"contents/split-operator_method/split-operator_method.md","ref":"contents/split-operator_method/split-operator_method.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["fontsettings","mathjax@https://github.com/algorithm-archivists/plugin-mathjax","bibtex-cite","wordcount","api-language-selector@https://github.com/algorithm-archivists/gitbook-plugin-api-language-selector.git","include-codeblock","ga","bulk-redirect","prism","-highlight"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"api-language-selector":{"languages":[{"lang":"jl","name":"Julia","default":true},{"lang":"bash","name":"Bash"},{"lang":"cs","name":"C#"},{"lang":"cpp","name":"C++"},{"lang":"c","name":"C"},{"lang":"c8","name":"chip-8"},{"lang":"py","name":"Python"},{"lang":"js","name":"JavaScript"},{"lang":"scratch","name":"Scratch"},{"lang":"hs","name":"Haskell"},{"lang":"rs","name":"Rust"},{"lang":"ml","name":"OCaml"},{"lang":"java","name":"Java"},{"lang":"clj","name":"Clojure"},{"lang":"elm","name":"Elm"},{"lang":"LabVIEW","name":"LabVIEW"},{"lang":"d","name":"D"},{"lang":"go","name":"Go"},{"lang":"swift","name":"Swift"},{"lang":"racket","name":"Racket"},{"lang":"m","name":"Matlab"},{"lang":"r","name":"R"},{"lang":"ti83b","name":"TI-83 Basic"},{"lang":"lua","name":"Lua"},{"lang":"crystal","name":"Crystal"},{"lang":"php","name":"PHP"},{"lang":"lisp","name":"Common Lisp"},{"lang":"nim","name":"Nim"},{"lang":"asm-x64","name":"X86-64 Assembly"},{"lang":"f90","name":"Fortran90"},{"lang":"factor","name":"Factor"},{"lang":"ws","name":"Whitespace"},{"lang":"scala","name":"Scala"},{"lang":"emojic","name":"Emojicode"},{"lang":"lolcode","name":"LOLCODE"},{"lang":"piet","name":"Piet"},{"lang":"ss","name":"Scheme"}]},"prism":{"lang":{"asm-x64":"nasm"},"ignore":["emojicode","text"],"css":["prismjs/themes/prism-tomorrow.css"]},"wordcount":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"bulk-redirect":{"basepath":"/","redirectsFile":"redirects.json"},"bibtex-cite":{},"mathjax":{"forceSVG":false,"version":"2.6.1"},"ga":{"configuration":"auto","token":"UA-118252470-1"},"include-codeblock":{"check":false,"edit":false,"fixlang":true,"lang":"","template":"default","theme":"chrome","unindent":true},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","lunr":{"maxIndexSize":1000000000},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bibCount":0,"variables":{},"bib":[{"citationKey":"CT1965","entryType":"ARTICLE","entryTags":{"TITLE":"An algorithm for the machine calculation of complex Fourier series","AUTHOR":"Cooley, James W and Tukey, John W","JOURNAL":"Mathematics of computation","VOLUME":"19","NUMBER":"90","PAGES":"297--301","YEAR":"1965","PUBLISHER":"JSTOR"}},{"citationKey":"JM1973","entryType":"ARTICLE","entryTags":{"TITLE":"On the identification of the convex hull of a finite set of points in the plane","AUTHOR":"Jarvis, Ray A","JOURNAL":"Information processing letters","VOLUME":"2","NUMBER":"1","PAGES":"18--21","YEAR":"1973","PUBLISHER":"Elsevier"}},{"citationKey":"GS1972","entryType":"ARTICLE","entryTags":{"TITLE":"An efficient algorithm for determining the convex hull of a finite planar set","AUTHOR":"Graham, Ronald L","JOURNAL":"Information processing letters","VOLUME":"1","NUMBER":"4","PAGES":"132--133","YEAR":"1972","PUBLISHER":"Elsevier"}}],"gitbook":"3.x.x"},"file":{"path":"contents/verlet_integration/verlet_integration.md","mtime":"2019-04-01T23:36:49.595Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-04-01T23:38:33.485Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
